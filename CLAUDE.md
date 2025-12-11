@@ -23,6 +23,19 @@ src/
 └── types/         # TypeScript interfaces
 ```
 
+## Infrastruktur & Integration
+
+- **Hosting**: Vercel (automatisches Deploy bei Push auf `main`)
+- **Backend-Services** (Hetzner CX32):
+  - n8n: Automation/Workflows (z.B. Kontaktformular, Anfragen)
+  - Supabase: Self-Hosted (falls Datenbank benötigt)
+- **Deployment**:
+  - Frontend: Vercel (automatisch)
+  - Backend-Services: Docker/Compose auf Hetzner
+- **Secrets-Management**:
+  - Vercel Environment Variables für Frontend
+  - `.env` für lokale Entwicklung (in .gitignore)
+
 ## Safety-Regeln für Git-Operationen durch LLM
 
 - Arbeite NIEMALS direkt auf dem Branch `main`, sondern immer auf Feature-/Fix-Branches (z.B. `feature/...`, `fix/...`, `refactor/...`).
