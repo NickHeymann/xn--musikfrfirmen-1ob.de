@@ -304,7 +304,7 @@ export default function UeberUnsPage() {
                 return (
                   <div
                     key={index}
-                    ref={(el) => (itemRefs.current[index] = el)}
+                    ref={(el) => { itemRefs.current[index] = el }}
                     data-index={index}
                     className={`relative flex items-center transition-all duration-700 ${
                       isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
