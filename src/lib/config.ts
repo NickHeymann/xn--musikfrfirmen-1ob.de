@@ -1,6 +1,8 @@
-// Base path for GitHub Pages deployment
-// This is set at build time - always include basePath for static export
-export const basePath = "/musikfuerfirmen";
+// Base path configuration
+// - For Docker/Hetzner deployment: empty (assets at root)
+// - For GitHub Pages: "/musikfuerfirmen"
+// - Set via NEXT_PUBLIC_BASE_PATH environment variable
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // Helper function to get the full asset path
 // This is called at build time during static generation
