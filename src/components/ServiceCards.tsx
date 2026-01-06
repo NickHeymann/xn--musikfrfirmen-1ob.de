@@ -9,6 +9,7 @@ const services = [
     number: "01",
     title: "Livebands",
     image: "/images/services/liveband.jpg",
+    colorOverlay: "from-emerald-400/65 to-teal-500/75", // CI-aligned: Energetic Mint
     texts: [
       "Unser absolutes Alleinstellungsmerkmal. Wir arbeiten mit einer festen Stammband, die wir persönlich kennen und die wir je nach Bedarf individuell für euch zusammenstellen und auf euer Event abstimmen.",
       "Viele Agenturen vermitteln nur Kontakte, die Bands kennen sie kaum persönlich. Bei musikfürfirmen.de läuft das anders. Wir arbeiten mit einer eingespielten Stammband, die je nach Eventgröße flexibel in unterschiedlichen Besetzungen auftritt.",
@@ -26,6 +27,7 @@ const services = [
     number: "02",
     title: "DJ's",
     image: "/images/services/dj.jpg",
+    colorOverlay: "from-cyan-400/65 to-emerald-500/75", // CI-aligned: Cool Aqua-Mint
     texts: [
       "Unsere DJs liefern euch den perfekten Mix aus Klassikern und aktuellen Hits, maßgeschneidert für euer Event und perfekt abgestimmt auf eure individuellen Musikwünsche.",
       "Ob entspannte Afterwork-Party oder festliches Firmenjubiläum: Wir finden über unser Netzwerk genau den richtigen DJ für euren Anlass. DJs lassen sich hervorragend mit einer Liveband kombinieren.",
@@ -42,6 +44,7 @@ const services = [
     number: "03",
     title: "Technik",
     image: "/images/services/technik.jpg",
+    colorOverlay: "from-teal-500/70 to-emerald-600/80", // CI-aligned: Deep Teal-Emerald
     texts: [
       "Mit Musik- und Lichttechnik im Wert von über 100.000 € stellen wir für jede Eventgröße die perfekte Ausstattung damit unsere Künstler:innen ihre Performance optimal präsentieren können.",
       "Unser umfangreiches Equipment ermöglicht es uns, für Events jeder Größenordnung die ideale Sound- und Lichtausstattung bereitzustellen.",
@@ -122,14 +125,18 @@ export default function ServiceCards() {
                 ))}
               </div>
 
-              <div className="mff-card-visual flex-none w-full h-[180px] md:h-auto md:w-[42%] relative order-1 md:order-2">
+              <div className="mff-card-visual flex-none w-full h-[180px] md:h-auto md:w-[42%] relative order-1 md:order-2 overflow-hidden group">
                 <Image
                   src={getAssetPath(service.image)}
                   alt={service.title}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 42vw"
                 />
+                {/* Bold Gradient Overlay - macht generic photos distinctive */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.colorOverlay} mix-blend-multiply transition-opacity duration-500 group-hover:opacity-90`} />
+                {/* Subtle grain texture für depth */}
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")' }} />
               </div>
             </div>
           </div>
