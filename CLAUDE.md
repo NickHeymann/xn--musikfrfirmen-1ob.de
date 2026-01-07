@@ -54,7 +54,7 @@ npm run lint   # ESLint
 ## Infrastruktur & Integration
 
 - **Hosting**: Vercel (automatisches Deploy bei Push auf `main`)
-- **Backend-Services** (Hetzner CX32):
+- **Backend-Services** (Hetzner CPX42):
   - n8n: Automation/Workflows (z.B. Kontaktformular, Anfragen)
   - Supabase: Self-Hosted (falls Datenbank benötigt)
 - **Deployment**:
