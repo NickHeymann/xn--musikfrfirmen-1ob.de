@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { componentRegistry } from './registry';
 import { RootContent, ContentNode } from '@/types';
 
@@ -72,6 +73,45 @@ export default function DestackEditor({ onSave }: DestackEditorProps) {
     // For POC: manual save only
   };
 
+  const handleAddComponent = (componentName: string) => {
+    const newComponent: ContentNode = {
+      type: 'component',
+      name: componentName,
+      id: `${componentName}-${crypto.randomUUID()}`,
+    };
+
+    setContent((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        children: [...prev.children, newComponent],
+      };
+    });
+  };
+
+  const handleDeleteComponent = (componentId: string) => {
+    setContent((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        children: prev.children.filter((child) => child.id !== componentId),
+      };
+    });
+  };
+
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination || !content) return;
+
+    const items = Array.from(content.children);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setContent({
+      ...content,
+      children: items,
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -100,17 +140,14 @@ export default function DestackEditor({ onSave }: DestackEditorProps) {
       {/* Component Palette */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
         <h3 className="text-sm font-semibold text-gray-700 mb-3">
-          Available Components
+          Available Components (Click to Add)
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {componentRegistry.map((item) => (
             <button
               key={item.config.name}
               className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-[#2DD4A8] hover:bg-[#f0fdf9] transition-colors"
-              onClick={() => {
-                // For POC: just log, will implement drag-and-drop in next task
-                console.log('Add component:', item.config.name);
-              }}
+              onClick={() => handleAddComponent(item.config.name)}
             >
               <span className="text-2xl mb-1">{item.config.icon}</span>
               <span className="text-xs text-center text-gray-700">
@@ -121,31 +158,109 @@ export default function DestackEditor({ onSave }: DestackEditorProps) {
         </div>
       </div>
 
-      {/* Content Preview */}
+      {/* Content Preview with Drag-and-Drop */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-sm font-semibold text-gray-700 mb-4">
-          Page Preview
+          Page Preview (Drag to Reorder)
         </h3>
 
-        {/* Render components based on content */}
-        <div className="space-y-6">
-          {content?.children?.map((child: ContentNode, index: number) => {
-            const registryItem = componentRegistry.find(
-              item => item.config.name === child.name
-            );
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="page-content">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="space-y-6 min-h-[200px]"
+              >
+                {content?.children?.map((child: ContentNode, index: number) => {
+                  const registryItem = componentRegistry.find(
+                    item => item.config.name === child.name
+                  );
 
-            if (!registryItem) {
-              return (
-                <div key={index} className="text-red-500">
-                  Component not found: {child.name}
-                </div>
-              );
-            }
+                  if (!registryItem) {
+                    return (
+                      <div key={index} className="text-red-500">
+                        Component not found: {child.name}
+                      </div>
+                    );
+                  }
 
-            const Component = registryItem.component;
-            return <Component key={child.id || index} />;
-          })}
-        </div>
+                  const Component = registryItem.component;
+
+                  return (
+                    <Draggable
+                      key={child.id}
+                      draggableId={child.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className={`relative group ${
+                            snapshot.isDragging ? 'opacity-50' : ''
+                          }`}
+                        >
+                          {/* Drag Handle */}
+                          <div
+                            {...provided.dragHandleProps}
+                            className="absolute -left-8 top-4 opacity-0 group-hover:opacity-100 transition-opacity cursor-move"
+                          >
+                            <svg
+                              className="w-5 h-5 text-gray-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 8h16M4 16h16"
+                              />
+                            </svg>
+                          </div>
+
+                          {/* Delete Button */}
+                          <button
+                            onClick={() => handleDeleteComponent(child.id)}
+                            className="absolute -right-8 top-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+
+                          {/* Component */}
+                          <div className="border border-dashed border-transparent group-hover:border-[#2DD4A8] rounded-lg p-2 -m-2">
+                            <Component />
+                          </div>
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+
+                {(!content?.children || content.children.length === 0) && (
+                  <div className="text-center py-12 text-gray-400">
+                    Click a component above to add it to the page
+                  </div>
+                )}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     </div>
   );
