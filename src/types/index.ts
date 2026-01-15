@@ -81,3 +81,16 @@ export interface SiteConfig {
     jobTitle: string;
   };
 }
+
+// Destack Editor Types
+export interface ContentNode {
+  type: 'component';
+  name: string;
+  id: string;
+  props?: Record<string, unknown>;
+}
+
+export interface RootContent {
+  type: 'root';
+  children: ContentNode[];
+}
