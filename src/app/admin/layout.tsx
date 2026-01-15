@@ -1,3 +1,5 @@
+"use client";
+
 import { EditorAuthProvider } from '@/contexts/EditorAuthContext';
 import type { ReactNode } from 'react';
 
