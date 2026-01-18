@@ -1,0 +1,1336 @@
+/**
+ * Apple-Quality Visual Editor Stylesheet
+ * Aesthetic: Surgical Precision - SF Pro meets Bauhaus minimalism
+ * Inspiration: Safari Web Inspector, Xcode, Webflow Editor
+ */
+
+/* ============================================
+   CSS Variables - Apple Design System
+   ============================================ */
+
+:root {
+  /* Colors - Apple System Blues */
+  --apple-blue: #007AFF;
+  --apple-blue-hover: #0051D5;
+  --apple-blue-subtle: rgba(0, 122, 255, 0.08);
+  --apple-blue-border: rgba(0, 122, 255, 0.2);
+
+  /* Neutrals - Precise grayscale */
+  --neutral-50: #FAFAFA;
+  --neutral-100: #F5F5F7;
+  --neutral-200: #E5E5EA;
+  --neutral-300: #D1D1D6;
+  --neutral-400: #C7C7CC;
+  --neutral-500: #8E8E93;
+  --neutral-600: #636366;
+  --neutral-700: #48484A;
+  --neutral-800: #2C2C2E;
+  --neutral-900: #1C1C1E;
+
+  /* Typography - SF Pro System */
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Menlo", monospace;
+
+  /* Spacing - 8pt grid */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+
+  /* Elevation - Apple-style shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Transitions - Physics-based cubic bezier */
+  --transition-snappy: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: cubic-bezier(0.4, 0, 0.6, 1);
+  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Border radius - Apple's preferred radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Z-index layers */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toolbar: 400;
+  --z-tooltip: 500;
+}
+
+/* ============================================
+   Minimal Top Toolbar
+   ============================================ */
+
+.editor-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--neutral-200);
+  z-index: var(--z-toolbar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  font-family: var(--font-display);
+  transition: opacity 0.3s var(--transition-smooth);
+}
+
+.editor-toolbar.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Back Button - macOS style */
+.toolbar-back {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  background: transparent;
+  color: var(--apple-blue);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s var(--transition-snappy);
+}
+
+.toolbar-back:hover {
+  background: var(--apple-blue-subtle);
+}
+
+.toolbar-back svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5px;
+}
+
+/* Page Title - Centered */
+.toolbar-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-700);
+  letter-spacing: -0.01em;
+}
+
+/* Right Actions */
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toolbar-button {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  background: transparent;
+  color: var(--neutral-700);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s var(--transition-snappy);
+}
+
+.toolbar-button:hover {
+  background: var(--neutral-100);
+}
+
+.toolbar-button.primary {
+  background: var(--apple-blue);
+  color: white;
+}
+
+.toolbar-button.primary:hover {
+  background: var(--apple-blue-hover);
+}
+
+.toolbar-button.secondary {
+  border: 1px solid var(--neutral-300);
+}
+
+/* Keyboard shortcut hint */
+.toolbar-button kbd {
+  margin-left: var(--space-2);
+  padding: 2px 4px;
+  background: var(--neutral-100);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--neutral-500);
+}
+
+/* ============================================
+   Editable Element Wrapper - Surgical Hover
+   ============================================ */
+
+.editable-wrapper {
+  position: relative;
+  transition: outline 0.2s var(--transition-snappy);
+  cursor: text;
+}
+
+/* Subtle hover state - surgical precision */
+.editable-wrapper:hover {
+  outline: 2px solid var(--apple-blue-border);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.editable-wrapper:hover::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: var(--apple-blue-subtle);
+  border-radius: 6px;
+  z-index: -1;
+  opacity: 0;
+  animation: fadeInGlow 0.3s var(--transition-smooth) forwards;
+}
+
+@keyframes fadeInGlow {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Active editing state */
+.editable-wrapper.editing {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px var(--apple-blue-subtle);
+}
+
+/* Edit hint label - appears on hover */
+.editable-wrapper::after {
+  content: 'Double-click to edit';
+  position: absolute;
+  top: -28px;
+  left: 0;
+  padding: 4px 8px;
+  background: var(--neutral-800);
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: all 0.2s var(--transition-snappy);
+  white-space: nowrap;
+  z-index: var(--z-tooltip);
+}
+
+.editable-wrapper:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+.editable-wrapper.editing::after {
+  display: none;
+}
+
+/* ============================================
+   Floating Inline Toolbar - Context-Aware
+   ============================================ */
+
+.inline-toolbar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 4px;
+  background: var(--neutral-900);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-toolbar);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.2s var(--transition-bounce);
+}
+
+.inline-toolbar.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* Toolbar buttons */
+.inline-toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s var(--transition-snappy);
+}
+
+.inline-toolbar-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.inline-toolbar-button.active {
+  background: var(--apple-blue);
+  color: white;
+}
+
+.inline-toolbar-button svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2px;
+}
+
+/* Separator */
+.inline-toolbar-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 4px;
+}
+
+/* ============================================
+   Image Edit Overlay - Hover Reveal
+   ============================================ */
+
+.editable-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: outline 0.2s var(--transition-snappy);
+}
+
+.editable-image-wrapper:hover {
+  outline: 2px solid var(--apple-blue-border);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* Dark overlay on hover */
+.editable-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  opacity: 0;
+  transition: opacity 0.3s var(--transition-smooth);
+}
+
+.editable-image-wrapper:hover .editable-image-overlay {
+  opacity: 1;
+}
+
+/* Image action buttons */
+.image-action-button {
+  padding: var(--space-3) var(--space-5);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--neutral-800);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(8px);
+  opacity: 0;
+  transition: all 0.3s var(--transition-bounce);
+}
+
+.editable-image-wrapper:hover .image-action-button {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.editable-image-wrapper:hover .image-action-button:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.editable-image-wrapper:hover .image-action-button:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.image-action-button:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.image-action-button svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2px;
+}
+
+/* Upload progress indicator */
+.upload-progress {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  z-index: var(--z-modal);
+}
+
+.upload-progress-bar {
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.upload-progress-fill {
+  height: 100%;
+  background: var(--apple-blue);
+  transition: width 0.3s var(--transition-smooth);
+}
+
+.upload-progress-text {
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ============================================
+   Drag-and-Drop Zone - Subtle Indication
+   ============================================ */
+
+.drop-zone-active {
+  outline: 3px dashed var(--apple-blue);
+  outline-offset: 8px;
+  background: var(--apple-blue-subtle);
+  animation: dropZonePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dropZonePulse {
+  0%, 100% {
+    outline-color: var(--apple-blue);
+  }
+  50% {
+    outline-color: var(--apple-blue-border);
+  }
+}
+
+/* ============================================
+   Preview Mode - Full Screen Content
+   ============================================ */
+
+.preview-mode {
+  position: fixed;
+  top: 52px; /* Below toolbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background: white;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Smooth scroll behavior */
+.preview-mode {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep functionality */
+.preview-mode::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-mode::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.preview-mode::-webkit-scrollbar-thumb {
+  background: var(--neutral-300);
+  border-radius: 4px;
+}
+
+.preview-mode::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-400);
+}
+
+/* ============================================
+   Builder Mode Toggle - Hidden by Default
+   ============================================ */
+
+.builder-mode-toggle {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  background: var(--neutral-900);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  z-index: var(--z-dropdown);
+  transition: all 0.3s var(--transition-smooth);
+  opacity: 0.6;
+}
+
+.builder-mode-toggle:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.builder-mode-toggle kbd {
+  margin-left: var(--space-2);
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+/* ============================================
+   Save Indicator - Subtle Feedback
+   ============================================ */
+
+.save-indicator {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(52, 199, 89, 0.95);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: all 0.3s var(--transition-bounce);
+  z-index: var(--z-tooltip);
+}
+
+.save-indicator.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.save-indicator svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   Empty State - When No Content
+   ============================================ */
+
+.editor-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.editor-empty-state-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-6);
+  opacity: 0.3;
+}
+
+.editor-empty-state-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--neutral-800);
+  margin-bottom: var(--space-2);
+}
+
+.editor-empty-state-description {
+  font-size: 14px;
+  color: var(--neutral-500);
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+  .editor-toolbar {
+    height: 48px;
+    padding: 0 var(--space-3);
+  }
+
+  .toolbar-title {
+    font-size: 12px;
+  }
+
+  .toolbar-button kbd {
+    display: none;
+  }
+
+  .inline-toolbar {
+    bottom: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+  }
+
+  .inline-toolbar.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .builder-mode-toggle {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    font-size: 13px;
+  }
+}
+
+/* ============================================
+   Dark Mode Support
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-50: #1C1C1E;
+    --neutral-100: #2C2C2E;
+    --neutral-200: #3A3A3C;
+    --neutral-300: #48484A;
+    --neutral-400: #636366;
+    --neutral-500: #8E8E93;
+    --neutral-600: #C7C7CC;
+    --neutral-700: #D1D1D6;
+    --neutral-800: #E5E5EA;
+    --neutral-900: #F5F5F7;
+  }
+
+  .editor-toolbar {
+    background: rgba(28, 28, 30, 0.95);
+    border-bottom-color: var(--neutral-300);
+  }
+
+  .preview-mode {
+    background: var(--neutral-50);
+  }
+
+  .toolbar-button:hover {
+    background: var(--neutral-200);
+  }
+}
+
+/* ============================================
+   Accessibility - Focus States
+   ============================================ */
+
+*:focus-visible {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   Builder Mode - Drag-and-Drop Interface
+   ============================================ */
+
+.builder-mode {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--neutral-50);
+}
+
+/* Builder Toolbar */
+.builder-toolbar {
+  height: 52px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  z-index: 100;
+}
+
+.builder-toolbar-left,
+.builder-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.builder-close-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--neutral-200);
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all 0.15s var(--transition-snappy);
+}
+
+.builder-close-button:hover {
+  background: var(--neutral-100);
+  border-color: var(--neutral-300);
+  color: var(--neutral-900);
+}
+
+.builder-toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--neutral-200);
+}
+
+.builder-toolbar-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--neutral-600);
+}
+
+.builder-toolbar-toggle {
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--neutral-200);
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all 0.15s var(--transition-snappy);
+}
+
+.builder-toolbar-toggle:hover {
+  background: var(--neutral-100);
+  border-color: var(--neutral-300);
+}
+
+/* Builder Layout */
+.builder-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Builder Sidebars */
+.builder-sidebar {
+  background: white;
+  border-right: 1px solid var(--neutral-200);
+  overflow-y: auto;
+  transition: all 0.3s var(--transition-smooth);
+}
+
+.builder-sidebar-left {
+  width: 280px;
+}
+
+.builder-sidebar-left.hidden {
+  width: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+.builder-sidebar-right {
+  width: 320px;
+  border-right: none;
+  border-left: 1px solid var(--neutral-200);
+}
+
+.builder-sidebar-right.hidden {
+  width: 0;
+  border-left: none;
+  overflow: hidden;
+}
+
+/* Builder Canvas */
+.builder-canvas-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--neutral-100);
+  position: relative;
+}
+
+/* Animation for sidebar slide */
+@media (prefers-reduced-motion: no-preference) {
+  .builder-sidebar {
+    animation: slideIn 0.3s var(--transition-smooth);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive - Hide sidebars on mobile */
+@media (max-width: 1024px) {
+  .builder-sidebar-left,
+  .builder-sidebar-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .builder-sidebar-left.hidden,
+  .builder-sidebar-right.hidden {
+    transform: translateX(-100%);
+  }
+
+  .builder-sidebar-right.hidden {
+    transform: translateX(100%);
+  }
+}
+
+/* ============================================
+   Preview Mode - Inline Editing Interface
+   ============================================ */
+
+.preview-mode-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+.preview-mode {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: white;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Header links are clickable - they navigate to editor for that page */
+
+/* Allow scrolling through sections */
+.preview-mode section {
+  position: relative;
+  pointer-events: auto;
+}
+
+/* Editable elements get pointer cursor */
+.preview-mode [data-editable] {
+  cursor: text;
+  transition: all 0.2s var(--transition-snappy);
+}
+
+.preview-mode [data-editable]:hover {
+  outline: 2px solid var(--apple-blue-border);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Images/Videos get click-to-edit */
+.preview-mode img,
+.preview-mode video {
+  cursor: pointer;
+  transition: all 0.2s var(--transition-snappy);
+}
+
+.preview-mode img:hover,
+.preview-mode video:hover {
+  outline: 2px solid var(--apple-blue-border);
+  outline-offset: 2px;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+/* ============================================
+   Media Upload Modal - Apple Design
+   ============================================ */
+
+.media-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s var(--transition-smooth);
+}
+
+.media-modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-xl);
+  width: 90%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideUp 0.3s var(--transition-smooth);
+}
+
+.media-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.media-modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+.media-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--neutral-500);
+  cursor: pointer;
+  transition: all 0.15s var(--transition-snappy);
+}
+
+.media-modal-close:hover {
+  background: var(--neutral-100);
+  color: var(--neutral-900);
+}
+
+.media-modal-preview {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.media-modal-content {
+  padding: var(--space-6);
+}
+
+/* Upload Zone */
+.media-upload-zone {
+  border: 2px dashed var(--neutral-300);
+  border-radius: 8px;
+  padding: var(--space-8);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s var(--transition-snappy);
+  background: var(--neutral-50);
+}
+
+.media-upload-zone:hover {
+  border-color: var(--apple-blue);
+  background: var(--apple-blue-subtle);
+}
+
+.media-upload-zone.active {
+  border-color: var(--apple-blue);
+  background: var(--apple-blue-subtle);
+  transform: scale(1.02);
+}
+
+/* Divider */
+.media-modal-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-5) 0;
+  color: var(--neutral-400);
+  font-size: 13px;
+}
+
+.media-modal-divider::before,
+.media-modal-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--neutral-200);
+}
+
+/* URL Input */
+.media-url-input-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--neutral-300);
+  border-radius: 8px;
+  transition: all 0.15s var(--transition-snappy);
+}
+
+.media-url-input-group:focus-within {
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 3px var(--apple-blue-subtle);
+}
+
+.media-url-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--neutral-900);
+}
+
+.media-url-input::placeholder {
+  color: var(--neutral-400);
+}
+
+.media-url-submit {
+  padding: var(--space-2) var(--space-4);
+  background: var(--apple-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s var(--transition-snappy);
+  white-space: nowrap;
+}
+
+.media-url-submit:hover:not(:disabled) {
+  background: var(--apple-blue-hover);
+}
+
+.media-url-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.media-modal-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--neutral-200);
+  text-align: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Disable Animations in Editor Mode
+   ============================================ */
+
+/* Allow animations to work - user can see and edit animated content */
+
+/* Re-enable essential editor UI transitions */
+.preview-mode [data-editable]:hover,
+.preview-mode img:hover,
+.preview-mode video:hover,
+.media-modal,
+.media-modal-overlay,
+.toolbar-button,
+.editor-toolbar {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ============================================
+   Save Status Indicators
+   ============================================ */
+
+.toolbar-unsaved-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--neutral-600);
+  padding: var(--space-2) var(--space-3);
+  background: var(--neutral-100);
+  border-radius: 6px;
+}
+
+.toolbar-unsaved-dot {
+  width: 8px;
+  height: 8px;
+  background: #FF9500;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.toolbar-saved-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: #34C759;
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(52, 199, 89, 0.1);
+  border-radius: 6px;
+  animation: fadeIn 0.3s var(--transition-smooth);
+}
+
+.toolbar-error-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: #FF3B30;
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(255, 59, 48, 0.1);
+  border-radius: 6px;
+  animation: fadeIn 0.3s var(--transition-smooth);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Disabled save button */
+.toolbar-button.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--neutral-300);
+}
+
+/* ============================================
+   Image/Video Hover State - Click to Replace
+   ============================================ */
+
+.preview-mode img,
+.preview-mode video {
+  position: relative;
+  cursor: pointer !important;
+}
+
+.preview-mode img:hover::after,
+.preview-mode video:hover::after {
+  content: '📷 Click to replace';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* Make parent position relative for absolute positioning */
+.preview-mode img,
+.preview-mode video {
+  position: relative;
+}
+
+/* ============================================
+   Text Editing - Natural Cursor Behavior
+   ============================================ */
+
+/* Show text cursor on hoverable text */
+.preview-mode h1,
+.preview-mode h2,
+.preview-mode h3,
+.preview-mode h4,
+.preview-mode h5,
+.preview-mode h6,
+.preview-mode p,
+.preview-mode span,
+.preview-mode button,
+.preview-mode li {
+  cursor: text !important;
+}
+
+/* Subtle hover state for editable text */
+.preview-mode h1:hover,
+.preview-mode h2:hover,
+.preview-mode h3:hover,
+.preview-mode h4:hover,
+.preview-mode h5:hover,
+.preview-mode h6:hover,
+.preview-mode p:hover,
+.preview-mode button:hover,
+.preview-mode li:hover {
+  background: rgba(0, 122, 255, 0.05);
+  outline: 1px solid rgba(0, 122, 255, 0.2);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* When editing (contentEditable), remove outline */
+.preview-mode [contenteditable="true"] {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+  background: rgba(0, 122, 255, 0.05);
+}
+
+/* ============================================
+   Hero Animation - Show Static Text for Editing
+   ============================================ */
+
+/* Animation slider works normally - all words visible and editable */
+
+/* ============================================
+   Edit Mode Layout
+   ============================================ */
+
+.edit-mode-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.edit-mode-preview {
+  flex: 1;
+  max-width: 70%;
+  overflow-y: auto;
+}
+
+/* Pause all animations in edit mode */
+.edit-mode-preview * {
+  animation-play-state: paused !important;
+}
+
+/* Editable Block */
+.editable-block {
+  position: relative;
+  cursor: pointer;
+  transition: outline 0.2s;
+}
+
+.editable-block:hover {
+  outline: 2px solid #007AFF;
+  outline-offset: 4px;
+}
+
+.editable-block.selected {
+  outline: 3px solid #007AFF;
+  outline-offset: 4px;
+}
+
+/* Edit Button */
+.block-edit-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 16px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.15s;
+}
+
+.block-edit-button:hover {
+  background: #0051D5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+/* Sidebar Placeholder */
+.editor-sidebar-placeholder {
+  width: 30%;
+  min-width: 420px;
+  border-left: 1px solid #E5E5EA;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+}
