@@ -4,7 +4,20 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/config";
 
-const services = [
+interface Service {
+  number: string;
+  title: string;
+  image: string;
+  colorOverlay: string;
+  texts: string[];
+  icon: React.ReactNode;
+}
+
+interface ServiceCardsProps {
+  services?: Service[];
+}
+
+const defaultServices: Service[] = [
   {
     number: "01",
     title: "Livebands",
@@ -60,7 +73,7 @@ const services = [
   },
 ];
 
-export default function ServiceCards() {
+export default function ServiceCards({ services = defaultServices }: ServiceCardsProps = {}) {
   useEffect(() => {
     const section = document.getElementById("mff-sticky-section");
     if (!section) return;

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import type { FAQItem } from "@/types";
-import { faqItems } from "@/data/faq";
+import { faqItems as defaultFaqItems } from "@/data/faq";
 
 function FAQItemComponent({ item, isActive, onToggle }: { item: FAQItem; isActive: boolean; onToggle: () => void }) {
   const answerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +81,11 @@ Unverbindliches Angebot anfragen
   );
 }
 
-export default function FAQ() {
+interface FAQProps {
+  faqItems?: FAQItem[];
+}
+
+export default function FAQ({ faqItems = defaultFaqItems }: FAQProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number) => {

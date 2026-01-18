@@ -3,33 +3,50 @@
 import { useEffect, useRef, useState } from "react";
 import { getAssetPath } from "@/lib/config";
 
-const sliderContent = ["Musik", "Livebands", "Djs", "Technik"];
+interface HeroProps {
+  sliderContent?: string[];
+  backgroundVideo?: string;
+  ctaText?: string;
+  features?: string[];
+}
 
-export default function Hero() {
+export default function Hero({
+  sliderContent = ["Musik", "Livebands", "Djs", "Technik"],
+  backgroundVideo = "/videos/hero-background.mp4",
+  ctaText = "Unverbindliches Angebot anfragen",
+  features = [
+    "Musik für jedes Firmenevent",
+    "Rundum-sorglos-Paket",
+    "Angebot innerhalb von 24 Stunden"
+  ]
+}: HeroProps = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [letters, setLetters] = useState<string[]>([]);
   const [isHolding, setIsHolding] = useState(false);
   const [scrollPromptVisible, setScrollPromptVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Update letters when currentIndex changes
   useEffect(() => {
-    const slide = () => {
-      const word = sliderContent[currentIndex];
-      setLetters(word.split(""));
-      setIsHolding(true);
+    const word = sliderContent[currentIndex];
+    setLetters(word.split(""));
+    setIsHolding(true);
 
-      setTimeout(() => {
-        setIsHolding(false);
-        setTimeout(() => {
-          setCurrentIndex((prev) => (prev + 1) % sliderContent.length);
-        }, 350);
-      }, 2650);
-    };
+    const holdTimer = setTimeout(() => {
+      setIsHolding(false);
+    }, 2650);
 
-    slide();
-    const interval = setInterval(slide, 3000);
-    return () => clearInterval(interval);
+    return () => clearTimeout(holdTimer);
   }, [currentIndex]);
+
+  // Auto-advance slider
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % sliderContent.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,7 +96,7 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
           poster={getAssetPath("/images/hero-fallback.jpg")}
         >
-          <source src={getAssetPath("/videos/hero-background.mp4")} type="video/mp4" />
+          <source src={getAssetPath(backgroundVideo)} type="video/mp4" />
         </video>
         <div
           className="absolute inset-0"
@@ -132,14 +149,14 @@ export default function Hero() {
             className="mff-open-calculator-btn inline-block mx-auto px-12 py-[18px] bg-white text-[#292929] rounded-[50px] text-lg font-medium cursor-pointer transition-all duration-300 hover:bg-[#B2EAD8] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
             style={{ fontFamily: "'Poppins', sans-serif" }}
           >
-            Unverbindliches Angebot anfragen
+            {ctaText}
           </button>
         </div>
 
         <ul className="mff-btn-features">
-          <li>Musik für jedes Firmenevent</li>
-          <li>Rundum-sorglos-Paket</li>
-          <li>Angebot innerhalb von 24 Stunden</li>
+          {features.map((feature, index) => (
+            <li key={index}>{feature}</li>
+          ))}
         </ul>
       </div>
 

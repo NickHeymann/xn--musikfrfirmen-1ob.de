@@ -1,9 +1,14 @@
 "use client";
 
-import { teamMembers } from "@/data/team";
+import { teamMembers as defaultTeamMembers } from "@/data/team";
 import { getAssetPath, basePath } from "@/lib/config";
+import type { TeamMember } from "@/types";
 
-export default function TeamSection() {
+interface TeamSectionProps {
+  teamMembers?: TeamMember[];
+}
+
+export default function TeamSection({ teamMembers = defaultTeamMembers }: TeamSectionProps = {}) {
   return (
     <section className="team-section">
       <div className="team-row">

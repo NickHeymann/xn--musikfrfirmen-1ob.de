@@ -3,7 +3,17 @@
 import { motion } from "framer-motion";
 import { useModal } from "./ModalProvider";
 
-export default function CTASection() {
+interface CTASectionProps {
+  heading?: string;
+  description?: string;
+  ctaText?: string;
+}
+
+export default function CTASection({
+  heading = "Bereit für unvergessliche Musik?",
+  description = "Fordere jetzt dein unverbindliches Angebot an und mach dein nächstes Firmenevent zu einem Highlight.",
+  ctaText = "Jetzt Angebot anfragen"
+}: CTASectionProps = {}) {
   const { openContactModal } = useModal();
   return (
     <section className="py-24 bg-gradient-to-br from-[#0D7A5F] to-[#0a5c47]">
@@ -15,7 +25,7 @@ export default function CTASection() {
           transition={{ duration: 0.5 }}
           className="text-white mb-6"
         >
-          Bereit für unvergessliche Musik?
+          {heading}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -24,8 +34,7 @@ export default function CTASection() {
           transition={{ delay: 0.1, duration: 0.5 }}
           className="text-white/90 font-light mb-10 text-lg max-w-2xl mx-auto"
         >
-          Fordere jetzt dein unverbindliches Angebot an und mach dein nächstes
-          Firmenevent zu einem Highlight.
+          {description}
         </motion.p>
         <motion.button
           initial={{ opacity: 0, y: 20 }}
@@ -37,7 +46,7 @@ export default function CTASection() {
           onClick={openContactModal}
           className="bg-white text-[#0D7A5F] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
         >
-          Jetzt Angebot anfragen
+          {ctaText}
         </motion.button>
       </div>
     </section>

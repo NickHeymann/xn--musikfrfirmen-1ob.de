@@ -1,7 +1,17 @@
 import Link from "next/link";
 import { siteConfig, footerLinks } from "@/config/site";
 
-export default function Footer() {
+interface FooterProps {
+  companyName?: string;
+  email?: string;
+  phone?: string;
+}
+
+export default function Footer({
+  companyName = siteConfig.name,
+  email = siteConfig.email,
+  phone = siteConfig.phone
+}: FooterProps = {}) {
   return (
     <footer className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -13,18 +23,18 @@ export default function Footer() {
             <div className="space-y-3 text-[15px] text-black font-light">
               <p>
                 <a
-                  href={`mailto:${siteConfig.email}`}
+                  href={`mailto:${email}`}
                   className="hover:underline transition-colors"
                 >
-                  {siteConfig.email}
+                  {email}
                 </a>
               </p>
               <p>
                 <a
-                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+                  href={`tel:${phone.replace(/\s/g, "")}`}
                   className="hover:underline transition-colors"
                 >
-                  {siteConfig.phone}
+                  {phone}
                 </a>
               </p>
             </div>
@@ -50,7 +60,7 @@ export default function Footer() {
 
       <div className="bg-black py-4">
         <p className="text-sm text-white text-center font-light" style={{ fontFamily: "'Poppins', sans-serif" }}>
-          © {new Date().getFullYear()} {siteConfig.name}
+          © {new Date().getFullYear()} {companyName}
         </p>
       </div>
     </footer>

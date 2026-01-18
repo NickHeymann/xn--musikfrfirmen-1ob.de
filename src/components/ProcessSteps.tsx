@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { serviceBlocks } from "@/data/services";
+import { serviceBlocks as defaultServiceBlocks } from "@/data/services";
+import type { ServiceBlock } from "@/types";
 
-export default function ProcessSteps() {
+interface ProcessStepsProps {
+  serviceBlocks?: ServiceBlock[];
+  ctaText?: string;
+}
+
+export default function ProcessSteps({
+  serviceBlocks = defaultServiceBlocks,
+  ctaText = "Zum Angebot"
+}: ProcessStepsProps = {}) {
   const [visibleBlocks, setVisibleBlocks] = useState<boolean[]>([false, false, false]);
   const [fillProgress, setFillProgress] = useState<number[]>([0, 0, 0]);
   const [lineProgress, setLineProgress] = useState<number[]>([0, 0]);
@@ -188,7 +197,7 @@ export default function ProcessSteps() {
             transition: 'all 0.3s ease, opacity 1s ease-out',
           }}
         >
-          Zum Angebot
+          {ctaText}
         </button>
       </div>
 
