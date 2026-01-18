@@ -5,12 +5,13 @@ import Image from "next/image";
 import { getAssetPath } from "@/lib/config";
 
 interface Service {
-  number: string;
+  number?: string;
   title: string;
-  image: string;
-  colorOverlay: string;
-  texts: string[];
-  icon: React.ReactNode;
+  image?: string;
+  colorOverlay?: string;
+  texts?: string[];
+  description?: string; // Support simple description from visual editor
+  icon?: React.ReactNode | string;
 }
 
 interface ServiceCardsProps {
@@ -116,41 +117,53 @@ export default function ServiceCards({ services = defaultServices }: ServiceCard
           >
             <div className="mff-card-inner flex flex-col md:flex-row items-stretch min-h-[450px] md:min-h-[450px]">
               <div className="mff-card-content flex-1 p-7 md:p-12 flex flex-col justify-center order-2 md:order-1">
-                <div className="mff-card-icon w-12 h-12 mb-5 p-[10px] rounded-xl bg-[#e6faf5] shadow-[0_2px_8px_rgba(45,212,168,0.08)]">
-                  <div className="w-full h-full text-[#2DD4A8]">{service.icon}</div>
-                </div>
+                {service.icon && (
+                  <div className="mff-card-icon w-12 h-12 mb-5 p-[10px] rounded-xl bg-[#e6faf5] shadow-[0_2px_8px_rgba(45,212,168,0.08)]">
+                    <div className="w-full h-full text-[#2DD4A8]">{service.icon}</div>
+                  </div>
+                )}
 
-                <span className="mff-card-number text-xs font-bold tracking-[2px] mb-2 text-[#2DD4A8] opacity-70">
-                  {service.number}
-                </span>
+                {service.number && (
+                  <span className="mff-card-number text-xs font-bold tracking-[2px] mb-2 text-[#2DD4A8] opacity-70">
+                    {service.number}
+                  </span>
+                )}
 
                 <h3 className="mff-card-title text-[22px] md:text-[32px] font-bold text-[#1a1a2e] m-0 mb-6 leading-[1.2]">
                   {service.title}
                 </h3>
 
-                {service.texts.map((text, i) => (
-                  <p
-                    key={i}
-                    className="mff-card-text text-sm md:text-base leading-[1.7] text-[#4a5568] m-0 mb-4"
-                  >
-                    {text}
+                {service.texts ? (
+                  service.texts.map((text, i) => (
+                    <p
+                      key={i}
+                      className="mff-card-text text-sm md:text-base leading-[1.7] text-[#4a5568] m-0 mb-4"
+                    >
+                      {text}
+                    </p>
+                  ))
+                ) : service.description ? (
+                  <p className="mff-card-text text-sm md:text-base leading-[1.7] text-[#4a5568] m-0 mb-4">
+                    {service.description}
                   </p>
-                ))}
+                ) : null}
               </div>
 
-              <div className="mff-card-visual flex-none w-full h-[180px] md:h-auto md:w-[42%] relative order-1 md:order-2 overflow-hidden group">
-                <Image
-                  src={getAssetPath(service.image)}
-                  alt={service.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 42vw"
-                />
-                {/* Bold Gradient Overlay - macht generic photos distinctive */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.colorOverlay} mix-blend-multiply transition-opacity duration-500 group-hover:opacity-90`} />
-                {/* Subtle grain texture für depth */}
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")' }} />
-              </div>
+              {service.image && (
+                <div className="mff-card-visual flex-none w-full h-[180px] md:h-auto md:w-[42%] relative order-1 md:order-2 overflow-hidden group">
+                  <Image
+                    src={getAssetPath(service.image)}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, 42vw"
+                  />
+                  {/* Bold Gradient Overlay - macht generic photos distinctive */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.colorOverlay || 'from-emerald-400/65 to-teal-500/75'} mix-blend-multiply transition-opacity duration-500 group-hover:opacity-90`} />
+                  {/* Subtle grain texture für depth */}
+                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulance type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")' }} />
+                </div>
+              )}
             </div>
           </div>
         ))}
