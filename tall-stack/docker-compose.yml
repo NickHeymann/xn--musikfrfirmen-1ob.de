@@ -1,0 +1,143 @@
+version: '3.8'
+
+services:
+  app:
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
+    container_name: musikfuerfirmen-app
+    restart: unless-stopped
+    working_dir: /var/www
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_KEY=${APP_KEY}
+      - APP_URL=${APP_URL:-https://musikfuerfirmen.de}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=${DB_HOST:-91.99.177.238}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - MAIL_MAILER=${MAIL_MAILER:-smtp}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-tls}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-noreply@musikfuerfirmen.de}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-musikfuerfirmen}
+    volumes:
+      - ./storage:/var/www/storage
+    networks:
+      - traefik-net
+      - internal
+    depends_on:
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: musikfuerfirmen-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./public:/var/www/public:ro
+    networks:
+      - traefik-net
+      - internal
+    depends_on:
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-net"
+
+      # HTTP router (redirects to HTTPS)
+      - "traefik.http.routers.musikfuerfirmen-http.rule=Host(`musikfuerfirmen.de`) || Host(`www.musikfuerfirmen.de`)"
+      - "traefik.http.routers.musikfuerfirmen-http.entrypoints=web"
+      - "traefik.http.routers.musikfuerfirmen-http.middlewares=redirect-to-https"
+
+      # HTTPS router
+      - "traefik.http.routers.musikfuerfirmen.rule=Host(`musikfuerfirmen.de`) || Host(`www.musikfuerfirmen.de`)"
+      - "traefik.http.routers.musikfuerfirmen.entrypoints=websecure"
+      - "traefik.http.routers.musikfuerfirmen.tls=true"
+      - "traefik.http.routers.musikfuerfirmen.tls.certresolver=letsencrypt"
+
+      # Service configuration
+      - "traefik.http.services.musikfuerfirmen.loadbalancer.server.port=80"
+
+      # Middleware for redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+  redis:
+    image: redis:7-alpine
+    container_name: musikfuerfirmen-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  queue:
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
+    container_name: musikfuerfirmen-queue
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan queue:work --tries=3 --timeout=90
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_KEY=${APP_KEY}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=${DB_HOST:-91.99.177.238}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./storage:/var/www/storage
+    networks:
+      - internal
+    depends_on:
+      - redis
+
+  scheduler:
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
+    container_name: musikfuerfirmen-scheduler
+    restart: unless-stopped
+    working_dir: /var/www
+    command: >
+      sh -c "while true; do
+        php artisan schedule:run --verbose --no-interaction &
+        sleep 60
+      done"
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_KEY=${APP_KEY}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=${DB_HOST:-91.99.177.238}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./storage:/var/www/storage
+    networks:
+      - internal
+
+networks:
+  traefik-net:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local

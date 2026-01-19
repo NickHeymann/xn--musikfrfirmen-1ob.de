@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ModalProvider from "@/components/ModalProvider";
+import { DebugPanel } from "@/components/DebugPanel";
+import { ErrorLoggerInit } from "@/components/ErrorLoggerInit";
 import { siteConfig } from "@/config/site";
 import { generateJsonLd } from "@/data/jsonLd";
 
@@ -105,11 +107,13 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        <ErrorLoggerInit />
         <ModalProvider>
           <Header />
           <main>{children}</main>
           <Footer />
         </ModalProvider>
+        <DebugPanel />
       </body>
     </html>
   );

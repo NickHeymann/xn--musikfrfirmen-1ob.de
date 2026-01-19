@@ -6,7 +6,15 @@ import { useRouter } from "next/navigation";
 import { navLinks } from "@/config/site";
 import { basePath } from "@/lib/config";
 
-export default function Header() {
+interface HeaderProps {
+  editable?: boolean;
+  _editableProps?: {
+    onContentChange: (path: string, value: any) => void;
+    isEditing: boolean;
+  };
+}
+
+export default function Header({ editable = false, _editableProps }: HeaderProps = {}) {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -78,19 +86,39 @@ export default function Header() {
                 href="/"
                 className="text-[32px] font-medium text-black hover:opacity-70 transition-opacity duration-200"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
+                {...(editable && {
+                  "data-editable": "siteName",
+                  contentEditable: _editableProps?.isEditing,
+                  suppressContentEditableWarning: true,
+                  onBlur: (e) => {
+                    if (_editableProps) {
+                      _editableProps.onContentChange('siteName', e.currentTarget.textContent || '');
+                    }
+                  }
+                })}
               >
                 musikfürfirmen.de
               </Link>
             </div>
 
             <nav className="header-nav hidden md:flex items-center gap-14">
-              {navLinks.map((item) => (
+              {navLinks.map((item, index) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href, item.isAnchor)}
                   className="text-[17px] font-light text-black hover:opacity-70 transition-opacity duration-200"
                   style={{ fontFamily: "'Poppins', sans-serif" }}
+                  {...(editable && {
+                    "data-editable": `navLinks.${index}.label`,
+                    contentEditable: _editableProps?.isEditing,
+                    suppressContentEditableWarning: true,
+                    onBlur: (e) => {
+                      if (_editableProps) {
+                        _editableProps.onContentChange(`navLinks.${index}.label`, e.currentTarget.textContent || '');
+                      }
+                    }
+                  })}
                 >
                   {item.label}
                 </a>

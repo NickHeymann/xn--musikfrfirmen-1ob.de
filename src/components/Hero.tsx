@@ -8,6 +8,12 @@ interface HeroProps {
   backgroundVideo?: string;
   ctaText?: string;
   features?: string[];
+  editable?: boolean;
+  _editableProps?: {
+    blockId: string;
+    onContentChange: (blockId: string, path: string, value: any) => void;
+    isEditing: boolean;
+  };
 }
 
 export default function Hero({
@@ -18,7 +24,9 @@ export default function Hero({
     "Musik für jedes Firmenevent",
     "Rundum-sorglos-Paket",
     "Angebot innerhalb von 24 Stunden"
-  ]
+  ],
+  editable = false,
+  _editableProps
 }: HeroProps = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [letters, setLetters] = useState<string[]>([]);
@@ -117,7 +125,21 @@ export default function Hero({
               letterSpacing: "1.5px"
             }}
           >
-            <span className="static-text whitespace-nowrap">Deine</span>
+            <span 
+              className="static-text whitespace-nowrap"
+              {...(editable && {
+                "data-editable": "sliderPrefix",
+                contentEditable: _editableProps?.isEditing,
+                suppressContentEditableWarning: true,
+                onBlur: (e) => {
+                  if (_editableProps) {
+                    _editableProps.onContentChange(_editableProps.blockId, 'sliderPrefix', e.currentTarget.textContent || '');
+                  }
+                }
+              })}
+            >
+              Deine
+            </span>
             <div className="animated-section inline-flex items-center gap-[5px]">
               <span
                 id="sliderValue"
@@ -125,6 +147,19 @@ export default function Hero({
                   isHolding ? "holder-animation" : ""
                 }`}
                 style={{ letterSpacing: "1.5px" }}
+                {...(editable && {
+                  "data-editable": "sliderContent",
+                  contentEditable: _editableProps?.isEditing,
+                  suppressContentEditableWarning: true,
+                  onBlur: (e) => {
+                    if (_editableProps) {
+                      const newText = e.currentTarget.textContent || '';
+                      const newSliderContent = [...sliderContent];
+                      newSliderContent[currentIndex] = newText;
+                      _editableProps.onContentChange(_editableProps.blockId, 'sliderContent', newSliderContent);
+                    }
+                  }
+                })}
               >
                 {letters.map((letter, index) => (
                   <span
@@ -132,13 +167,28 @@ export default function Hero({
                     className="inline-block animate-letter-fade"
                     style={{
                       animationDelay: `${index * 0.04 + 0.05}s`,
+                      pointerEvents: editable ? 'none' : 'auto', // Block clicks on individual letters
                     }}
                   >
                     {letter === " " ? "\u00A0" : letter}
                   </span>
                 ))}
               </span>
-              <span className="static-text whitespace-nowrap">für Firmenevents!</span>
+              <span 
+                className="static-text whitespace-nowrap"
+                {...(editable && {
+                  "data-editable": "sliderSuffix",
+                  contentEditable: _editableProps?.isEditing,
+                  suppressContentEditableWarning: true,
+                  onBlur: (e) => {
+                    if (_editableProps) {
+                      _editableProps.onContentChange(_editableProps.blockId, 'sliderSuffix', e.currentTarget.textContent || '');
+                    }
+                  }
+                })}
+              >
+                für Firmenevents!
+              </span>
             </div>
           </div>
         </div>
@@ -148,6 +198,15 @@ export default function Hero({
             onClick={openCalculator}
             className="mff-open-calculator-btn inline-block mx-auto px-12 py-[18px] bg-white text-[#292929] rounded-[50px] text-lg font-medium cursor-pointer transition-all duration-300 hover:bg-[#B2EAD8] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
             style={{ fontFamily: "'Poppins', sans-serif" }}
+            {...(editable && {
+              "data-editable": "ctaText",
+              contentEditable: _editableProps?.isEditing,
+              onBlur: (e) => {
+                if (_editableProps) {
+                  _editableProps.onContentChange(_editableProps.blockId, 'ctaText', e.currentTarget.textContent || '');
+                }
+              }
+            })}
           >
             {ctaText}
           </button>
@@ -155,7 +214,23 @@ export default function Hero({
 
         <ul className="mff-btn-features">
           {features.map((feature, index) => (
-            <li key={index}>{feature}</li>
+            <li 
+              key={index}
+              {...(editable && {
+                "data-editable": `features.${index}`,
+                contentEditable: _editableProps?.isEditing,
+                onBlur: (e) => {
+                  if (_editableProps) {
+                    const newFeatures = [...features];
+                    newFeatures[index] = e.currentTarget.textContent || '';
+                    _editableProps.onContentChange(_editableProps.blockId, 'features', newFeatures);
+                  }
+                },
+                suppressContentEditableWarning: true
+              })}
+            >
+              {feature}
+            </li>
           ))}
         </ul>
       </div>

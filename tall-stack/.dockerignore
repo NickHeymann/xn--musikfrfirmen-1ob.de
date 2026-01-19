@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.gitlab-ci.yml
+.github
+
+# Documentation
+README.md
+CHANGELOG.md
+*.md
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node modules and build artifacts
+node_modules
+npm-debug.log
+yarn-error.log
+
+# PHP dependencies (will be installed in container)
+vendor
+
+# Storage and cache
+storage/logs/*
+!storage/logs/.gitkeep
+storage/framework/cache/*
+!storage/framework/cache/.gitkeep
+storage/framework/sessions/*
+!storage/framework/sessions/.gitkeep
+storage/framework/views/*
+!storage/framework/views/.gitkeep
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Test files
+tests
+phpunit.xml
+.phpunit.result.cache
+
+# IDE files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment files
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile
+nginx.conf

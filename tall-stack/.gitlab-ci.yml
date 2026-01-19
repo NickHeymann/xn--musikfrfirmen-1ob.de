@@ -1,0 +1,106 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  DOCKER_IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
+  DEPLOY_PATH: /opt/apps/musikfuerfirmen
+
+# Run tests before building
+test:
+  stage: test
+  image: php:8.3-cli
+  services:
+    - postgres:15-alpine
+  variables:
+    POSTGRES_DB: musikfuerfirmen_test
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: secret
+    DB_CONNECTION: pgsql
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_DATABASE: musikfuerfirmen_test
+    DB_USERNAME: postgres
+    DB_PASSWORD: secret
+  before_script:
+    # Install system dependencies
+    - apt-get update -qq && apt-get install -y -qq git postgresql-client libpq-dev zip unzip
+    # Install PHP extensions
+    - docker-php-ext-install pdo pdo_pgsql
+    # Install Composer
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    # Install dependencies
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+    # Copy environment file
+    - cp .env.example .env
+    - php artisan key:generate
+    # Wait for PostgreSQL
+    - until pg_isready -h postgres; do echo "Waiting for PostgreSQL..."; sleep 2; done
+  script:
+    # Run migrations
+    - php artisan migrate --force
+    # Run tests
+    - php artisan test
+  only:
+    - main
+    - merge_requests
+
+# Build Docker image
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    # Build multi-stage image
+    - docker build --target production -t $DOCKER_IMAGE -t $DOCKER_IMAGE_LATEST .
+    # Push both tagged and latest
+    - docker push $DOCKER_IMAGE
+    - docker push $DOCKER_IMAGE_LATEST
+  only:
+    - main
+
+# Deploy to production
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    # Install SSH client
+    - apk add --no-cache openssh-client
+    # Setup SSH agent
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    # Create SSH directory
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # Add server to known hosts
+    - ssh-keyscan -H 91.99.177.238 >> ~/.ssh/known_hosts
+  script:
+    # Create deployment directory if it doesn't exist
+    - ssh root@91.99.177.238 "mkdir -p $DEPLOY_PATH"
+
+    # Copy docker-compose.yml and .env to server
+    - scp docker-compose.yml root@91.99.177.238:$DEPLOY_PATH/
+    - scp .env.production root@91.99.177.238:$DEPLOY_PATH/.env
+
+    # Pull latest image and restart services
+    - ssh root@91.99.177.238 "cd $DEPLOY_PATH && docker compose pull"
+    - ssh root@91.99.177.238 "cd $DEPLOY_PATH && docker compose up -d"
+
+    # Run migrations in production
+    - ssh root@91.99.177.238 "cd $DEPLOY_PATH && docker compose exec -T app php artisan migrate --force"
+
+    # Optimize Laravel caches
+    - ssh root@91.99.177.238 "cd $DEPLOY_PATH && docker compose exec -T app php artisan optimize"
+
+    # Verify deployment
+    - ssh root@91.99.177.238 "docker ps -a | grep musikfuerfirmen"
+  only:
+    - main
+  environment:
+    name: production
+    url: https://musikfuerfirmen.de

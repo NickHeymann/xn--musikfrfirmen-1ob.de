@@ -1,0 +1,69 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "musikfürfirmen.de" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e7]:
+        - link "Unsere Leistungen" [ref=e8] [cursor=pointer]:
+          - /url: /#waswirbieten
+        - link "Über Uns" [ref=e9] [cursor=pointer]:
+          - /url: /ueber-uns
+        - link "FAQ" [ref=e10] [cursor=pointer]:
+          - /url: /#faq
+  - main:
+    - generic:
+      - generic [ref=e13]:
+        - button "Back to Pages" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+          - generic [ref=e17]: Back to Pages
+        - generic [ref=e18]: musikfürfirmen.de/home
+        - generic [ref=e19]:
+          - button "Preview" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - text: Preview
+          - button "Save" [ref=e24] [cursor=pointer]:
+            - img [ref=e25]
+            - text: Save
+      - generic [ref=e30]:
+        - img [ref=e31]
+        - heading "No content yet" [level=3] [ref=e33]
+        - paragraph [ref=e34]: Press ⌘ B to open the builder and add your first component, or import content from your existing page.
+      - generic:
+        - img
+        - generic: Saved
+      - button "Builder ⌘B" [ref=e35] [cursor=pointer]:
+        - img [ref=e36]
+        - generic [ref=e38]: Builder
+        - generic [ref=e39]: ⌘B
+  - contentinfo [ref=e40]:
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - heading "Kontakt" [level=4] [ref=e44]
+        - generic [ref=e45]:
+          - paragraph [ref=e46]:
+            - link "kontakt@musikfürfirmen.de" [ref=e47] [cursor=pointer]:
+              - /url: mailto:kontakt@musikfürfirmen.de
+          - paragraph [ref=e48]:
+            - link "+49 174 1699553" [ref=e49] [cursor=pointer]:
+              - /url: tel:+491741699553
+      - generic [ref=e50]:
+        - heading "Info" [level=4] [ref=e51]
+        - generic [ref=e52]:
+          - paragraph [ref=e53]:
+            - link "Über uns" [ref=e54] [cursor=pointer]:
+              - /url: /#wir
+          - paragraph [ref=e55]:
+            - link "Impressum" [ref=e56] [cursor=pointer]:
+              - /url: /impressum
+          - paragraph [ref=e57]:
+            - link "Datenschutz" [ref=e58] [cursor=pointer]:
+              - /url: /datenschutz
+    - paragraph [ref=e60]: © 2026 musikfürfirmen.de
+  - button "🐛 Errors (1)" [ref=e61]
+  - button "Open Next.js Dev Tools" [ref=e67] [cursor=pointer]:
+    - img [ref=e68]
+  - alert [ref=e71]
+```
