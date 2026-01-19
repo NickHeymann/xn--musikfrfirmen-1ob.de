@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { Save, Undo2, Redo2 } from 'lucide-react'
 import { useEditor } from '../context/EditorContext'
 import { BlockList } from './BlockList'
+import { HeroEditor } from './editors/HeroEditor'
 import { motion } from 'framer-motion'
 
 type Tab = 'blocks' | 'properties'
 
 export function EditorSidebar() {
   const {
+    blocks,
     selectedBlockId,
     selectBlock,
     hasUnsavedChanges,
@@ -99,10 +101,21 @@ export function EditorSidebar() {
       {/* Tab Content */}
       <div className="sidebar-content">
         {activeTab === 'blocks' && <BlockList />}
-        {activeTab === 'properties' && selectedBlockId && (
-          <div className="p-4 text-center text-neutral-500">
-            Block editor will go here
-          </div>
+        {activeTab === 'properties' && (
+          <>
+            {selectedBlockId ? (
+              <>
+                {blocks.find(b => b.id === selectedBlockId)?.type === 'Hero' && (
+                  <HeroEditor />
+                )}
+                {/* Future: Add other block editors */}
+              </>
+            ) : (
+              <div className="no-selection">
+                <p>Select a block to edit its properties</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </motion.div>

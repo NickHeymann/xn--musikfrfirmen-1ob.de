@@ -1490,3 +1490,185 @@
 .drag-handle-wrapper:active {
   cursor: grabbing;
 }
+
+/* ============================================
+   Array Input Component
+   ============================================ */
+
+.array-input-container {
+  margin-bottom: 24px;
+}
+
+.array-input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.array-input-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.15s;
+}
+
+.array-input-item:hover {
+  border-color: #007AFF;
+}
+
+.array-drag-handle {
+  cursor: grab;
+  color: #86868B;
+  display: flex;
+  align-items: center;
+}
+
+.array-drag-handle:active {
+  cursor: grabbing;
+}
+
+.array-input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1D1D1F;
+  background: transparent;
+}
+
+.array-remove-button {
+  border: none;
+  background: transparent;
+  color: #86868B;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.array-remove-button:hover {
+  background: #F5F5F7;
+  color: #FF3B30;
+}
+
+.array-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.array-new-input {
+  flex: 1;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.15s;
+}
+
+.array-new-input:focus {
+  border-color: #007AFF;
+}
+
+.array-new-input:disabled {
+  background: #F5F5F7;
+  color: #86868B;
+  cursor: not-allowed;
+}
+
+.array-add-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: #007AFF;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.array-add-button:hover:not(:disabled) {
+  background: #0051D5;
+}
+
+.array-add-button:disabled {
+  background: #E5E5EA;
+  color: #86868B;
+  cursor: not-allowed;
+}
+
+.array-hint {
+  font-size: 11px;
+  color: #86868B;
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+/* ============================================
+   Block Editor
+   ============================================ */
+
+.block-editor {
+  padding: 20px;
+}
+
+.editor-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E5E5EA;
+}
+
+.editor-field {
+  margin-bottom: 20px;
+}
+
+.editor-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.editor-input {
+  width: 100%;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.15s;
+}
+
+.editor-input:focus {
+  border-color: #007AFF;
+}
+
+.no-selection {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.no-selection p {
+  font-size: 14px;
+  color: #86868B;
+}
