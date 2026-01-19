@@ -1334,3 +1334,145 @@
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
 }
+
+/* ============================================
+   Editor Sidebar
+   ============================================ */
+
+.editor-sidebar {
+  width: 420px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid #E5E5EA;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid #E5E5EA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-button {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: #1D1D1F;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.icon-button:hover:not(:disabled) {
+  background: #F5F5F7;
+}
+
+.icon-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.save-button {
+  padding: 8px 16px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #0051D5;
+}
+
+.save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tabs */
+.sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid #E5E5EA;
+  background: #FAFAFA;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #86868B;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover:not(:disabled) {
+  background: #F5F5F7;
+  color: #1D1D1F;
+}
+
+.tab.active {
+  color: #007AFF;
+  border-bottom-color: #007AFF;
+  background: white;
+}
+
+.tab:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Sidebar Content */
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Block List */
+.block-list {
+  padding: 8px;
+}
+
+.block-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.block-item:hover {
+  background: #F5F5F7;
+}
+
+.drag-handle {
+  color: #86868B;
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.block-name {
+  font-size: 14px;
+  color: #1D1D1F;
+  font-weight: 500;
+}

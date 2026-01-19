@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEditor } from '../context/EditorContext'
+import { EditorSidebar } from '../sidebar/EditorSidebar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
@@ -72,12 +73,8 @@ export function EditMode() {
         <Footer />
       </div>
 
-      {/* Sidebar (30%) - Placeholder */}
-      <div className="editor-sidebar-placeholder">
-        <div className="p-8 text-center text-neutral-500">
-          Sidebar will go here
-        </div>
-      </div>
+      {/* Sidebar (30%) */}
+      <EditorSidebar />
     </div>
   )
 }
