@@ -7,6 +7,7 @@ import { BlockList } from './BlockList'
 import { HeroEditor } from './editors/HeroEditor'
 import { ServiceCardsEditor } from './editors/ServiceCardsEditor'
 import { ProcessStepsEditor } from './editors/ProcessStepsEditor'
+import { TeamSectionEditor } from './editors/TeamSectionEditor'
 import { motion } from 'framer-motion'
 
 type Tab = 'blocks' | 'properties'
@@ -135,6 +136,9 @@ export function EditorSidebar() {
                 )}
                 {blocks.find(b => b.id === selectedBlockId)?.type === 'ProcessSteps' && (
                   <ProcessStepsEditor />
+                )}
+                {blocks.find(b => b.id === selectedBlockId)?.type === 'TeamSection' && (
+                  <TeamSectionEditor />
                 )}
                 {/* Future: Add other block editors */}
               </>
