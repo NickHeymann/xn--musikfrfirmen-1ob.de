@@ -1873,3 +1873,93 @@
 .editor-select:focus {
   border-color: #007AFF;
 }
+
+/* ============================================
+   Process Steps Editor
+   ============================================ */
+
+.steps-list {
+  margin-bottom: 16px;
+}
+
+.step-card-item {
+  margin-bottom: 12px;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.step-header:hover {
+  background: #F5F5F7;
+}
+
+.step-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.step-number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.step-title-preview {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.step-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #86868B;
+}
+
+.step-fields {
+  padding: 12px;
+  border-top: 1px solid #E5E5EA;
+  background: #FAFAFA;
+}
+
+.add-step-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px dashed #E5E5EA;
+  border-radius: 8px;
+  background: transparent;
+  color: #007AFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.add-step-button:hover {
+  border-color: #007AFF;
+  background: rgba(0, 122, 255, 0.05);
+}
