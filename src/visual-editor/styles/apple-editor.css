@@ -1749,3 +1749,127 @@
   align-items: center;
   gap: 12px;
 }
+
+/* ============================================
+   Service Cards Editor
+   ============================================ */
+
+.services-list {
+  margin-bottom: 16px;
+}
+
+.service-card-item {
+  margin-bottom: 12px;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.service-header:hover {
+  background: #F5F5F7;
+}
+
+.service-title-preview {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.service-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #86868B;
+}
+
+.service-fields {
+  padding: 12px;
+  border-top: 1px solid #E5E5EA;
+  background: #FAFAFA;
+}
+
+.icon-button-small {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s;
+  color: #86868B;
+}
+
+.icon-button-small:hover {
+  background: #E5E5EA;
+  color: #1D1D1F;
+}
+
+.icon-button-small.danger:hover {
+  background: #FFEBEE;
+  color: #FF3B30;
+}
+
+.add-service-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px dashed #E5E5EA;
+  border-radius: 8px;
+  background: transparent;
+  color: #007AFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.add-service-button:hover {
+  border-color: #007AFF;
+  background: rgba(0, 122, 255, 0.05);
+}
+
+.editor-textarea {
+  width: 100%;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  outline: none;
+  transition: all 0.15s;
+  resize: vertical;
+}
+
+.editor-textarea:focus {
+  border-color: #007AFF;
+}
+
+.editor-select {
+  width: 100%;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.15s;
+  background: white;
+  cursor: pointer;
+}
+
+.editor-select:focus {
+  border-color: #007AFF;
+}

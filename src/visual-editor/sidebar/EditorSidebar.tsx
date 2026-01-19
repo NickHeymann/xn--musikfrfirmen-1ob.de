@@ -5,6 +5,7 @@ import { Save, Undo2, Redo2, Loader2 } from 'lucide-react'
 import { useEditor } from '../context/EditorContext'
 import { BlockList } from './BlockList'
 import { HeroEditor } from './editors/HeroEditor'
+import { ServiceCardsEditor } from './editors/ServiceCardsEditor'
 import { motion } from 'framer-motion'
 
 type Tab = 'blocks' | 'properties'
@@ -127,6 +128,9 @@ export function EditorSidebar() {
               <>
                 {blocks.find(b => b.id === selectedBlockId)?.type === 'Hero' && (
                   <HeroEditor />
+                )}
+                {blocks.find(b => b.id === selectedBlockId)?.type === 'ServiceCards' && (
+                  <ServiceCardsEditor />
                 )}
                 {/* Future: Add other block editors */}
               </>
