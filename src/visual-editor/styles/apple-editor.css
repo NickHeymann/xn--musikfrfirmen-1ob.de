@@ -1476,3 +1476,17 @@
   color: #1D1D1F;
   font-weight: 500;
 }
+
+/* ============================================
+   Drag-and-Drop Styles
+   ============================================ */
+
+.drag-handle-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: grab;
+}
+
+.drag-handle-wrapper:active {
+  cursor: grabbing;
+}
