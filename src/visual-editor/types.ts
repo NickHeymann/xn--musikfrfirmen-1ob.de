@@ -2,6 +2,7 @@ export interface EditorState {
   mode: 'view' | 'edit'
   selectedBlockId: string | null
   blocks: Block[]
+  debouncedBlocks: Block[]
   hasUnsavedChanges: boolean
   isSaving: boolean
   history: Block[][]

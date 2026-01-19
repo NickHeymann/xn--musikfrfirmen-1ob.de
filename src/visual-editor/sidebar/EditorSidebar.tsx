@@ -12,6 +12,7 @@ type Tab = 'blocks' | 'properties'
 export function EditorSidebar() {
   const {
     blocks,
+    debouncedBlocks,
     selectedBlockId,
     selectBlock,
     hasUnsavedChanges,
@@ -36,6 +37,9 @@ export function EditorSidebar() {
 
   const canUndo = historyIndex > 0
   const canRedo = historyIndex < history.length - 1
+
+  // Check if preview is updating (debouncing)
+  const isPreviewUpdating = JSON.stringify(blocks) !== JSON.stringify(debouncedBlocks)
 
   return (
     <motion.div
@@ -66,8 +70,13 @@ export function EditorSidebar() {
           </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          {hasUnsavedChanges && (
+        <div className="save-row">
+          {isPreviewUpdating && (
+            <span className="preview-updating-hint">
+              Preview updating...
+            </span>
+          )}
+          {hasUnsavedChanges && !isPreviewUpdating && (
             <span className="text-xs text-neutral-500">Unsaved changes</span>
           )}
           <button

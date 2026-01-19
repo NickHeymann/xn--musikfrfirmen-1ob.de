@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react'
+import { useDebounce } from 'use-debounce'
 import type { EditorState, EditorActions, Block } from '../types'
 
 const EditorContext = createContext<(EditorState & EditorActions) | null>(null)
@@ -21,6 +22,9 @@ export function EditorProvider({
   const [isSaving, setIsSaving] = useState(false)
   const [history, setHistory] = useState<Block[][]>([initialBlocks])
   const [historyIndex, setHistoryIndex] = useState(0)
+
+  // Add debounced blocks for preview (300ms delay)
+  const [debouncedBlocks] = useDebounce(blocks, 300)
 
   const addToHistory = useCallback((newBlocks: Block[]) => {
     setHistory(prev => [...prev.slice(0, historyIndex + 1), newBlocks])
@@ -88,6 +92,7 @@ export function EditorProvider({
       mode,
       selectedBlockId,
       blocks,
+      debouncedBlocks,
       hasUnsavedChanges,
       isSaving,
       history,

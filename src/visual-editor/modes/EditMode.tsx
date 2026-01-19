@@ -24,7 +24,7 @@ const componentRegistry: Record<string, any> = {
 }
 
 export function EditMode() {
-  const { blocks, selectBlock, selectedBlockId } = useEditor()
+  const { debouncedBlocks, selectBlock, selectedBlockId } = useEditor()
   const [hoveredBlockId, setHoveredBlockId] = useState<string | null>(null)
 
   // Add keyboard shortcuts
@@ -36,7 +36,7 @@ export function EditMode() {
       <div className="edit-mode-preview">
         <Header />
 
-        {blocks.map((block) => {
+        {debouncedBlocks.map((block) => {
           const Component = componentRegistry[block.type]
           if (!Component) return null
 
