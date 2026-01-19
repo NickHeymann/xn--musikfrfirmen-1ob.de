@@ -18,16 +18,19 @@ export function ModeToggle() {
     <button
       onClick={handleToggle}
       className="fixed top-4 right-4 z-50 px-4 py-2 rounded-lg bg-white/98 backdrop-blur-lg border border-neutral-200 shadow-lg flex items-center gap-2 hover:bg-neutral-50 transition-colors"
+      title={mode === 'view' ? 'Switch to Edit Mode (Cmd+E)' : 'Switch to View Mode (Cmd+E)'}
     >
       {mode === 'view' ? (
         <>
           <Edit3 size={16} />
           <span>Edit Mode</span>
+          <kbd className="mode-toggle-hint">⌘E</kbd>
         </>
       ) : (
         <>
           <Eye size={16} />
           <span>View Mode</span>
+          <kbd className="mode-toggle-hint">⌘E</kbd>
         </>
       )}
     </button>

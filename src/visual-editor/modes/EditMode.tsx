@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEditor } from '../context/EditorContext'
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts'
 import { EditorSidebar } from '../sidebar/EditorSidebar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -25,6 +26,9 @@ const componentRegistry: Record<string, any> = {
 export function EditMode() {
   const { blocks, selectBlock, selectedBlockId } = useEditor()
   const [hoveredBlockId, setHoveredBlockId] = useState<string | null>(null)
+
+  // Add keyboard shortcuts
+  useKeyboardShortcuts()
 
   return (
     <div className="edit-mode-container">

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Save, Undo2, Redo2 } from 'lucide-react'
+import { Save, Undo2, Redo2, Loader2 } from 'lucide-react'
 import { useEditor } from '../context/EditorContext'
 import { BlockList } from './BlockList'
 import { HeroEditor } from './editors/HeroEditor'
@@ -74,9 +74,20 @@ export function EditorSidebar() {
             onClick={handleSave}
             disabled={!hasUnsavedChanges || isSaving}
             className="save-button"
+            title="Save changes (Cmd+S)"
           >
-            <Save size={16} />
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? (
+              <>
+                <Loader2 size={16} className="spinning" />
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <Save size={16} />
+                <span>Save</span>
+                <kbd className="keyboard-hint">⌘S</kbd>
+              </>
+            )}
           </button>
         </div>
       </div>
