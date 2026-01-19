@@ -8,6 +8,7 @@ import { HeroEditor } from './editors/HeroEditor'
 import { ServiceCardsEditor } from './editors/ServiceCardsEditor'
 import { ProcessStepsEditor } from './editors/ProcessStepsEditor'
 import { TeamSectionEditor } from './editors/TeamSectionEditor'
+import { FAQEditor } from './editors/FAQEditor'
 import { motion } from 'framer-motion'
 
 type Tab = 'blocks' | 'properties'
@@ -139,6 +140,9 @@ export function EditorSidebar() {
                 )}
                 {blocks.find(b => b.id === selectedBlockId)?.type === 'TeamSection' && (
                   <TeamSectionEditor />
+                )}
+                {blocks.find(b => b.id === selectedBlockId)?.type === 'FAQ' && (
+                  <FAQEditor />
                 )}
                 {/* Future: Add other block editors */}
               </>
