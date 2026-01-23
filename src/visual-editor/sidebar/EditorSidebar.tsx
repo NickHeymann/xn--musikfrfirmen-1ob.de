@@ -1,20 +1,30 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Save, Undo2, Redo2, Loader2 } from 'lucide-react'
-import { useEditor } from '../context/EditorContext'
-import { BlockList } from './BlockList'
-import { HeroEditor } from './editors/HeroEditor'
-import { ServiceCardsEditor } from './editors/ServiceCardsEditor'
-import { ProcessStepsEditor } from './editors/ProcessStepsEditor'
-import { TeamSectionEditor } from './editors/TeamSectionEditor'
-import { FAQEditor } from './editors/FAQEditor'
-import { CTASectionEditor } from './editors/CTASectionEditor'
-import { motion } from 'framer-motion'
+import { useState } from "react";
+import { Save, Undo2, Redo2, Layout } from "lucide-react";
+import { useEditor } from "../context/EditorContext";
+import { useToast } from "../context/ToastContext";
+import { useValidationContext } from "../context/ValidationContext";
+import { Spinner } from "../components/Spinner";
+import { BlockList } from "./BlockList";
+import { HeroEditor } from "./editors/HeroEditor";
+import { ServiceCardsEditor } from "./editors/ServiceCardsEditor";
+import { ProcessStepsEditor } from "./editors/ProcessStepsEditor";
+import { TeamSectionEditor } from "./editors/TeamSectionEditor";
+import { FAQEditor } from "./editors/FAQEditor";
+import { CTASectionEditor } from "./editors/CTASectionEditor";
+import { motion } from "framer-motion";
+import { TemplateLibrary } from "../components/TemplateLibrary";
+import type { BlockTemplate } from "../types/blockTemplate";
 
-type Tab = 'blocks' | 'properties'
+type Tab = "blocks" | "properties";
 
-export function EditorSidebar() {
+interface EditorSidebarProps {
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
+}
+
+export function EditorSidebar({ activeTab, setActiveTab }: EditorSidebarProps) {
   const {
     blocks,
     debouncedBlocks,
@@ -23,28 +33,47 @@ export function EditorSidebar() {
     hasUnsavedChanges,
     isSaving,
     saveDraft,
+    insertTemplate,
     undo,
     redo,
     history,
-    historyIndex
-  } = useEditor()
+    historyIndex,
+  } = useEditor();
 
-  const [activeTab, setActiveTab] = useState<Tab>('blocks')
+  const [isTemplateLibraryOpen, setIsTemplateLibraryOpen] = useState(false);
+
+  const { showToast } = useToast();
+  const { validateAll } = useValidationContext();
 
   const handleSave = async () => {
-    try {
-      await saveDraft()
-      alert('Changes saved!')
-    } catch (error) {
-      alert('Failed to save changes')
-    }
-  }
+    // Validate all fields before saving
+    const isValid = validateAll();
 
-  const canUndo = historyIndex > 0
-  const canRedo = historyIndex < history.length - 1
+    if (!isValid) {
+      showToast("warning", "Please fix validation errors before saving");
+      return;
+    }
+
+    try {
+      await saveDraft();
+      showToast("success", "Changes saved successfully!");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      showToast("error", `Failed to save: ${message}`);
+    }
+  };
+
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
+
+  const handleSelectTemplate = (template: BlockTemplate) => {
+    insertTemplate(template);
+    setIsTemplateLibraryOpen(false);
+  };
 
   // Check if preview is updating (debouncing)
-  const isPreviewUpdating = JSON.stringify(blocks) !== JSON.stringify(debouncedBlocks)
+  const isPreviewUpdating =
+    JSON.stringify(blocks) !== JSON.stringify(debouncedBlocks);
 
   return (
     <motion.div
@@ -52,7 +81,7 @@ export function EditorSidebar() {
       initial={{ x: 420 }}
       animate={{ x: 0 }}
       exit={{ x: 420 }}
-      transition={{ type: 'spring', damping: 25 }}
+      transition={{ type: "spring", damping: 25 }}
     >
       {/* Header */}
       <div className="sidebar-header">
@@ -73,13 +102,19 @@ export function EditorSidebar() {
           >
             <Redo2 size={16} />
           </button>
+          <div className="h-4 w-px bg-gray-300 mx-1" />
+          <button
+            onClick={() => setIsTemplateLibraryOpen(true)}
+            className="icon-button"
+            title="Browse Templates"
+          >
+            <Layout size={16} />
+          </button>
         </div>
 
         <div className="save-row">
           {isPreviewUpdating && (
-            <span className="preview-updating-hint">
-              Preview updating...
-            </span>
+            <span className="preview-updating-hint">Preview updating...</span>
           )}
           {hasUnsavedChanges && !isPreviewUpdating && (
             <span className="text-xs text-neutral-500">Unsaved changes</span>
@@ -92,7 +127,7 @@ export function EditorSidebar() {
           >
             {isSaving ? (
               <>
-                <Loader2 size={16} className="spinning" />
+                <Spinner size="sm" />
                 <span>Saving...</span>
               </>
             ) : (
@@ -109,14 +144,14 @@ export function EditorSidebar() {
       {/* Tabs */}
       <div className="sidebar-tabs">
         <button
-          onClick={() => setActiveTab('blocks')}
-          className={`tab ${activeTab === 'blocks' ? 'active' : ''}`}
+          onClick={() => setActiveTab("blocks")}
+          className={`tab ${activeTab === "blocks" ? "active" : ""}`}
         >
           BLOCKS
         </button>
         <button
-          onClick={() => setActiveTab('properties')}
-          className={`tab ${activeTab === 'properties' ? 'active' : ''}`}
+          onClick={() => setActiveTab("properties")}
+          className={`tab ${activeTab === "properties" ? "active" : ""}`}
           disabled={!selectedBlockId}
         >
           PROPERTIES
@@ -125,29 +160,25 @@ export function EditorSidebar() {
 
       {/* Tab Content */}
       <div className="sidebar-content">
-        {activeTab === 'blocks' && <BlockList />}
-        {activeTab === 'properties' && (
+        {activeTab === "blocks" && (
+          <BlockList onBlockDoubleClick={() => setActiveTab("properties")} />
+        )}
+        {activeTab === "properties" && (
           <>
             {selectedBlockId ? (
               <>
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'Hero' && (
-                  <HeroEditor />
-                )}
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'ServiceCards' && (
-                  <ServiceCardsEditor />
-                )}
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'ProcessSteps' && (
-                  <ProcessStepsEditor />
-                )}
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'TeamSection' && (
-                  <TeamSectionEditor />
-                )}
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'FAQ' && (
-                  <FAQEditor />
-                )}
-                {blocks.find(b => b.id === selectedBlockId)?.type === 'CTASection' && (
-                  <CTASectionEditor />
-                )}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "Hero" && <HeroEditor />}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "ServiceCards" && <ServiceCardsEditor />}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "ProcessSteps" && <ProcessStepsEditor />}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "TeamSection" && <TeamSectionEditor />}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "FAQ" && <FAQEditor />}
+                {blocks.find((b) => b.id === selectedBlockId)?.type ===
+                  "CTASection" && <CTASectionEditor />}
               </>
             ) : (
               <div className="no-selection">
@@ -157,6 +188,14 @@ export function EditorSidebar() {
           </>
         )}
       </div>
+
+      {/* Template Library Modal */}
+      {isTemplateLibraryOpen && (
+        <TemplateLibrary
+          onSelectTemplate={handleSelectTemplate}
+          onClose={() => setIsTemplateLibraryOpen(false)}
+        />
+      )}
     </motion.div>
-  )
+  );
 }
