@@ -1,4 +1,6 @@
 import Link from "next/link";
+'use client';
+
 import { siteConfig, footerLinks } from "@/config/site";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
