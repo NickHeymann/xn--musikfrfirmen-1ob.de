@@ -14,6 +14,7 @@ interface ServiceCard {
   number?: string;
   image?: string;
   colorOverlay?: string;
+  texts?: string[];
 }
 
 export function ServiceCardsEditor() {
@@ -324,6 +325,28 @@ export function ServiceCardsEditor() {
                     <p className="field-hint">
                       Optional CSS gradient or color overlay for the service
                       image
+                    </p>
+                  </div>
+
+                  {/* Detail Texts (Rich Text Array) */}
+                  <div className="editor-field">
+                    <label>Detail Texts (3 paragraphs)</label>
+                    {[0, 1, 2].map((textIndex) => (
+                      <div key={textIndex} className="mb-4">
+                        <RichTextEditor
+                          label={`Paragraph ${textIndex + 1}`}
+                          value={service.texts?.[textIndex] || ""}
+                          onChange={(html) => {
+                            const newTexts = [...(service.texts || ["", "", ""])];
+                            newTexts[textIndex] = html;
+                            handleServiceChange(index, "texts", newTexts);
+                          }}
+                          placeholder={`Enter paragraph ${textIndex + 1}...`}
+                        />
+                      </div>
+                    ))}
+                    <p className="field-hint">
+                      Three detailed text blocks displayed when service card is expanded
                     </p>
                   </div>
                 </div>

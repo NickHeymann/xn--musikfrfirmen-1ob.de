@@ -15,6 +15,7 @@ import { ModeToggle } from '@/visual-editor/components/ModeToggle';
 import { EditorProvider, useEditor } from '@/visual-editor/context/EditorContext';
 import { ToastProvider } from '@/visual-editor/context/ToastContext';
 import { ValidationProvider } from '@/visual-editor/context/ValidationContext';
+import { EditorModeProvider } from '@/visual-editor/context/EditorModeContext';
 import { enrichBlocksWithDefaults } from '@/visual-editor/lib/defaultBlockData';
 import type { PageData } from '@/types/visual-editor';
 
@@ -91,13 +92,15 @@ export default function VisualEditorPage() {
   }
 
   return (
-    <ToastProvider>
-      <EditorProvider initialBlocks={pageData.content.blocks} slug={slug}>
-        <ValidationProvider>
-          <EditorModeRouter />
-        </ValidationProvider>
-      </EditorProvider>
-    </ToastProvider>
+    <EditorModeProvider>
+      <ToastProvider>
+        <EditorProvider initialBlocks={pageData.content.blocks} slug={slug}>
+          <ValidationProvider>
+            <EditorModeRouter />
+          </ValidationProvider>
+        </EditorProvider>
+      </ToastProvider>
+    </EditorModeProvider>
   );
 }
 

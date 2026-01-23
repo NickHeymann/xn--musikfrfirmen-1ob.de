@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { navLinks } from "@/config/site";
 import { basePath } from "@/lib/config";
 
@@ -16,6 +16,8 @@ interface HeaderProps {
 
 export default function Header({ editable = false, _editableProps }: HeaderProps = {}) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isEditorMode = pathname?.startsWith('/admin/editor/');
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -102,27 +104,34 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
             </div>
 
             <nav className="header-nav hidden md:flex items-center gap-14">
-              {navLinks.map((item, index) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href, item.isAnchor)}
-                  className="text-[17px] font-light text-black hover:opacity-70 transition-opacity duration-200"
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                  {...(editable && {
-                    "data-editable": `navLinks.${index}.label`,
-                    contentEditable: _editableProps?.isEditing,
-                    suppressContentEditableWarning: true,
-                    onBlur: (e) => {
-                      if (_editableProps) {
-                        _editableProps.onContentChange(`navLinks.${index}.label`, e.currentTarget.textContent || '');
+              {navLinks.map((item, index) => {
+                // In editor mode, convert page links to editor links
+                const editorHref = isEditorMode && !item.isAnchor
+                  ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
+                  : item.href;
+                
+                return (
+                  <a
+                    key={item.href}
+                    href={editorHref}
+                    onClick={(e) => handleNavClick(e, editorHref, item.isAnchor && !isEditorMode)}
+                    className="text-[17px] font-light text-black hover:opacity-70 transition-opacity duration-200"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    {...(editable && {
+                      "data-editable": `navLinks.${index}.label`,
+                      contentEditable: _editableProps?.isEditing,
+                      suppressContentEditableWarning: true,
+                      onBlur: (e) => {
+                        if (_editableProps) {
+                          _editableProps.onContentChange(`navLinks.${index}.label`, e.currentTarget.textContent || '');
+                        }
                       }
-                    }
-                  })}
-                >
-                  {item.label}
-                </a>
-              ))}
+                    })}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
             </nav>
 
             <button
@@ -168,17 +177,24 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
           style={{ backgroundColor: "#ffffff" }}
         >
           <div className="py-4 px-6">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href, item.isAnchor)}
-                className="block py-4 text-base font-normal text-black hover:opacity-70 transition-opacity"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navLinks.map((item) => {
+              // In editor mode, convert page links to editor links
+              const editorHref = isEditorMode && !item.isAnchor
+                ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
+                : item.href;
+              
+              return (
+                <a
+                  key={item.href}
+                  href={editorHref}
+                  onClick={(e) => handleNavClick(e, editorHref, item.isAnchor && !isEditorMode)}
+                  className="block py-4 text-base font-normal text-black hover:opacity-70 transition-opacity"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </div>
         </nav>
       </div>

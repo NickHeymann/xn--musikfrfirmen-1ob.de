@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { siteConfig, footerLinks } from "@/config/site";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface FooterProps {
   companyName?: string;
@@ -12,6 +14,9 @@ export default function Footer({
   email = siteConfig.email,
   phone = siteConfig.phone
 }: FooterProps = {}) {
+  const pathname = usePathname();
+  const isEditorMode = pathname?.startsWith('/admin/editor/');
+  
   return (
     <footer className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -43,16 +48,23 @@ export default function Footer({
           <div>
             <h4 className="text-base font-semibold text-black mb-6">Info</h4>
             <div className="space-y-3 text-[15px]">
-              {footerLinks.info.map((link) => (
-                <p key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-black hover:underline transition-colors font-light"
-                  >
-                    {link.label}
-                  </Link>
-                </p>
-              ))}
+              {footerLinks.info.map((link) => {
+                // In editor mode, convert page links to editor links
+                const editorHref = isEditorMode
+                  ? `/admin/editor/${link.href.replace('/', '') || 'home'}`
+                  : link.href;
+                
+                return (
+                  <p key={link.href}>
+                    <Link
+                      href={editorHref}
+                      className="text-black hover:underline transition-colors font-light"
+                    >
+                      {link.label}
+                    </Link>
+                  </p>
+                );
+              })}
             </div>
           </div>
         </div>
