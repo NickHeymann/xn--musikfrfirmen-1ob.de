@@ -1,8 +1,8 @@
 # Visual Editor for musikfuerfirmen.de
 
-**Version:** 1.0.0
-**Status:** Production Ready (Task 21 Complete)
-**Last Updated:** 2026-01-19
+**Version:** 1.1.0  
+**Status:** Production Ready (Block Templates Added)  
+**Last Updated:** 2026-01-23
 
 ---
 
@@ -40,6 +40,16 @@ Apple-quality inline visual editor for editing the musikfuerfirmen.de homepage. 
 - ✅ **Media Upload** - Image upload with preview
 - ✅ **Accessibility** - Keyboard navigation, ARIA labels, screen reader support
 
+### Block Templates (v1.1.0)
+
+- ✅ **Default Templates** - 5 pre-configured layouts (Hero, Features, Testimonials, CTA, Two-Column)
+- ✅ **Template Library** - Browse, search, and filter templates
+- ✅ **Template Preview** - See details before inserting
+- ✅ **Custom Templates** - Save page layouts as reusable templates
+- ✅ **localStorage Persistence** - Custom templates persist across sessions
+
+**See:** [Block Templates Documentation](./docs/features/BLOCK-TEMPLATES.md)
+
 ---
 
 ## Architecture
@@ -47,12 +57,15 @@ Apple-quality inline visual editor for editing the musikfuerfirmen.de homepage. 
 ```
 visual-editor/
 ├── components/         # Reusable UI components
-│   ├── ArrayInput.tsx         # Array manipulation (add/remove/reorder)
-│   ├── MediaUploader.tsx      # Image upload component
-│   ├── ModeToggle.tsx         # View/Edit mode switcher
-│   ├── SkeletonLoader.tsx     # Loading states
-│   ├── Spinner.tsx            # Loading spinner
-│   └── Toast.tsx              # Toast notifications
+│   ├── ArrayInput.tsx              # Array manipulation (add/remove/reorder)
+│   ├── MediaUploader.tsx           # Image upload component
+│   ├── ModeToggle.tsx              # View/Edit mode switcher
+│   ├── SkeletonLoader.tsx          # Loading states
+│   ├── Spinner.tsx                 # Loading spinner
+│   ├── Toast.tsx                   # Toast notifications
+│   ├── TemplateLibrary.tsx         # Template browser (v1.1.0)
+│   ├── TemplatePreviewModal.tsx    # Template preview (v1.1.0)
+│   └── SaveTemplateModal.tsx       # Save template form (v1.1.0)
 │
 ├── context/           # React Context providers
 │   ├── EditorContext.tsx      # Editor state, undo/redo, save
@@ -60,8 +73,16 @@ visual-editor/
 │   └── ValidationContext.tsx  # Form validation
 │
 ├── hooks/             # Custom React hooks
-│   ├── useKeyboardShortcuts.ts  # Keyboard shortcuts (Cmd+S, etc.)
-│   └── useValidation.ts         # Validation logic
+│   ├── useKeyboardShortcuts.ts   # Keyboard shortcuts (Cmd+S, etc.)
+│   ├── useValidation.ts          # Validation logic
+│   └── useCustomTemplates.ts     # Custom template management (v1.1.0)
+│
+├── data/              # Static data (v1.1.0)
+│   └── blockTemplates.ts         # Default template definitions
+│
+├── types/             # TypeScript types
+│   ├── index.ts                  # Core types
+│   └── blockTemplate.ts          # Template types (v1.1.0)
 │
 ├── modes/             # View/Edit mode components
 │   ├── ViewMode.tsx           # Read-only preview
@@ -472,16 +493,17 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
 
-## Future Improvements (v1.1+)
+## Future Improvements (v1.2+)
 
-- [ ] Add more block types (Gallery, Testimonials, etc.)
+- [ ] Add more block types (Gallery, Video, etc.)
 - [ ] Mobile editing support (responsive design)
 - [ ] Revision history (version control)
 - [ ] Collaborative editing (WebSockets)
 - [ ] Image editing (crop, resize, filters)
 - [ ] Undo/Redo beyond 10 steps
 - [ ] Keyboard shortcuts help modal
-- [ ] Block templates
+- [ ] Template preview image generation
+- [ ] Server-side template storage (cross-device sync)
 - [ ] A/B testing integration
 
 ---
@@ -505,6 +527,33 @@ Proprietary - musikfuerfirmen.de
 
 ## Changelog
 
+### v1.1.0 (2026-01-23)
+
+**Block Templates Feature**
+
+- ✅ 5 default templates (Hero, Features, Testimonials, CTA, Two-Column)
+- ✅ Template Library UI with search and filtering
+- ✅ Template Preview Modal with detailed information
+- ✅ Custom template creation and management
+- ✅ localStorage persistence for custom templates
+- ✅ Delete functionality for custom templates
+- ✅ Toast notifications for template actions
+- ✅ Comprehensive documentation
+
+**Files Added:**
+- `types/blockTemplate.ts` - TypeScript types
+- `data/blockTemplates.ts` - Default templates
+- `components/TemplateLibrary.tsx` - Main library UI
+- `components/TemplatePreviewModal.tsx` - Preview modal
+- `components/SaveTemplateModal.tsx` - Save form
+- `hooks/useCustomTemplates.ts` - localStorage management
+- `docs/features/BLOCK-TEMPLATES.md` - Full documentation
+
+**Changes:**
+- Updated `EditorContext` with `insertTemplate` function
+- Updated `EditorSidebar` with template buttons
+- Updated `README.md` with v1.1.0 features
+
 ### v1.0.0 (2026-01-19)
 
 - Initial release
@@ -525,5 +574,5 @@ Proprietary - musikfuerfirmen.de
 
 ---
 
-**Status:** Production Ready
-**Next Step:** Deploy to production
+**Status:** Production Ready  
+**Next Step:** Deploy v1.1.0 to production
