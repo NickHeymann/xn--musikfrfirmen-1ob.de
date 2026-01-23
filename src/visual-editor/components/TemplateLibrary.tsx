@@ -10,6 +10,7 @@
 import { useState, useMemo } from 'react';
 import type { BlockTemplate, TemplateCategory } from '../types/blockTemplate';
 import { BLOCK_TEMPLATES, searchTemplates, getTemplatesByCategory } from '../data/blockTemplates';
+import { TemplatePreviewModal } from './TemplatePreviewModal';
 
 interface TemplateLibraryProps {
   onSelectTemplate: (template: BlockTemplate) => void;
@@ -35,6 +36,7 @@ export function TemplateLibrary({
 }: TemplateLibraryProps) {
   const [selectedCategory, setSelectedCategory] = useState<TemplateCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [previewTemplate, setPreviewTemplate] = useState<BlockTemplate | null>(null);
 
   // Filter templates based on category and search
   const filteredTemplates = useMemo(() => {
@@ -132,7 +134,7 @@ export function TemplateLibrary({
               {filteredTemplates.map((template) => (
                 <button
                   key={template.id}
-                  onClick={() => onSelectTemplate(template)}
+                  onClick={() => setPreviewTemplate(template)}
                   className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-blue-500 hover:shadow-lg transition-all text-left"
                 >
                   {/* Preview Image */}
@@ -219,10 +221,19 @@ export function TemplateLibrary({
         {/* Footer */}
         <div className="border-t border-gray-200 p-4 bg-gray-50">
           <p className="text-sm text-gray-600 text-center">
-            Click a template to insert it into your page
+            Click a template to preview and insert it into your page
           </p>
         </div>
       </div>
+
+      {/* Preview Modal */}
+      {previewTemplate && (
+        <TemplatePreviewModal
+          template={previewTemplate}
+          onInsert={() => onSelectTemplate(previewTemplate)}
+          onClose={() => setPreviewTemplate(null)}
+        />
+      )}
     </div>
   );
 }
