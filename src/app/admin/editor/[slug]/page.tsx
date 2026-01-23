@@ -91,13 +91,13 @@ export default function VisualEditorPage() {
   }
 
   return (
-    <EditorProvider initialBlocks={pageData.content.blocks} slug={slug}>
-      <ToastProvider>
+    <ToastProvider>
+      <EditorProvider initialBlocks={pageData.content.blocks} slug={slug}>
         <ValidationProvider>
           <EditorModeRouter />
         </ValidationProvider>
-      </ToastProvider>
-    </EditorProvider>
+      </EditorProvider>
+    </ToastProvider>
   );
 }
 
