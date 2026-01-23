@@ -44,6 +44,18 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
   }, [lastScrollY]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isAnchor: boolean) => {
+    // In editor mode, anchor links just scroll on the same page
+    if (isEditorMode && isAnchor) {
+      e.preventDefault();
+      const targetId = href.replace("/#", "");
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     if (!isAnchor) {
       e.preventDefault();
       setIsMobileMenuOpen(false);
