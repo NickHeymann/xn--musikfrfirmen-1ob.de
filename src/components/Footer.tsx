@@ -50,10 +50,17 @@ export default function Footer({
             <h4 className="text-base font-semibold text-black mb-6">Info</h4>
             <div className="space-y-3 text-[15px]">
               {footerLinks.info.map((link) => {
-                // In editor mode, convert page links to editor links
-                const editorHref = isEditorMode
+                const isAnchor = link.href.startsWith('/#');
+                
+                // In editor mode: only convert real pages to editor links, ignore anchors
+                const editorHref = isEditorMode && !isAnchor
                   ? `/admin/editor/${link.href.replace('/', '') || 'home'}`
                   : link.href;
+                
+                // In editor mode, don't render anchor links at all (they're for live site)
+                if (isEditorMode && isAnchor) {
+                  return null;
+                }
                 
                 return (
                   <p key={link.href}>

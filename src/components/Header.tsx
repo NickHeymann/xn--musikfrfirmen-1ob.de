@@ -44,14 +44,9 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
   }, [lastScrollY]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isAnchor: boolean) => {
-    // In editor mode, anchor links just scroll on the same page
+    // In editor mode, ignore anchor links completely (they're for live site only)
     if (isEditorMode && isAnchor) {
       e.preventDefault();
-      const targetId = href.replace("/#", "");
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
       setIsMobileMenuOpen(false);
       return;
     }
@@ -118,6 +113,11 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
 
             <nav className="header-nav hidden md:flex items-center gap-14">
               {navLinks.map((item, index) => {
+                // In editor mode, hide anchor links (they're for live site only)
+                if (isEditorMode && item.isAnchor) {
+                  return null;
+                }
+                
                 // In editor mode, convert page links to editor links
                 const editorHref = isEditorMode && !item.isAnchor
                   ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
@@ -191,6 +191,11 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
         >
           <div className="py-4 px-6">
             {navLinks.map((item) => {
+              // In editor mode, hide anchor links (they're for live site only)
+              if (isEditorMode && item.isAnchor) {
+                return null;
+              }
+              
               // In editor mode, convert page links to editor links
               const editorHref = isEditorMode && !item.isAnchor
                 ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
