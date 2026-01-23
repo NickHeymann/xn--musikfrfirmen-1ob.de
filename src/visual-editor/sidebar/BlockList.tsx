@@ -1,7 +1,8 @@
-'use client'
+"use client";
 
-import { GripVertical } from 'lucide-react'
-import { useEditor } from '../context/EditorContext'
+import { GripVertical } from "lucide-react";
+import { useEditor } from "../context/EditorContext";
+import type { Block } from "../types";
 import {
   DndContext,
   closestCenter,
@@ -10,18 +11,27 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from '@dnd-kit/core'
+} from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-function SortableBlockItem({ block, index }: { block: any; index: number }) {
-  const { selectBlock } = useEditor()
+interface SortableBlockItemProps {
+  block: Block;
+  index: number;
+  onDoubleClick: () => void;
+}
+
+function SortableBlockItem({
+  block,
+  index,
+  onDoubleClick,
+}: SortableBlockItemProps) {
+  const { selectBlock } = useEditor();
   const {
     attributes,
     listeners,
@@ -29,13 +39,13 @@ function SortableBlockItem({ block, index }: { block: any; index: number }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: block.id })
+  } = useSortable({ id: block.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-  }
+  };
 
   return (
     <div
@@ -43,34 +53,45 @@ function SortableBlockItem({ block, index }: { block: any; index: number }) {
       style={style}
       className="block-item"
       onClick={() => selectBlock(block.id)}
+      onDoubleClick={onDoubleClick}
     >
       <div {...attributes} {...listeners} className="drag-handle-wrapper">
         <GripVertical size={16} className="drag-handle" />
       </div>
       <span className="block-name">{block.type}</span>
     </div>
-  )
+  );
 }
 
-export function BlockList() {
-  const { blocks, reorderBlocks } = useEditor()
+interface BlockListProps {
+  onBlockDoubleClick?: () => void;
+}
+
+export function BlockList({ onBlockDoubleClick }: BlockListProps) {
+  const { blocks, reorderBlocks } = useEditor();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
-  )
+    }),
+  );
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-    if (!over || active.id === over.id) return
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    const oldIndex = blocks.findIndex(b => b.id === active.id)
-    const newIndex = blocks.findIndex(b => b.id === over.id)
+    const oldIndex = blocks.findIndex((b) => b.id === active.id);
+    const newIndex = blocks.findIndex((b) => b.id === over.id);
 
-    reorderBlocks(oldIndex, newIndex)
-  }
+    reorderBlocks(oldIndex, newIndex);
+  };
+
+  const handleDoubleClick = () => {
+    if (onBlockDoubleClick) {
+      onBlockDoubleClick();
+    }
+  };
 
   return (
     <div className="block-list">
@@ -80,14 +101,19 @@ export function BlockList() {
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={blocks.map(b => b.id)}
+          items={blocks.map((b) => b.id)}
           strategy={verticalListSortingStrategy}
         >
           {blocks.map((block, index) => (
-            <SortableBlockItem key={block.id} block={block} index={index} />
+            <SortableBlockItem
+              key={block.id}
+              block={block}
+              index={index}
+              onDoubleClick={handleDoubleClick}
+            />
           ))}
         </SortableContext>
       </DndContext>
     </div>
-  )
+  );
 }

@@ -1,59 +1,60 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useEditor } from '../../context/EditorContext'
-import { ChevronDown, ChevronUp, Trash2, Plus } from 'lucide-react'
+import { useState } from "react";
+import { useEditor } from "../../context/EditorContext";
+import { ChevronDown, ChevronUp, Trash2, Plus } from "lucide-react";
 
 interface ProcessStep {
-  number: number
-  title: string
-  description: string
+  number: number;
+  title: string;
+  description: string;
 }
 
 export function ProcessStepsEditor() {
-  const { blocks, selectedBlockId, updateBlock } = useEditor()
+  const { blocks, selectedBlockId, updateBlock } = useEditor();
 
-  const block = blocks.find((b) => b.id === selectedBlockId)
-  if (!block || block.type !== 'ProcessSteps') return null
+  const block = blocks.find((b) => b.id === selectedBlockId);
+  if (!block || block.type !== "ProcessSteps") return null;
 
-  const steps: ProcessStep[] = block.props.steps || [
-    { number: 1, title: 'Anfrage senden', description: 'Kontaktieren Sie uns mit Ihren Event-Details' },
-    { number: 2, title: 'Beratung', description: 'Wir besprechen Ihre Wünsche und erstellen ein Angebot' },
-    { number: 3, title: 'Event durchführen', description: 'Wir sorgen für unvergessliche Musik an Ihrem Event' },
-  ]
+  // Process steps are enriched from defaultBlockData.ts on load
+  const steps: ProcessStep[] = (block.props.steps as ProcessStep[]) || [];
 
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const handleStepChange = (index: number, field: keyof Omit<ProcessStep, 'number'>, value: string) => {
-    const updated = [...steps]
-    updated[index] = { ...updated[index], [field]: value }
-    updateBlock(block.id, { steps: updated })
-  }
+  const handleStepChange = (
+    index: number,
+    field: keyof Omit<ProcessStep, "number">,
+    value: string,
+  ) => {
+    const updated = [...steps];
+    updated[index] = { ...updated[index], [field]: value };
+    updateBlock(block.id, { steps: updated });
+  };
 
   const handleAddStep = () => {
     const newStep: ProcessStep = {
       number: steps.length + 1,
-      title: 'New Step',
-      description: 'Step description',
-    }
-    updateBlock(block.id, { steps: [...steps, newStep] })
-    setExpandedIndex(steps.length) // Auto-expand new step
-  }
+      title: "New Step",
+      description: "Step description",
+    };
+    updateBlock(block.id, { steps: [...steps, newStep] });
+    setExpandedIndex(steps.length); // Auto-expand new step
+  };
 
   const handleRemoveStep = (index: number) => {
-    const updated = steps.filter((_, i) => i !== index)
+    const updated = steps.filter((_, i) => i !== index);
     // Renumber remaining steps
     const renumbered = updated.map((step, i) => ({
       ...step,
       number: i + 1,
-    }))
-    updateBlock(block.id, { steps: renumbered })
-    if (expandedIndex === index) setExpandedIndex(null)
-  }
+    }));
+    updateBlock(block.id, { steps: renumbered });
+    if (expandedIndex === index) setExpandedIndex(null);
+  };
 
   const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index)
-  }
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
 
   return (
     <div className="block-editor">
@@ -61,7 +62,7 @@ export function ProcessStepsEditor() {
 
       <div className="steps-list">
         {steps.map((step, index) => {
-          const isExpanded = expandedIndex === index
+          const isExpanded = expandedIndex === index;
 
           return (
             <div key={index} className="step-card-item">
@@ -74,8 +75,8 @@ export function ProcessStepsEditor() {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      handleRemoveStep(index)
+                      e.stopPropagation();
+                      handleRemoveStep(index);
                     }}
                     className="icon-button-small danger"
                     title="Remove step"
@@ -99,19 +100,21 @@ export function ProcessStepsEditor() {
                       type="text"
                       value={step.title}
                       onChange={(e) =>
-                        handleStepChange(index, 'title', e.target.value)
+                        handleStepChange(index, "title", e.target.value)
                       }
                       className="editor-input"
                     />
                   </div>
 
                   <div className="editor-field">
-                    <label htmlFor={`step-description-${index}`}>Description</label>
+                    <label htmlFor={`step-description-${index}`}>
+                      Description
+                    </label>
                     <textarea
                       id={`step-description-${index}`}
                       value={step.description}
                       onChange={(e) =>
-                        handleStepChange(index, 'description', e.target.value)
+                        handleStepChange(index, "description", e.target.value)
                       }
                       className="editor-textarea"
                       rows={3}
@@ -120,18 +123,14 @@ export function ProcessStepsEditor() {
                 </div>
               )}
             </div>
-          )
+          );
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={handleAddStep}
-        className="add-step-button"
-      >
+      <button type="button" onClick={handleAddStep} className="add-step-button">
         <Plus size={16} />
         <span>Add Step</span>
       </button>
     </div>
-  )
+  );
 }

@@ -13,6 +13,9 @@ import { ViewMode } from '@/visual-editor/modes/ViewMode';
 import { EditMode } from '@/visual-editor/modes/EditMode';
 import { ModeToggle } from '@/visual-editor/components/ModeToggle';
 import { EditorProvider, useEditor } from '@/visual-editor/context/EditorContext';
+import { ToastProvider } from '@/visual-editor/context/ToastContext';
+import { ValidationProvider } from '@/visual-editor/context/ValidationContext';
+import { enrichBlocksWithDefaults } from '@/visual-editor/lib/defaultBlockData';
 import type { PageData } from '@/types/visual-editor';
 
 export default function VisualEditorPage() {
@@ -26,7 +29,18 @@ export default function VisualEditorPage() {
     async function loadPage() {
       try {
         const data = await api.pages.get(slug);
-        setPageData(data);
+
+        // Enrich blocks with default content from component files
+        // This ensures editor shows actual website content when API doesn't have overrides
+        const enrichedData = {
+          ...data,
+          content: {
+            ...data.content,
+            blocks: enrichBlocksWithDefaults(data.content.blocks),
+          },
+        };
+
+        setPageData(enrichedData);
       } catch (err) {
         console.error('Failed to load page:', err);
         setError('Failed to load page. Make sure the Laravel backend is running.');
@@ -78,7 +92,11 @@ export default function VisualEditorPage() {
 
   return (
     <EditorProvider initialBlocks={pageData.content.blocks} slug={slug}>
-      <EditorModeRouter />
+      <ToastProvider>
+        <ValidationProvider>
+          <EditorModeRouter />
+        </ValidationProvider>
+      </ToastProvider>
     </EditorProvider>
   );
 }

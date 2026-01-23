@@ -1,0 +1,12 @@
+# Ralph Progress Log
+Started: 2026-01-23
+
+## Codebase Patterns
+[Ralph will populate this with discovered patterns]
+
+## Key Files
+[Ralph will populate this with important file locations]
+
+---
+
+[Ralph will append progress after each story]

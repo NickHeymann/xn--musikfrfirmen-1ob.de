@@ -1,61 +1,54 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useEditor } from '../../context/EditorContext'
-import { ChevronDown, ChevronUp, Trash2, Plus, HelpCircle } from 'lucide-react'
+import { useState } from "react";
+import { useEditor } from "../../context/EditorContext";
+import { ChevronDown, ChevronUp, Trash2, Plus, HelpCircle } from "lucide-react";
+import { RichTextEditor } from "../../components/RichTextEditor";
 
 interface FAQItem {
-  question: string
-  answer: string
+  question: string;
+  answer: string;
+  hasLink?: boolean; // NEW: Flag for special link behavior
 }
 
 export function FAQEditor() {
-  const { blocks, selectedBlockId, updateBlock } = useEditor()
+  const { blocks, selectedBlockId, updateBlock, expandedFAQIndex, setExpandedFAQIndex } = useEditor();
 
-  const block = blocks.find((b) => b.id === selectedBlockId)
-  if (!block || block.type !== 'FAQ') return null
+  const block = blocks.find((b) => b.id === selectedBlockId);
+  if (!block || block.type !== "FAQ") return null;
 
-  const items: FAQItem[] = block.props.items || [
-    {
-      question: 'Wie lange im Voraus sollte ich buchen?',
-      answer: 'Wir empfehlen eine Buchung mindestens 3-6 Monate im Voraus.',
-    },
-    {
-      question: 'Welche Technik ist im Preis enthalten?',
-      answer: 'Alle notwendige Technik wie PA-Anlage, Mikrofone und Licht ist inklusive.',
-    },
-    {
-      question: 'Können Sie auch im Freien spielen?',
-      answer: 'Ja, wir haben Erfahrung mit Outdoor-Events und die passende Technik.',
-    },
-  ]
+  // FAQ items are enriched from defaultBlockData.ts on load
+  // This ensures we show all 7 actual FAQ items from the website
+  const items: FAQItem[] = (block.props.items as FAQItem[]) || [];
 
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-
-  const handleItemChange = (index: number, field: keyof FAQItem, value: string) => {
-    const updated = [...items]
-    updated[index] = { ...updated[index], [field]: value }
-    updateBlock(block.id, { items: updated })
-  }
+  const handleItemChange = (
+    index: number,
+    field: keyof FAQItem,
+    value: string | boolean,
+  ) => {
+    const updated = [...items];
+    updated[index] = { ...updated[index], [field]: value };
+    updateBlock(block.id, { items: updated });
+  };
 
   const handleAddItem = () => {
     const newItem: FAQItem = {
-      question: 'New Question?',
-      answer: 'Answer to the question.',
-    }
-    updateBlock(block.id, { items: [...items, newItem] })
-    setExpandedIndex(items.length) // Auto-expand new item
-  }
+      question: "New Question?",
+      answer: "Answer to the question.",
+    };
+    updateBlock(block.id, { items: [...items, newItem] });
+    setExpandedFAQIndex(items.length); // Auto-expand new item
+  };
 
   const handleRemoveItem = (index: number) => {
-    const updated = items.filter((_, i) => i !== index)
-    updateBlock(block.id, { items: updated })
-    if (expandedIndex === index) setExpandedIndex(null)
-  }
+    const updated = items.filter((_, i) => i !== index);
+    updateBlock(block.id, { items: updated });
+    if (expandedFAQIndex === index) setExpandedFAQIndex(null);
+  };
 
   const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index)
-  }
+    setExpandedFAQIndex(expandedFAQIndex === index ? null : index);
+  };
 
   return (
     <div className="block-editor">
@@ -63,7 +56,7 @@ export function FAQEditor() {
 
       <div className="faq-list">
         {items.map((item, index) => {
-          const isExpanded = expandedIndex === index
+          const isExpanded = expandedFAQIndex === index;
 
           return (
             <div key={index} className="faq-card-item">
@@ -76,8 +69,8 @@ export function FAQEditor() {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      handleRemoveItem(index)
+                      e.stopPropagation();
+                      handleRemoveItem(index);
                     }}
                     className="icon-button-small danger"
                     title="Remove FAQ item"
@@ -101,28 +94,24 @@ export function FAQEditor() {
                       type="text"
                       value={item.question}
                       onChange={(e) =>
-                        handleItemChange(index, 'question', e.target.value)
+                        handleItemChange(index, "question", e.target.value)
                       }
                       className="editor-input"
                     />
                   </div>
 
                   <div className="editor-field">
-                    <label htmlFor={`faq-answer-${index}`}>Answer</label>
-                    <textarea
-                      id={`faq-answer-${index}`}
+                    <RichTextEditor
+                      label="Answer"
                       value={item.answer}
-                      onChange={(e) =>
-                        handleItemChange(index, 'answer', e.target.value)
-                      }
-                      className="editor-textarea"
-                      rows={4}
+                      onChange={(html) => handleItemChange(index, "answer", html)}
+                      placeholder="Enter the answer with formatting..."
                     />
                   </div>
                 </div>
               )}
             </div>
-          )
+          );
         })}
       </div>
 
@@ -131,5 +120,5 @@ export function FAQEditor() {
         <span>Add FAQ Item</span>
       </button>
     </div>
-  )
+  );
 }

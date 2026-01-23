@@ -1,79 +1,63 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useEditor } from '../../context/EditorContext'
-import { ChevronDown, ChevronUp, Trash2, Plus, User } from 'lucide-react'
-import type { TeamMember } from '@/types'
+import { useState } from "react";
+import { useEditor } from "../../context/EditorContext";
+import { ChevronDown, ChevronUp, Trash2, Plus, User } from "lucide-react";
+import { MediaUploader } from "../../components/MediaUploader";
+import type { TeamMember } from "@/types";
 
 export function TeamSectionEditor() {
-  const { blocks, selectedBlockId, updateBlock } = useEditor()
+  const { blocks, selectedBlockId, updateBlock } = useEditor();
 
-  const block = blocks.find((b) => b.id === selectedBlockId)
-  if (!block || block.type !== 'TeamSection') return null
+  const block = blocks.find((b) => b.id === selectedBlockId);
+  if (!block || block.type !== "TeamSection") return null;
 
-  const members: TeamMember[] = block.props.teamMembers || [
-    {
-      name: 'Jonas Glamann',
-      role: 'Direkter Kontakt vor Ort',
-      roleSecondLine: 'Koordination von Band + Technik, Gitarrist',
-      image: '/images/team/jonas.png',
-      bioTitle: 'Der Kreative',
-      bioText: 'Hi, ich bin Jonas...',
-      imageClass: 'img1',
-      position: 'left' as const,
-    },
-    {
-      name: 'Nick Heymann',
-      role: 'Marketingspezialist',
-      roleSecondLine: 'Ansprechpartner und Videograf',
-      image: '/images/team/nick.png',
-      bioTitle: 'Der Macher',
-      bioText: 'Hi, ich bin Nick...',
-      imageClass: 'img2',
-      position: 'right' as const,
-    },
-  ]
+  // Team members are enriched from defaultBlockData.ts on load
+  const members: TeamMember[] = (block.props.teamMembers as TeamMember[]) || [];
 
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const handleMemberChange = (
     index: number,
     field: keyof TeamMember,
-    value: string
+    value: string,
   ) => {
-    const updated = [...members]
-    if (field === 'position') {
-      updated[index] = { ...updated[index], [field]: value as 'left' | 'right' }
+    const updated = [...members];
+    if (field === "position") {
+      updated[index] = {
+        ...updated[index],
+        [field]: value as "left" | "right",
+      };
     } else {
-      updated[index] = { ...updated[index], [field]: value }
+      updated[index] = { ...updated[index], [field]: value };
     }
-    updateBlock(block.id, { teamMembers: updated })
-  }
+    updateBlock(block.id, { teamMembers: updated });
+  };
 
   const handleAddMember = () => {
     const newMember: TeamMember = {
-      name: 'New Team Member',
-      role: 'Position',
-      roleSecondLine: 'Additional Role Info',
-      image: '/images/team/placeholder.png',
-      bioTitle: 'Bio Title',
-      bioText: 'Team member bio text...',
+      name: "New Team Member",
+      role: "Position",
+      roleSecondLine: "Additional Role Info",
+      image: "/images/team/placeholder.png",
+      bioTitle: "Bio Title",
+      bioText: "Team member bio text...",
       imageClass: `img${members.length + 1}`,
-      position: members.length % 2 === 0 ? 'left' : 'right',
-    }
-    updateBlock(block.id, { teamMembers: [...members, newMember] })
-    setExpandedIndex(members.length) // Auto-expand new member
-  }
+      position: members.length % 2 === 0 ? "left" : "right",
+    };
+    updateBlock(block.id, { teamMembers: [...members, newMember] });
+    setExpandedIndex(members.length); // Auto-expand new member
+  };
 
   const handleRemoveMember = (index: number) => {
-    const updated = members.filter((_, i) => i !== index)
-    updateBlock(block.id, { teamMembers: updated })
-    if (expandedIndex === index) setExpandedIndex(null)
-  }
+    const updated = members.filter((_, i) => i !== index);
+    updateBlock(block.id, { teamMembers: updated });
+    if (expandedIndex === index) setExpandedIndex(null);
+  };
 
   const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index)
-  }
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
 
   return (
     <div className="block-editor">
@@ -81,7 +65,7 @@ export function TeamSectionEditor() {
 
       <div className="team-list">
         {members.map((member, index) => {
-          const isExpanded = expandedIndex === index
+          const isExpanded = expandedIndex === index;
 
           return (
             <div key={index} className="team-card-item">
@@ -107,8 +91,8 @@ export function TeamSectionEditor() {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      handleRemoveMember(index)
+                      e.stopPropagation();
+                      handleRemoveMember(index);
                     }}
                     className="icon-button-small danger"
                     title="Remove team member"
@@ -132,7 +116,7 @@ export function TeamSectionEditor() {
                       type="text"
                       value={member.name}
                       onChange={(e) =>
-                        handleMemberChange(index, 'name', e.target.value)
+                        handleMemberChange(index, "name", e.target.value)
                       }
                       className="editor-input"
                     />
@@ -145,7 +129,7 @@ export function TeamSectionEditor() {
                       type="text"
                       value={member.role}
                       onChange={(e) =>
-                        handleMemberChange(index, 'role', e.target.value)
+                        handleMemberChange(index, "role", e.target.value)
                       }
                       className="editor-input"
                     />
@@ -160,25 +144,33 @@ export function TeamSectionEditor() {
                       type="text"
                       value={member.roleSecondLine}
                       onChange={(e) =>
-                        handleMemberChange(index, 'roleSecondLine', e.target.value)
+                        handleMemberChange(
+                          index,
+                          "roleSecondLine",
+                          e.target.value,
+                        )
                       }
                       className="editor-input"
                     />
                   </div>
 
-                  <div className="editor-field">
-                    <label htmlFor={`member-image-${index}`}>Image URL</label>
-                    <input
-                      id={`member-image-${index}`}
-                      type="text"
-                      value={member.image}
-                      onChange={(e) =>
-                        handleMemberChange(index, 'image', e.target.value)
+                  <MediaUploader
+                    label="Profile Image"
+                    value={member.image}
+                    onChange={(file) => {
+                      if (file) {
+                        // Create local preview URL
+                        // TODO: In production, upload to server and get URL
+                        const url = URL.createObjectURL(file);
+                        handleMemberChange(index, "image", url);
+                      } else {
+                        handleMemberChange(index, "image", "");
                       }
-                      className="editor-input"
-                      placeholder="/images/team/name.png"
-                    />
-                  </div>
+                    }}
+                    accept="image/*"
+                    maxSizeMB={2}
+                    type="image"
+                  />
 
                   <div className="editor-field">
                     <label htmlFor={`member-image-class-${index}`}>
@@ -189,7 +181,7 @@ export function TeamSectionEditor() {
                       type="text"
                       value={member.imageClass}
                       onChange={(e) =>
-                        handleMemberChange(index, 'imageClass', e.target.value)
+                        handleMemberChange(index, "imageClass", e.target.value)
                       }
                       className="editor-input"
                       placeholder="img1"
@@ -205,7 +197,7 @@ export function TeamSectionEditor() {
                       type="text"
                       value={member.bioTitle}
                       onChange={(e) =>
-                        handleMemberChange(index, 'bioTitle', e.target.value)
+                        handleMemberChange(index, "bioTitle", e.target.value)
                       }
                       className="editor-input"
                       placeholder="Der Kreative"
@@ -218,7 +210,7 @@ export function TeamSectionEditor() {
                       id={`member-bio-${index}`}
                       value={member.bioText}
                       onChange={(e) =>
-                        handleMemberChange(index, 'bioText', e.target.value)
+                        handleMemberChange(index, "bioText", e.target.value)
                       }
                       className="editor-textarea"
                       rows={4}
@@ -232,7 +224,7 @@ export function TeamSectionEditor() {
                       id={`member-position-${index}`}
                       value={member.position}
                       onChange={(e) =>
-                        handleMemberChange(index, 'position', e.target.value)
+                        handleMemberChange(index, "position", e.target.value)
                       }
                       className="editor-input"
                     >
@@ -243,14 +235,18 @@ export function TeamSectionEditor() {
                 </div>
               )}
             </div>
-          )
+          );
         })}
       </div>
 
-      <button type="button" onClick={handleAddMember} className="add-member-button">
+      <button
+        type="button"
+        onClick={handleAddMember}
+        className="add-member-button"
+      >
         <Plus size={16} />
         <span>Add Team Member</span>
       </button>
     </div>
-  )
+  );
 }

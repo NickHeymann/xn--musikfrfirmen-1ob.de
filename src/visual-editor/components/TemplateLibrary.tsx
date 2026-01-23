@@ -14,6 +14,8 @@ import { BLOCK_TEMPLATES, searchTemplates, getTemplatesByCategory } from '../dat
 interface TemplateLibraryProps {
   onSelectTemplate: (template: BlockTemplate) => void;
   onClose: () => void;
+  customTemplates?: BlockTemplate[];
+  onDeleteTemplate?: (templateId: string) => void;
 }
 
 const CATEGORIES: { value: TemplateCategory | 'all'; label: string }[] = [
@@ -25,13 +27,19 @@ const CATEGORIES: { value: TemplateCategory | 'all'; label: string }[] = [
   { value: 'custom', label: 'Custom' },
 ];
 
-export function TemplateLibrary({ onSelectTemplate, onClose }: TemplateLibraryProps) {
+export function TemplateLibrary({ 
+  onSelectTemplate, 
+  onClose,
+  customTemplates = [],
+  onDeleteTemplate,
+}: TemplateLibraryProps) {
   const [selectedCategory, setSelectedCategory] = useState<TemplateCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter templates based on category and search
   const filteredTemplates = useMemo(() => {
-    let templates = BLOCK_TEMPLATES;
+    // Combine system and custom templates
+    let templates = [...BLOCK_TEMPLATES, ...customTemplates];
 
     // Filter by category
     if (selectedCategory !== 'all') {
@@ -46,7 +54,7 @@ export function TemplateLibrary({ onSelectTemplate, onClose }: TemplateLibraryPr
     }
 
     return templates;
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, customTemplates]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
@@ -159,15 +167,43 @@ export function TemplateLibrary({ onSelectTemplate, onClose }: TemplateLibraryPr
 
                   {/* Template Info */}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                      {template.name}
-                    </h3>
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors flex-1">
+                        {template.name}
+                      </h3>
+                      {template.isCustom && onDeleteTemplate && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (confirm(`Delete template "${template.name}"?`)) {
+                              onDeleteTemplate(template.id);
+                            }
+                          }}
+                          className="text-gray-400 hover:text-red-600 transition-colors flex-shrink-0"
+                          title="Delete template"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-600 line-clamp-2">
                       {template.description}
                     </p>
                     <div className="mt-3 flex items-center justify-between">
                       <span className="text-xs text-gray-500 capitalize">
-                        {template.category}
+                        {template.category} {template.isCustom && '(Custom)'}
                       </span>
                       <span className="text-xs text-gray-500">
                         {template.blocks.length} block{template.blocks.length !== 1 ? 's' : ''}

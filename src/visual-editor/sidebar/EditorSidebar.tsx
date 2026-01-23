@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Save, Undo2, Redo2, Layout } from "lucide-react";
+import { Save, Undo2, Redo2, Layout, FileDown } from "lucide-react";
 import { useEditor } from "../context/EditorContext";
 import { useToast } from "../context/ToastContext";
 import { useValidationContext } from "../context/ValidationContext";
@@ -15,6 +15,8 @@ import { FAQEditor } from "./editors/FAQEditor";
 import { CTASectionEditor } from "./editors/CTASectionEditor";
 import { motion } from "framer-motion";
 import { TemplateLibrary } from "../components/TemplateLibrary";
+import { SaveTemplateModal } from "../components/SaveTemplateModal";
+import { useCustomTemplates } from "../hooks/useCustomTemplates";
 import type { BlockTemplate } from "../types/blockTemplate";
 
 type Tab = "blocks" | "properties";
@@ -41,9 +43,11 @@ export function EditorSidebar({ activeTab, setActiveTab }: EditorSidebarProps) {
   } = useEditor();
 
   const [isTemplateLibraryOpen, setIsTemplateLibraryOpen] = useState(false);
+  const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
 
   const { showToast } = useToast();
   const { validateAll } = useValidationContext();
+  const { customTemplates, addCustomTemplate, deleteCustomTemplate } = useCustomTemplates();
 
   const handleSave = async () => {
     // Validate all fields before saving
@@ -69,6 +73,17 @@ export function EditorSidebar({ activeTab, setActiveTab }: EditorSidebarProps) {
   const handleSelectTemplate = (template: BlockTemplate) => {
     insertTemplate(template);
     setIsTemplateLibraryOpen(false);
+  };
+
+  const handleSaveTemplate = (name: string, description: string, category: any) => {
+    const newTemplate = addCustomTemplate(name, description, category, blocks);
+    showToast("success", `Template "${name}" saved successfully!`);
+    setIsSaveTemplateModalOpen(false);
+  };
+
+  const handleDeleteTemplate = (templateId: string) => {
+    deleteCustomTemplate(templateId);
+    showToast("success", "Template deleted");
   };
 
   // Check if preview is updating (debouncing)
@@ -109,6 +124,14 @@ export function EditorSidebar({ activeTab, setActiveTab }: EditorSidebarProps) {
             title="Browse Templates"
           >
             <Layout size={16} />
+          </button>
+          <button
+            onClick={() => setIsSaveTemplateModalOpen(true)}
+            className="icon-button"
+            title="Save as Template"
+            disabled={blocks.length === 0}
+          >
+            <FileDown size={16} />
           </button>
         </div>
 
@@ -194,6 +217,16 @@ export function EditorSidebar({ activeTab, setActiveTab }: EditorSidebarProps) {
         <TemplateLibrary
           onSelectTemplate={handleSelectTemplate}
           onClose={() => setIsTemplateLibraryOpen(false)}
+          customTemplates={customTemplates}
+          onDeleteTemplate={handleDeleteTemplate}
+        />
+      )}
+
+      {/* Save Template Modal */}
+      {isSaveTemplateModalOpen && (
+        <SaveTemplateModal
+          onSave={handleSaveTemplate}
+          onClose={() => setIsSaveTemplateModalOpen(false)}
         />
       )}
     </motion.div>

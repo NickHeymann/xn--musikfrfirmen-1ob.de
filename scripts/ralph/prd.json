@@ -1,0 +1,194 @@
+{
+  "branchName": "ralph/block-templates",
+  "projectPath": ".",
+  "description": "Add block templates system to Visual Editor - pre-configured block layouts that users can insert with one click",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create BlockTemplate TypeScript types",
+      "description": "Define TypeScript interfaces for block templates",
+      "acceptanceCriteria": [
+        "Create src/types/blockTemplate.ts",
+        "Define BlockTemplate interface with: id, name, description, category, blocks, preview, metadata",
+        "Define TemplateCategory type: 'hero', 'features', 'testimonials', 'cta', 'custom'",
+        "Export types for use across app",
+        "npm run typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Foundation for all template features"
+    },
+    {
+      "id": "US-002",
+      "title": "Create default template definitions",
+      "description": "Define pre-configured block templates",
+      "acceptanceCriteria": [
+        "Create src/data/blockTemplates.ts",
+        "Define 5 default templates:",
+        "  1. Hero Section (headline + CTA)",
+        "  2. Feature Grid (3 columns)",
+        "  3. Testimonial Carousel",
+        "  4. CTA Banner",
+        "  5. Two-Column Layout",
+        "Each template includes preview image URL",
+        "Export as BLOCK_TEMPLATES constant",
+        "npm run typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Depends on US-001"
+    },
+    {
+      "id": "US-003",
+      "title": "Create TemplateLibrary component",
+      "description": "Build UI to browse and select templates",
+      "acceptanceCriteria": [
+        "Create src/components/TemplateLibrary.tsx",
+        "Display templates in grid layout (responsive)",
+        "Show preview image, name, description per template",
+        "Filter by category (tabs or dropdown)",
+        "Search functionality",
+        "Click template to insert blocks",
+        "Use Tailwind for styling (match existing design)",
+        "npm run typecheck passes",
+        "Visual check at /admin/pages/[id]/edit with template library open"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Depends on US-002"
+    },
+    {
+      "id": "US-004",
+      "title": "Add template insertion logic to EditorContext",
+      "description": "Implement function to insert template blocks into page",
+      "acceptanceCriteria": [
+        "Add insertTemplate(template: BlockTemplate, position?: number) to EditorContext",
+        "Generate unique IDs for inserted blocks",
+        "Insert at specified position or append to end",
+        "Add to undo history",
+        "Show success toast notification",
+        "Update EditorContext types",
+        "npm run typecheck passes",
+        "Manual test: Insert template, verify blocks appear, undo works"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Depends on US-001, integrates with existing editor"
+    },
+    {
+      "id": "US-005",
+      "title": "Add Template Library button to editor toolbar",
+      "description": "Make template library accessible from editor",
+      "acceptanceCriteria": [
+        "Add 'Templates' button to BlockEditor toolbar",
+        "Button opens modal/sidebar with TemplateLibrary",
+        "Position between 'Add Block' and 'Preview'",
+        "Use existing Icon component",
+        "Modal has close button and backdrop click to close",
+        "Keyboard accessible (ESC to close)",
+        "npm run typecheck passes",
+        "Visual check: Button appears, modal opens/closes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Depends on US-003, US-004"
+    },
+    {
+      "id": "US-006",
+      "title": "Add custom template saving (user-created)",
+      "description": "Allow users to save current page layout as custom template",
+      "acceptanceCriteria": [
+        "Add 'Save as Template' button to editor toolbar",
+        "Show modal with form: name, description, category",
+        "Validate form (name required, max 100 chars)",
+        "Save to localStorage as custom template",
+        "Custom templates appear in TemplateLibrary under 'Custom' category",
+        "Show delete option for custom templates",
+        "npm run typecheck passes",
+        "Manual test: Save template, verify appears in library, delete works"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Depends on US-005, localStorage implementation (future API integration)"
+    },
+    {
+      "id": "US-007",
+      "title": "Add template preview modal",
+      "description": "Show larger preview before inserting template",
+      "acceptanceCriteria": [
+        "Click template in library opens preview modal",
+        "Show larger preview image",
+        "Display full description",
+        "Show list of included blocks",
+        "Buttons: 'Insert Template' and 'Cancel'",
+        "Insert button calls insertTemplate from context",
+        "Responsive design",
+        "npm run typecheck passes",
+        "Visual check: Preview looks good, insert works"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Depends on US-003, US-004"
+    },
+    {
+      "id": "US-008",
+      "title": "Add template documentation",
+      "description": "Document block templates feature for users",
+      "acceptanceCriteria": [
+        "Create docs/features/BLOCK-TEMPLATES.md",
+        "Document: What are templates, How to use, How to create custom",
+        "Add screenshots (can be placeholders)",
+        "Update main README.md with templates feature",
+        "Update CHANGELOG.md with v1.1.0 entry",
+        "Update package.json version to 1.1.0",
+        "No typecheck errors"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Documentation for v1.1.0 release"
+    },
+    {
+      "id": "US-009",
+      "title": "Add template tests",
+      "description": "Write tests for template functionality",
+      "acceptanceCriteria": [
+        "Create tests for insertTemplate function",
+        "Test template data structure validation",
+        "Test custom template CRUD operations",
+        "Test template filtering/search",
+        "All tests pass: npm test",
+        "npm run typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Final validation"
+    },
+    {
+      "id": "US-010",
+      "title": "Integration testing and cleanup",
+      "description": "End-to-end testing and code cleanup",
+      "acceptanceCriteria": [
+        "Manual E2E test: Open editor, browse templates, insert, edit, save",
+        "Test all 5 default templates insert correctly",
+        "Test custom template save/load/delete flow",
+        "Remove any console.log statements",
+        "Check for unused imports",
+        "Verify no TypeScript 'any' types",
+        "npm run typecheck passes",
+        "npm run build succeeds",
+        "npm test passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Final quality check before merge"
+    }
+  ],
+  "metadata": {
+    "createdDate": "2026-01-23",
+    "totalStories": 10,
+    "completedStories": 0,
+    "estimatedIterations": 15,
+    "targetVersion": "1.1.0",
+    "notes": "Block Templates feature - ready for Ralph autonomous implementation"
+  }
+}

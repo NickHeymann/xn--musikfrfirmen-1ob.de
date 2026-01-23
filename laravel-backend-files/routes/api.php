@@ -23,6 +23,13 @@ Route::prefix('pages')->group(function () {
     Route::put('/{slug}', [PageController::class, 'update']);   // Update page
     Route::delete('/{slug}', [PageController::class, 'destroy']); // Delete page
 
-    // Media upload
+    // Media upload (legacy)
     Route::post('/media', [MediaController::class, 'upload']);  // Upload images
+});
+
+// Media API (temp upload workflow)
+Route::prefix('media')->group(function () {
+    Route::post('/upload-temp', [MediaController::class, 'uploadTemp']);     // Upload to temp
+    Route::post('/commit-temp', [MediaController::class, 'commitTemp']);     // Move temp to permanent
+    Route::delete('/temp/{tempId}', [MediaController::class, 'deleteTemp']); // Delete temp file
 });

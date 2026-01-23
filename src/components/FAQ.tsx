@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { FAQItem } from "@/types";
 import { faqItems as defaultFaqItems } from "@/data/faq";
+import DOMPurify from "dompurify";
 
 function FAQItemComponent({ item, isActive, onToggle }: { item: FAQItem; isActive: boolean; onToggle: () => void }) {
   const answerRef = useRef<HTMLDivElement>(null);
@@ -33,8 +34,46 @@ function FAQItemComponent({ item, isActive, onToggle }: { item: FAQItem; isActiv
     window.dispatchEvent(new CustomEvent("openMFFCalculator"));
   };
 
-  // Replace the link text with a clickable span
+  // Render answer as sanitized HTML (from rich text editor) or plain text
   const renderAnswer = (text: string, hasLink?: boolean) => {
+    // Check if text contains HTML tags (from rich text editor)
+    const isHTML = /<[a-z][\s\S]*>/i.test(text);
+
+    if (isHTML) {
+      // Sanitize and render HTML safely
+      const sanitized = DOMPurify.sanitize(text, {
+        ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'ul', 'ol', 'li', 'span', 'mark', 'div'],
+        ALLOWED_ATTR: ['href', 'class', 'style', 'data-*'],
+        ALLOWED_STYLES: {
+          '*': {
+            'color': [/^#([0-9a-fA-F]{3}){1,2}$/],
+            'background-color': [/^#([0-9a-fA-F]{3}){1,2}$/],
+            'font-size': [/^\d+(\.\d+)?(rem|em|px|%)$/],
+            'font-family': [/.*/],
+            'text-align': [/^(left|center|right|justify)$/],
+          },
+        },
+      });
+
+      return (
+        <div
+          dangerouslySetInnerHTML={{ __html: sanitized }}
+          onClick={(e) => {
+            // Handle clicks on links within rich text
+            const target = e.target as HTMLElement;
+            if (target.tagName === 'A') {
+              const href = target.getAttribute('href');
+              if (href === '#calculator' || target.textContent?.includes('Angebot anfragen')) {
+                e.preventDefault();
+                openCalculator(e as unknown as React.MouseEvent);
+              }
+            }
+          }}
+        />
+      );
+    }
+
+    // Fallback: Plain text rendering (for backward compatibility)
     if (hasLink) {
       const parts = text.split('"Unverbindliches Angebot anfragen"');
       return (
@@ -83,13 +122,24 @@ Unverbindliches Angebot anfragen
 
 interface FAQProps {
   faqItems?: FAQItem[];
+  externalActiveIndex?: number | null;
+  onToggle?: (index: number) => void;
 }
 
-export default function FAQ({ faqItems = defaultFaqItems }: FAQProps = {}) {
+export default function FAQ({ faqItems = defaultFaqItems, externalActiveIndex, onToggle }: FAQProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
+  // Use external index if provided (for editor sync)
+  const displayIndex = externalActiveIndex !== undefined ? externalActiveIndex : activeIndex;
+
   const handleToggle = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
+    const newIndex = displayIndex === index ? null : index;
+
+    if (onToggle) {
+      onToggle(index);
+    } else {
+      setActiveIndex(newIndex);
+    }
   };
 
   return (
@@ -102,7 +152,7 @@ export default function FAQ({ faqItems = defaultFaqItems }: FAQProps = {}) {
           <FAQItemComponent
             key={index}
             item={item}
-            isActive={activeIndex === index}
+            isActive={displayIndex === index}
             onToggle={() => handleToggle(index)}
           />
         ))}

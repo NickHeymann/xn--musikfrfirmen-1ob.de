@@ -134,7 +134,11 @@ echo ""
 echo "📁 Setting up storage..."
 php artisan storage:link
 mkdir -p storage/app/public/editor-images
+mkdir -p storage/app/temp
+mkdir -p storage/app/public/uploads/{hero,services,team,general}
 chmod -R 755 storage/app/public/editor-images
+chmod -R 755 storage/app/temp
+chmod -R 755 storage/app/public/uploads
 
 # Clear caches
 echo ""

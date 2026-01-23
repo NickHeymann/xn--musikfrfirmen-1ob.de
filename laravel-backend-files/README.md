@@ -98,10 +98,14 @@ curl http://localhost:8000/api/pages
 - `destroy($slug)` - Delete page
 
 **`app/Http/Controllers/MediaController.php`**
-- `upload()` - Upload & optimize images
-- Auto-converts to WebP
-- Resizes to max 2000px width
-- Stores in `storage/app/public/editor-images/`
+- `upload()` - Upload & optimize images (legacy)
+- `uploadTemp()` - Upload to temporary storage (preview)
+- `commitTemp()` - Move temp to permanent storage
+- `deleteTemp()` - Delete temporary file
+- Supports images (jpg, png, webp) and videos (mp4, webm)
+- Auto-converts images to WebP (legacy endpoint only)
+- Max 10MB file size
+- Stores in `storage/app/temp/` (temp) or `storage/app/public/uploads/{path}/` (permanent)
 
 ### Database
 
@@ -119,7 +123,10 @@ curl http://localhost:8000/api/pages
 
 **`routes/api.php`**
 - `/api/pages` - CRUD endpoints
-- `/api/pages/media` - Image upload
+- `/api/pages/media` - Image upload (legacy)
+- `/api/media/upload-temp` - Upload to temporary storage
+- `/api/media/commit-temp` - Commit temp file to permanent
+- `/api/media/temp/{tempId}` - Delete temp file
 
 ### Config
 
@@ -214,9 +221,21 @@ curl -X POST http://localhost:8000/api/pages \
   -H "Content-Type: application/json" \
   -d '{"title": "Test", "content": {"version": "1.0", "type": "page", "blocks": []}}'
 
-# Upload image
+# Upload image (legacy)
 curl -X POST http://localhost:8000/api/pages/media \
   -F "image=@test.jpg"
+
+# Upload temp file (new workflow)
+curl -X POST http://localhost:8000/api/media/upload-temp \
+  -F "file=@test.jpg"
+
+# Commit temp file
+curl -X POST http://localhost:8000/api/media/commit-temp \
+  -H "Content-Type: application/json" \
+  -d '{"tempId": "abc123", "path": "hero"}'
+
+# Delete temp file
+curl -X DELETE http://localhost:8000/api/media/temp/abc123
 ```
 
 ### PHPUnit Tests (Optional)

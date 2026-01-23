@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+
+  // Exclude example files from build (handled by TypeScript exclude in tsconfig.json)
 };
 
 export default nextConfig;
