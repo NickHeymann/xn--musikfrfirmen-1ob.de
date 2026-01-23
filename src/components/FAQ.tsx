@@ -43,16 +43,7 @@ function FAQItemComponent({ item, isActive, onToggle }: { item: FAQItem; isActiv
       // Sanitize and render HTML safely
       const sanitized = DOMPurify.sanitize(text, {
         ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'ul', 'ol', 'li', 'span', 'mark', 'div'],
-        ALLOWED_ATTR: ['href', 'class', 'style', 'data-*'],
-        ALLOWED_STYLES: {
-          '*': {
-            'color': [/^#([0-9a-fA-F]{3}){1,2}$/],
-            'background-color': [/^#([0-9a-fA-F]{3}){1,2}$/],
-            'font-size': [/^\d+(\.\d+)?(rem|em|px|%)$/],
-            'font-family': [/.*/],
-            'text-align': [/^(left|center|right|justify)$/],
-          },
-        },
+        ALLOWED_ATTR: ['href', 'class', 'target', 'rel'],
       });
 
       return (

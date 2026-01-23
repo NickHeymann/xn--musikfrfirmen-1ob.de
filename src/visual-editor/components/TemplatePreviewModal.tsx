@@ -108,11 +108,11 @@ export function TemplatePreviewModal({ template, onInsert, onClose }: TemplatePr
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-gray-900">{block.type}</p>
-                    {block.props.title && (
+                    {typeof block.props.title === 'string' ? (
                       <p className="text-sm text-gray-600">
-                        {String(block.props.title)}
+                        {block.props.title}
                       </p>
-                    )}
+                    ) : null}
                   </div>
                   <svg
                     className="w-5 h-5 text-gray-400"

@@ -98,7 +98,8 @@ export function useCustomTemplates() {
           return {
             ...template,
             metadata: {
-              ...template.metadata,
+              createdAt: template.metadata?.createdAt || new Date().toISOString(),
+              createdBy: template.metadata?.createdBy,
               usageCount: (template.metadata?.usageCount || 0) + 1,
               lastUsed: new Date().toISOString(),
             },
