@@ -113,33 +113,26 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
 
             <nav className="header-nav hidden md:flex items-center gap-14">
               {navLinks.map((item, index) => {
-                // In editor mode, hide anchor links (they're for live site only)
-                if (isEditorMode && item.isAnchor) {
-                  return null;
-                }
-                
-                // In editor mode, convert page links to editor links
+                // In editor mode, convert page links to editor links, keep anchors as-is
                 const editorHref = isEditorMode && !item.isAnchor
                   ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
                   : item.href;
-                
+
                 return (
                   <a
                     key={item.href}
                     href={editorHref}
-                    onClick={(e) => handleNavClick(e, editorHref, item.isAnchor && !isEditorMode)}
+                    onClick={(e) => handleNavClick(e, editorHref, item.isAnchor)}
                     className="text-[17px] font-light text-black hover:opacity-70 transition-opacity duration-200"
                     style={{ fontFamily: "'Poppins', sans-serif" }}
-                    {...(editable && {
-                      "data-editable": `navLinks.${index}.label`,
-                      contentEditable: _editableProps?.isEditing,
-                      suppressContentEditableWarning: true,
-                      onBlur: (e) => {
-                        if (_editableProps) {
-                          _editableProps.onContentChange(`navLinks.${index}.label`, e.currentTarget.textContent || '');
-                        }
+                    contentEditable={isEditorMode}
+                    suppressContentEditableWarning={true}
+                    onBlur={(e) => {
+                      // Save edited header text
+                      if (isEditorMode) {
+                        console.log('Header text changed:', e.currentTarget.textContent);
                       }
-                    })}
+                    }}
                   >
                     {item.label}
                   </a>
@@ -191,21 +184,16 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
         >
           <div className="py-4 px-6">
             {navLinks.map((item) => {
-              // In editor mode, hide anchor links (they're for live site only)
-              if (isEditorMode && item.isAnchor) {
-                return null;
-              }
-              
-              // In editor mode, convert page links to editor links
+              // In editor mode, convert page links to editor links, keep anchors as-is
               const editorHref = isEditorMode && !item.isAnchor
                 ? `/admin/editor/${item.href.replace('/', '') || 'home'}`
                 : item.href;
-              
+
               return (
                 <a
                   key={item.href}
                   href={editorHref}
-                  onClick={(e) => handleNavClick(e, editorHref, item.isAnchor && !isEditorMode)}
+                  onClick={(e) => handleNavClick(e, editorHref, item.isAnchor)}
                   className="block py-4 text-base font-normal text-black hover:opacity-70 transition-opacity"
                   style={{ fontFamily: "'Poppins', sans-serif" }}
                 >
