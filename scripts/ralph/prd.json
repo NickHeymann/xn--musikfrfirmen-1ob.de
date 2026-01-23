@@ -15,7 +15,7 @@
         "npm run typecheck passes"
       ],
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "notes": "Foundation for all template features"
     },
     {
@@ -35,7 +35,7 @@
         "npm run typecheck passes"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-001"
     },
     {
@@ -54,7 +54,7 @@
         "Visual check at /admin/pages/[id]/edit with template library open"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-002"
     },
     {
@@ -72,7 +72,7 @@
         "Manual test: Insert template, verify blocks appear, undo works"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-001, integrates with existing editor"
     },
     {
@@ -90,7 +90,7 @@
         "Visual check: Button appears, modal opens/closes"
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-003, US-004"
     },
     {
@@ -108,7 +108,7 @@
         "Manual test: Save template, verify appears in library, delete works"
       ],
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-005, localStorage implementation (future API integration)"
     },
     {
@@ -127,7 +127,7 @@
         "Visual check: Preview looks good, insert works"
       ],
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "notes": "Depends on US-003, US-004"
     },
     {
@@ -144,7 +144,7 @@
         "No typecheck errors"
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "notes": "Documentation for v1.1.0 release"
     },
     {
@@ -160,7 +160,7 @@
         "npm run typecheck passes"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "notes": "Final validation"
     },
     {
@@ -179,14 +179,14 @@
         "npm test passes"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "notes": "Final quality check before merge"
     }
   ],
   "metadata": {
     "createdDate": "2026-01-23",
     "totalStories": 10,
-    "completedStories": 0,
+    "completedStories": 10,
     "estimatedIterations": 15,
     "targetVersion": "1.1.0",
     "notes": "Block Templates feature - ready for Ralph autonomous implementation"
