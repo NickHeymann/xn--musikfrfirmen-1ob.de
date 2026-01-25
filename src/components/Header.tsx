@@ -1,5 +1,4 @@
 "use client";
-'use client';
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -10,7 +9,7 @@ import { basePath } from "@/lib/config";
 interface HeaderProps {
   editable?: boolean;
   _editableProps?: {
-    onContentChange: (path: string, value: any) => void;
+    onContentChange: (path: string, value: string) => void;
     isEditing: boolean;
   };
 }
@@ -75,6 +74,7 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
       }
     } else {
       // On other page - navigate to main page with anchor
+      // eslint-disable-next-line react-hooks/immutability
       window.location.href = `${basePath}/#${targetId}`;
     }
     setIsMobileMenuOpen(false);
@@ -112,7 +112,7 @@ export default function Header({ editable = false, _editableProps }: HeaderProps
             </div>
 
             <nav className="header-nav hidden md:flex items-center gap-14">
-              {navLinks.map((item, index) => {
+              {navLinks.map((item) => {
                 // In editor mode, convert page links to editor links, keep anchors as-is
                 const editorHref = isEditorMode && !item.isAnchor
                   ? `/admin/editor/${item.href.replace('/', '') || 'home'}`

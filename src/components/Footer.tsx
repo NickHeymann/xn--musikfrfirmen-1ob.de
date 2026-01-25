@@ -28,20 +28,46 @@ export default function Footer({
             </h4>
             <div className="space-y-3 text-[15px] text-black font-light">
               <p>
-                <a
-                  href={`mailto:${email}`}
-                  className="hover:underline transition-colors"
-                >
-                  {email}
-                </a>
+                {isEditorMode ? (
+                  <span
+                    className="cursor-text"
+                    contentEditable={true}
+                    suppressContentEditableWarning={true}
+                    onBlur={(e) => {
+                      console.log('Email text changed:', e.currentTarget.textContent);
+                    }}
+                  >
+                    {email}
+                  </span>
+                ) : (
+                  <a
+                    href={`mailto:${email}`}
+                    className="hover:underline transition-colors"
+                  >
+                    {email}
+                  </a>
+                )}
               </p>
               <p>
-                <a
-                  href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="hover:underline transition-colors"
-                >
-                  {phone}
-                </a>
+                {isEditorMode ? (
+                  <span
+                    className="cursor-text"
+                    contentEditable={true}
+                    suppressContentEditableWarning={true}
+                    onBlur={(e) => {
+                      console.log('Phone text changed:', e.currentTarget.textContent);
+                    }}
+                  >
+                    {phone}
+                  </span>
+                ) : (
+                  <a
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    className="hover:underline transition-colors"
+                  >
+                    {phone}
+                  </a>
+                )}
               </p>
             </div>
           </div>
@@ -50,17 +76,29 @@ export default function Footer({
             <h4 className="text-base font-semibold text-black mb-6">Info</h4>
             <div className="space-y-3 text-[15px]">
               {footerLinks.info.map((link) => {
-                const isAnchor = link.href.startsWith('/#');
+                // In editor mode: make text editable, no links
+                if (isEditorMode) {
+                  return (
+                    <p key={link.href}>
+                      <span
+                        className="text-black font-light cursor-text"
+                        contentEditable={true}
+                        suppressContentEditableWarning={true}
+                        onBlur={(e) => {
+                          console.log('Footer link text changed:', e.currentTarget.textContent);
+                        }}
+                      >
+                        {link.label}
+                      </span>
+                    </p>
+                  );
+                }
 
-                // In editor mode: only convert real pages to editor links, keep anchors as-is
-                const editorHref = isEditorMode && !isAnchor
-                  ? `/admin/editor/${link.href.replace('/', '') || 'home'}`
-                  : link.href;
-
+                // In live mode: normal links
                 return (
                   <p key={link.href}>
                     <Link
-                      href={editorHref}
+                      href={link.href}
                       className="text-black hover:underline transition-colors font-light"
                     >
                       {link.label}
@@ -75,7 +113,21 @@ export default function Footer({
 
       <div className="bg-black py-4">
         <p className="text-sm text-white text-center font-light" style={{ fontFamily: "'Poppins', sans-serif" }}>
-          © {new Date().getFullYear()} {companyName}
+          © {new Date().getFullYear()}{' '}
+          {isEditorMode ? (
+            <span
+              className="cursor-text"
+              contentEditable={true}
+              suppressContentEditableWarning={true}
+              onBlur={(e) => {
+                console.log('Company name changed:', e.currentTarget.textContent);
+              }}
+            >
+              {companyName}
+            </span>
+          ) : (
+            companyName
+          )}
         </p>
       </div>
     </footer>

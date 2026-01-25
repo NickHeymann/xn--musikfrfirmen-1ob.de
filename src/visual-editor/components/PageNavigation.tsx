@@ -15,6 +15,10 @@ interface PageNavigationProps {
   currentSlug: string;
 }
 
+// Pages that should appear in the navigation dropdown
+// Only show utility pages (ueber-uns, impressum, datenschutz) - exclude main content pages
+const EXCLUDED_SLUGS: string[] = ['home', 'services', 'faq', 'about'];
+
 export function PageNavigation({ currentSlug }: PageNavigationProps) {
   const [pages, setPages] = useState<Page[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +33,13 @@ export function PageNavigation({ currentSlug }: PageNavigationProps) {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api';
         const response = await fetch(`${apiUrl}/pages`);
         const data = await response.json();
-        setPages(data);
+
+        // Filter out excluded pages
+        const filteredPages = data.filter((page: Page) =>
+          !EXCLUDED_SLUGS.includes(page.slug)
+        );
+
+        setPages(filteredPages);
       } catch (error) {
         console.error('Failed to load pages:', error);
       }
