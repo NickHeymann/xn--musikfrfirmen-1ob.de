@@ -1,4 +1,4 @@
-# Ralph Guide für musikfuerfirmen Block Templates
+# Ralph Guide für musikfürfirmen.de Block Templates
 
 ## Was Ralph machen wird
 
@@ -21,7 +21,7 @@ Ralph wird **automatisch 10 User Stories** implementieren:
 ## Option 1: Interaktiv (Empfohlen zum Lernen) 🔄
 
 ```bash
-cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen"
+cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de"
 claude
 ```
 
@@ -44,7 +44,7 @@ In der Claude Session:
 ## Option 2: Background (Für Overnight/Away) 🤖
 
 ```bash
-cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen"
+cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de"
 
 # Starte Ralph im Hintergrund
 ~/.claude/scripts/ralph/ralph.sh 25 . &
@@ -175,14 +175,14 @@ claude
 
 **Interaktiv (jetzt mit Live-Output):**
 ```bash
-cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen"
+cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de"
 claude
 /ralph-loop Implement block templates following scripts/ralph/prd.json --max-iterations 20
 ```
 
 **Background (läuft ohne dich):**
 ```bash
-cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen"
+cd "/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de"
 ~/.claude/scripts/ralph/ralph.sh 25 .
 ```
 

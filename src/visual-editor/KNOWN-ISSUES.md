@@ -480,7 +480,7 @@ If you find a new issue during testing:
 
 **Primary Contact:** Nick Heymann
 **Development Team:** Claude Code (AI Assistant)
-**Repository:** github.com/NickHeymann/musikfuerfirmen
+**Repository:** github.com/NickHeymann/musikfürfirmen.de
 
 ---
 

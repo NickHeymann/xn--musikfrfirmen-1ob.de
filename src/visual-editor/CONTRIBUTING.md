@@ -27,8 +27,8 @@
 
 ```bash
 # Clone repository
-git clone git@github.com:NickHeymann/musikfuerfirmen.git
-cd musikfuerfirmen
+git clone git@github.com:NickHeymann/musikfürfirmen.de.git
+cd musikfürfirmen.de
 
 # Install dependencies
 npm install

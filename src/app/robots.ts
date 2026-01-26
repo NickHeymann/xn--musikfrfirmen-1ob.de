@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://nickheymann.github.io/musikfuerfirmen/sitemap.xml",
+    sitemap: "https://xn--musikfrfirmen-1ob.de/sitemap.xml",
   };
 }

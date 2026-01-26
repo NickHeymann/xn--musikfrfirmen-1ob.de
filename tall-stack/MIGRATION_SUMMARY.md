@@ -137,7 +137,7 @@ Successfully migrated musikfürfirmen.de from **Next.js (hardcoded content)** to
 ### Week 6: Deployment Preparation ✅
 
 **Production Setup:**
-- ✅ Admin user created (admin@musikfuerfirmen.de)
+- ✅ Admin user created (admin@musikfürfirmen.de.de)
 - ✅ Storage symlink configured
 - ✅ Team-members directory created
 - ✅ Production environment template created
@@ -411,7 +411,7 @@ $services = Service::active()
    
    Users: 2 admin users
    ├── test@example.com (Test User)
-   └── admin@musikfuerfirmen.de (Admin) ✅
+   └── admin@musikfürfirmen.de.de (Admin) ✅
 ```
 
 ### Admin Panel Routes
@@ -694,12 +694,12 @@ Select::make('position')->options(['left' => 'Left', 'right' => 'Right'])
 - **Laravel 12:** https://laravel.com/docs/12.x
 - **Filament 4:** https://filamentphp.com/docs/4.x
 - **Livewire 3:** https://livewire.laravel.com/docs/3.x
-- **Repository:** https://github.com/NickHeymann/musikfuerfirmen
+- **Repository:** https://github.com/NickHeymann/musikfürfirmen.de
 
 ### Support Contacts
 
 - **Developer:** Nick Heymann
-- **Repository:** github.com/NickHeymann/musikfuerfirmen
+- **Repository:** github.com/NickHeymann/musikfürfirmen.de
 - **Stack Overflow Tags:** laravel, filament, livewire
 
 ---

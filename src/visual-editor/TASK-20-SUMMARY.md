@@ -593,5 +593,5 @@ All comprehensive testing documentation has been created. The visual editor code
 
 **Created:** 2026-01-19
 **Author:** Claude Code
-**Project:** musikfuerfirmen.de
+**Project:** musikfürfirmen.de.de
 **Version:** 1.0

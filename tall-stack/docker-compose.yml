@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
   app:
-    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
-    container_name: musikfuerfirmen-app
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfürfirmen.de:latest
+    container_name: musikfürfirmen.de-app
     restart: unless-stopped
     working_dir: /var/www
     environment:
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_KEY=${APP_KEY}
-      - APP_URL=${APP_URL:-https://musikfuerfirmen.de}
+      - APP_URL=${APP_URL:-https://musikfürfirmen.de.de}
       - DB_CONNECTION=pgsql
       - DB_HOST=${DB_HOST:-91.99.177.238}
       - DB_PORT=${DB_PORT:-5432}
-      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_DATABASE=${DB_DATABASE:-musikfürfirmen.de}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - MAIL_MAILER=${MAIL_MAILER:-smtp}
@@ -23,8 +23,8 @@ services:
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-tls}
-      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-noreply@musikfuerfirmen.de}
-      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-musikfuerfirmen}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-noreply@musikfürfirmen.de.de}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-musikfürfirmen.de}
     volumes:
       - ./storage:/var/www/storage
     networks:
@@ -35,7 +35,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: musikfuerfirmen-nginx
+    container_name: musikfürfirmen.de-nginx
     restart: unless-stopped
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
@@ -50,18 +50,18 @@ services:
       - "traefik.docker.network=traefik-net"
 
       # HTTP router (redirects to HTTPS)
-      - "traefik.http.routers.musikfuerfirmen-http.rule=Host(`musikfuerfirmen.de`) || Host(`www.musikfuerfirmen.de`)"
-      - "traefik.http.routers.musikfuerfirmen-http.entrypoints=web"
-      - "traefik.http.routers.musikfuerfirmen-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.musikfürfirmen.de-http.rule=Host(`musikfürfirmen.de.de`) || Host(`www.musikfürfirmen.de.de`)"
+      - "traefik.http.routers.musikfürfirmen.de-http.entrypoints=web"
+      - "traefik.http.routers.musikfürfirmen.de-http.middlewares=redirect-to-https"
 
       # HTTPS router
-      - "traefik.http.routers.musikfuerfirmen.rule=Host(`musikfuerfirmen.de`) || Host(`www.musikfuerfirmen.de`)"
-      - "traefik.http.routers.musikfuerfirmen.entrypoints=websecure"
-      - "traefik.http.routers.musikfuerfirmen.tls=true"
-      - "traefik.http.routers.musikfuerfirmen.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.musikfürfirmen.de.rule=Host(`musikfürfirmen.de.de`) || Host(`www.musikfürfirmen.de.de`)"
+      - "traefik.http.routers.musikfürfirmen.de.entrypoints=websecure"
+      - "traefik.http.routers.musikfürfirmen.de.tls=true"
+      - "traefik.http.routers.musikfürfirmen.de.tls.certresolver=letsencrypt"
 
       # Service configuration
-      - "traefik.http.services.musikfuerfirmen.loadbalancer.server.port=80"
+      - "traefik.http.services.musikfürfirmen.de.loadbalancer.server.port=80"
 
       # Middleware for redirect
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
@@ -69,7 +69,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: musikfuerfirmen-redis
+    container_name: musikfürfirmen.de-redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
@@ -83,8 +83,8 @@ services:
       retries: 3
 
   queue:
-    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
-    container_name: musikfuerfirmen-queue
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfürfirmen.de:latest
+    container_name: musikfürfirmen.de-queue
     restart: unless-stopped
     working_dir: /var/www
     command: php artisan queue:work --tries=3 --timeout=90
@@ -95,7 +95,7 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=${DB_HOST:-91.99.177.238}
       - DB_PORT=${DB_PORT:-5432}
-      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_DATABASE=${DB_DATABASE:-musikfürfirmen.de}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=redis
@@ -108,8 +108,8 @@ services:
       - redis
 
   scheduler:
-    image: registry.git.nickheymann.de:5050/nickheymann/musikfuerfirmen:latest
-    container_name: musikfuerfirmen-scheduler
+    image: registry.git.nickheymann.de:5050/nickheymann/musikfürfirmen.de:latest
+    container_name: musikfürfirmen.de-scheduler
     restart: unless-stopped
     working_dir: /var/www
     command: >
@@ -124,7 +124,7 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=${DB_HOST:-91.99.177.238}
       - DB_PORT=${DB_PORT:-5432}
-      - DB_DATABASE=${DB_DATABASE:-musikfuerfirmen}
+      - DB_DATABASE=${DB_DATABASE:-musikfürfirmen.de}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:

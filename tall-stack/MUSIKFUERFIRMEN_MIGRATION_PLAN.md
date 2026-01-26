@@ -1,4 +1,4 @@
-# musikfuerfirmen.de - TALL Stack Migration Plan
+# musikfürfirmen.de.de - TALL Stack Migration Plan
 
 > **Status**: Ready to implement  
 > **Created**: 2026-01-10  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-**Goal**: Migrate musikfuerfirmen.de from Next.js to TALL Stack using proven patterns from kathrin-coaching project.
+**Goal**: Migrate musikfürfirmen.de.de from Next.js to TALL Stack using proven patterns from kathrin-coaching project.
 
 **Current State**:
 - ✅ Next.js frontend deployed (Apache, production)
@@ -63,7 +63,7 @@
 
 ## Database Schema Design
 
-Following kathrin-coaching patterns with musikfuerfirmen-specific adaptations.
+Following kathrin-coaching patterns with musikfürfirmen.de-specific adaptations.
 
 ### 1. Services Table
 
@@ -83,7 +83,7 @@ Schema::create('services', function (Blueprint $table) {
 });
 ```
 
-**Rationale**: Services in musikfuerfirmen are **process steps**, not traditional services like in kathrin-coaching. Structure reflects the current TypeScript data model.
+**Rationale**: Services in musikfürfirmen.de are **process steps**, not traditional services like in kathrin-coaching. Structure reflects the current TypeScript data model.
 
 ### 2. Team Members Table
 
@@ -387,7 +387,7 @@ Innerhalb von 24 Stunden hast du dein individuelles Angebot im Postfach.',
 
 ## Livewire Components Plan
 
-Following kathrin-coaching patterns with musikfuerfirmen-specific adaptations.
+Following kathrin-coaching patterns with musikfürfirmen.de-specific adaptations.
 
 ### 1. ServicesSection Component
 
@@ -598,7 +598,7 @@ class PageShow extends Component
 
 ## Filament Resources Plan
 
-Following kathrin-coaching patterns with musikfuerfirmen-specific adaptations.
+Following kathrin-coaching patterns with musikfürfirmen.de-specific adaptations.
 
 ### 1. ServiceResource
 
@@ -731,7 +731,7 @@ Following kathrin-coaching's sequential approach for compound learning.
 
 **Deliverables**:
 - ✅ TALL Stack deployed to Hetzner
-- ✅ musikfuerfirmen.de running on TALL Stack
+- ✅ musikfürfirmen.de.de running on TALL Stack
 - ✅ Next.js archived for 2-week rollback safety
 
 ---
@@ -751,11 +751,11 @@ Following kathrin-coaching's sequential approach for compound learning.
 1. Push to GitLab main branch
 2. GitLab CI/CD pipeline triggers
 3. Docker images built
-4. Deploy to Hetzner `/opt/apps/musikfuerfirmen/`
+4. Deploy to Hetzner `/opt/apps/musikfürfirmen.de/`
 5. Verify containers: `docker ps` (5 expected)
-6. Run migrations: `docker exec musikfuerfirmen-app php artisan migrate --force`
-7. Run seeders: `docker exec musikfuerfirmen-app php artisan db:seed --force`
-8. Clear cache: `docker exec musikfuerfirmen-app php artisan optimize:clear`
+6. Run migrations: `docker exec musikfürfirmen.de-app php artisan migrate --force`
+7. Run seeders: `docker exec musikfürfirmen.de-app php artisan db:seed --force`
+8. Clear cache: `docker exec musikfürfirmen.de-app php artisan optimize:clear`
 
 ### Post-Deployment Verification
 - [ ] Homepage loads
@@ -784,7 +784,7 @@ Following kathrin-coaching's sequential approach for compound learning.
 2. ✅ All Livewire components working
 3. ✅ All Filament resources working
 4. ✅ Deployed to Hetzner (91.99.177.238)
-5. ✅ musikfuerfirmen.de serving from TALL Stack
+5. ✅ musikfürfirmen.de.de serving from TALL Stack
 6. ✅ Tests passing (>80% coverage)
 7. ✅ No critical bugs
 8. ✅ Performance acceptable (< 2s page load)
@@ -798,9 +798,9 @@ Following kathrin-coaching's sequential approach for compound learning.
 
 ---
 
-## Comparison: kathrin-coaching vs musikfuerfirmen
+## Comparison: kathrin-coaching vs musikfürfirmen.de
 
-| Aspect | kathrin-coaching | musikfuerfirmen |
+| Aspect | kathrin-coaching | musikfürfirmen.de |
 |--------|------------------|-----------------|
 | **Content Source** | 168 HTML files | TypeScript config files |
 | **Content Volume** | High (blog, videos, quizzes, podcasts) | Low (services, team, FAQ, pages) |
@@ -810,7 +810,7 @@ Following kathrin-coaching's sequential approach for compound learning.
 | **Models** | 9 (BlogPost, Video, Quiz, Podcast, etc.) | 8 (Event, Booking, Service, Team, Page, FAQ, etc.) |
 | **Current Status** | Week 10 (Video Library 70%) | Not started (ready to begin) |
 
-**Key Insight**: musikfuerfirmen migration is significantly simpler due to smaller content scope and simpler data structure (TypeScript configs vs HTML parsing).
+**Key Insight**: musikfürfirmen.de migration is significantly simpler due to smaller content scope and simpler data structure (TypeScript configs vs HTML parsing).
 
 ---
 

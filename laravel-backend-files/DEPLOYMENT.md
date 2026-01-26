@@ -1,6 +1,6 @@
 # Laravel Backend Deployment Guide
 
-**Project:** musikfuerfirmen Visual Editor API
+**Project:** musikfürfirmen.de Visual Editor API
 **Date:** 2026-01-17
 
 ---
@@ -32,7 +32,7 @@ composer require fruitcake/laravel-cors  # If not already installed
 Copy the following files from `laravel-backend-files/` to your Laravel project:
 
 ```bash
-# From musikfuerfirmen/laravel-backend-files/ to your Laravel project
+# From musikfürfirmen.de/laravel-backend-files/ to your Laravel project
 
 # Models
 cp app/Models/Page.php /opt/laravel-backend/app/Models/
@@ -66,12 +66,12 @@ Edit `/opt/laravel-backend/.env`:
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=musikfuerfirmen
+DB_DATABASE=musikfürfirmen.de
 DB_USERNAME=your_db_user
 DB_PASSWORD=your_db_password
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfuerfirmen.de
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfürfirmen.de.de
 
 # File Storage
 FILESYSTEM_DISK=public
@@ -170,7 +170,7 @@ curl -X POST http://localhost:8000/api/pages/media \
 
 ## Step 7: Configure Next.js
 
-In your Next.js project (`musikfuerfirmen/`):
+In your Next.js project (`musikfürfirmen.de/`):
 
 ```bash
 # Create .env.local
@@ -178,7 +178,7 @@ cp .env.local.example .env.local
 
 # Edit .env.local
 NEXT_PUBLIC_API_URL=http://localhost:8000/api  # Development
-# NEXT_PUBLIC_API_URL=https://api.musikfuerfirmen.de/api  # Production
+# NEXT_PUBLIC_API_URL=https://api.musikfürfirmen.de.de/api  # Production
 ```
 
 ---
@@ -195,7 +195,7 @@ php artisan serve --host=0.0.0.0 --port=8000
 ### 2. Start Next.js Frontend
 
 ```bash
-cd /path/to/musikfuerfirmen
+cd /path/to/musikfürfirmen.de
 npm run dev
 ```
 
@@ -238,7 +238,7 @@ php artisan route:cache
 
 server {
     listen 80;
-    server_name api.musikfuerfirmen.de;
+    server_name api.musikfürfirmen.de.de;
 
     root /opt/laravel-backend/public;
     index index.php;
@@ -255,7 +255,7 @@ server {
 }
 
 # 3. Update Next.js .env.production
-NEXT_PUBLIC_API_URL=https://api.musikfuerfirmen.de/api
+NEXT_PUBLIC_API_URL=https://api.musikfürfirmen.de.de/api
 ```
 
 ### Option B: Separate Services
@@ -265,7 +265,7 @@ NEXT_PUBLIC_API_URL=https://api.musikfuerfirmen.de/api
 # Frontend: Deploy to Vercel (automatic via GitHub)
 
 # Update CORS in Laravel .env:
-CORS_ALLOWED_ORIGINS=https://musikfuerfirmen.de,https://musikfuerfirmen.vercel.app
+CORS_ALLOWED_ORIGINS=https://musikfürfirmen.de.de,https://musikfürfirmen.de.vercel.app
 ```
 
 ---
@@ -341,10 +341,10 @@ sudo apt-get install php8.2-gd  # or php8.2-imagick
 
 ```bash
 # Backup pages table
-pg_dump -U your_db_user -t pages musikfuerfirmen > pages_backup.sql
+pg_dump -U your_db_user -t pages musikfürfirmen.de > pages_backup.sql
 
 # Restore
-psql -U your_db_user musikfuerfirmen < pages_backup.sql
+psql -U your_db_user musikfürfirmen.de < pages_backup.sql
 ```
 
 ### Clear Caches

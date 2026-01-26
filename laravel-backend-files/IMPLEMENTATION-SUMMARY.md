@@ -213,7 +213,7 @@ const handleCancel = async () => {
 
 1. **Start Laravel Backend:**
    ```bash
-   cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+   cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
    php artisan serve --host=0.0.0.0 --port=8001
    ```
 
@@ -294,7 +294,7 @@ cd laravel-backend-files
 ./setup-local.sh
 
 # 2. Start server
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 php artisan serve --host=0.0.0.0 --port=8001
 
 # 3. Test
@@ -305,14 +305,14 @@ php artisan serve --host=0.0.0.0 --port=8001
 ```bash
 # Add to docker-compose.yml
 services:
-  musikfuerfirmen-api:
+  musikfürfirmen.de-api:
     image: php:8.2-fpm
     volumes:
       - ./laravel-backend:/var/www/html
       - ./storage:/var/www/html/storage
     environment:
       - DB_CONNECTION=pgsql
-      - CORS_ALLOWED_ORIGINS=https://musikfuerfirmen.de
+      - CORS_ALLOWED_ORIGINS=https://musikfürfirmen.de.de
 ```
 
 See `DEPLOYMENT.md` for full production deployment guide.

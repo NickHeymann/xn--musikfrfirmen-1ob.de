@@ -1,3 +1,9 @@
+# Tech Stack Detection
+
+## Detected Technologies
+
+### JavaScript/Node.js
+```json
 {
   "name": "musikfürfirmen.de",
   "version": "1.1.0",
@@ -28,28 +34,6 @@
     "@tiptap/pm": "^3.15.3",
     "@tiptap/react": "^3.15.3",
     "@tiptap/starter-kit": "^3.15.3",
-    "@vercel/analytics": "^1.5.0",
-    "clsx": "^2.1.1",
-    "destack": "^3.0.8",
-    "dompurify": "^3.3.1",
-    "framer-motion": "^12.23.24",
-    "lucide-react": "^0.562.0",
-    "nanoid": "^5.1.6",
-    "next": "16.0.5",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "use-debounce": "^10.1.0",
-    "zod": "^4.3.5"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/dompurify": "^3.0.5",
-    "@types/node": "^20.19.29",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.5",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
-}
+```
+
+- **Framework:** Next.js

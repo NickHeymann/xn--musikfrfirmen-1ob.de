@@ -1,6 +1,6 @@
 # Laravel Backend Files for Visual Editor
 
-**Project:** musikfuerfirmen Visual Editor API
+**Project:** musikfürfirmen.de Visual Editor API
 **Date:** 2026-01-17
 
 ---
@@ -54,7 +54,7 @@ composer require fruitcake/laravel-cors
 ```bash
 # Edit .env
 DB_CONNECTION=pgsql
-CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfuerfirmen.de
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfürfirmen.de.de
 ```
 
 ### 4. Run Migration
@@ -146,12 +146,12 @@ curl http://localhost:8000/api/pages
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=musikfuerfirmen
+DB_DATABASE=musikfürfirmen.de
 DB_USERNAME=your_db_user
 DB_PASSWORD=your_db_password
 
 # CORS
-CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfuerfirmen.de
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfürfirmen.de.de
 
 # Storage
 FILESYSTEM_DISK=public

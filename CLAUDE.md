@@ -7,7 +7,7 @@
 Website für **musikfürfirmen.de** – Livebands, DJs und Technik für Firmenevents.
 
 ## Repo & Hosting
-- **GitHub**: github.com/NickHeymann/musikfuerfirmen
+- **GitHub**: github.com/NickHeymann/musikfürfirmen.de
 - **Branch**: main
 
 ## Stack

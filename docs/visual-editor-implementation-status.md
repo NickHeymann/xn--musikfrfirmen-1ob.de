@@ -1,7 +1,7 @@
 # Visual Editor Implementation Status
 
 **Date:** 2026-01-17
-**Project:** musikfuerfirmen.de
+**Project:** musikfürfirmen.de.de
 **Status:** Frontend Complete ✅ | Backend Pending ⏳
 
 ---
@@ -119,7 +119,7 @@ Route::prefix('pages')->group(function () {
 // config/cors.php
 'allowed_origins' => [
     'http://localhost:3000',
-    'https://musikfuerfirmen.de',
+    'https://musikfürfirmen.de.de',
 ],
 ```
 
@@ -188,7 +188,7 @@ php artisan serve --host=0.0.0.0 --port=8000
 
 ### 2. Start Frontend
 ```bash
-cd musikfuerfirmen
+cd musikfürfirmen.de
 npm run dev
 ```
 
@@ -210,7 +210,7 @@ http://localhost:3000/admin/pages
 ## 📁 File Structure
 
 ```
-musikfuerfirmen/
+musikfürfirmen.de/
 ├── src/
 │   ├── types/
 │   │   └── visual-editor.ts ✅

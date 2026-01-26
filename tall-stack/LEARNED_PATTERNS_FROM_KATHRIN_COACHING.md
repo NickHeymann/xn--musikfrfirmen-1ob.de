@@ -1,6 +1,6 @@
 # Learned Patterns from kathrin-coaching Migration
 
-> **Purpose**: Document key patterns learned from kathrin-coaching TALL Stack migration to apply to musikfuerfirmen  
+> **Purpose**: Document key patterns learned from kathrin-coaching TALL Stack migration to apply to musikfürfirmen.de  
 > **Source**: kathrin-coaching-github project (Week 10 of 18, 58% complete)  
 > **Created**: 2026-01-10
 
@@ -8,9 +8,9 @@
 
 ## Executive Summary
 
-kathrin-coaching uses a **HtmlContentSeeder** to import 168 HTML files into a PostgreSQL database with 9 tables. musikfuerfirmen will adapt this pattern using a **NextJsContentSeeder** to import TypeScript config files into 8 tables.
+kathrin-coaching uses a **HtmlContentSeeder** to import 168 HTML files into a PostgreSQL database with 9 tables. musikfürfirmen.de will adapt this pattern using a **NextJsContentSeeder** to import TypeScript config files into 8 tables.
 
-**Key Difference**: kathrin-coaching parses complex HTML with Symfony DomCrawler, musikfuerfirmen uses simple hardcoded arrays from TypeScript data.
+**Key Difference**: kathrin-coaching parses complex HTML with Symfony DomCrawler, musikfürfirmen.de uses simple hardcoded arrays from TypeScript data.
 
 ---
 
@@ -50,7 +50,7 @@ DB::table('services')->insert([
 ]);
 ```
 
-### musikfuerfirmen: NextJsContentSeeder
+### musikfürfirmen.de: NextJsContentSeeder
 
 **Source**: `tall-stack/database/seeders/NextJsContentSeeder.php` (created in MUSIKFUERFIRMEN_MIGRATION_PLAN.md)
 
@@ -131,7 +131,7 @@ $table->timestamps();
 - **Unique slugs** for SEO-friendly URLs
 - **Timestamps** for auditing
 
-### musikfuerfirmen Schema
+### musikfürfirmen.de Schema
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md`
 
@@ -147,7 +147,7 @@ $table->timestamps();
 
 **Key Differences**:
 - **Simpler schema** (no blog, videos, podcasts, quizzes)
-- **Custom fields** for musikfuerfirmen needs:
+- **Custom fields** for musikfürfirmen.de needs:
   - `services.highlight` (highlighted text in process steps)
   - `team_members.position` (left/right/center for layout)
   - `team_members.bio_title` ("Der Kreative", "Der Macher")
@@ -205,7 +205,7 @@ class VideoLibrary extends Component
 }
 ```
 
-### musikfuerfirmen: FAQSection Component
+### musikfürfirmen.de: FAQSection Component
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md`
 
@@ -286,7 +286,7 @@ public static function table(Table $table): Table
 }
 ```
 
-### musikfuerfirmen: FAQ Resource
+### musikfürfirmen.de: FAQ Resource
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md`
 
@@ -323,7 +323,7 @@ public static function form(Form $form): Form
 
 **Source**: `ULTRATHINK-SEQUENTIAL-IMPLEMENTATION.md` (1760 lines)
 
-**Total Duration**: 25 weeks (18 for kathrin-coaching, 4 for musikfuerfirmen, 3 for nickheymann)
+**Total Duration**: 25 weeks (18 for kathrin-coaching, 4 for musikfürfirmen.de, 3 for nickheymann)
 
 **Phases for kathrin-coaching** (Weeks 1-18):
 1. **Setup** (Week 1) - Laravel, Filament, database setup ✅
@@ -338,7 +338,7 @@ public static function form(Form $form): Form
 
 **Key Insight**: Sequential approach allows **compound learning** - each phase builds on previous patterns.
 
-### musikfuerfirmen Timeline
+### musikfürfirmen.de Timeline
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md`
 
@@ -391,7 +391,7 @@ it('can filter videos by category', function () {
 });
 ```
 
-### musikfuerfirmen Approach
+### musikfürfirmen.de Approach
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md` (Week 5)
 
@@ -424,7 +424,7 @@ it('can filter videos by category', function () {
 4. Run migrations + seeders
 5. Verify containers running
 
-### musikfuerfirmen Deployment
+### musikfürfirmen.de Deployment
 
 **Source**: `MUSIKFUERFIRMEN_MIGRATION_PLAN.md` (Week 6)
 
@@ -437,10 +437,10 @@ it('can filter videos by category', function () {
 **Deployment Steps**:
 1. Push to GitLab main branch
 2. CI/CD builds Docker images
-3. Deploy to `/opt/apps/musikfuerfirmen/`
-4. Run migrations: `docker exec musikfuerfirmen-app php artisan migrate --force`
-5. Run seeders: `docker exec musikfuerfirmen-app php artisan db:seed --force`
-6. Clear cache: `docker exec musikfuerfirmen-app php artisan optimize:clear`
+3. Deploy to `/opt/apps/musikfürfirmen.de/`
+4. Run migrations: `docker exec musikfürfirmen.de-app php artisan migrate --force`
+5. Run seeders: `docker exec musikfürfirmen.de-app php artisan db:seed --force`
+6. Clear cache: `docker exec musikfürfirmen.de-app php artisan optimize:clear`
 
 **Rollback Safety**:
 - Archive Next.js frontend to `_archive/nextjs-frontend-deprecated-2026-01-10/`
@@ -453,7 +453,7 @@ it('can filter videos by category', function () {
 
 ## Key Differences Summary
 
-| Aspect | kathrin-coaching | musikfuerfirmen |
+| Aspect | kathrin-coaching | musikfürfirmen.de |
 |--------|------------------|-----------------|
 | **Content Source** | 168 HTML files | TypeScript config files |
 | **Seeder Complexity** | High (HTML parsing, regex) | Low (hardcoded arrays) |
@@ -466,7 +466,7 @@ it('can filter videos by category', function () {
 
 ---
 
-## Patterns Applied to musikfuerfirmen
+## Patterns Applied to musikfürfirmen.de
 
 1. **Content Seeder**: HtmlContentSeeder → **NextJsContentSeeder** (simpler, no HTML parsing)
 2. **Database Schema**: JSON columns, enum status, unique slugs → **Applied to Service, TeamMember, Page, FAQ**
@@ -481,7 +481,7 @@ it('can filter videos by category', function () {
 ## Lessons Learned
 
 1. **Start with kathrin-coaching patterns** - Don't reinvent the wheel
-2. **Adapt, don't copy** - musikfuerfirmen needs simpler implementation
+2. **Adapt, don't copy** - musikfürfirmen.de needs simpler implementation
 3. **Sequential > Parallel** - Compound learning is more efficient
 4. **Test coverage matters** - >80% requirement ensures quality
 5. **Rollback safety** - Keep old frontend for 2 weeks as insurance
@@ -490,7 +490,7 @@ it('can filter videos by category', function () {
 
 ---
 
-## Next Steps for musikfuerfirmen
+## Next Steps for musikfürfirmen.de
 
 1. **Week 1**: Create migrations + models
 2. **Week 2**: Create NextJsContentSeeder + extract page content
@@ -505,4 +505,4 @@ it('can filter videos by category', function () {
 
 **Last Updated**: 2026-01-10  
 **Source Project**: kathrin-coaching (Week 10 of 18, 58% complete)  
-**Target Project**: musikfuerfirmen (Ready to implement)
+**Target Project**: musikfürfirmen.de (Ready to implement)

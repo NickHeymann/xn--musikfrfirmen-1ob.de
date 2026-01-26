@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Build a visual editor for musikfuerfirmen.de with Edit/View mode toggle, TipTap integration, hierarchical drag-and-drop, and optimistic updates.
+**Goal:** Build a visual editor for musikfürfirmen.de.de with Edit/View mode toggle, TipTap integration, hierarchical drag-and-drop, and optimistic updates.
 
 **Architecture:** Separate Edit and View modes with sidebar editor (70% preview / 30% sidebar), block-specific editors, array inputs for animated content, media upload with preview capability.
 

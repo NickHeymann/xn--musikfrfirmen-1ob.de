@@ -1,6 +1,6 @@
 # Visual Editor - Quick Start Guide
 
-**5-Minute Setup** | musikfuerfirmen.de
+**5-Minute Setup** | musikfürfirmen.de.de
 
 ---
 
@@ -13,7 +13,7 @@
 cd /opt/laravel-backend
 
 # Copy backend files
-cp -r /path/to/musikfuerfirmen/laravel-backend-files/* .
+cp -r /path/to/musikfürfirmen.de/laravel-backend-files/* .
 
 # Install dependencies
 composer require intervention/image
@@ -21,7 +21,7 @@ composer require intervention/image
 # Configure database
 # Edit .env:
 DB_CONNECTION=pgsql
-DB_DATABASE=musikfuerfirmen
+DB_DATABASE=musikfürfirmen.de
 CORS_ALLOWED_ORIGINS=http://localhost:3000
 
 # Run migrations
@@ -36,7 +36,7 @@ php artisan serve --host=0.0.0.0 --port=8000
 ### Step 2: Setup Next.js Frontend (1 min)
 
 ```bash
-cd musikfuerfirmen
+cd musikfürfirmen.de
 
 # Create environment file
 cp .env.local.example .env.local

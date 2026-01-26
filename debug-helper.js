@@ -518,7 +518,7 @@
             // Example: http://localhost:3000/about → musikfuerfirmen (if port 3000)
             const port = window.location.port;
             const projectMap = {
-                '3000': 'musikfuerfirmen',
+                '3000': 'musikfürfirmen',
                 '8080': 'kathrin-coaching',
                 '5173': 'dasgrossedatebuch'
             };

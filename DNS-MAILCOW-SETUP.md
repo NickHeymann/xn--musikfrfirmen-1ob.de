@@ -1,8 +1,8 @@
-# DNS-Konfiguration für musikfuerfirmen.de mit Mailcow
+# DNS-Konfiguration für musikfürfirmen.de.de mit Mailcow
 
 > **Server**: Hetzner CX32 @ 91.99.177.238
 > **Referenz**: nickheymann.de DNS-Einträge (funktionierend)
-> **Mailcow Admin**: https://mail.musikfuerfirmen.de (nach DNS-Setup)
+> **Mailcow Admin**: https://mail.musikfürfirmen.de.de (nach DNS-Setup)
 
 ---
 
@@ -12,12 +12,12 @@
 |-----|------|------|-----|-----------|-------|
 | **A** | `mail` | `91.99.177.238` | 3600 | - | Mail-Server |
 | **A** | `*` (Wildcard) | `91.99.177.238` | 300 | - | Alle Subdomains → Server |
-| **MX** | `@` | `mail.musikfuerfirmen.de.` | 3600 | 10 | Mail-Empfang |
-| **CNAME** | `autoconfig` | `mail.musikfuerfirmen.de.` | 3600 | - | Thunderbird Autoconfig |
-| **CNAME** | `autodiscover` | `mail.musikfuerfirmen.de.` | 3600 | - | Outlook Autodiscover |
+| **MX** | `@` | `mail.musikfürfirmen.de.de.` | 3600 | 10 | Mail-Empfang |
+| **CNAME** | `autoconfig` | `mail.musikfürfirmen.de.de.` | 3600 | - | Thunderbird Autoconfig |
+| **CNAME** | `autodiscover` | `mail.musikfürfirmen.de.de.` | 3600 | - | Outlook Autodiscover |
 | **TXT** | `@` | `v=spf1 mx ~all` | 3600 | - | SPF Anti-Spam |
 | **TXT** | `dkim._domainkey` | `v=DKIM1; k=rsa; p=<PUBLIC_KEY>` | 3600 | - | DKIM Signatur |
-| **TXT** | `_dmarc` | `v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfuerfirmen.de` | 3600 | - | DMARC Policy |
+| **TXT** | `_dmarc` | `v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfürfirmen.de.de` | 3600 | - | DMARC Policy |
 
 ---
 
@@ -31,7 +31,7 @@
 2. Mailcow UI öffnen: https://mail.91.99.177.238.nip.io
 3. Login mit Admin-Credentials
 4. Navigation: Configuration → Mailcow Config → DKIM Keys
-5. Domain "musikfuerfirmen.de" hinzufügen (falls nicht vorhanden)
+5. Domain "musikfürfirmen.de.de" hinzufügen (falls nicht vorhanden)
 6. Public Key kopieren (Format: "v=DKIM1; k=rsa; p=MIIBIjA...")
 ```
 
@@ -45,16 +45,16 @@ docker ps | grep mailcow
 
 # DKIM Key generieren (falls nicht vorhanden)
 cd /opt/mailcow-dockerized
-./generate_config.sh dkim musikfuerfirmen.de
+./generate_config.sh dkim musikfürfirmen.de.de
 
 # Public Key anzeigen
 docker exec -it $(docker ps -qf name=rspamd-mailcow) \
-  cat /var/lib/rspamd/dkim/musikfuerfirmen.de.dkim.txt
+  cat /var/lib/rspamd/dkim/musikfürfirmen.de.de.dkim.txt
 ```
 
 **Erwartete Ausgabe:**
 ```
-musikfuerfirmen.de._domainkey IN TXT ( "v=DKIM1; k=rsa; "
+musikfürfirmen.de.de._domainkey IN TXT ( "v=DKIM1; k=rsa; "
   "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA..." ) ;
 ```
 
@@ -66,12 +66,12 @@ musikfuerfirmen.de._domainkey IN TXT ( "v=DKIM1; k=rsa; "
 
 #### A Records
 ```
-Name: mail.musikfuerfirmen.de
+Name: mail.musikfürfirmen.de.de
 Type: A
 Value: 91.99.177.238
 TTL: 3600
 
-Name: *.musikfuerfirmen.de
+Name: *.musikfürfirmen.de.de
 Type: A
 Value: 91.99.177.238
 TTL: 300
@@ -81,7 +81,7 @@ TTL: 300
 ```
 Name: @ (Root Domain)
 Type: MX
-Value: 10 mail.musikfuerfirmen.de.
+Value: 10 mail.musikfürfirmen.de.de.
 TTL: 3600
 Priority: 10
 ```
@@ -89,14 +89,14 @@ Priority: 10
 
 #### CNAME Records
 ```
-Name: autoconfig.musikfuerfirmen.de
+Name: autoconfig.musikfürfirmen.de.de
 Type: CNAME
-Value: mail.musikfuerfirmen.de.
+Value: mail.musikfürfirmen.de.de.
 TTL: 3600
 
-Name: autodiscover.musikfuerfirmen.de
+Name: autodiscover.musikfürfirmen.de.de
 Type: CNAME
-Value: mail.musikfuerfirmen.de.
+Value: mail.musikfürfirmen.de.de.
 TTL: 3600
 ```
 
@@ -123,7 +123,7 @@ TTL: 3600
 ```
 Name: _dmarc
 Type: TXT
-Value: v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfuerfirmen.de
+Value: v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfürfirmen.de.de
 TTL: 3600
 ```
 
@@ -133,16 +133,16 @@ TTL: 3600
 
 ```bash
 # SPF Check
-dig +short TXT musikfuerfirmen.de | grep spf1
+dig +short TXT musikfürfirmen.de.de | grep spf1
 
 # MX Check
-dig +short MX musikfuerfirmen.de
+dig +short MX musikfürfirmen.de.de
 
 # DKIM Check
-dig +short TXT dkim._domainkey.musikfuerfirmen.de
+dig +short TXT dkim._domainkey.musikfürfirmen.de.de
 
 # DMARC Check
-dig +short TXT _dmarc.musikfuerfirmen.de
+dig +short TXT _dmarc.musikfürfirmen.de.de
 ```
 
 **Erwartete Ausgaben:**
@@ -151,13 +151,13 @@ dig +short TXT _dmarc.musikfuerfirmen.de
 "v=spf1 mx ~all"
 
 # MX
-10 mail.musikfuerfirmen.de.
+10 mail.musikfürfirmen.de.de.
 
 # DKIM
 "v=DKIM1; k=rsa; p=MIIBIjA..."
 
 # DMARC
-"v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfuerfirmen.de"
+"v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfürfirmen.de.de"
 ```
 
 ---
@@ -169,15 +169,15 @@ dig +short TXT _dmarc.musikfuerfirmen.de
 ssh root@91.99.177.238
 
 # Mailcow Web-UI: https://mail.91.99.177.238.nip.io
-# (Nach DNS-Setup: https://mail.musikfuerfirmen.de)
+# (Nach DNS-Setup: https://mail.musikfürfirmen.de.de)
 
 # 1. Domain hinzufügen
 #    Configuration → Mail Setup → Domains → Add Domain
-#    Domain: musikfuerfirmen.de
+#    Domain: musikfürfirmen.de.de
 
 # 2. Mailboxen erstellen
 #    Configuration → Mail Setup → Mailboxes → Add Mailbox
-#    Beispiel: info@musikfuerfirmen.de, kontakt@musikfuerfirmen.de
+#    Beispiel: info@musikfürfirmen.de.de, kontakt@musikfürfirmen.de.de
 
 # 3. SSL-Zertifikat (Let's Encrypt)
 #    System → Configuration → Let's Encrypt
@@ -191,10 +191,10 @@ ssh root@91.99.177.238
 **Sende Test-Email:**
 ```bash
 # Via Terminal (swaks Tool)
-swaks --to info@musikfuerfirmen.de \
+swaks --to info@musikfürfirmen.de.de \
       --from test@gmail.com \
-      --server mail.musikfuerfirmen.de \
-      --auth-user info@musikfuerfirmen.de \
+      --server mail.musikfürfirmen.de.de \
+      --auth-user info@musikfürfirmen.de.de \
       --auth-password '<DEIN_PASSWORT>'
 ```
 
@@ -212,15 +212,15 @@ swaks --to info@musikfuerfirmen.de \
 
 ## Vergleich mit nickheymann.de (Funktionierend)
 
-| Eintrag | nickheymann.de | musikfuerfirmen.de | Status |
+| Eintrag | nickheymann.de | musikfürfirmen.de.de | Status |
 |---------|----------------|-------------------|--------|
 | A (mail) | 91.99.177.238 | 91.99.177.238 | ✅ Identisch |
-| MX | 10 mail.nickheymann.de | 10 mail.musikfuerfirmen.de | ✅ Analog |
+| MX | 10 mail.nickheymann.de | 10 mail.musikfürfirmen.de.de | ✅ Analog |
 | SPF | `v=spf1 mx ~all` | `v=spf1 mx ~all` | ✅ Identisch |
 | DKIM | `dkim._domainkey` → Public Key | `dkim._domainkey` → **MUSS GENERIERT WERDEN** | ⚠️ TODO |
 | DMARC | `_dmarc` → `v=DMARC1; p=quarantine;...` | `_dmarc` → `v=DMARC1; p=quarantine;...` | ✅ Analog |
-| CNAME (autoconfig) | → mail.nickheymann.de | → mail.musikfuerfirmen.de | ✅ Analog |
-| CNAME (autodiscover) | → mail.nickheymann.de | → mail.musikfuerfirmen.de | ✅ Analog |
+| CNAME (autoconfig) | → mail.nickheymann.de | → mail.musikfürfirmen.de.de | ✅ Analog |
+| CNAME (autodiscover) | → mail.nickheymann.de | → mail.musikfürfirmen.de.de | ✅ Analog |
 
 ---
 
@@ -240,7 +240,7 @@ swaks --to info@musikfuerfirmen.de \
 **Check 2: Selector korrekt?**
 ```bash
 # Mailcow nutzt "dkim" als Selector (Standard)
-# DNS-Name muss exakt sein: dkim._domainkey.musikfuerfirmen.de
+# DNS-Name muss exakt sein: dkim._domainkey.musikfürfirmen.de.de
 ```
 
 **Fix:**
@@ -255,16 +255,16 @@ docker-compose restart rspamd-mailcow
 ### Problem: Emails landen im Spam
 
 **Checklist:**
-- ✅ SPF Record vorhanden? (`dig TXT musikfuerfirmen.de`)
+- ✅ SPF Record vorhanden? (`dig TXT musikfürfirmen.de.de`)
 - ✅ DKIM Signatur validiert? (Mail-Header prüfen: `DKIM-Signature`)
-- ✅ DMARC Policy aktiv? (`dig TXT _dmarc.musikfuerfirmen.de`)
-- ✅ Reverse DNS (PTR) korrekt? (`dig -x 91.99.177.238` → sollte mail.musikfuerfirmen.de zeigen)
+- ✅ DMARC Policy aktiv? (`dig TXT _dmarc.musikfürfirmen.de.de`)
+- ✅ Reverse DNS (PTR) korrekt? (`dig -x 91.99.177.238` → sollte mail.musikfürfirmen.de.de zeigen)
 
 **Reverse DNS (PTR) bei Hetzner setzen:**
 ```
-1. Hetzner Cloud Console → Server → musikfuerfirmen
+1. Hetzner Cloud Console → Server → musikfürfirmen.de
 2. Networking → Primary IPv4 → Click on IP
-3. Edit Reverse DNS: mail.musikfuerfirmen.de
+3. Edit Reverse DNS: mail.musikfürfirmen.de.de
 4. Save
 ```
 
@@ -301,16 +301,16 @@ docker-compose -f /opt/mailcow-dockerized/docker-compose.yml ps
 
 **Hetzner DNS-Console Screenshot-Vergleich:**
 
-| Feld | nickheymann.de (IST) | musikfuerfirmen.de (SOLL) |
+| Feld | nickheymann.de (IST) | musikfürfirmen.de.de (SOLL) |
 |------|---------------------|--------------------------|
 | **A Record** | `mail` → 91.99.177.238 | `mail` → 91.99.177.238 |
 | **A Record** | `*` → 91.99.177.238 | `*` → 91.99.177.238 |
-| **MX** | `@` → 10 mail.nickheymann.de | `@` → 10 mail.musikfuerfirmen.de |
-| **CNAME** | `autoconfig` → mail.nickheymann.de | `autoconfig` → mail.musikfuerfirmen.de |
-| **CNAME** | `autodiscover` → mail.nickheymann.de | `autodiscover` → mail.musikfuerfirmen.de |
+| **MX** | `@` → 10 mail.nickheymann.de | `@` → 10 mail.musikfürfirmen.de.de |
+| **CNAME** | `autoconfig` → mail.nickheymann.de | `autoconfig` → mail.musikfürfirmen.de.de |
+| **CNAME** | `autodiscover` → mail.nickheymann.de | `autodiscover` → mail.musikfürfirmen.de.de |
 | **TXT (SPF)** | `v=spf1 mx ~all` | `v=spf1 mx ~all` |
 | **TXT (DKIM)** | `dkim._domainkey` → `v=DKIM1; k=rsa; p=MII...` | `dkim._domainkey` → **MUSS GENERIERT WERDEN** |
-| **TXT (DMARC)** | `_dmarc` → `v=DMARC1; p=quarantine;...` | `_dmarc` → `v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfuerfirmen.de` |
+| **TXT (DMARC)** | `_dmarc` → `v=DMARC1; p=quarantine;...` | `_dmarc` → `v=DMARC1; p=quarantine; rua=mailto:postmaster@musikfürfirmen.de.de` |
 
 ---
 

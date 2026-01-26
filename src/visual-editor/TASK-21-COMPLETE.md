@@ -307,4 +307,4 @@ The only remaining issue is TypeScript strict mode build errors due to type asse
 
 **Signed off:** Claude Sonnet 4.5
 **Date:** 2026-01-19
-**Project:** musikfuerfirmen.de Visual Editor v1.0.0
+**Project:** musikfürfirmen.de.de Visual Editor v1.0.0

@@ -6,7 +6,7 @@ stages:
 variables:
   DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
   DOCKER_IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
-  DEPLOY_PATH: /opt/apps/musikfuerfirmen
+  DEPLOY_PATH: /opt/apps/musikfürfirmen.de
 
 # Run tests before building
 test:
@@ -15,13 +15,13 @@ test:
   services:
     - postgres:15-alpine
   variables:
-    POSTGRES_DB: musikfuerfirmen_test
+    POSTGRES_DB: musikfürfirmen.de_test
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: secret
     DB_CONNECTION: pgsql
     DB_HOST: postgres
     DB_PORT: 5432
-    DB_DATABASE: musikfuerfirmen_test
+    DB_DATABASE: musikfürfirmen.de_test
     DB_USERNAME: postgres
     DB_PASSWORD: secret
   before_script:
@@ -98,9 +98,9 @@ deploy:
     - ssh root@91.99.177.238 "cd $DEPLOY_PATH && docker compose exec -T app php artisan optimize"
 
     # Verify deployment
-    - ssh root@91.99.177.238 "docker ps -a | grep musikfuerfirmen"
+    - ssh root@91.99.177.238 "docker ps -a | grep musikfürfirmen.de"
   only:
     - main
   environment:
     name: production
-    url: https://musikfuerfirmen.de
+    url: https://musikfürfirmen.de.de

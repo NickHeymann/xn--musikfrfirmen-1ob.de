@@ -1,7 +1,6 @@
 // Base path configuration
 // - For Docker/Hetzner deployment: empty (assets at root)
-// - For GitHub Pages: "/musikfuerfirmen"
-// - Set via NEXT_PUBLIC_BASE_PATH environment variable
+// - Set via NEXT_PUBLIC_BASE_PATH environment variable (not needed for current setup)
 export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // Helper function to get the full asset path

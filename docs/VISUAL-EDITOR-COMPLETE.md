@@ -1,6 +1,6 @@
 # 🎉 Visual Editor Implementation - COMPLETE
 
-**Project:** musikfuerfirmen.de
+**Project:** musikfürfirmen.de.de
 **Date:** 2026-01-17
 **Status:** ✅ 100% Implementation Complete
 
@@ -73,7 +73,7 @@
 ## 📁 File Structure
 
 ```
-musikfuerfirmen/
+musikfürfirmen.de/
 ├── src/
 │   ├── types/
 │   │   └── visual-editor.ts ✅
@@ -126,22 +126,22 @@ musikfuerfirmen/
 ```bash
 # Option A: New Laravel Project
 cd /opt
-composer create-project laravel/laravel musikfuerfirmen-api
-cd musikfuerfirmen-api
+composer create-project laravel/laravel musikfürfirmen.de-api
+cd musikfürfirmen.de-api
 
 # Option B: Use Existing Laravel Project
 cd /opt/your-laravel-project
 
 # Copy files
-cp -r /path/to/musikfuerfirmen/laravel-backend-files/* .
+cp -r /path/to/musikfürfirmen.de/laravel-backend-files/* .
 
 # Install dependencies
 composer require intervention/image
 
 # Configure .env
 DB_CONNECTION=pgsql
-DB_DATABASE=musikfuerfirmen
-CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfuerfirmen.de
+DB_DATABASE=musikfürfirmen.de
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://musikfürfirmen.de.de
 
 # Run migrations
 php artisan migrate
@@ -157,7 +157,7 @@ php artisan serve --host=0.0.0.0 --port=8000
 ### 2. Configure Next.js (5 min)
 
 ```bash
-cd musikfuerfirmen
+cd musikfürfirmen.de
 
 # Create .env.local
 cp .env.local.example .env.local
@@ -378,7 +378,7 @@ This is a **production-ready** visual editor implementation. All code is:
 - ✅ Security-conscious
 - ✅ Extensible
 
-You now have a Webflow-style page builder for musikfuerfirmen.de!
+You now have a Webflow-style page builder for musikfürfirmen.de.de!
 
 ---
 

@@ -238,7 +238,7 @@ None identified
 ## Manual Verification Steps
 
 1. **Open both sites side-by-side:**
-   - Production: https://musikfuerfirmen.de
+   - Production: https://musikfürfirmen.de.de
    - Localhost: http://localhost:8001
 
 2. **Visual Diff Checklist:**

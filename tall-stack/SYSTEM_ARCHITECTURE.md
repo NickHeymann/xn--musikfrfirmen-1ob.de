@@ -601,7 +601,7 @@ Monthly:
 - Livewire Docs: https://livewire.laravel.com/docs/3.x
 
 **Repository:**
-- GitHub: github.com/NickHeymann/musikfuerfirmen
+- GitHub: github.com/NickHeymann/musikfürfirmen.de
 
 ---
 

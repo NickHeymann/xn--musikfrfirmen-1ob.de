@@ -131,7 +131,7 @@ Nachricht:
 ${formData.message || "Keine Nachricht"}
     `.trim();
 
-    const mailtoLink = `mailto:info@musikfuerfirmen.de?subject=${encodeURIComponent(
+    const mailtoLink = `mailto:kontakt@musikfürfirmen.de?subject=${encodeURIComponent(
       `Neue Anfrage: ${formData.city} am ${formData.date}`
     )}&body=${encodeURIComponent(emailBody)}`;
 

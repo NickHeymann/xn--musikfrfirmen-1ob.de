@@ -99,7 +99,7 @@ https://yourdomain.com/storage/page-images/abc123.jpg
 
 ```
 URL: http://127.0.0.1:8001/admin/pages
-Login: admin@musikfuerfirmen.de / admin123
+Login: admin@musikfürfirmen.de.de / admin123
 ```
 
 ### Step 2: Create New Page
@@ -136,7 +136,7 @@ Login: admin@musikfuerfirmen.de / admin123
 - Type: `Visit our website`
 - Select the text
 - Click **Link** button
-- Enter URL: `https://musikfuerfirmen.de`
+- Enter URL: `https://musikfürfirmen.de.de`
 - Click Add
 
 **Blockquote:**
@@ -417,7 +417,7 @@ Create custom content blocks like:
 Allow dynamic variables in content:
 ```
 {company_name} → musikfürfirmen.de
-{contact_email} → info@musikfuerfirmen.de
+{contact_email} → info@musikfürfirmen.de.de
 {phone} → +49 123 456789
 ```
 
@@ -488,7 +488,7 @@ Before deploying to production:
 1. **Environment Variables**
    ```env
    FILESYSTEM_DISK=public  # or 's3' for production
-   APP_URL=https://musikfuerfirmen.de
+   APP_URL=https://musikfürfirmen.de.de
    ```
 
 2. **Storage Link (Production Server)**

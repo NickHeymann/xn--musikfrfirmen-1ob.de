@@ -138,7 +138,7 @@ interface FooterProps {
 
 export default function Footer({
   companyName = 'Musik für Firmen',
-  email = 'info@musikfuerfirmen.de',
+  email = 'info@musikfürfirmen.de.de',
   phone = '+49 123 456789',
   address = ''
 }: FooterProps) {
@@ -153,7 +153,7 @@ Each component: remove hardcoded data, accept props, provide defaults.
 **Step 6: Test prop binding**
 
 ```bash
-cd /Users/nickheymann/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen
+cd /Users/nickheymann/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de
 npm run dev
 ```
 

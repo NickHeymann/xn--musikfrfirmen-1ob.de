@@ -5,7 +5,7 @@
 **Date:** 2026-01-23  
 **Branch:** main  
 **Version:** 1.1.0  
-**Remote:** github.com:NickHeymann/musikfuerfirmen.git
+**Remote:** github.com:NickHeymann/musikfürfirmen.de.git
 
 ---
 
@@ -276,7 +276,7 @@ showToast("success", `Template "${name}" inserted`);
 **Deployment Completed:** 2026-01-23  
 **Status:** ✅ Production Ready  
 **Version:** 1.1.0  
-**Repository:** github.com:NickHeymann/musikfuerfirmen.git
+**Repository:** github.com:NickHeymann/musikfürfirmen.de.git
 
 ---
 

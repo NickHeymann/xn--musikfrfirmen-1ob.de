@@ -2,10 +2,10 @@
 
 ## Quick Start
 
-**Admin Panel URL:** https://musikfuerfirmen.de/admin
+**Admin Panel URL:** https://musikfürfirmen.de.de/admin
 
 **Login Credentials:**
-- Email: admin@musikfuerfirmen.de
+- Email: admin@musikfürfirmen.de.de
 - Password: (Contact administrator)
 
 ---
@@ -244,7 +244,7 @@ We collect the following information:
 
 ## Contact
 
-For questions, please email: info@musikfuerfirmen.de
+For questions, please email: info@musikfürfirmen.de.de
 ```
 
 ### Editing Pages
@@ -458,7 +458,7 @@ Click column headers to sort:
 **For Technical Issues:**
 - Developer: Nick Heymann
 - Email: [Developer email]
-- GitHub: https://github.com/NickHeymann/musikfuerfirmen
+- GitHub: https://github.com/NickHeymann/musikfürfirmen.de
 
 ### Training
 

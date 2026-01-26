@@ -12,14 +12,14 @@
 - **Server:** http://localhost:8000
 - **API Endpoint:** http://localhost:8000/api/pages
 - **Database:** SQLite (no PostgreSQL required)
-- **Location:** `~/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen-api`
+- **Location:** `~/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de-api`
 - **Process ID:** Check with `ps aux | grep "php artisan serve"`
 
 ### Frontend (Next.js 16)
 - **Server:** http://localhost:3000
 - **Admin Panel:** http://localhost:3000/admin/pages
 - **Visual Editor:** http://localhost:3000/admin/editor/[slug]
-- **Location:** `~/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen`
+- **Location:** `~/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de`
 - **Process ID:** Check with `ps aux | grep "next dev"`
 
 ---
@@ -120,13 +120,13 @@ curl -X POST http://localhost:8000/api/pages/media \
 
 **Laravel:**
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 php artisan serve --host=0.0.0.0 --port=8000
 ```
 
 **Next.js:**
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de
 npm run dev
 ```
 
@@ -144,7 +144,7 @@ pkill -f "next dev"
 
 **Laravel:**
 ```bash
-tail -f ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api/storage/logs/laravel.log
+tail -f ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api/storage/logs/laravel.log
 ```
 
 **Next.js:**
@@ -153,7 +153,7 @@ Check terminal output where `npm run dev` is running.
 ### Database Operations
 
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 
 # Run migrations
 php artisan migrate
@@ -177,7 +177,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ### `.env` (Laravel)
 ```env
 DB_CONNECTION=sqlite
-DB_DATABASE="/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen-api/database/database.sqlite"
+DB_DATABASE="/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de-api/database/database.sqlite"
 
 CORS_ALLOWED_ORIGINS="http://localhost:3000,http://localhost:3001"
 ```
@@ -201,7 +201,7 @@ CORS_ALLOWED_ORIGINS="http://localhost:3000,http://localhost:3001"
 **Check:**
 ```bash
 # Verify routes are registered
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 php artisan route:list | grep api
 ```
 
@@ -213,12 +213,12 @@ Ensure `bootstrap/app.php` includes `api: __DIR__.'/../routes/api.php'`
 **Check:**
 ```bash
 # Verify CORS config
-grep CORS_ALLOWED_ORIGINS ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api/.env
+grep CORS_ALLOWED_ORIGINS ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api/.env
 ```
 
 **Fix:**
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 php artisan config:clear
 ```
 
@@ -227,12 +227,12 @@ php artisan config:clear
 **Check:**
 ```bash
 # Verify storage link
-ls -la ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api/public/storage
+ls -la ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api/public/storage
 ```
 
 **Fix:**
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 php artisan storage:link
 chmod -R 755 storage/app/public/editor-images
 ```
@@ -241,7 +241,7 @@ chmod -R 755 storage/app/public/editor-images
 
 **Fix:**
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen-api
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de-api
 composer dump-autoload
 php artisan config:clear
 php artisan cache:clear
@@ -253,7 +253,7 @@ php artisan cache:clear
 
 ### Option 1: Automated (Recommended)
 ```bash
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen/laravel-backend-files
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de/laravel-backend-files
 ./deploy-to-hetzner.sh
 ```
 
@@ -263,7 +263,7 @@ See: `laravel-backend-files/DEPLOYMENT.md`
 ### Frontend (Vercel)
 1. Push to GitHub
 2. Connect Vercel to repo
-3. Add environment variable: `NEXT_PUBLIC_API_URL=https://api.musikfuerfirmen.de`
+3. Add environment variable: `NEXT_PUBLIC_API_URL=https://api.musikfürfirmen.de.de`
 4. Deploy
 
 ---

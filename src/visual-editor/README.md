@@ -1,4 +1,4 @@
-# Visual Editor for musikfuerfirmen.de
+# Visual Editor for musikfürfirmen.de.de
 
 **Version:** 1.1.0  
 **Status:** Production Ready (Block Templates Added)  
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Apple-quality inline visual editor for editing the musikfuerfirmen.de homepage. Edit content in real-time with live preview, drag-and-drop reordering, and comprehensive validation.
+Apple-quality inline visual editor for editing the musikfürfirmen.de.de homepage. Edit content in real-time with live preview, drag-and-drop reordering, and comprehensive validation.
 
 ---
 
@@ -145,7 +145,7 @@ open http://localhost:3000/admin/editor/home
 
 The visual editor communicates with a Laravel backend API:
 
-**Base URL:** `http://localhost:8001/api` (dev) | `https://api.musikfuerfirmen.de/api` (prod)
+**Base URL:** `http://localhost:8001/api` (dev) | `https://api.musikfürfirmen.de.de/api` (prod)
 
 **Endpoints:**
 
@@ -340,7 +340,7 @@ See: `DEPLOYMENT-CHECKLIST.md`
 1. Run tests: `npm run lint && npx tsc --noEmit && npm run build`
 2. Create backup tag: `git tag pre-deployment-$(date +%Y%m%d-%H%M%S)`
 3. Deploy to production: `git push origin main` (Vercel auto-deploys)
-4. Verify: `curl https://musikfuerfirmen.de/admin/editor/home`
+4. Verify: `curl https://musikfürfirmen.de.de/admin/editor/home`
 5. Run smoke tests (see checklist)
 
 ---
@@ -512,8 +512,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 **Developer:** Nick Heymann
 **AI Assistant:** Claude Code (Anthropic)
-**Repository:** github.com/NickHeymann/musikfuerfirmen
-**Project:** musikfuerfirmen.de
+**Repository:** github.com/NickHeymann/musikfürfirmen.de
+**Project:** musikfürfirmen.de.de
 
 **Issues:** Report via GitHub Issues or KNOWN-ISSUES.md
 
@@ -521,7 +521,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-Proprietary - musikfuerfirmen.de
+Proprietary - musikfürfirmen.de.de
 
 ---
 

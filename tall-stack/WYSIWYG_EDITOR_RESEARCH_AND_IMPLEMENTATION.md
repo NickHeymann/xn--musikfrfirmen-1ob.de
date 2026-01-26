@@ -1112,7 +1112,7 @@ FILESYSTEM_DISK=s3
 AWS_ACCESS_KEY_ID=your-key
 AWS_SECRET_ACCESS_KEY=your-secret
 AWS_DEFAULT_REGION=eu-central-1
-AWS_BUCKET=musikfuerfirmen-assets
+AWS_BUCKET=musikfürfirmen.de-assets
 ```
 
 ---
@@ -1450,7 +1450,7 @@ Page::whereRaw("to_tsvector('english', content_text) @@ plainto_tsquery('english
 ```
 
 ```env
-CDN_URL=https://cdn.musikfuerfirmen.de
+CDN_URL=https://cdn.musikfürfirmen.de.de
 ```
 
 **Image Caching:**

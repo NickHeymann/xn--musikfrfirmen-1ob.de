@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task.
 
-**Goal:** Build Edit/View mode toggle visual editor with sidebar, TipTap, drag-and-drop, and media preview for musikfuerfirmen.de
+**Goal:** Build Edit/View mode toggle visual editor with sidebar, TipTap, drag-and-drop, and media preview for musikfürfirmen.de.de
 
 **Architecture:** React Context for state, separate ViewMode/EditMode components, sidebar with BLOCKS/PROPERTIES tabs, block-specific editors, optimistic updates to Laravel API
 

@@ -3,7 +3,7 @@
 **Version:** 1.0
 **Date:** 2026-01-19
 **Target Environment:** Production
-**Project:** musikfuerfirmen.de Visual Editor
+**Project:** musikfürfirmen.de.de Visual Editor
 
 ---
 
@@ -58,13 +58,13 @@ npx tsc --noEmit
 **Production API URL:**
 
 ```env
-NEXT_PUBLIC_API_URL=https://api.musikfuerfirmen.de/api
+NEXT_PUBLIC_API_URL=https://api.musikfürfirmen.de.de/api
 ```
 
 **Verify API is accessible:**
 
 ```bash
-curl https://api.musikfuerfirmen.de/api/pages/home
+curl https://api.musikfürfirmen.de.de/api/pages/home
 ```
 
 ---
@@ -90,7 +90,7 @@ php artisan config:cache
 php artisan route:cache
 
 # Test endpoints
-curl -X POST https://api.musikfuerfirmen.de/api/pages/home \
+curl -X POST https://api.musikfürfirmen.de.de/api/pages/home \
   -H "Content-Type: application/json" \
   -d '{"content":{"blocks":[]}}'
 ```
@@ -240,10 +240,10 @@ pm2 restart nextjs-app
 
 ```bash
 # Verify production site is up
-curl https://musikfuerfirmen.de/admin/editor/home
+curl https://musikfürfirmen.de.de/admin/editor/home
 
 # Check API connectivity
-curl https://api.musikfuerfirmen.de/api/pages/home
+curl https://api.musikfürfirmen.de.de/api/pages/home
 ```
 
 - [ ] Production site accessible
@@ -382,7 +382,7 @@ npm run build
 ```
 Subject: Visual Editor Deployment - [Date]
 
-The new visual editor for musikfuerfirmen.de will be deployed on [DATE] at [TIME].
+The new visual editor for musikfürfirmen.de.de will be deployed on [DATE] at [TIME].
 
 Expected downtime: None (zero-downtime deployment)
 New features: Inline editing for all homepage blocks
@@ -414,7 +414,7 @@ Subject: Visual Editor Deployed Successfully
 
 The visual editor has been deployed to production successfully.
 
-URL: https://musikfuerfirmen.de/admin/editor/home
+URL: https://musikfürfirmen.de.de/admin/editor/home
 Status: All systems operational
 Issues: None detected
 
@@ -521,8 +521,8 @@ sleep 30
 
 # 5. Smoke tests
 echo "🧪 Running smoke tests..."
-curl -f https://musikfuerfirmen.de/admin/editor/home || exit 1
-curl -f https://api.musikfuerfirmen.de/api/pages/home || exit 1
+curl -f https://musikfürfirmen.de.de/admin/editor/home || exit 1
+curl -f https://api.musikfürfirmen.de.de/api/pages/home || exit 1
 
 echo "✅ Deployment completed successfully!"
 ```

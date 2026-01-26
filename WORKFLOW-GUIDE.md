@@ -51,7 +51,7 @@
 
 ```bash
 # Terminal 1: Projekt starten
-cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen
+cd ~/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de
 npm run dev
 # → http://localhost:3000 (Debug Panel aktiv)
 
@@ -240,7 +240,7 @@ npx chromatic --project-token=... # Visual Regression Testing
 
 ## Installation
 
-### musikfuerfirmen (Next.js)
+### musikfürfirmen.de (Next.js)
 
 **Debug Helper Panel:**
 ```typescript
@@ -464,7 +464,7 @@ A: Minimum: Debug Panel + UX-Pilot. Storybook nur wenn React/Next.js.
 
 1. ✅ **JETZT TESTEN:**
    ```bash
-   cd musikfuerfirmen
+   cd musikfürfirmen.de
    npm run dev
    # → Öffne localhost:3000
    # → Drücke Cmd+Shift+D

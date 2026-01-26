@@ -7,10 +7,10 @@ import type { SiteConfig, NavItem, PackageOption } from "@/types";
 
 export const siteConfig: SiteConfig = {
   name: "musikfürfirmen.de",
-  domain: "https://musikfuerfirmen.de",
+  domain: "https://xn--musikfrfirmen-1ob.de",
   email: "kontakt@musikfürfirmen.de",
   phone: "+49 174 1699553",
-  calComUrl: "https://cal.com/musikfuerfirmen.de/30min",
+  calComUrl: "https://cal.com/xn--musikfrfirmen-1ob.de/30min",
   address: {
     city: "Hamburg",
     country: "DE",

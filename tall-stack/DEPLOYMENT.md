@@ -35,8 +35,8 @@ php -m | grep -E "pdo|mbstring|openssl|tokenizer|xml|ctype|json|bcmath|fileinfo"
 
 ```bash
 # Clone the repository
-git clone https://github.com/NickHeymann/musikfuerfirmen.git
-cd musikfuerfirmen/tall-stack
+git clone https://github.com/NickHeymann/musikfürfirmen.de.git
+cd musikfürfirmen.de/tall-stack
 
 # Or pull latest changes
 git pull origin main
@@ -63,13 +63,13 @@ nano .env
 ```bash
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://musikfuerfirmen.de
+APP_URL=https://musikfürfirmen.de.de
 
 # Database (MySQL recommended)
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_DATABASE=musikfuerfirmen_prod
-DB_USERNAME=musikfuerfirmen_user
+DB_DATABASE=musikfürfirmen.de_prod
+DB_USERNAME=musikfürfirmen.de_user
 DB_PASSWORD=your_secure_password
 
 # Filesystem
@@ -128,7 +128,7 @@ composer dump-autoload --optimize
 ### Step 6: Create Admin User
 
 The seeder creates a default admin user:
-- **Email:** admin@musikfuerfirmen.de
+- **Email:** admin@musikfürfirmen.de.de
 - **Password:** admin123
 
 **⚠️ CRITICAL: Change this password immediately after first login!**
@@ -156,21 +156,21 @@ App\Models\User::create([
 server {
     listen 80;
     listen [::]:80;
-    server_name musikfuerfirmen.de www.musikfuerfirmen.de;
+    server_name musikfürfirmen.de.de www.musikfürfirmen.de.de;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name musikfuerfirmen.de www.musikfuerfirmen.de;
+    server_name musikfürfirmen.de.de www.musikfürfirmen.de.de;
 
-    root /var/www/musikfuerfirmen/tall-stack/public;
+    root /var/www/musikfürfirmen.de/tall-stack/public;
     index index.php;
 
     # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/musikfuerfirmen.de/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/musikfuerfirmen.de/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/musikfürfirmen.de.de/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/musikfürfirmen.de.de/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
 
@@ -185,8 +185,8 @@ server {
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
     # Logs
-    access_log /var/log/nginx/musikfuerfirmen-access.log;
-    error_log /var/log/nginx/musikfuerfirmen-error.log;
+    access_log /var/log/nginx/musikfürfirmen.de-access.log;
+    error_log /var/log/nginx/musikfürfirmen.de-error.log;
 
     # Rate Limiting (Admin Panel)
     limit_req_zone $binary_remote_addr zone=admin:10m rate=10r/m;
@@ -233,28 +233,28 @@ The Laravel .htaccess file in `public/` handles routing automatically.
 ### 1. Test Homepage
 
 ```bash
-curl -I https://musikfuerfirmen.de
+curl -I https://musikfürfirmen.de.de
 # Expected: HTTP 200 OK
 ```
 
 ### 2. Test Admin Panel
 
 ```bash
-# Visit: https://musikfuerfirmen.de/admin
-# Login with: admin@musikfuerfirmen.de / admin123
+# Visit: https://musikfürfirmen.de.de/admin
+# Login with: admin@musikfürfirmen.de.de / admin123
 # Change password immediately!
 ```
 
 ### 3. Verify Resources
 
-- ✅ Services: https://musikfuerfirmen.de/admin/services
-- ✅ Team Members: https://musikfuerfirmen.de/admin/team-members
-- ✅ FAQs: https://musikfuerfirmen.de/admin/faqs
-- ✅ Pages: https://musikfuerfirmen.de/admin/pages
+- ✅ Services: https://musikfürfirmen.de.de/admin/services
+- ✅ Team Members: https://musikfürfirmen.de.de/admin/team-members
+- ✅ FAQs: https://musikfürfirmen.de.de/admin/faqs
+- ✅ Pages: https://musikfürfirmen.de.de/admin/pages
 
 ### 4. Test File Uploads
 
-1. Go to https://musikfuerfirmen.de/admin/team-members/create
+1. Go to https://musikfürfirmen.de.de/admin/team-members/create
 2. Upload a test image
 3. Verify image appears at `/storage/team-members/filename.jpg`
 
@@ -293,7 +293,7 @@ php artisan view:cache
 **Daily Automated Backup (Cron):**
 ```bash
 # Add to crontab
-0 2 * * * cd /var/www/musikfuerfirmen/tall-stack && mysqldump -u user -p'password' musikfuerfirmen_prod > /backups/db-$(date +\%Y\%m\%d).sql
+0 2 * * * cd /var/www/musikfürfirmen.de/tall-stack && mysqldump -u user -p'password' musikfürfirmen.de_prod > /backups/db-$(date +\%Y\%m\%d).sql
 ```
 
 **Manual Backup:**
@@ -308,7 +308,7 @@ php artisan db:backup
 tail -f storage/logs/laravel.log
 
 # Nginx logs
-tail -f /var/log/nginx/musikfuerfirmen-error.log
+tail -f /var/log/nginx/musikfürfirmen.de-error.log
 ```
 
 ---
@@ -322,7 +322,7 @@ tail -f /var/log/nginx/musikfuerfirmen-error.log
 php artisan tinker
 ```
 ```php
-$admin = App\Models\User::where('email', 'admin@musikfuerfirmen.de')->first();
+$admin = App\Models\User::where('email', 'admin@musikfürfirmen.de.de')->first();
 $admin->password = Hash::make('new_secure_password');
 $admin->save();
 ```
@@ -331,8 +331,8 @@ $admin->save();
 
 ```bash
 # Application files
-chown -R www-data:www-data /var/www/musikfuerfirmen
-chmod -R 755 /var/www/musikfuerfirmen
+chown -R www-data:www-data /var/www/musikfürfirmen.de
+chmod -R 755 /var/www/musikfürfirmen.de
 
 # Writable directories
 chmod -R 775 storage bootstrap/cache
@@ -342,7 +342,7 @@ chmod -R 775 storage bootstrap/cache
 
 ```bash
 # Install Let's Encrypt certificate
-certbot --nginx -d musikfuerfirmen.de -d www.musikfuerfirmen.de
+certbot --nginx -d musikfürfirmen.de.de -d www.musikfürfirmen.de.de
 
 # Auto-renewal (runs twice daily)
 systemctl status certbot.timer
@@ -453,13 +453,13 @@ QUEUE_CONNECTION=redis
 php artisan queue:work --daemon
 
 # Supervisor configuration
-[program:musikfuerfirmen-queue]
-command=php /var/www/musikfuerfirmen/tall-stack/artisan queue:work --sleep=3 --tries=3
+[program:musikfürfirmen.de-queue]
+command=php /var/www/musikfürfirmen.de/tall-stack/artisan queue:work --sleep=3 --tries=3
 autostart=true
 autorestart=true
 user=www-data
 redirect_stderr=true
-stdout_logfile=/var/www/musikfuerfirmen/tall-stack/storage/logs/worker.log
+stdout_logfile=/var/www/musikfürfirmen.de/tall-stack/storage/logs/worker.log
 ```
 
 ---
@@ -474,7 +474,7 @@ git log --oneline -10
 git checkout <commit-hash>
 
 # Restore database backup
-mysql -u user -p musikfuerfirmen_prod < /backups/db-20260114.sql
+mysql -u user -p musikfürfirmen.de_prod < /backups/db-20260114.sql
 
 # Clear caches
 php artisan optimize:clear
@@ -485,7 +485,7 @@ php artisan config:cache
 
 ## Support & Contact
 
-**Project Repository:** https://github.com/NickHeymann/musikfuerfirmen  
+**Project Repository:** https://github.com/NickHeymann/musikfürfirmen.de  
 **Laravel Documentation:** https://laravel.com/docs/12.x  
 **Filament Documentation:** https://filamentphp.com/docs/4.x  
 **Livewire Documentation:** https://livewire.laravel.com/docs/3.x

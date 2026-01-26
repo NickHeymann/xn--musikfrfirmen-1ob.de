@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document provides a complete testing plan for the visual editor for musikfuerfirmen.de. All features from Tasks 1-19 are implemented and require verification.
+This document provides a complete testing plan for the visual editor for musikfürfirmen.de.de. All features from Tasks 1-19 are implemented and require verification.
 
 ---
 

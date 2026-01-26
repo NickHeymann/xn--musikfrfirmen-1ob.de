@@ -25,13 +25,13 @@
 ## Task 1: Install Destack Dependencies
 
 **Files:**
-- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/package.json`
+- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/package.json`
 
 **Step 1: Install Destack package**
 
 Run:
 ```bash
-cd /Users/nickheymann/Desktop/Mein\ Business/Programmierprojekte/musikfuerfirmen
+cd /Users/nickheymann/Desktop/Mein\ Business/Programmierprojekte/musikfürfirmen.de
 npm install destack
 ```
 
@@ -49,7 +49,7 @@ npm list destack
 
 Expected output:
 ```
-musikfuerfirmen@0.1.0
+musikfürfirmen.de@0.1.0
 └── destack@2.x.x
 ```
 
@@ -65,8 +65,8 @@ git commit -m "feat: install Destack visual page builder"
 ## Task 2: Create Authentication Context
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/contexts/EditorAuthContext.tsx`
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/hooks/useEditorAuth.ts`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/contexts/EditorAuthContext.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/hooks/useEditorAuth.ts`
 
 **Step 1: Create authentication context**
 
@@ -161,7 +161,7 @@ git commit -m "feat: add editor authentication context for POC"
 ## Task 3: Create Login Page
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/app/admin/login/page.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/app/admin/login/page.tsx`
 
 **Step 1: Create admin directory**
 
@@ -276,7 +276,7 @@ git commit -m "feat: add editor login page"
 ## Task 4: Create Editor Layout with Auth Provider
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/app/admin/layout.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/app/admin/layout.tsx`
 
 **Step 1: Create admin layout**
 
@@ -316,7 +316,7 @@ git commit -m "feat: add admin layout with auth provider"
 ## Task 5: Create Protected Editor Route
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/app/admin/editor/page.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/app/admin/editor/page.tsx`
 
 **Step 1: Create editor directory**
 
@@ -422,8 +422,8 @@ git commit -m "feat: add protected visual editor route"
 ## Task 6: Register ServiceCards Component for Destack
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/components/ServiceCardsBlock.tsx`
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/registry.ts`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/components/ServiceCardsBlock.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/registry.ts`
 
 **Step 1: Create destack directories**
 
@@ -499,8 +499,8 @@ git commit -m "feat: register ServiceCards component for visual editor"
 ## Task 7: Register TeamMemberCard Component for Destack
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/components/TeamMemberCardBlock.tsx`
-- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/registry.ts`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/components/TeamMemberCardBlock.tsx`
+- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/registry.ts`
 
 **Step 1: Create TeamMemberCard block wrapper**
 
@@ -597,8 +597,8 @@ git commit -m "feat: register TeamMemberCard component for visual editor"
 ## Task 8: Integrate Destack Editor (Core)
 
 **Files:**
-- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/app/admin/editor/page.tsx`
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/DestackEditor.tsx`
+- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/app/admin/editor/page.tsx`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/DestackEditor.tsx`
 
 **Step 1: Create Destack editor component**
 
@@ -863,7 +863,7 @@ git commit -m "feat: integrate Destack editor with component registry"
 ## Task 9: Add Drag-and-Drop Functionality
 
 **Files:**
-- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/src/destack/DestackEditor.tsx`
+- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/src/destack/DestackEditor.tsx`
 
 **Step 1: Install react-beautiful-dnd for drag-and-drop**
 
@@ -1079,8 +1079,8 @@ git commit -m "feat: add drag-and-drop functionality to visual editor"
 ## Task 10: Add Environment Variable Configuration
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/.env.local.example`
-- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/.gitignore`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/.env.local.example`
+- Modify: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/.gitignore`
 
 **Step 1: Create environment variable example**
 
@@ -1134,7 +1134,7 @@ git commit -m "docs: add environment variable configuration for editor"
 ## Task 11: Add Documentation
 
 **Files:**
-- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/docs/EDITOR_POC.md`
+- Create: `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/docs/EDITOR_POC.md`
 
 **Step 1: Create POC documentation**
 
@@ -1543,7 +1543,7 @@ Next phase will include:
    - SSO authentication flow
    - Audit trail
 
-See `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfuerfirmen/tall-stack/VISUAL_PAGE_BUILDER_ARCHITECTURE.md` for complete Phase 2 plan.
+See `/Users/nickheymann/Desktop/Mein Business/Programmierprojekte/musikfürfirmen.de/tall-stack/VISUAL_PAGE_BUILDER_ARCHITECTURE.md` for complete Phase 2 plan.
 
 ---
 

@@ -327,7 +327,7 @@ composer require intervention/image-laravel
 
 Update `.env`:
 ```env
-CDN_URL=https://cdn.musikfuerfirmen.de
+CDN_URL=https://cdn.musikfürfirmen.de.de
 ```
 
 Update `config/filesystems.php`:

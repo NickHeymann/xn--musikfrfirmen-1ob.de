@@ -167,7 +167,7 @@ curl http://localhost:8000/api/pages
 
 ### Wo sind die Logs?
 ```
-musikfuerfirmen/
+musikfürfirmen.de/
 ├── logs/
 │   ├── errors-2026-01-17.log  # Heute
 │   ├── errors-2026-01-18.log  # Morgen
