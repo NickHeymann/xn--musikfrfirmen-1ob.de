@@ -15,9 +15,9 @@ class CreateAdditionalPagesSeeder extends Seeder
             [
                 'title' => 'Impressum',
                 'type' => 'legal',
-                'status' => 'published',
+                'is_published' => true,
                 'display_order' => 10,
-                'content' => json_encode([
+                'content' => [
                     'version' => '1.0',
                     'type' => 'page',
                     'blocks' => [
@@ -30,10 +30,10 @@ class CreateAdditionalPagesSeeder extends Seeder
                                         <div>
                                             <h2 class="text-xl font-semibold text-[#1a1a1a] mb-4">Angaben gemäß § 5 TMG</h2>
                                             <div class="bg-[#f9faf9] rounded-xl p-6 leading-relaxed">
-                                                <p class="font-medium text-[#1a1a1a]">Nick Heymann</p>
+                                                <p class="font-medium text-[#1a1a1a]">Jonas Glamann</p>
                                                 <p>musikfürfirmen.de</p>
-                                                <p class="mt-2 text-sm text-[#666]">[Straße und Hausnummer]</p>
-                                                <p class="text-sm text-[#666]">[PLZ] Hamburg</p>
+                                                <p class="mt-2">Hellbrookstraße 42a</p>
+                                                <p>22305 Hamburg</p>
                                             </div>
                                         </div>
                                         <div>
@@ -46,11 +46,11 @@ class CreateAdditionalPagesSeeder extends Seeder
                                         <div>
                                             <h2 class="text-xl font-semibold text-[#1a1a1a] mb-4">Umsatzsteuer-ID</h2>
                                             <p class="leading-relaxed">Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:</p>
-                                            <p class="mt-2 text-sm text-[#666]">[USt-IdNr. hier eintragen]</p>
+                                            <p class="mt-2 font-medium">DE406490626</p>
                                         </div>
                                         <div>
                                             <h2 class="text-xl font-semibold text-[#1a1a1a] mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-                                            <p class="leading-relaxed">Nick Heymann<br /><span class="text-sm text-[#666]">[Adresse wie oben]</span></p>
+                                            <p class="leading-relaxed">Jonas Glamann<br />Hellbrookstraße 42a<br />22305 Hamburg</p>
                                         </div>
                                         <div>
                                             <h2 class="text-xl font-semibold text-[#1a1a1a] mb-4">Streitschlichtung</h2>
@@ -62,7 +62,7 @@ class CreateAdditionalPagesSeeder extends Seeder
                             ]
                         ],
                     ]
-                ])
+                ]
             ]
         );
 
@@ -72,9 +72,9 @@ class CreateAdditionalPagesSeeder extends Seeder
             [
                 'title' => 'Datenschutzerklärung',
                 'type' => 'legal',
-                'status' => 'published',
+                'is_published' => true,
                 'display_order' => 11,
-                'content' => json_encode([
+                'content' => [
                     'version' => '1.0',
                     'type' => 'page',
                     'blocks' => [
@@ -92,8 +92,10 @@ class CreateAdditionalPagesSeeder extends Seeder
                                         <div>
                                             <h2 class="text-xl font-semibold text-[#1a1a1a] mb-4">2. Verantwortliche Stelle</h2>
                                             <div class="bg-[#f9faf9] rounded-xl p-6 leading-relaxed">
-                                                <p class="font-medium text-[#1a1a1a]">Nick Heymann</p>
+                                                <p class="font-medium text-[#1a1a1a]">Jonas Glamann</p>
                                                 <p>musikfürfirmen.de</p>
+                                                <p class="mt-2">Hellbrookstraße 42a</p>
+                                                <p>22305 Hamburg</p>
                                                 <p class="mt-2">E-Mail: <a href="mailto:kontakt@musikfuerfirmen.de" class="text-[#0D7A5F] hover:underline">kontakt@musikfuerfirmen.de</a></p>
                                             </div>
                                         </div>
@@ -111,7 +113,7 @@ class CreateAdditionalPagesSeeder extends Seeder
                             ]
                         ],
                     ]
-                ])
+                ]
             ]
         );
 
