@@ -1,0 +1,384 @@
+# Discovery Document: Code Quality Improvements
+
+**Generated:** 2026-01-26
+**Project:** musikfürfirmen.de
+**Type:** Technical Debt / Code Quality
+
+---
+
+## Goal
+
+Improve code quality, security, and type safety across the musikfürfirmen.de codebase by:
+1. Adding DOMPurify sanitization to prevent XSS vulnerabilities in TextBlock component
+2. Removing debugging console.log statements from production code
+3. Replacing `any` types with proper TypeScript types in editable component interfaces
+
+---
+
+## Problem Statement
+
+The codebase currently has three categories of technical debt that compromise production quality:
+
+### 1. Security Gap (TextBlock.tsx)
+The TextBlock component renders HTML content using `dangerouslySetInnerHTML` without sanitization. While content comes from a trusted CMS database, this creates a stored XSS vulnerability if an admin account is compromised. DOMPurify is already installed but not yet implemented.
+
+**Risk:** Medium (defense-in-depth violation)
+**Impact:** High (potential XSS attack)
+
+### 2. Debugging Artifacts (Footer.tsx, admin/pages/page.tsx)
+Four `console.log` statements remain in Footer.tsx from development, logging contentEditable changes to the browser console. These provide no value in production and expose internal state changes.
+
+**Risk:** Low (information disclosure)
+**Impact:** Low (console noise, unprofessional)
+
+### 3. Type Safety Erosion (Hero.tsx, TextBlock.tsx, others)
+The `_editableProps.onContentChange` callback uses `any` type for the `value` parameter across multiple editable components. This breaks TypeScript's type checking and increases the risk of runtime errors.
+
+**Risk:** Medium (type safety compromise)
+**Impact:** Medium (potential runtime bugs, maintenance burden)
+
+---
+
+## User Story
+
+**As a** developer maintaining the musikfürfirmen.de website  
+**I want** to eliminate security vulnerabilities, debugging artifacts, and type safety gaps  
+**So that** the codebase meets production quality standards and is safer to maintain
+
+---
+
+## Requirements
+
+### Functional Requirements
+
+1. **HTML Sanitization (TextBlock.tsx)**
+   - All HTML content rendered via `dangerouslySetInnerHTML` must pass through DOMPurify.sanitize()
+   - Sanitization must preserve legitimate HTML tags (headings, paragraphs, links, lists, etc.)
+   - Sanitization must remove potentially dangerous tags and attributes (scripts, event handlers, etc.)
+   - Acceptance: No XSS vulnerabilities when testing with `<script>alert('test')</script>` injection
+
+2. **Console Statement Removal (Footer.tsx)**
+   - Remove all 4 `console.log` statements from Footer.tsx (lines 37, 58, 88, 123)
+   - Preserve the `onBlur` event handlers and change detection logic
+   - Preserve editor mode functionality (contentEditable behavior)
+   - Acceptance: `grep "console.log" src/components/Footer.tsx` returns no results
+
+3. **Type Safety (Hero.tsx + visual-editor.ts)**
+   - Define proper TypeScript type for editable value parameter (currently `any`)
+   - Replace `any` with union type: `string | string[] | Record<string, unknown>`
+   - Apply type consistently across all editable components
+   - Export shared type from `src/types/visual-editor.ts`
+   - Acceptance: `npx tsc --noEmit` passes with no errors related to editable props
+
+4. **Verification**
+   - All changes must pass TypeScript compilation: `npx tsc --noEmit`
+   - All changes must pass ESLint: `npm run lint`
+   - Production build must succeed: `npm run build`
+   - Manual testing in editor mode must confirm no functionality loss
+
+5. **Documentation**
+   - Remove TODO comment from TextBlock.tsx (line 2) after implementation
+   - Update any type definitions in visual-editor.ts with JSDoc comments
+   - Ensure code changes follow existing component patterns
+
+### Technical Requirements
+
+1. **DOMPurify Integration**
+   - Use existing DOMPurify 3.3.1 dependency (already installed)
+   - Import: `import DOMPurify from 'dompurify';`
+   - Apply sanitization in client component ('use client' directive already present)
+   - Sanitize content, not wrapper elements (preserve contentEditable behavior)
+
+2. **Type System Enhancement**
+   - Define `EditableValue` type in `src/types/visual-editor.ts`
+   - Use descriptive union type, not generic `unknown`
+   - Consider future extensibility (more value types may be added)
+   - Follow existing type definition patterns in visual-editor.ts
+
+3. **Code Quality Standards**
+   - No breaking changes to existing functionality
+   - Follow component patterns observed in codebase
+   - Maintain consistency with existing code style
+   - Zero new dependencies required
+
+4. **Git Safety**
+   - Create feature branch: `fix/code-quality-improvements`
+   - Do NOT work on `main` branch directly
+   - Create snapshot tag before starting: `snapshot-20260126-1833`
+   - Commit changes in logical groups (security, cleanup, types)
+
+5. **Testing Requirements**
+   - Manual testing in admin editor mode (create/edit TextBlock)
+   - Manual testing of Footer editing (email, phone, links, company name)
+   - Manual testing of Hero editing (slider content, features)
+   - Console verification (no console.log output in browser)
+
+---
+
+## Decisions Made
+
+### Decision 1: DOMPurify Sanitization Strategy
+**Chosen:** Sanitize on render, not on save  
+**Rationale:**
+- Content is stored as-is in database (no modification)
+- Sanitization happens at render time (defense in depth)
+- Allows for sanitization rule updates without database migration
+- Consistent with React security best practices
+
+**Alternatives Considered:**
+- Sanitize on save: Would require database migration for existing content
+- No sanitization: Unacceptable security risk
+
+**Implementation:**
+```typescript
+import DOMPurify from 'dompurify';
+
+const sanitizedContent = DOMPurify.sanitize(content);
+<div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+```
+
+### Decision 2: Console Statement Handling
+**Chosen:** Complete removal of `console.log` statements  
+**Rationale:**
+- No production value (debugging only)
+- Existing Toast system available if user feedback needed
+- `console.error` in admin/pages/page.tsx can remain (error logging is acceptable)
+- Clean code principle: remove unused debugging artifacts
+
+**Alternatives Considered:**
+- Replace with Toast notifications: Over-engineering for simple edit tracking
+- Conditional logging (dev only): Adds complexity, still not needed
+- Keep console.error: Acceptable for error logging (will keep these)
+
+**Implementation:**
+- Remove all 4 `console.log` lines from Footer.tsx
+- Keep existing `onBlur` handlers and change detection logic
+- Optionally add Toast notifications if user feedback is needed (not required)
+
+### Decision 3: Type Definition Approach
+**Chosen:** Shared union type in visual-editor.ts  
+**Rationale:**
+- Maintains single source of truth for editable value types
+- Allows type reuse across all editable components (Hero, TextBlock, CTASection, etc.)
+- More maintainable than duplicating type in each component
+- Follows existing pattern in visual-editor.ts
+
+**Type Definition:**
+```typescript
+// src/types/visual-editor.ts
+export type EditableValue = 
+  | string                      // Text content (heading, cta, etc.)
+  | string[]                    // Arrays (sliderContent, features)
+  | Record<string, unknown>;    // Complex objects (extensibility)
+```
+
+**Alternatives Considered:**
+- Keep `any`: Unacceptable, defeats TypeScript purpose
+- Use `unknown`: Too restrictive, requires type guards everywhere
+- Component-specific types: Less maintainable, harder to keep consistent
+
+**Implementation:**
+1. Add `EditableValue` export to visual-editor.ts
+2. Update `_editableProps` interface to use `EditableValue`
+3. Update all components using `_editableProps` (Hero.tsx, TextBlock.tsx, etc.)
+4. Verify with `npx tsc --noEmit`
+
+### Decision 4: Scope of Changes
+**Chosen:** Focus on the three specified issues only  
+**Rationale:**
+- Clear, bounded scope reduces risk
+- All three issues are low-hanging fruit (15-20 minutes total)
+- Other potential improvements should be separate tasks
+- Minimizes testing surface area
+
+**Out of Scope (Intentional):**
+- Refactoring other components with similar patterns
+- Adding Toast notifications to replace console.log (not needed)
+- Migrating console.error to Toast in admin pages (acceptable as-is)
+- Performance optimizations
+- UI/UX improvements
+
+### Decision 5: Testing Strategy
+**Chosen:** Manual testing + automated checks  
+**Rationale:**
+- No existing UI test suite for editor mode
+- TypeScript + ESLint + build checks catch type/syntax issues
+- Manual testing validates functionality preservation
+- Low risk changes don't warrant extensive test suite
+
+**Testing Plan:**
+1. Automated: `npx tsc --noEmit` (type safety)
+2. Automated: `npm run lint` (code quality)
+3. Automated: `npm run build` (production build)
+4. Manual: Test TextBlock in editor (create, edit, save)
+5. Manual: Test Footer editing (email, phone, links)
+6. Manual: Test Hero editing (slider, features)
+7. Manual: Verify no console.log output in browser
+
+---
+
+## Assumptions
+
+### Technical Assumptions
+1. **DOMPurify Configuration:** Using default DOMPurify settings is sufficient (no custom sanitization rules needed)
+2. **Browser Compatibility:** DOMPurify works in all target browsers (Next.js 16 targets modern browsers)
+3. **TypeScript Version:** TypeScript 5 supports the chosen type patterns (union types, Record<>)
+4. **Editor Mode Detection:** Existing `pathname?.startsWith('/admin/editor/')` pattern is reliable
+
+### Codebase Assumptions
+1. **No Other XSS Risks:** Only TextBlock.tsx uses dangerouslySetInnerHTML (verified in codebase analysis)
+2. **Consistent Patterns:** All editable components follow same `_editableProps` interface pattern
+3. **No Breaking Changes:** Changes won't affect other components (verified through symbol search)
+4. **Database Content:** Existing database content is safe (no malicious scripts in CMS)
+
+### Workflow Assumptions
+1. **Git Workflow:** Feature branch workflow is acceptable (not working directly on main)
+2. **Testing Access:** Have access to admin panel for manual testing
+3. **Deployment:** Changes will be deployed via Vercel (auto-deploy on merge to main)
+4. **Review:** Changes will be reviewed before merge (standard practice)
+
+---
+
+## Success Criteria
+
+### ✅ Code Quality Complete When:
+
+1. **Security: TextBlock.tsx**
+   - [ ] DOMPurify imported and used
+   - [ ] Both `dangerouslySetInnerHTML` usages sanitized (lines 48, 57)
+   - [ ] TODO comment removed (line 2)
+   - [ ] Test: `<script>alert('test')</script>` injection blocked
+   - [ ] Editor mode still works (contentEditable behavior preserved)
+
+2. **Cleanup: Footer.tsx**
+   - [ ] All 4 `console.log` statements removed (lines 37, 58, 88, 123)
+   - [ ] `onBlur` handlers preserved and functional
+   - [ ] Editor mode still works (contentEditable behavior preserved)
+   - [ ] Verify: `grep "console.log" src/components/Footer.tsx` returns empty
+
+3. **Type Safety: Hero.tsx + visual-editor.ts**
+   - [ ] `EditableValue` type defined in visual-editor.ts
+   - [ ] Hero.tsx `any` type replaced with `EditableValue` (line 14)
+   - [ ] TextBlock.tsx `any` type replaced with `EditableValue` (line 10)
+   - [ ] Type check passes: `npx tsc --noEmit` ✅
+   - [ ] No type-related runtime errors
+
+4. **Verification: All Files**
+   - [ ] TypeScript check: `npx tsc --noEmit` ✅
+   - [ ] Linting check: `npm run lint` ✅
+   - [ ] Build check: `npm run build` ✅
+   - [ ] Manual editor testing: All editable features work
+   - [ ] Console check: No `console.log` output (except intentional errors)
+
+5. **Git Safety**
+   - [ ] Feature branch created: `fix/code-quality-improvements`
+   - [ ] Snapshot tag created: `snapshot-20260126-1833`
+   - [ ] NOT working on `main` branch directly
+   - [ ] Commits are logical and atomic
+
+---
+
+## Out of Scope
+
+### Explicitly NOT Included:
+
+1. **Other Console Statements**
+   - `console.error` in admin/pages/page.tsx (acceptable for error logging)
+   - Any console statements in other files (not part of this task)
+
+2. **Other Components with `any` Types**
+   - CTASection.tsx, ProcessSteps.tsx, FAQ.tsx (if they have similar issues)
+   - Will be addressed in separate task if needed
+
+3. **Toast Notification System**
+   - Not replacing console.log with Toast (over-engineering)
+   - Toast is available if needed, but not required for this task
+
+4. **Editor Mode Improvements**
+   - No changes to editor functionality
+   - No UI/UX improvements
+   - No additional features
+
+5. **Performance Optimizations**
+   - DOMPurify sanitization performance is acceptable
+   - No need for memoization or caching
+   - No bundle size concerns
+
+6. **Test Suite Creation**
+   - No automated UI tests for editor mode (not in scope)
+   - Manual testing is sufficient for this low-risk change
+
+7. **Documentation Updates**
+   - No README or documentation changes needed
+   - Code is self-documenting (TypeScript types)
+
+---
+
+## Implementation Notes
+
+### File Changes Summary
+
+**Files to Modify:**
+1. `src/components/TextBlock.tsx` - Add DOMPurify sanitization
+2. `src/components/Footer.tsx` - Remove console.log statements
+3. `src/components/Hero.tsx` - Replace `any` type
+4. `src/types/visual-editor.ts` - Add `EditableValue` type definition
+
+**Files to Read (No Changes):**
+- `src/app/admin/pages/page.tsx` - Review console.error usage (keep as-is)
+- Other editable components - Verify consistent pattern
+
+### Dependencies
+
+**No new dependencies required:**
+- ✅ DOMPurify 3.3.1 (already installed)
+- ✅ @types/dompurify 3.0.5 (already installed)
+
+### Estimated Effort
+
+**Task Breakdown:**
+- DOMPurify sanitization (TextBlock.tsx): 5 minutes
+- Remove console.log (Footer.tsx): 2 minutes
+- Type safety (Hero.tsx + visual-editor.ts): 8 minutes
+- Testing & verification: 10 minutes
+- **Total: ~25 minutes**
+
+### Risk Assessment
+
+**Low Risk Changes:**
+- DOMPurify is battle-tested library (3.3.1)
+- Removing console.log has no runtime impact
+- Type changes are compile-time only (no runtime changes)
+
+**Mitigation:**
+- Feature branch + snapshot tag (easy rollback)
+- TypeScript + ESLint catch issues before runtime
+- Manual testing confirms no functionality loss
+- Small scope limits blast radius
+
+---
+
+## Next Steps
+
+**Ready for Architect Phase:**
+
+This discovery document provides complete context for planning implementation waves. The Architect agent should:
+
+1. **Use Serena** to confirm exact file locations and symbol structures
+2. **Plan Wave 1** (Security + Cleanup):
+   - Task 1: Add DOMPurify to TextBlock.tsx
+   - Task 2: Remove console.log from Footer.tsx
+   - Task 3: Verify no other console.log in components
+3. **Plan Wave 2** (Type Safety):
+   - Task 4: Define EditableValue in visual-editor.ts
+   - Task 5: Update Hero.tsx to use EditableValue
+   - Task 6: Update TextBlock.tsx to use EditableValue
+   - Task 7: Verify type check passes
+4. **Generate verification commands** for each task
+5. **Output XML plan** for GSD Builder execution
+
+---
+
+**Discovery Complete!** ✅  
+**Generated:** 2026-01-26 18:35 UTC  
+**Status:** Ready for Planning Phase

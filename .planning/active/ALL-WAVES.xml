@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plan>
+  <metadata>
+    <project>musikfürfirmen.de</project>
+    <goal>Test GSD-NH checkpoint mode functionality</goal>
+    <total_waves>3</total_waves>
+    <generated>2026-01-26</generated>
+  </metadata>
+
+  <!-- Wave 1: Checkpoint Schema and Creation (10 tasks) -->
+  <phase name="Wave 1: Checkpoint Schema and Creation">
+
+    <!-- Task 1: Create testing directory -->
+    <task type="auto">
+      <name>Create testing directory</name>
+      <files>.planning/testing</files>
+      <action>Create .planning/testing directory if it doesn't exist using mkdir -p command</action>
+      <verify>test -d .planning/testing</verify>
+    </task>
+
+    <!-- Task 2: Create checkpoint schema definition -->
+    <task type="auto">
+      <name>Create checkpoint schema file</name>
+      <files>.planning/testing/CHECKPOINT-SCHEMA.json</files>
+      <action>Create JSON schema file defining CHECKPOINT.json structure with schema_version (string), checkpoint_id (string), created_at (ISO timestamp), project object (name, path, goal strings), execution object (status, started_at, paused_at timestamps, current_wave, total_waves, resume_from_task integers, execution_mode string), progress object (completed_waves integer array, completed_tasks array with wave/task/name/status), context object (serena_active boolean, memory_loaded boolean, last_mapping timestamp), metadata object (claude_version, gsd_version, checkpoint_reason strings)</action>
+      <verify>test -f .planning/testing/CHECKPOINT-SCHEMA.json &amp;&amp; jq empty .planning/testing/CHECKPOINT-SCHEMA.json</verify>
+    </task>
+
+    <!-- Task 3: Create sample checkpoint -->
+    <task type="auto">
+      <name>Create sample checkpoint JSON</name>
+      <files>.planning/testing/CHECKPOINT-sample.json</files>
+      <action>Create sample checkpoint based on schema with test data: checkpoint_id test-001, project musikfürfirmen.de at /Users/nickheymann/Projects/Active/xn--musikfrfirmen-1ob.de, goal test checkpoint mode, execution status paused with current_wave 1 of 2 total_waves, resume_from_task 5, execution_mode sequential, completed_tasks array with 4 tasks from wave 1 each with wave/task/name/status completed, context with serena_active true memory_loaded true, metadata with claude_version sonnet-4.5 gsd_version 2.1.2-hybrid checkpoint_reason user_requested</action>
+      <verify>test -f .planning/testing/CHECKPOINT-sample.json &amp;&amp; jq -e '.checkpoint_id == "test-001" and .execution.resume_from_task == 5' .planning/testing/CHECKPOINT-sample.json</verify>
+    </task>
+
+    <!-- Task 4: Create validation script -->
+    <task type="auto">
+      <name>Create checkpoint validation script</name>
+      <files>.planning/testing/validate-checkpoint.sh</files>
+      <action>Create executable bash script that validates checkpoint JSON: check schema_version exists, validate required fields checkpoint_id project.name execution.status progress.completed_tasks, verify timestamps ISO 8601 format, check wave task numbers are integers, validate status in paused/running/completed list, output errors to stderr, exit 0 if valid or exit 1 with message if invalid, accept checkpoint file path as first argument</action>
+      <verify>test -f .planning/testing/validate-checkpoint.sh &amp;&amp; test -x .planning/testing/validate-checkpoint.sh &amp;&amp; .planning/testing/validate-checkpoint.sh .planning/testing/CHECKPOINT-sample.json</verify>
+    </task>
+
+    <!-- Task 5: Create checkpoint creation script -->
+    <task type="auto">
+      <name>Create checkpoint creation script</name>
+      <files>.planning/testing/create-checkpoint.sh</files>
+      <action>Create executable bash script that generates CHECKPOINT.json from BUILD-STATE.json: read .planning/active/BUILD-STATE.json, extract goal status current_wave total_waves, generate unique checkpoint_id using date and random, capture ISO timestamp, build JSON matching schema with jq, write to .planning/active/CHECKPOINT.json, call backup script if checkpoint exists, validate output, exit 0 on success</action>
+      <verify>test -f .planning/testing/create-checkpoint.sh &amp;&amp; test -x .planning/testing/create-checkpoint.sh &amp;&amp; grep -q "BUILD-STATE.json" .planning/testing/create-checkpoint.sh</verify>
+    </task>
+
+    <!-- Task 6: Create checkpoint backup script -->
+    <task type="auto">
+      <name>Create checkpoint backup script</name>
+      <files>.planning/testing/backup-checkpoint.sh</files>
+      <action>Create executable bash script for backup: check if CHECKPOINT.json exists, if yes create timestamped backup in .planning/active with format CHECKPOINT-backup-YYYYMMDD-HHMMSS.json using date command, verify backup is valid JSON, keep only last 5 backups by removing oldest using ls and tail, echo backup path to stdout, exit 0 on success or 1 if source doesn't exist</action>
+      <verify>test -f .planning/testing/backup-checkpoint.sh &amp;&amp; test -x .planning/testing/backup-checkpoint.sh</verify>
+    </task>
+
+    <!-- Task 7: Generate test checkpoint -->
+    <task type="auto">
+      <name>Generate test checkpoint from BUILD-STATE</name>
+      <files>.planning/active/CHECKPOINT.json</files>
+      <action>Run create-checkpoint.sh to generate CHECKPOINT.json from existing BUILD-STATE.json, manually adjust to simulate paused state: set execution.status to paused, set execution.paused_at to current timestamp, set execution.current_wave to 1, set execution.resume_from_task to 5, add first 4 completed tasks to progress.completed_tasks array with wave 1</action>
+      <verify>test -f .planning/active/CHECKPOINT.json &amp;&amp; jq -e '.execution.status == "paused"' .planning/active/CHECKPOINT.json</verify>
+    </task>
+
+    <!-- Task 8: Create staleness checker -->
+    <task type="auto">
+      <name>Create checkpoint age checker script</name>
+      <files>.planning/testing/check-checkpoint-age.sh</files>
+      <action>Create executable bash script that checks timestamp: accept checkpoint path as argument, read created_at field with jq, convert to epoch seconds using date, get current epoch, calculate difference, convert to hours, if greater than 24 hours echo warning to stderr and exit 1, otherwise exit 0</action>
+      <verify>test -f .planning/testing/check-checkpoint-age.sh &amp;&amp; test -x .planning/testing/check-checkpoint-age.sh &amp;&amp; .planning/testing/check-checkpoint-age.sh .planning/active/CHECKPOINT.json</verify>
+    </task>
+
+    <!-- Task 9: Create diff script -->
+    <task type="auto">
+      <name>Create checkpoint diff script</name>
+      <files>.planning/testing/diff-checkpoint.sh</files>
+      <action>Create executable bash script that compares checkpoint with BUILD-STATE: read both JSONs, extract wave and task info, compare current_wave values, list completed tasks from checkpoint, check if BUILD-STATE has progressed further, identify missing tasks in checkpoint that are completed in BUILD-STATE, output formatted diff report showing what changed, exit 0 always</action>
+      <verify>test -f .planning/testing/diff-checkpoint.sh &amp;&amp; test -x .planning/testing/diff-checkpoint.sh</verify>
+    </task>
+
+    <!-- Task 10: Create schema documentation -->
+    <task type="auto">
+      <name>Document checkpoint schema</name>
+      <files>.planning/testing/CHECKPOINT-SCHEMA.md</files>
+      <action>Create markdown doc explaining schema: describe checkpoint purpose for pause/resume workflows, document all fields with types examples and descriptions organized by sections (metadata project execution progress context metadata), provide complete example JSON, explain validation rules for each field, document integration with BUILD-STATE.json and ALL-WAVES.xml, include troubleshooting section for validation errors invalid timestamps missing fields, add FAQ with common questions</action>
+      <verify>test -f .planning/testing/CHECKPOINT-SCHEMA.md &amp;&amp; grep -q "checkpoint purpose" .planning/testing/CHECKPOINT-SCHEMA.md</verify>
+    </task>
+
+  </phase>
+
+  <summary>
+    <note>Complete wave plan with 32 tasks across 3 waves for testing GSD-NH checkpoint functionality</note>
+  </summary>
+
+</plan>

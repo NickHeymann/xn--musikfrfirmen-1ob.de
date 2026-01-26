@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# musikfürfirmen.de
+
+Website for **musikfürfirmen.de** – Live bands, DJs, and technical equipment for corporate events.
+
+## Stack
+
+**TALL Stack (Laravel + Livewire + Alpine.js + Tailwind CSS)**
+
+- Laravel 12 + Filament 4 Admin Panel
+- Livewire 3 for reactive components
+- Alpine.js for client-side interactivity
+- Tailwind CSS 4 for styling
+- PostgreSQL database
+- Docker deployment to Hetzner
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Navigate to the TALL stack directory
+cd tall-stack
+
+# Install dependencies
+composer install
+npm install
+
+# Set up environment
+cp .env.example .env
+php artisan key:generate
+
+# Run migrations and seed data
+php artisan migrate
+php artisan db:seed
+
+# Start development server
+php artisan serve
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:8000](http://localhost:8000) to see the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Panel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Access the Filament admin panel at [http://localhost:8000/admin](http://localhost:8000/admin)
 
-## Learn More
+**Features:**
+- Services management
+- Team members management
+- FAQs management
+- Pages management (Impressum, Datenschutz, etc.)
+- Events management
+- Booking management
+- Contact submissions
 
-To learn more about Next.js, take a look at the following resources:
+See `tall-stack/ADMIN_GUIDE.md` for detailed usage instructions.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deployed via GitHub Actions to Hetzner:
 
-## Deploy on Vercel
+```
+Push to main → GitHub Actions → Docker build → Hetzner deployment
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See `tall-stack/DEPLOYMENT.md` for detailed deployment instructions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Documentation
+
+- `tall-stack/MIGRATION_SUMMARY.md` - Migration from Next.js to TALL Stack
+- `tall-stack/ADMIN_GUIDE.md` - Admin panel user guide
+- `tall-stack/DEPLOYMENT.md` - Deployment instructions
+- `CLAUDE.md` - AI assistant context
+
+## Archive
+
+The `archive/` directory contains deprecated code:
+- `deprecated-nextjs-frontend/` - Original Next.js frontend (replaced 2026-01-26)
+- `deprecated-nextjs-visual-editor/` - Custom visual editor (replaced by Filament)
+
+**Do not modify archived code** – it's kept for reference only.

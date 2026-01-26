@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plan>
+  <metadata>
+    <project>musikfürfirmen.de</project>
+    <goal>Code quality improvements: security, cleanup, type safety</goal>
+    <total_waves>2</total_waves>
+    <generated>2026-01-26</generated>
+  </metadata>
+
+  <!-- Wave 1: Security and Cleanup (8 tasks) -->
+  <phase name="Wave 1: Security and Cleanup">
+
+    <!-- Task 1: Add DOMPurify sanitization to TextBlock -->
+    <task type="auto">
+      <name>Add DOMPurify import to TextBlock.tsx</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>Add import statement after line 4: import DOMPurify from 'dompurify';</action>
+      <verify>grep -q "import DOMPurify from 'dompurify'" src/components/TextBlock.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Sanitize HTML content in editor mode (TextBlock.tsx)</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>On line 48, wrap content in DOMPurify.sanitize() to prevent XSS: change the dangerouslySetInnerHTML value to use DOMPurify.sanitize(content)</action>
+      <verify>grep -q "DOMPurify.sanitize(content)" src/components/TextBlock.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Sanitize HTML content in view mode (TextBlock.tsx)</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>On line 57, wrap content in DOMPurify.sanitize() to prevent XSS: change the dangerouslySetInnerHTML value to use DOMPurify.sanitize(content)</action>
+      <verify>test $(grep -c "DOMPurify.sanitize(content)" src/components/TextBlock.tsx) -eq 2</verify>
+    </task>
+
+    <task type="auto">
+      <name>Remove TODO comment from TextBlock.tsx</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>Delete line 2 which contains the TODO comment about DOMPurify sanitization</action>
+      <verify>! grep -q "TODO.*DOMPurify" src/components/TextBlock.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Remove console.log from Footer email field</name>
+      <files>src/components/Footer.tsx</files>
+      <action>Delete line 37 containing console.log for Email text changed. Keep the onBlur handler intact.</action>
+      <verify>! grep -q "console.log.*Email text changed" src/components/Footer.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Remove console.log from Footer phone field</name>
+      <files>src/components/Footer.tsx</files>
+      <action>Delete line 58 containing console.log for Phone text changed. Keep the onBlur handler intact.</action>
+      <verify>! grep -q "console.log.*Phone text changed" src/components/Footer.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Remove console.log from Footer link field</name>
+      <files>src/components/Footer.tsx</files>
+      <action>Delete line 88 containing console.log for Footer link text changed. Keep the onBlur handler intact.</action>
+      <verify>! grep -q "console.log.*Footer link text changed" src/components/Footer.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Remove console.log from Footer company name field</name>
+      <files>src/components/Footer.tsx</files>
+      <action>Delete line 123 containing console.log for Company name changed. Keep the onBlur handler intact.</action>
+      <verify>! grep -q "console.log.*Company name changed" src/components/Footer.tsx</verify>
+    </task>
+
+  </phase>
+
+  <!-- Wave 2: Type Safety Improvements (7 tasks) -->
+  <phase name="Wave 2: Type Safety">
+
+    <task type="auto">
+      <name>Define EditableValue type in visual-editor.ts</name>
+      <files>src/types/visual-editor.ts</files>
+      <action>Add after line 2, following the comment: Define export type EditableValue with JSDoc explaining it supports string for text content, string array for arrays like sliderContent, and Record string unknown for complex objects</action>
+      <verify>grep -q "export type EditableValue" src/types/visual-editor.ts</verify>
+    </task>
+
+    <task type="auto">
+      <name>Import EditableValue in Hero.tsx</name>
+      <files>src/components/Hero.tsx</files>
+      <action>Add import after the React imports around line 4: import EditableValue from the visual-editor types file</action>
+      <verify>grep -q "import.*EditableValue.*from.*visual-editor" src/components/Hero.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Replace any type with EditableValue in Hero.tsx</name>
+      <files>src/components/Hero.tsx</files>
+      <action>On line 14, change the onContentChange parameter type from any to EditableValue for the value parameter</action>
+      <verify>grep -q "onContentChange.*value: EditableValue" src/components/Hero.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Import EditableValue in TextBlock.tsx</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>Add import after the DOMPurify import around line 5: import EditableValue from the visual-editor types file</action>
+      <verify>grep -q "import.*EditableValue.*from.*visual-editor" src/components/TextBlock.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Replace any type with EditableValue in TextBlock.tsx</name>
+      <files>src/components/TextBlock.tsx</files>
+      <action>On line 10, change the onContentChange parameter type from any to EditableValue for the value parameter</action>
+      <verify>grep -q "onContentChange.*value: EditableValue" src/components/TextBlock.tsx</verify>
+    </task>
+
+    <task type="auto">
+      <name>Verify TypeScript compilation passes</name>
+      <files>.</files>
+      <action>Run TypeScript compiler in no-emit mode to verify all type changes are correct and no errors are introduced.</action>
+      <verify>npx tsc --noEmit</verify>
+    </task>
+
+    <task type="auto">
+      <name>Verify ESLint passes</name>
+      <files>.</files>
+      <action>Run ESLint to verify code quality standards are met and no linting errors are introduced.</action>
+      <verify>npm run lint</verify>
+    </task>
+
+  </phase>
+
+  <!-- Summary of changes -->
+  <summary>
+    <total_tasks>15</total_tasks>
+    <files_modified>4</files_modified>
+    <security_improvements>
+      <item>Added DOMPurify sanitization to TextBlock.tsx (2 occurrences)</item>
+      <item>Removed XSS vulnerability in HTML rendering</item>
+    </security_improvements>
+    <code_cleanup>
+      <item>Removed 4 console.log statements from Footer.tsx</item>
+      <item>Removed TODO comment from TextBlock.tsx</item>
+    </code_cleanup>
+    <type_safety>
+      <item>Defined EditableValue type in visual-editor.ts</item>
+      <item>Replaced 2 any types with EditableValue in Hero.tsx and TextBlock.tsx</item>
+      <item>Added proper type imports</item>
+    </type_safety>
+    <verification>
+      <item>TypeScript compilation check (npx tsc --noEmit)</item>
+      <item>ESLint check (npm run lint)</item>
+    </verification>
+  </summary>
+
+</plan>
