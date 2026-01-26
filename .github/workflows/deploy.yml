@@ -38,5 +38,5 @@ jobs:
           script: |
             docker load < /tmp/image.tar.gz
             rm /tmp/image.tar.gz
-            cd /opt/apps/musikfuerfirmen
+            cd /opt/apps/xn--musikfrfirmen-1ob.de
             docker compose up -d --force-recreate
