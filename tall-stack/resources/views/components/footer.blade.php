@@ -1,27 +1,27 @@
-{{-- Footer Component - Canva Redesign --}}
-<footer class="bg-[#1a1a1a]" style="font-family: 'Poppins', sans-serif">
-    <div class="max-w-7xl mx-auto px-6 py-16">
+{{-- Footer Component --}}
+<footer class="bg-white" style="font-family: 'Poppins', sans-serif">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="flex flex-col md:flex-row justify-center gap-16 md:gap-32">
             {{-- Kontakt --}}
             <div>
-                <h4 class="text-base font-semibold text-white mb-6">
+                <h4 class="text-base font-semibold text-black mb-6">
                     Kontakt
                 </h4>
-                <div class="space-y-3 text-[15px] text-gray-300 font-light">
+                <div class="space-y-3 text-[15px] text-black font-light">
                     <p>
                         <a
-                            href="mailto:kontakt@musikfuerfirmen.de"
-                            class="hover:text-[#2DD4A8] transition-colors"
+                            href="mailto:info@musikfuerfirmen.de"
+                            class="hover:underline transition-colors"
                         >
-                            kontakt@musikfuerfirmen.de
+                            info@musikfuerfirmen.de
                         </a>
                     </p>
                     <p>
                         <a
-                            href="tel:+491746935533"
-                            class="hover:text-[#2DD4A8] transition-colors"
+                            href="tel:+491234567890"
+                            class="hover:underline transition-colors"
                         >
-                            +49 174 6935533
+                            +49 123 456 7890
                         </a>
                     </p>
                 </div>
@@ -29,20 +29,12 @@
 
             {{-- Info --}}
             <div>
-                <h4 class="text-base font-semibold text-white mb-6">Info</h4>
+                <h4 class="text-base font-semibold text-black mb-6">Info</h4>
                 <div class="space-y-3 text-[15px]">
                     <p>
                         <a
-                            href="/uber-uns"
-                            class="text-gray-300 hover:text-[#2DD4A8] transition-colors font-light"
-                        >
-                            Über uns
-                        </a>
-                    </p>
-                    <p>
-                        <a
                             href="/impressum"
-                            class="text-gray-300 hover:text-[#2DD4A8] transition-colors font-light"
+                            class="text-black hover:underline transition-colors font-light"
                         >
                             Impressum
                         </a>
@@ -50,7 +42,7 @@
                     <p>
                         <a
                             href="/datenschutz"
-                            class="text-gray-300 hover:text-[#2DD4A8] transition-colors font-light"
+                            class="text-black hover:underline transition-colors font-light"
                         >
                             Datenschutz
                         </a>
@@ -60,8 +52,8 @@
         </div>
     </div>
 
-    <div class="border-t border-gray-800 py-6">
-        <p class="text-sm text-gray-400 text-center font-light" style="font-family: 'Poppins', sans-serif">
+    <div class="bg-black py-4">
+        <p class="text-sm text-white text-center font-light" style="font-family: 'Poppins', sans-serif">
             © {{ date('Y') }} musikfürfirmen.de
         </p>
     </div>

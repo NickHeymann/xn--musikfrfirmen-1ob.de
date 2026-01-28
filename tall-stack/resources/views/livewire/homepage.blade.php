@@ -1,55 +1,73 @@
-{{-- musikfürfirmen.de Homepage - Canva Redesign --}}
+{{-- musikfürfirmen.de Homepage - TALL Stack Version --}}
 <div class="w-full">
     {{-- Header Navigation --}}
     <x-header />
 
-    {{-- Hero Section - Simplified --}}
+    {{-- Hero Section --}}
     <x-hero />
 
-    {{-- Was wir bieten - Alternating Service Layout --}}
-    <section id="waswirbieten" class="bg-white scroll-mt-[108px]">
+    {{-- Was wir bieten - Service Cards --}}
+    <section id="waswirbieten" class="bg-white overflow-visible pt-[187px] scroll-mt-0">
         <x-service-cards />
     </section>
 
-    {{-- NEW: Warum Wir? Section --}}
-    <x-why-us-section />
-
-    {{-- NEW: Das heißt für euch - Benefits --}}
-    <x-benefits-section />
-
-    {{-- NEW: WhatsApp CTA Section --}}
-    <x-whatsapp-cta />
-
-    {{-- NEW: Testimonial Section --}}
-    <x-testimonial-section />
+    {{-- Service Steps - Process --}}
+    <section id="wiewirarbeiten" class="pt-[108px] bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-[60px]">
+                <h2
+                    onclick="document.getElementById('wiewirarbeiten').scrollIntoView({ behavior: 'smooth' })"
+                    class="text-[3rem] font-semibold text-[#1a1a1a] mb-[10px] cursor-pointer hover:opacity-70 transition-opacity"
+                    style="font-family: 'Poppins', sans-serif"
+                >
+                    Musik und Technik? Läuft.
+                </h2>
+                <p
+                    class="text-[1.5rem] font-normal text-[#1a1a1a] max-w-[600px] mx-auto mb-2"
+                    style="font-family: 'Poppins', sans-serif"
+                >
+                    Von uns geplant. Von euch gefeiert.
+                </p>
+            </div>
+            <x-process-steps />
+        </div>
+    </section>
 
     {{-- Team Section --}}
-    <section id="ueberuns" class="bg-white scroll-mt-[108px]">
+    <section id="ueberuns" class="pt-[178px] bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {{-- Moin aus Hamburg Animation --}}
             <div
-                class="text-center pt-24 pb-8"
+                class="text-center px-5 overflow-visible"
                 style="font-family: 'Poppins', sans-serif"
             >
-                <h2 class="text-4xl md:text-5xl font-bold text-[#1a1a1a]">
-                    Moin aus Hamburg!
-                </h2>
+                <div
+                    onclick="document.getElementById('ueberuns').scrollIntoView({ behavior: 'smooth' })"
+                    class="cursor-pointer hover:opacity-70 transition-opacity inline-block"
+                >
+                    <x-hamburg-animation />
+                </div>
             </div>
             <x-team-section />
         </div>
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="pt-24 pb-16 bg-white scroll-mt-[108px]">
+    <section id="faq" class="pt-[134px] bg-white">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
-                class="text-center text-4xl md:text-5xl font-bold mb-16 tracking-[-1px] text-black"
+                onclick="document.getElementById('faq').scrollIntoView({ behavior: 'smooth' })"
+                class="text-center text-[3rem] font-semibold mb-[120px] tracking-[-1px] text-black cursor-pointer hover:opacity-70 transition-opacity"
                 style="font-family: 'Poppins', sans-serif"
             >
                 FAQ
             </h2>
             <x-faq />
         </div>
+    </section>
+
+    {{-- Logo Animation --}}
+    <section class="pt-[190px] pb-[163px] bg-white relative z-[1]">
+        <x-logo-animation />
     </section>
 
     {{-- CTA Section --}}
