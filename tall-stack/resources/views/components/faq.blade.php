@@ -33,7 +33,7 @@ $faqItems = \App\Models\Faq::active()->get();
                         @if($item->has_link)
                             {!! str_replace(
                                 '"Unverbindliches Angebot anfragen"',
-                                '<span onclick="window.dispatchEvent(new CustomEvent(\'openMFFCalculator\'))" class="text-[#7dc9b1] cursor-pointer underline hover:text-[#5eb89d] transition-colors">Unverbindliches Angebot anfragen</span>',
+                                '<span onclick="Livewire.dispatch('openMFFCalculator')" class="text-[#7dc9b1] cursor-pointer underline hover:text-[#5eb89d] transition-colors">Unverbindliches Angebot anfragen</span>',
                                 $item->answer
                             ) !!}
                         @else

@@ -205,7 +205,7 @@
 
     <div class="w-full flex justify-center mt-[60px]">
         <button
-            onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+            onclick="Livewire.dispatch('openMFFCalculator')"
             class="service-cta-button py-[18px] px-12 bg-[#D4F4E8] text-[#292929] border-none rounded-[50px] text-lg font-medium cursor-pointer transition-all duration-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
             :class="{ 'opacity-100': ctaVisible, 'opacity-0': !ctaVisible }"
             style="font-family: 'Poppins', sans-serif; transition: all 0.3s ease, opacity 1s ease-out"

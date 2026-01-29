@@ -1,6 +1,9 @@
 <div
     x-data="{
         showModal: @entangle('showModal'),
+        openModal() {
+            this.showModal = true;
+        },
         citySuggestions: [],
         showSuggestions: false,
         async fetchCities(query) {
@@ -44,7 +47,8 @@
             document.body.style.overflow = value ? 'hidden' : '';
         });
     "
-    @open-calcom.window="window.open($event.detail.url, '_blank')"
+    x-on:open-calcom.window="window.open($event.detail.url, '_blank')"
+    x-on:open-m-f-f-calculator.window="openModal()"
     style="font-family: 'Poppins', sans-serif"
 >
     {{-- Modal Overlay --}}

@@ -28,7 +28,7 @@
         {{-- CTA Button --}}
         <button
             class="inline-flex items-center gap-2 bg-[#2DD4A8] text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-[#22a883] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 uppercase tracking-wide"
-            onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+            onclick="Livewire.dispatch('openMFFCalculator')"
         >
             Unverbindliches Angebot anfragen
         </button>

@@ -36,7 +36,7 @@
                         Mehr erfahren
                     </a>
                     <button
-                        onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+                        onclick="Livewire.dispatch('openMFFCalculator')"
                         class="inline-block px-8 py-3 bg-[#2DD4A8] text-white font-semibold rounded-full hover:bg-[#22a883] transition-all duration-300 uppercase tracking-wide text-sm"
                     >
                         Jetzt buchen
@@ -72,7 +72,7 @@
                         Mehr erfahren
                     </a>
                     <button
-                        onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+                        onclick="Livewire.dispatch('openMFFCalculator')"
                         class="inline-block px-8 py-3 bg-[#2DD4A8] text-white font-semibold rounded-full hover:bg-[#22a883] transition-all duration-300 uppercase tracking-wide text-sm"
                     >
                         Jetzt buchen
@@ -108,7 +108,7 @@
                         Mehr erfahren
                     </a>
                     <button
-                        onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+                        onclick="Livewire.dispatch('openMFFCalculator')"
                         class="inline-block px-8 py-3 bg-[#2DD4A8] text-white font-semibold rounded-full hover:bg-[#22a883] transition-all duration-300 uppercase tracking-wide text-sm"
                     >
                         Jetzt buchen

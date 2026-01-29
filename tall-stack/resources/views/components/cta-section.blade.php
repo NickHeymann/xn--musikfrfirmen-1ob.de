@@ -9,7 +9,7 @@
             Firmenevent zu einem Highlight.
         </p>
         <button
-            onclick="window.dispatchEvent(new CustomEvent('openMFFCalculator'))"
+            onclick="Livewire.dispatch('openMFFCalculator')"
             class="bg-[#2DD4A8] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#22a883] transition-all duration-300 hover:scale-105 hover:shadow-lg"
             style="font-family: 'Poppins', sans-serif"
         >
