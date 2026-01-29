@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/nickheymann/xn--musikfrfirmen-1ob.de-tall:latest
+    container_name: musikfuerfirmen-tall
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=musikfuerfirmen-tall-redis
+      - REDIS_PORT=6379
+    volumes:
+      - storage-data:/var/www/storage
+    networks:
+      - traefik-net
+      - internal
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-net"
+
+      # HTTP router (redirects to HTTPS)
+      - "traefik.http.routers.musikfuerfirmen-tall-http.rule=Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
+      - "traefik.http.routers.musikfuerfirmen-tall-http.entrypoints=web"
+      - "traefik.http.routers.musikfuerfirmen-tall-http.middlewares=redirect-to-https"
+
+      # HTTPS router
+      - "traefik.http.routers.musikfuerfirmen-tall.rule=Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
+      - "traefik.http.routers.musikfuerfirmen-tall.entrypoints=websecure"
+      - "traefik.http.routers.musikfuerfirmen-tall.tls=true"
+      - "traefik.http.routers.musikfuerfirmen-tall.tls.certresolver=letsencrypt"
+
+      # Service configuration
+      - "traefik.http.services.musikfuerfirmen-tall.loadbalancer.server.port=80"
+
+      # Middleware for redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+  redis:
+    image: redis:7-alpine
+    container_name: musikfuerfirmen-tall-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  queue:
+    image: ghcr.io/nickheymann/xn--musikfrfirmen-1ob.de-tall:latest
+    container_name: musikfuerfirmen-tall-queue
+    restart: unless-stopped
+    command: php /var/www/artisan queue:work --tries=3 --timeout=90
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=musikfuerfirmen-tall-redis
+      - REDIS_PORT=6379
+    volumes:
+      - storage-data:/var/www/storage
+    networks:
+      - internal
+    depends_on:
+      - redis
+
+networks:
+  traefik-net:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  storage-data:
+    driver: local
+  redis-data:
+    driver: local
