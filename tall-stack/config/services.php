@@ -35,4 +35,19 @@ return [
         ],
     ],
 
+    'google_sheets' => [
+        'event_requests_id' => env('GOOGLE_SHEETS_EVENT_REQUESTS_ID'),
+        'credentials_path' => env('GOOGLE_SHEETS_CREDENTIALS_PATH'),
+        // Alternative: individual service account credentials
+        'project_id' => env('GOOGLE_SHEETS_PROJECT_ID'),
+        'private_key_id' => env('GOOGLE_SHEETS_PRIVATE_KEY_ID'),
+        'private_key' => env('GOOGLE_SHEETS_PRIVATE_KEY'),
+        'client_email' => env('GOOGLE_SHEETS_CLIENT_EMAIL'),
+        'client_id' => env('GOOGLE_SHEETS_CLIENT_ID'),
+    ],
+
+    'event_request' => [
+        'recipients' => env('EVENT_REQUEST_RECIPIENTS', 'moin@nickheymann.de,moin@jonasglamann.de'),
+    ],
+
 ];

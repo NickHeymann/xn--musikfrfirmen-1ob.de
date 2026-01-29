@@ -8,6 +8,8 @@
     "require": {
         "php": "^8.2",
         "filament/filament": "^4.0",
+        "fiveam-code/laravel-notion-api": "*",
+        "google/apiclient": "^2.19",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",

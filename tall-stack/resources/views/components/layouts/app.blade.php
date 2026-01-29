@@ -17,8 +17,11 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white">
+<body class="antialiased bg-white" @open-m-f-f-calculator.window="$dispatch('openMFFCalculator')">
     {{ $slot }}
+
+    {{-- Event Request Modal --}}
+    <livewire:event-request-modal />
 
     {{-- Livewire Scripts --}}
     @livewireScripts
