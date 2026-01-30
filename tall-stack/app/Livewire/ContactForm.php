@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\ContactSubmission;
+use App\Mail\ContactFormSubmitted;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
@@ -30,12 +32,16 @@ class ContactForm extends Component
     {
         $validated = $this->validate();
 
-        ContactSubmission::create([
+        $submission = ContactSubmission::create([
             ...$validated,
             'status' => 'new',
         ]);
 
-        session()->flash('message', 'Thank you! We\'ll get back to you within 24 hours.');
+        // Send email notification to admin
+        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'moin@jonasglamann.de'));
+        Mail::to($recipients)->send(new ContactFormSubmitted($submission));
+
+        session()->flash('message', 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.');
 
         $this->reset();
         $this->inquiry_type = 'general';

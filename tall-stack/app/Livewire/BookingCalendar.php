@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Mail\BookingRequestSubmitted;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Carbon\Carbon;
@@ -70,8 +72,19 @@ class BookingCalendar extends Component
     {
         $this->validate();
 
-        // Here you would save to database or send email
-        // For now, we'll just show a success state
+        // Prepare booking data for email
+        $bookingData = [
+            'selectedDate' => $this->selectedDate,
+            'selectedTime' => $this->selectedTime,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'message' => $this->message,
+        ];
+
+        // Send email notification to admin
+        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'moin@jonasglamann.de'));
+        Mail::to($recipients)->send(new BookingRequestSubmitted($bookingData));
 
         session()->flash('booking-success', 'Vielen Dank! Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.');
 
