@@ -55,7 +55,7 @@ RUN composer run-script post-autoload-dump
 RUN npm run build
 
 # Publish Livewire assets
-RUN php artisan livewire:publish --assets --force
+RUN php artisan livewire:publish --assets
 
 # Remove dev dependencies after build
 RUN npm prune --omit=dev
