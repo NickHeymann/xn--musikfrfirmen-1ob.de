@@ -46,4 +46,7 @@
 
     {{-- Footer --}}
     <x-footer />
+
+    {{-- Booking Calendar Modal --}}
+    <livewire:booking-calendar-modal />
 </div>
