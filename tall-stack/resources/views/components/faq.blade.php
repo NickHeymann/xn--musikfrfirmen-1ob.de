@@ -10,9 +10,9 @@ $faqItems = \App\Models\Faq::active()->get();
 >
     <div class="faq-container border-t border-[#e0e0e0]">
         @foreach($faqItems as $index => $item)
-            <div class="faq-item border-b border-[#e0e0e0]">
+            <div class="faq-item border-b border-[#e0e0e0]" x-data="{ isOpen: false }">
                 <button
-                    @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}"
+                    @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}; isOpen = !isOpen"
                     class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center transition-opacity duration-300 hover:opacity-70"
                     :class="activeIndex === {{ $index }} ? 'pt-[30px] pb-[15px]' : 'py-[30px]'"
                     style="font-family: 'Poppins', sans-serif"
@@ -20,7 +20,7 @@ $faqItems = \App\Models\Faq::active()->get();
                     <span class="pr-4">{{ $item->question }}</span>
                     <span
                         class="icon text-2xl font-light min-w-[30px] text-center ml-5 transition-transform duration-300"
-                        :style="activeIndex === {{ $index }} ? 'transform: rotate(45deg)' : 'transform: rotate(0deg)'"
+                        :class="activeIndex === {{ $index }} ? 'rotate-45' : ''"
                     >
                         +
                     </span>
