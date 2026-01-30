@@ -9,11 +9,11 @@
           - /url: /#kontakt
         - link "Angebote" [ref=e7] [cursor=pointer]:
           - /url: /#waswirbieten
-      - link "musikfürfirmen" [ref=e8] [cursor=pointer]:
+      - link "musikfürfirmen.de" [ref=e8] [cursor=pointer]:
         - /url: /
       - generic [ref=e9]:
         - link "Über uns" [ref=e10] [cursor=pointer]:
-          - /url: /uber-uns
+          - /url: /#ueberuns
         - link "Kontakt" [ref=e11] [cursor=pointer]:
           - /url: /#kontakt
   - generic [ref=e13]:
@@ -27,141 +27,152 @@
     - generic [ref=e25]:
       - img "Livebands für Firmenevents" [ref=e27]
       - generic [ref=e28]:
-        - heading "Livebands" [level=3] [ref=e29]
-        - paragraph [ref=e30]: Sänger:innen wählen wir passend zu eurem Event aus. Von klassischen Interpretationen über Rock-Hymnen bis zu aktuellen Hits – unsere Bands sind für eure Firmenevents von Solo bis 20-köpfig verfügbar.
-        - paragraph [ref=e31]: Wir arbeiten mit einer eingespielten Stammband, die je nach Eventgröße flexibel in unterschiedlichen Besetzungen auftritt. Alle Musiker:innen haben wir persönlich ausgewählt.
-        - generic [ref=e32]:
-          - link "Mehr erfahren" [ref=e33] [cursor=pointer]:
+        - heading "...Livebands" [level=3] [ref=e29]
+        - paragraph [ref=e30]: Sänger:innen wählen wir passend zu eurem Event aus. Für höchste Qualität arbeiten wir mit hauseigenen Stammbands zusammen. Auf Wunsch können wir unsere Bands für euch erweitern (z.B. Saxofon, Cello).
+        - generic [ref=e31]:
+          - link "Mehr erfahren" [ref=e32] [cursor=pointer]:
             - /url: /livebands
-          - button "Jetzt buchen" [ref=e34]
-    - generic [ref=e35]:
-      - img "DJs für Firmenevents" [ref=e37]
-      - generic [ref=e38]:
-        - heading "DJs" [level=3] [ref=e39]
-        - paragraph [ref=e40]: Unsere DJs spielen einen maßgeschneiderten Mix aus Klassikern und aktuellen Hits, abgestimmt auf euer Event und eure Gäste. Ob elegant, energetisch oder ein Mix aus beidem — unsere DJs finden für jede Party den richtigen Sound.
-        - paragraph [ref=e41]: Dank modernster Technik und Vernetzung mit Labels ist unser DJ-Angebot flexibel für Setups und Sonderwünsche aller Art.
-        - generic [ref=e42]:
-          - link "Mehr erfahren" [ref=e43] [cursor=pointer]:
+          - button "Jetzt buchen" [ref=e33]
+    - generic [ref=e34]:
+      - img "DJs für Firmenevents" [ref=e36]
+      - generic [ref=e37]:
+        - heading "...DJs" [level=3] [ref=e38]
+        - paragraph [ref=e39]: Unsere DJs spielen einen maßgeschneiderten Mix aus Klassikern und aktuellen Hits – abgestimmt auf euer Event und eure Musikwünsche. Über unser Netzwerk vermitteln wir den passenden DJ für jeden Anlass. Ideal kombinierbar mit Liveband, auf Wunsch auch mit Sänger:innen oder Saxofon.
+        - generic [ref=e40]:
+          - link "Mehr erfahren" [ref=e41] [cursor=pointer]:
             - /url: /djs
-          - button "Jetzt buchen" [ref=e44]
-    - generic [ref=e45]:
-      - img "Veranstaltungstechnik" [ref=e47]
-      - generic [ref=e48]:
-        - heading "Technik" [level=3] [ref=e49]
-        - paragraph [ref=e50]: Wir stellen professionelle Musik- und Lichttechnik im Wert von über 100.000 € bereit, damit unsere Künstler:innen ihre beste Seite optimal auf die Bühne bringen.
-        - paragraph [ref=e51]: Jede Anforderung professionell umgesetzt. Für jede Event-Location haben wir die passende Technik für optimal ausgestattete Events.
-        - generic [ref=e52]:
-          - link "Mehr erfahren" [ref=e53] [cursor=pointer]:
+          - button "Jetzt buchen" [ref=e42]
+    - generic [ref=e43]:
+      - img "Veranstaltungstechnik" [ref=e45]
+      - generic [ref=e46]:
+        - heading "...Technik" [level=3] [ref=e47]
+        - paragraph [ref=e48]: Wir stellen professionelle Musik- und Lichttechnik im Wert von über 100.000 € bereit, damit unsere Künstler:innen bei jeder Eventgröße optimal zur Geltung kommen. Egal welche Anforderungen euer Event hat, durch unseren Technikpartner sind wir optimal ausgestattet.
+        - generic [ref=e49]:
+          - link "Mehr erfahren" [ref=e50] [cursor=pointer]:
             - /url: /technik
-          - button "Jetzt buchen" [ref=e54]
-  - generic [ref=e56]:
-    - heading "Warum Wir?" [level=2] [ref=e57]
-    - paragraph [ref=e59]: "Die gängige Sicht: Livemusik ist bloß ein Baustein unter vielen. Davon sind auch Eventagenturen nicht ausgenommen. Bei ihnen sind Bands und DJs häufig bloß Teil eines großen Portfolios, weshalb es zu Qualitätsschwankungen kommen kann. Diesen Faktor der Ungewissheit möchten wir euch abnehmen."
-    - generic [ref=e60]:
-      - paragraph [ref=e62]: "\"Die Band hat bei unserem Firmenevent gespielt und für eine fantastische Atmosphäre gesorgt. Die Songauswahl war perfekt abgestimmt und die Musiker total sympathisch. Klare Empfehlung für alle, die echte Livemusik schätzen!\""
-      - generic [ref=e63]:
-        - paragraph [ref=e64]: "\"Diese Band ist ein absolutes Highlight. Mit ihrer fantastischen Stimme hat die Lead Sängerin sofort alle in ihren Bann gezogen.\""
-        - paragraph [ref=e65]: "\"Mit einem sehr umfangreichen Repertoire bieten sie den gesamten Abend ein abwechslungsreiches Programm das jeden Wunsch erfüllt . Ich würde auch 6 Sterne vergeben .....ein absoluter Tipp für größere Veranstaltungen ! Danke für den unvergesslichen Abend\""
-      - paragraph [ref=e67]: "\"Wir haben die Band bei einem Firmenevent mit Open-air Bühne erlebt und sind absolut begeistert. Die Band hat das gesamte Publikum in ihren Bann gezogen und mit der Auswahl der Lieder die Stimmung immer mehr gesteigert, so dass alle getanzt haben und Zugaben gefordert wurden.\""
-  - generic [ref=e69]:
-    - heading "Das heißt für euch" [level=2] [ref=e70]
-    - generic [ref=e71]:
+          - button "Jetzt buchen" [ref=e51]
+  - generic [ref=e53]:
+    - heading "Warum Wir?" [level=2] [ref=e54]
+    - paragraph [ref=e56]: "Die gängige Sicht: Livemusik ist bloß ein Baustein unter vielen. Davon sind auch Eventagenturen nicht ausgenommen. Bei ihnen sind Bands und DJs häufig bloß Teil eines großen Portfolios, weshalb es zu Qualitätsschwankungen kommen kann. Diesen Faktor der Ungewissheit möchten wir euch abnehmen."
+    - generic [ref=e57]:
+      - paragraph [ref=e59]: "\"Die Band hat bei unserem Firmenevent gespielt und für eine fantastische Atmosphäre gesorgt. Die Songauswahl war perfekt abgestimmt und die Musiker total sympathisch. Klare Empfehlung für alle, die echte Livemusik schätzen!\""
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: "\"Diese Band ist ein absolutes Highlight. Mit ihrer fantastischen Stimme hat die Lead Sängerin sofort alle in ihren Bann gezogen.\""
+        - paragraph [ref=e62]: "\"Mit einem sehr umfangreichen Repertoire bieten sie den gesamten Abend ein abwechslungsreiches Programm das jeden Wunsch erfüllt . Ich würde auch 6 Sterne vergeben .....ein absoluter Tipp für größere Veranstaltungen ! Danke für den unvergesslichen Abend\""
+      - paragraph [ref=e64]: "\"Wir haben die Band bei einem Firmenevent mit Open-air Bühne erlebt und sind absolut begeistert. Die Band hat das gesamte Publikum in ihren Bann gezogen und mit der Auswahl der Lieder die Stimmung immer mehr gesteigert, so dass alle getanzt haben und Zugaben gefordert wurden.\""
+  - generic [ref=e66]:
+    - heading "Das heißt für euch" [level=2] [ref=e67]
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - heading "Einen Ansprechpartner" [level=3] [ref=e70]
+        - paragraph [ref=e71]: Rundumbetreuung bis zum Ende eures Events! Wir als Gründer sind bei dem Event vor Ort und stehen euch auch währenddessen zur Verfügung!
       - generic [ref=e72]:
-        - heading "Einen Ansprechpartner" [level=3] [ref=e73]
-        - paragraph [ref=e74]: Rundumbetreuung bis zum Ende eures Events! Wir als Gründer sind bei dem Event vor Ort und stehen euch auch währenddessen zur Verfügung!
+        - heading "Kein Ausfallrisiko." [level=3] [ref=e73]
+        - paragraph [ref=e74]: Mehrere feste Konstellationen für Bands. So geplant, dass im Falle eines Ausfalls unsere "Subs" einspringen. Gilt auch für Djs und Technik.
       - generic [ref=e75]:
-        - heading "Kein Ausfallrisiko." [level=3] [ref=e76]
-        - paragraph [ref=e77]: Mehrere feste Konstellationen für Bands. So geplant, dass im Falle eines Ausfalls unsere "Subs" einspringen. Gilt auch für Djs und Technik.
-      - generic [ref=e78]:
-        - heading "100% Qualität" [level=3] [ref=e79]
-        - paragraph [ref=e80]: Wir arbeiten ausschließlich mit Profi-Musiker:innen und Ausstattung von unserem professionellen Technikpartner
-    - generic [ref=e81]:
-      - paragraph [ref=e82]: Wir sind 24/7 für euch telefonisch oder auch über WhatsApp erreichbar.
-      - button "Kostenloses Erstgespräch" [ref=e84]
-      - paragraph [ref=e85]: Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Vorstellungen und schaffen die Grundlage für ein individuelles Angebot.
-  - generic [ref=e87]:
-    - heading "Unser letztes Event." [level=2] [ref=e88]
-    - generic [ref=e89]:
-      - img "Unser letztes Event - Live Performance" [ref=e91]
-      - generic [ref=e92]:
-        - blockquote [ref=e93]:
-          - paragraph [ref=e94]: "\"Wir haben die Band für die Feier zum 25. Jubiläum unseres Unternehmens gebucht und sie haben unsere Erwartungen mehr als übertroffen. Vielen Dank noch mal an das ganze MFF-Team — wir werden euch unseren Kunden weiterempfehlen!\""
-          - generic [ref=e96]:
+        - heading "100% Qualität" [level=3] [ref=e76]
+        - paragraph [ref=e77]: Wir arbeiten ausschließlich mit Profi-Musiker:innen und Ausstattung von unserem professionellen Technikpartner
+    - generic [ref=e78]:
+      - paragraph [ref=e79]: Wir sind 24/7 für euch telefonisch oder auch über WhatsApp erreichbar.
+      - button "Kostenloses Erstgespräch" [ref=e81]
+      - paragraph [ref=e82]: Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Vorstellungen und schaffen die Grundlage für ein individuelles Angebot.
+  - generic [ref=e84]:
+    - heading "Unser letztes Event." [level=2] [ref=e85]
+    - generic [ref=e86]:
+      - img "Unser letztes Event - Live Performance" [ref=e88]
+      - generic [ref=e89]:
+        - blockquote [ref=e90]:
+          - paragraph [ref=e91]: "\"Wir haben die Band für die Feier zum 25. Jubiläum unseres Unternehmens gebucht und sie haben unsere Erwartungen mehr als übertroffen. Vielen Dank noch mal an das ganze MFF-Team — wir werden euch unseren Kunden weiterempfehlen!\""
+          - generic [ref=e93]:
             - text: Peter Müller , CEO
             - text: Red Life King GmbH
-        - generic [ref=e97]:
-          - img [ref=e98]
-          - img [ref=e100]
-          - img [ref=e102]
-          - img [ref=e104]
-          - img [ref=e106]
-  - generic [ref=e110]:
-    - heading "Moin aus Hamburg." [level=2] [ref=e111]
-    - paragraph [ref=e112]:
+        - generic [ref=e94]:
+          - img [ref=e95]
+          - img [ref=e97]
+          - img [ref=e99]
+          - img [ref=e101]
+          - img [ref=e103]
+  - generic [ref=e107]:
+    - heading "Moin aus Hamburg." [level=2] [ref=e108]
+    - paragraph [ref=e109]:
       - text: musikfürfirmen.de ist ein Hamburger Unternehmen spezialisiert
       - text: auf den musikalischen Aspekt von Firmenevents.
-    - generic [ref=e113]:
-      - generic [ref=e114]:
-        - generic [ref=e115]:
-          - paragraph [ref=e116]: "\"Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik. Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt.\""
-          - paragraph [ref=e117]: Jonas Glamann, Co-Founder
-        - img "Jonas Glamann" [ref=e120]
-      - generic [ref=e121]:
-        - img "Nick Heymann" [ref=e124]
-        - generic [ref=e125]:
-          - paragraph [ref=e126]: Nick Text
-          - paragraph [ref=e127]: Nick Heymann, Co-Founder
-    - link "Mehr über uns erfahren" [ref=e129] [cursor=pointer]:
+    - generic [ref=e110]:
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - paragraph [ref=e113]: "\"Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik. Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt.\""
+          - paragraph [ref=e114]: Jonas Glamann, Co-Founder
+        - img "Jonas Glamann" [ref=e117]
+      - generic [ref=e118]:
+        - img "Nick Heymann" [ref=e121]
+        - generic [ref=e122]:
+          - paragraph [ref=e123]: Nick Text
+          - paragraph [ref=e124]: Nick Heymann, Co-Founder
+    - link "Mehr über uns erfahren" [ref=e126] [cursor=pointer]:
       - /url: /#ueberuns
-  - generic [ref=e131]:
-    - heading "FAQ" [level=2] [ref=e132]
-    - generic [ref=e134]:
-      - button "Sind Anfragen verbindlich? +" [ref=e136] [cursor=pointer]:
-        - generic [ref=e137]: Sind Anfragen verbindlich?
-        - generic [ref=e138]: +
-      - button "Wie läuft eine Anfrage bei euch ab? +" [ref=e140] [cursor=pointer]:
-        - generic [ref=e141]: Wie läuft eine Anfrage bei euch ab?
-        - generic [ref=e142]: +
-      - button "Kann ich Songwünsche nennen? +" [ref=e144] [cursor=pointer]:
-        - generic [ref=e145]: Kann ich Songwünsche nennen?
-        - generic [ref=e146]: +
-      - button "Kann man euch deutschlandweit buchen? +" [ref=e148] [cursor=pointer]:
-        - generic [ref=e149]: Kann man euch deutschlandweit buchen?
-        - generic [ref=e150]: +
-      - button "Was passiert, wenn die Sängerin/Sänger krank wird? +" [ref=e152] [cursor=pointer]:
-        - generic [ref=e153]: Was passiert, wenn die Sängerin/Sänger krank wird?
-        - generic [ref=e154]: +
-      - button "Muss ich mich noch um irgendetwas kümmern? +" [ref=e156] [cursor=pointer]:
-        - generic [ref=e157]: Muss ich mich noch um irgendetwas kümmern?
-        - generic [ref=e158]: +
-      - button "Warum sollte ich nicht alles über eine Eventagentur buchen? +" [ref=e160] [cursor=pointer]:
-        - generic [ref=e161]: Warum sollte ich nicht alles über eine Eventagentur buchen?
-        - generic [ref=e162]: +
-  - generic [ref=e164]:
-    - heading "musikfürfirmen.de" [level=2] [ref=e165]
-    - paragraph [ref=e167]: Dein Partner für Firmenevents
-  - contentinfo [ref=e169]:
-    - generic [ref=e171]:
-      - generic [ref=e172]:
-        - heading "Kontakt" [level=4] [ref=e173]
-        - generic [ref=e174]:
-          - paragraph [ref=e175]:
-            - link "kontakt@musikfürfirmen.de" [ref=e176] [cursor=pointer]:
-              - /url: mailto:kontakt@xn--musikfrfirmen-1ob.de
-          - paragraph [ref=e177]:
-            - link "+49 174 6935533" [ref=e178] [cursor=pointer]:
-              - /url: tel:+491746935533
-      - generic [ref=e179]:
-        - heading "Info" [level=4] [ref=e180]
-        - generic [ref=e181]:
-          - paragraph [ref=e182]:
-            - link "Über uns" [ref=e183] [cursor=pointer]:
-              - /url: /uber-uns
-          - paragraph [ref=e184]:
-            - link "Impressum" [ref=e185] [cursor=pointer]:
-              - /url: /impressum
+  - generic [ref=e128]:
+    - heading "FAQ" [level=2] [ref=e129]
+    - generic [ref=e131]:
+      - generic [ref=e132]:
+        - button "Sind Anfragen verbindlich? +" [ref=e133] [cursor=pointer]:
+          - generic [ref=e134]: Sind Anfragen verbindlich?
+          - generic [ref=e135]: +
+        - paragraph [ref=e137]: Nein, Anfragen sind komplett unverbindlich und werden innerhalb von 24 Stunden beantwortet. Gerne bieten wir dir auch ein kostenloses Erstgespräch an.
+      - generic [ref=e138]:
+        - button "Wie läuft eine Anfrage bei euch ab? +" [ref=e139] [cursor=pointer]:
+          - generic [ref=e140]: Wie läuft eine Anfrage bei euch ab?
+          - generic [ref=e141]: +
+        - paragraph [ref=e143]: "In nur drei Schritten: 1) Klick auf Unverbindliches Angebot anfragen 2) Fülle das Formular mit den wichtigsten Infos zu deinem Event aus 3) Drücke auf Absenden. Innerhalb von 24 Stunden hast du dein individuelles Angebot im Postfach."
+      - generic [ref=e144]:
+        - button "Kann ich Songwünsche nennen? +" [ref=e145] [cursor=pointer]:
+          - generic [ref=e146]: Kann ich Songwünsche nennen?
+          - generic [ref=e147]: +
+        - paragraph [ref=e149]: Auf jeden Fall! Unsere Bands haben zwar ein festes Repertoire, freuen sich aber über besondere Songwünsche. Erwähne sie einfach im Erstgespräch, so bleibt genug Zeit für die Vorbereitung.
+      - generic [ref=e150]:
+        - button "Kann man euch deutschlandweit buchen? +" [ref=e151] [cursor=pointer]:
+          - generic [ref=e152]: Kann man euch deutschlandweit buchen?
+          - generic [ref=e153]: +
+        - paragraph [ref=e155]: Absolut! Egal wo in Deutschland dein Event stattfindet, du kannst auf uns zählen. Um Anfahrt, Logistik und Unterkunft kümmern wir uns.
+      - generic [ref=e156]:
+        - button "Was passiert, wenn die Sängerin/Sänger krank wird? +" [ref=e157] [cursor=pointer]:
+          - generic [ref=e158]: Was passiert, wenn die Sängerin/Sänger krank wird?
+          - generic [ref=e159]: +
+        - paragraph [ref=e161]: Keine Sorge, dafür sind wir vorbereitet! Für alle unsere Künstler:innen haben wir erfahrene Ersatzleute parat, die kurzfristig einspringen können. Sollte es dazu kommen, melden wir uns natürlich sofort bei dir.
+      - generic [ref=e162]:
+        - button "Muss ich mich noch um irgendetwas kümmern? +" [ref=e163] [cursor=pointer]:
+          - generic [ref=e164]: Muss ich mich noch um irgendetwas kümmern?
+          - generic [ref=e165]: +
+        - paragraph [ref=e167]: "Nein! Wir nehmen dir alles ab, was mit Musik zu tun hat: von der Auswahl der passenden Künstler:innen über Equipment und Technik bis hin zu Anfahrt und Übernachtung. Du kannst dich entspannt auf dein Event freuen."
+      - generic [ref=e168]:
+        - button "Warum sollte ich nicht alles über eine Eventagentur buchen? +" [ref=e169] [cursor=pointer]:
+          - generic [ref=e170]: Warum sollte ich nicht alles über eine Eventagentur buchen?
+          - generic [ref=e171]: +
+        - paragraph [ref=e173]: "Gute Frage! Bei den meisten Eventagenturen läuft Musik eher nebenbei. Ob die Band gut ist, wird dann zur Glückssache. Wir sehen das anders: Musik prägt die Stimmung und bleibt in Erinnerung. Deshalb geben wir ihr die Aufmerksamkeit, die sie verdient."
+  - generic [ref=e175]:
+    - heading "musikfürfirmen.de" [level=2] [ref=e176]
+    - paragraph [ref=e178]: Dein Partner für Firmenevents
+  - contentinfo [ref=e180]:
+    - generic [ref=e182]:
+      - generic [ref=e183]:
+        - heading "Kontakt" [level=4] [ref=e184]
+        - generic [ref=e185]:
           - paragraph [ref=e186]:
-            - link "Datenschutz" [ref=e187] [cursor=pointer]:
+            - link "kontakt@musikfürfirmen.de" [ref=e187] [cursor=pointer]:
+              - /url: mailto:kontakt@xn--musikfrfirmen-1ob.de
+          - paragraph [ref=e188]:
+            - link "+49 174 6935533" [ref=e189] [cursor=pointer]:
+              - /url: tel:+491746935533
+      - generic [ref=e190]:
+        - heading "Info" [level=4] [ref=e191]
+        - generic [ref=e192]:
+          - paragraph [ref=e193]:
+            - link "Über uns" [ref=e194] [cursor=pointer]:
+              - /url: /uber-uns
+          - paragraph [ref=e195]:
+            - link "Impressum" [ref=e196] [cursor=pointer]:
+              - /url: /impressum
+          - paragraph [ref=e197]:
+            - link "Datenschutz" [ref=e198] [cursor=pointer]:
               - /url: /datenschutz
-    - paragraph [ref=e189]: © 2026 musikfürfirmen.de
+    - paragraph [ref=e200]: © 2026 musikfürfirmen.de
 ```
