@@ -1,0 +1,35 @@
+[Unit]
+Description=musikfürfirmen.de Laravel Queue Worker
+After=network.target mysql.service postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/path/to/tall-stack
+ExecStart=/usr/bin/php /path/to/tall-stack/artisan queue:work database --sleep=3 --tries=3 --max-time=3600 --timeout=60
+Restart=always
+RestartSec=5
+StandardOutput=append:/path/to/tall-stack/storage/logs/queue-worker.log
+StandardError=append:/path/to/tall-stack/storage/logs/queue-worker-error.log
+
+# Restart worker after deployment
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+# INSTRUCTIONS FOR PRODUCTION (systemd - recommended for modern systems):
+# 1. Replace /path/to/tall-stack with actual path (e.g., /opt/apps/musikfuerfirmen-production)
+# 2. Replace www-data with your web server user
+# 3. Copy this file to: /etc/systemd/system/musikfuerfirmen-queue-worker.service
+# 4. Run: sudo systemctl daemon-reload
+# 5. Run: sudo systemctl enable musikfuerfirmen-queue-worker
+# 6. Run: sudo systemctl start musikfuerfirmen-queue-worker
+# 7. Check status: sudo systemctl status musikfuerfirmen-queue-worker
+# 8. View logs: sudo journalctl -u musikfuerfirmen-queue-worker -f
+#
+# After deployments, restart the worker:
+# sudo systemctl restart musikfuerfirmen-queue-worker
