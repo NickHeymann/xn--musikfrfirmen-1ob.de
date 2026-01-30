@@ -113,52 +113,54 @@
   - generic [ref=e128]:
     - heading "FAQ" [level=2] [ref=e129]
     - generic [ref=e131]:
-      - button "Sind Anfragen verbindlich? +" [ref=e133] [cursor=pointer]:
-        - generic [ref=e134]: Sind Anfragen verbindlich?
-        - generic [ref=e135]: +
-      - button "Wie läuft eine Anfrage bei euch ab? +" [ref=e137] [cursor=pointer]:
-        - generic [ref=e138]: Wie läuft eine Anfrage bei euch ab?
-        - generic [ref=e139]: +
-      - button "Kann ich Songwünsche nennen? +" [ref=e141] [cursor=pointer]:
-        - generic [ref=e142]: Kann ich Songwünsche nennen?
-        - generic [ref=e143]: +
-      - button "Kann man euch deutschlandweit buchen? +" [ref=e145] [cursor=pointer]:
-        - generic [ref=e146]: Kann man euch deutschlandweit buchen?
-        - generic [ref=e147]: +
-      - button "Was passiert, wenn die Sängerin/Sänger krank wird? +" [ref=e149] [cursor=pointer]:
-        - generic [ref=e150]: Was passiert, wenn die Sängerin/Sänger krank wird?
-        - generic [ref=e151]: +
-      - button "Muss ich mich noch um irgendetwas kümmern? +" [ref=e153] [cursor=pointer]:
-        - generic [ref=e154]: Muss ich mich noch um irgendetwas kümmern?
-        - generic [ref=e155]: +
-      - button "Warum sollte ich nicht alles über eine Eventagentur buchen? +" [ref=e157] [cursor=pointer]:
-        - generic [ref=e158]: Warum sollte ich nicht alles über eine Eventagentur buchen?
-        - generic [ref=e159]: +
-  - generic [ref=e161]:
-    - heading "musikfürfirmen.de" [level=2] [ref=e162]
-    - paragraph [ref=e164]: Dein Partner für Firmenevents
-  - contentinfo [ref=e166]:
-    - generic [ref=e168]:
-      - generic [ref=e169]:
-        - heading "Kontakt" [level=4] [ref=e170]
-        - generic [ref=e171]:
-          - paragraph [ref=e172]:
-            - link "kontakt@musikfürfirmen.de" [ref=e173] [cursor=pointer]:
-              - /url: mailto:kontakt@xn--musikfrfirmen-1ob.de
+      - generic [ref=e132]:
+        - button "Sind Anfragen verbindlich? +" [active] [ref=e133] [cursor=pointer]:
+          - generic [ref=e134]: Sind Anfragen verbindlich?
+          - generic [ref=e135]: +
+        - paragraph [ref=e137]: Nein, Anfragen sind komplett unverbindlich und werden innerhalb von 24 Stunden beantwortet. Gerne bieten wir dir auch ein kostenloses Erstgespräch an.
+      - button "Wie läuft eine Anfrage bei euch ab? +" [ref=e139] [cursor=pointer]:
+        - generic [ref=e140]: Wie läuft eine Anfrage bei euch ab?
+        - generic [ref=e141]: +
+      - button "Kann ich Songwünsche nennen? +" [ref=e143] [cursor=pointer]:
+        - generic [ref=e144]: Kann ich Songwünsche nennen?
+        - generic [ref=e145]: +
+      - button "Kann man euch deutschlandweit buchen? +" [ref=e147] [cursor=pointer]:
+        - generic [ref=e148]: Kann man euch deutschlandweit buchen?
+        - generic [ref=e149]: +
+      - button "Was passiert, wenn die Sängerin/Sänger krank wird? +" [ref=e151] [cursor=pointer]:
+        - generic [ref=e152]: Was passiert, wenn die Sängerin/Sänger krank wird?
+        - generic [ref=e153]: +
+      - button "Muss ich mich noch um irgendetwas kümmern? +" [ref=e155] [cursor=pointer]:
+        - generic [ref=e156]: Muss ich mich noch um irgendetwas kümmern?
+        - generic [ref=e157]: +
+      - button "Warum sollte ich nicht alles über eine Eventagentur buchen? +" [ref=e159] [cursor=pointer]:
+        - generic [ref=e160]: Warum sollte ich nicht alles über eine Eventagentur buchen?
+        - generic [ref=e161]: +
+  - generic [ref=e163]:
+    - heading "musikfürfirmen.de" [level=2] [ref=e164]
+    - paragraph [ref=e166]: Dein Partner für Firmenevents
+  - contentinfo [ref=e168]:
+    - generic [ref=e170]:
+      - generic [ref=e171]:
+        - heading "Kontakt" [level=4] [ref=e172]
+        - generic [ref=e173]:
           - paragraph [ref=e174]:
-            - link "+49 174 6935533" [ref=e175] [cursor=pointer]:
+            - link "kontakt@musikfürfirmen.de" [ref=e175] [cursor=pointer]:
+              - /url: mailto:kontakt@xn--musikfrfirmen-1ob.de
+          - paragraph [ref=e176]:
+            - link "+49 174 6935533" [ref=e177] [cursor=pointer]:
               - /url: tel:+491746935533
-      - generic [ref=e176]:
-        - heading "Info" [level=4] [ref=e177]
-        - generic [ref=e178]:
-          - paragraph [ref=e179]:
-            - link "Über uns" [ref=e180] [cursor=pointer]:
-              - /url: /uber-uns
+      - generic [ref=e178]:
+        - heading "Info" [level=4] [ref=e179]
+        - generic [ref=e180]:
           - paragraph [ref=e181]:
-            - link "Impressum" [ref=e182] [cursor=pointer]:
-              - /url: /impressum
+            - link "Über uns" [ref=e182] [cursor=pointer]:
+              - /url: /uber-uns
           - paragraph [ref=e183]:
-            - link "Datenschutz" [ref=e184] [cursor=pointer]:
+            - link "Impressum" [ref=e184] [cursor=pointer]:
+              - /url: /impressum
+          - paragraph [ref=e185]:
+            - link "Datenschutz" [ref=e186] [cursor=pointer]:
               - /url: /datenschutz
-    - paragraph [ref=e186]: © 2026 musikfürfirmen.de
+    - paragraph [ref=e188]: © 2026 musikfürfirmen.de
 ```
