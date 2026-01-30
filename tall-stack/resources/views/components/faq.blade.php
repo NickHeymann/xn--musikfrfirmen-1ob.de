@@ -13,7 +13,8 @@ $faqItems = \App\Models\Faq::active()->get();
             <div class="faq-item border-b border-[#e0e0e0]">
                 <button
                     @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}"
-                    class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center py-[30px] transition-opacity duration-300 hover:opacity-70"
+                    class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center transition-opacity duration-300 hover:opacity-70"
+                    :class="activeIndex === {{ $index }} ? 'pt-[30px] pb-[15px]' : 'py-[30px]'"
                     style="font-family: 'Poppins', sans-serif"
                 >
                     <span class="pr-4">{{ $item->question }}</span>
@@ -29,11 +30,11 @@ $faqItems = \App\Models\Faq::active()->get();
                     x-collapse
                     class="faq-answer overflow-hidden"
                 >
-                    <p class="pb-[30px] text-base leading-[1.6] font-light text-[#333] whitespace-pre-line">
+                    <p class="pt-0 pb-[30px] text-base leading-[1.6] font-light text-[#333] whitespace-pre-line">
                         @if($item->has_link)
                             {!! str_replace(
                                 '"Unverbindliches Angebot anfragen"',
-                                '<span onclick="Livewire.dispatch('openMFFCalculator')" class="text-[#7dc9b1] cursor-pointer underline hover:text-[#5eb89d] transition-colors">Unverbindliches Angebot anfragen</span>',
+                                '<span onclick="Livewire.dispatch(\'openMFFCalculator\')" class="text-[#7dc9b1] cursor-pointer underline hover:text-[#5eb89d] transition-colors">Unverbindliches Angebot anfragen</span>',
                                 $item->answer
                             ) !!}
                         @else

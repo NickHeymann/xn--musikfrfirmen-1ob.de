@@ -10,10 +10,10 @@
                 <div class="space-y-3 text-[15px] text-gray-300 font-light">
                     <p>
                         <a
-                            href="mailto:kontakt@musikfuerfirmen.de"
+                            href="mailto:kontakt@xn--musikfrfirmen-1ob.de"
                             class="hover:text-[#2DD4A8] transition-colors"
                         >
-                            kontakt@musikfuerfirmen.de
+                            kontakt@musikfürfirmen.de
                         </a>
                     </p>
                     <p>

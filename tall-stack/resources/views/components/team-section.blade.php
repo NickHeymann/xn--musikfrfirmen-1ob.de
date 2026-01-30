@@ -1,82 +1,74 @@
-{{-- Team Section - Canva Redesign --}}
-<section class="team-section py-20" style="font-family: 'Poppins', sans-serif">
-    {{-- Intro Text --}}
-    <div class="text-center max-w-3xl mx-auto mb-16 px-6">
-        <p class="text-lg md:text-xl text-[#4a5568] leading-relaxed">
-            musikfürfirmen ist ein Hamburger Unternehmen spezialisiert auf den musikalischen Aspekt von Firmenevents. Wir verbinden professionelle Musik mit persönlicher Beratung.
-        </p>
-    </div>
+{{-- Team Section - Moin aus Hamburg --}}
+<section class="team-section py-24 bg-white" style="font-family: 'Poppins', sans-serif" id="ueberuns">
+    <div class="max-w-7xl mx-auto px-6">
+        {{-- Section Heading --}}
+        <h2 class="text-4xl md:text-5xl font-bold text-[#1a1a1a] text-center mb-6">
+            Moin aus Hamburg.
+        </h2>
 
-    {{-- Team Members Grid --}}
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="grid md:grid-cols-2 gap-12 md:gap-16">
-            {{-- Jonas Glamann --}}
-            <div class="team-member">
-                <div class="flex flex-col md:flex-row gap-6 items-start">
-                    {{-- Photo --}}
-                    <div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0 rounded-full overflow-hidden bg-[#D4F4E8]">
+        {{-- Intro Text --}}
+        <p class="text-center text-base md:text-lg text-[#1a1a1a] max-w-3xl mx-auto mb-20">
+            musikfürfirmen.de ist ein Hamburger Unternehmen spezialisiert<br class="hidden md:block">
+            auf den musikalischen Aspekt von Firmenevents.
+        </p>
+
+        {{-- Two Column Layout: Jonas Quote + Photo | Nick Photo + Quote --}}
+        <div class="grid md:grid-cols-2 gap-16 md:gap-20 mb-20">
+            {{-- Jonas Section --}}
+            <div class="flex flex-col gap-8">
+                {{-- Jonas Quote --}}
+                <div class="order-1">
+                    <p class="text-sm md:text-base text-[#1a1a1a] italic leading-relaxed mb-4">
+                        "Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik. Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt."
+                    </p>
+                    <p class="text-sm md:text-base font-semibold text-[#1a1a1a]">
+                        Jonas Glamann, Co-Founder
+                    </p>
+                </div>
+
+                {{-- Jonas Photo --}}
+                <div class="order-2">
+                    <div class="relative w-full max-w-xs mx-auto md:mx-0 aspect-[3/4] rounded-3xl overflow-hidden" style="background-color: #b8b8b8;">
                         <img
                             src="/images/team/jonas.png"
                             alt="Jonas Glamann"
-                            class="w-full h-full object-cover object-top"
+                            class="absolute inset-0 w-full h-full object-cover"
                             loading="lazy"
                         >
-                    </div>
-
-                    {{-- Bio Content --}}
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-[#1a1a1a] mb-1">Jonas Glamann</h3>
-                        <p class="text-[#2DD4A8] font-medium mb-4">Co-Founder</p>
-                        <p class="text-[#4a5568] leading-relaxed mb-4">
-                            Seit 7 Jahren helfe ich dabei, unvergessliche Momente auf die Bühne zu bringen. Als Profi-Musiker bei Band- und Solokünstlern wurde mir klar, wie wichtig professionelle Musikbegleitung für Events ist.
-                        </p>
-                        <a href="/uber-uns" class="inline-flex items-center gap-2 text-[#2DD4A8] font-medium hover:underline">
-                            Mehr erfahren
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"/>
-                                <path d="M12 5l7 7-7 7"/>
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </div>
 
-            {{-- Nick Heymann --}}
-            <div class="team-member">
-                <div class="flex flex-col md:flex-row gap-6 items-start">
-                    {{-- Photo --}}
-                    <div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0 rounded-full overflow-hidden bg-[#D4F4E8]">
+            {{-- Nick Section --}}
+            <div class="flex flex-col gap-8">
+                {{-- Nick Photo --}}
+                <div class="order-1">
+                    <div class="relative w-full max-w-xs mx-auto md:ml-auto md:mr-0 aspect-[3/4] rounded-3xl overflow-hidden" style="background-color: #b8b8b8;">
                         <img
                             src="/images/team/nick.png"
                             alt="Nick Heymann"
-                            class="w-full h-full object-cover object-top"
+                            class="absolute inset-0 w-full h-full object-cover"
                             loading="lazy"
                         >
                     </div>
+                </div>
 
-                    {{-- Bio Content --}}
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-[#1a1a1a] mb-1">Nick Heymann</h3>
-                        <p class="text-[#2DD4A8] font-medium mb-4">Co-Founder</p>
-                        <p class="text-[#4a5568] leading-relaxed mb-4">
-                            Mit technischem Know-how und Leidenschaft für Veranstaltungen kümmere ich mich darum, dass bei jedem Event die Technik perfekt läuft und unsere Künstler optimal präsentiert werden.
-                        </p>
-                        <a href="/uber-uns" class="inline-flex items-center gap-2 text-[#2DD4A8] font-medium hover:underline">
-                            Mehr erfahren
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"/>
-                                <path d="M12 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                    </div>
+                {{-- Nick Quote --}}
+                <div class="order-2">
+                    <p class="text-sm md:text-base text-[#1a1a1a] italic leading-relaxed mb-4">
+                        Nick Text
+                    </p>
+                    <p class="text-sm md:text-base font-semibold text-[#1a1a1a]">
+                        Nick Heymann, Co-Founder
+                    </p>
                 </div>
             </div>
         </div>
 
         {{-- More About Us Link --}}
-        <div class="text-center mt-12">
-            <a href="/uber-uns" class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-semibold rounded-full hover:bg-[#1a1a1a] hover:text-white transition-all duration-300">
-                Mehr Über Uns erfahren
+        <div class="text-center">
+            <a href="/#ueberuns" class="inline-block text-sm md:text-base text-[#1a1a1a] font-normal border-b border-[#1a1a1a] hover:border-[#2DD4A8] hover:text-[#2DD4A8] transition-colors duration-300">
+                Mehr über uns erfahren
             </a>
         </div>
     </div>

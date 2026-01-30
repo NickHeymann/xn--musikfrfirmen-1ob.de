@@ -1,72 +1,83 @@
-{{-- "Warum Wir?" Section - Canva Redesign --}}
-<section class="why-us-section w-full py-20 bg-[#f8f8f8]" style="font-family: 'Poppins', sans-serif">
-    <div class="max-w-7xl mx-auto px-6">
+{{-- "Warum Wir?" Section - Scroll-Linked Parallax Animation --}}
+<section class="why-us-section w-full py-20 bg-white overflow-hidden" style="font-family: 'Poppins', sans-serif"
+         x-data="{
+            init() {
+                const updatePositions = () => {
+                    const section = this.$el;
+                    const sectionRect = section.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+
+                    // All elements animate based on section position
+                    // When section heading is visible (top at 80% viewport), all animations complete
+                    const scrollProgress = Math.max(0, Math.min(1,
+                        (windowHeight * 1.2 - sectionRect.top) / (windowHeight * 0.8)
+                    ));
+
+                    // Update each element
+                    section.querySelectorAll('[data-scroll-dir]').forEach(el => {
+                        const dir = el.dataset.scrollDir;
+                        const distance = 150; // pixels to travel
+
+                        let x = 0, y = 0;
+
+                        if (dir === 'top') {
+                            y = -distance * (1 - scrollProgress);
+                        } else if (dir === 'left') {
+                            x = -distance * (1 - scrollProgress);
+                        } else if (dir === 'right') {
+                            x = distance * (1 - scrollProgress);
+                        }
+
+                        const opacity = scrollProgress;
+                        el.style.transform = `translate(${x}px, ${y}px)`;
+                        el.style.opacity = opacity;
+                    });
+                };
+
+                // Update on scroll
+                window.addEventListener('scroll', updatePositions, { passive: true });
+
+                // Initial update
+                updatePositions();
+            }
+         }">
+    <div class="max-w-6xl mx-auto px-6">
         {{-- Section Heading --}}
-        <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1a1a1a] mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1a1a1a] mb-20">
             Warum Wir?
         </h2>
 
-        <div class="grid md:grid-cols-2 gap-12 md:gap-16">
-            {{-- Left Column - Main Text --}}
-            <div>
-                <p class="text-base md:text-lg leading-relaxed text-[#4a5568] mb-6">
-                    Livemusik ist ein wichtiger Baustein für jedes Event und sollte nicht an der falschen Stelle eingespart werden. Bei musikfürfirmen arbeitet ihr mit Profis, die eine große Bandbreite geprüfter Künstler:innen mitbringen.
-                </p>
-                <p class="text-base md:text-lg leading-relaxed text-[#4a5568] mb-8">
-                    Der entscheidende Moment für euer Event soll unvergesslich werden – das möchten wir euch garantieren.
-                </p>
+        {{-- Main Intro Text - Slide from Top --}}
+        <div data-scroll-dir="top" class="mb-16 max-w-4xl mx-auto text-center">
+            <p class="text-base md:text-lg leading-relaxed text-[#1a1a1a]">
+                Die gängige Sicht: Livemusik ist bloß ein Baustein unter vielen. Davon sind auch Eventagenturen nicht ausgenommen. Bei ihnen sind Bands und DJs häufig bloß Teil eines großen Portfolios, weshalb es zu Qualitätsschwankungen kommen kann. Diesen Faktor der Ungewissheit möchten wir euch abnehmen.
+            </p>
+        </div>
 
-                {{-- Testimonial Quote --}}
-                <blockquote class="border-l-4 border-[#2DD4A8] pl-6 py-2">
-                    <p class="text-base md:text-lg italic text-[#4a5568] mb-4">
-                        "Die Band hat bei unserem Firmenevent gespielt und es war fantastisch! Die Kombination, der Einsatz und die Energie haben unsere Kollegen mitgerissen. Besonders beeindruckt hat mich, wie flexibel sie auf unsere Musikwünsche eingegangen sind."
-                    </p>
-                    <cite class="text-sm text-[#6b7280] not-italic">
-                        — Zufriedener Kunde
-                    </cite>
-                </blockquote>
+        {{-- Testimonial Blocks - Slide from Different Directions --}}
+        <div class="space-y-12">
+            {{-- Testimonial 1 - From Left --}}
+            <div data-scroll-dir="left" class="max-w-xl">
+                <p class="text-sm md:text-base italic font-light leading-relaxed text-[#1a1a1a]">
+                    "Die Band hat bei unserem Firmenevent gespielt und für eine fantastische Atmosphäre gesorgt. Die Songauswahl war perfekt abgestimmt und die Musiker total sympathisch. Klare Empfehlung für alle, die echte Livemusik schätzen!"
+                </p>
             </div>
 
-            {{-- Right Column - Benefits --}}
-            <div class="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 class="text-2xl font-bold text-[#1a1a1a] mb-6">
-                    Eure Benefits – viele Highlights:
-                </h3>
+            {{-- Testimonial 2 - From Right --}}
+            <div data-scroll-dir="right" class="max-w-2xl ml-auto">
+                <p class="text-sm md:text-base italic font-light leading-relaxed text-[#1a1a1a]">
+                    "Diese Band ist ein absolutes Highlight. Mit ihrer fantastischen Stimme hat die Lead Sängerin sofort alle in ihren Bann gezogen."
+                </p>
+                <p class="text-sm md:text-base italic font-light leading-relaxed text-[#1a1a1a] mt-4">
+                    "Mit einem sehr umfangreichen Repertoire bieten sie den gesamten Abend ein abwechslungsreiches Programm das jeden Wunsch erfüllt . Ich würde auch 6 Sterne vergeben .....ein absoluter Tipp für größere Veranstaltungen ! Danke für den unvergesslichen Abend"
+                </p>
+            </div>
 
-                <ul class="space-y-4">
-                    <li class="flex items-start gap-4">
-                        <svg class="w-6 h-6 text-[#2DD4A8] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-[#4a5568]">
-                            Flexible Zahlungsoptionen mit Rechnungsstellung – keine versteckten Kosten
-                        </span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <svg class="w-6 h-6 text-[#2DD4A8] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-[#4a5568]">
-                            Mit einem umfangreichen Repertoire kommen unsere Künstler:innen bei jedem Event gut an
-                        </span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <svg class="w-6 h-6 text-[#2DD4A8] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-[#4a5568]">
-                            Persönliche Beratung und maßgeschneiderte Konzepte für euer Event
-                        </span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <svg class="w-6 h-6 text-[#2DD4A8] flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-[#4a5568]">
-                            Langjährige Erfahrung mit Firmenevents aller Größenordnungen
-                        </span>
-                    </li>
-                </ul>
+            {{-- Testimonial 3 - From Left --}}
+            <div data-scroll-dir="left" class="max-w-xl">
+                <p class="text-sm md:text-base italic font-light leading-relaxed text-[#1a1a1a]">
+                    "Wir haben die Band bei einem Firmenevent mit Open-air Bühne erlebt und sind absolut begeistert. Die Band hat das gesamte Publikum in ihren Bann gezogen und mit der Auswahl der Lieder die Stimmung immer mehr gesteigert, so dass alle getanzt haben und Zugaben gefordert wurden."
+                </p>
             </div>
         </div>
     </div>

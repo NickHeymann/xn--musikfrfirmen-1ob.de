@@ -54,6 +54,7 @@
     {{-- Modal Overlay --}}
     <div
         x-show="showModal"
+        x-cloak
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
@@ -61,7 +62,7 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         class="fixed inset-0 z-[2147483647] flex items-center justify-center p-2.5"
-        style="background: rgba(0, 0, 0, 0); backdrop-filter: blur(8px);"
+        style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); display: none;"
         @click.self="$wire.closeModal()"
     >
         {{-- Modal Content --}}
@@ -232,20 +233,22 @@
                         <div class="mb-4">
                             <div class="flex items-center gap-[10px] text-[15px] font-normal mb-[14px]">
                                 <span class="inline-flex items-center justify-center w-7 h-7 bg-[#B2EAD8] text-[#292929] rounded-full text-[13px] font-semibold">2</span>
-                                <span>Was möchtest du buchen?</span>
+                                <span>Paket-Auswahl</span>
                             </div>
 
                             <div class="grid gap-[10px]">
                                 @foreach ($packageOptions as $pkg)
                                     <label
+                                        for="package-{{ $pkg['value'] }}"
                                         class="relative flex items-center p-[14px_18px] border-2 rounded-[10px] cursor-pointer transition-all duration-200 hover:border-[#B2EAD8] hover:bg-[#f8f8f8] hover:-translate-y-[2px] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#f8f8f8]' : 'border-[#e0e0e0]' }}"
                                     >
                                         <input
                                             type="radio"
+                                            id="package-{{ $pkg['value'] }}"
                                             name="package"
                                             value="{{ $pkg['value'] }}"
-                                            wire:model="package"
-                                            class="absolute opacity-0"
+                                            wire:model.live="package"
+                                            class="absolute opacity-0 pointer-events-none"
                                         />
                                         <span class="relative w-5 h-5 border-2 rounded-full mr-3 transition-all duration-200 {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#B2EAD8]' : 'border-[#e0e0e0]' }}">
                                             @if ($package === $pkg['value'])
