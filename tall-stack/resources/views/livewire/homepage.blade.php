@@ -20,6 +20,9 @@
     {{-- NEW: Testimonial Section --}}
     <x-testimonial-section />
 
+    {{-- Event Gallery - Swipeable Carousel --}}
+    <x-event-gallery />
+
     {{-- Team Section --}}
     <section id="ueberuns" class="bg-white scroll-mt-[108px]">
         <x-team-section />

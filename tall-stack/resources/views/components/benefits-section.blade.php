@@ -47,12 +47,9 @@
 
             {{-- CTA Button --}}
             <div>
-                <button
-                    onclick="Livewire.dispatch('openMFFCalculator')"
-                    class="inline-block px-14 py-5 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm"
-                >
+                <a href="/erstgespraech" class="btn-secondary">
                     Kostenloses Erstgespräch
-                </button>
+                </a>
             </div>
 
             {{-- Description Text --}}
