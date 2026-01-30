@@ -6,10 +6,10 @@
 
     <title>{{ $title ?? 'musikfürfirmen.de' }}</title>
 
-    {{-- Google Fonts: Poppins --}}
+    {{-- Google Fonts: Poppins (erweiterte Weights) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Vite: Tailwind CSS + Alpine.js --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,8 +17,15 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white" style="font-family: 'Poppins', sans-serif">
-    {{ $slot }}
+<body class="antialiased bg-white font-poppins" x-data="{ pageLoaded: false }" x-init="setTimeout(() => pageLoaded = true, 100)">
+    <div
+        x-show="pageLoaded"
+        x-transition:enter="transition ease-out duration-800"
+        x-transition:enter-start="opacity-0 translate-y-8"
+        x-transition:enter-end="opacity-100 translate-y-0"
+    >
+        {{ $slot }}
+    </div>
 
     {{-- Event Request Modal --}}
     <livewire:event-request-modal />

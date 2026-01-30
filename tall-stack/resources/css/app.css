@@ -14,3 +14,53 @@
 [x-cloak] {
     display: none !important;
 }
+
+/* Button Styles - musikfürfirmen.de Design */
+.btn-primary,
+.btn-secondary {
+    @apply inline-block px-8 py-4 rounded-full border-2 border-black
+           font-poppins font-medium text-base uppercase tracking-wide
+           transition-all duration-300 bg-transparent text-black;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    background: #b8ddd2;
+    transform: scale(1.05);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+/* Page Load Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Footer Logo Musical Notes Animation */
+@keyframes float-up {
+    0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-80px) rotate(15deg);
+    }
+}
