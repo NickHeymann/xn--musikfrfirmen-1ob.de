@@ -61,8 +61,49 @@
     </div>
 
     <div class="border-t border-gray-800 py-6">
-        <p class="text-sm text-gray-400 text-center font-light" style="font-family: 'Poppins', sans-serif">
-            © {{ date('Y') }} musikfürfirmen.de
-        </p>
+        <div class="flex flex-col items-center gap-6">
+            {{-- Animated Logo --}}
+            <div
+                class="footer-logo-container relative inline-block"
+                x-data="{ hovering: false }"
+                @mouseenter="hovering = true"
+                @mouseleave="hovering = false"
+            >
+                <span class="text-2xl font-poppins font-semibold text-white">musikfürfirmen</span>
+
+                {{-- Animated Musical Notes --}}
+                <div class="notes-container absolute inset-0 pointer-events-none overflow-visible">
+                    <template x-for="i in 5" :key="i">
+                        <div
+                            class="musical-note absolute bottom-0 text-2xl"
+                            :class="{ 'note-animate': hovering }"
+                            :style="`
+                                left: ${20 + i * 15}%;
+                                animation-delay: ${i * 0.1}s;
+                                color: #b8ddd2;
+                                opacity: 0;
+                                transform: translateY(0);
+                            `"
+                            x-show="hovering"
+                            x-transition:enter="transition ease-out duration-1500"
+                            x-transition:enter-start="opacity-0 translate-y-0"
+                            x-transition:enter-end="opacity-0 -translate-y-20"
+                        >
+                            ♪
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-400 text-center font-light font-poppins">
+                © {{ date('Y') }} musikfürfirmen.de
+            </p>
+        </div>
     </div>
 </footer>
+
+<style>
+.musical-note.note-animate {
+    animation: float-up 1.5s ease-out forwards;
+}
+</style>

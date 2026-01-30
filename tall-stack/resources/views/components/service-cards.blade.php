@@ -1,7 +1,9 @@
 {{-- Service Cards - Canva Redesign (Alternating Layout) --}}
 <section
     class="mff-services w-full py-20 bg-white"
-    style="font-family: 'Poppins', sans-serif"
+    data-section-theme="light"
+    x-data="{ visible: false }"
+    x-intersect="visible = true"
 >
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
@@ -10,7 +12,14 @@
         </h2>
 
         {{-- Service 1: Livebands - Image Left, Text Right --}}
-        <div class="flex flex-col md:flex-row items-stretch gap-8 md:gap-12 mb-20">
+        <div
+            class="flex flex-col md:flex-row items-stretch gap-8 md:gap-12 mb-20"
+            x-show="visible"
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0 translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            style="transition-delay: 150ms"
+        >
             {{-- Image --}}
             <div class="w-full md:w-1/2 relative overflow-hidden rounded-2xl min-h-[300px] md:min-h-[450px]">
                 <img
@@ -29,12 +38,12 @@
                     Sänger:innen wählen wir passend zu eurem Event aus. Für höchste Qualität arbeiten wir mit hauseigenen Stammbands zusammen. Auf Wunsch können wir unsere Bands für euch erweitern (z.B. Saxofon, Cello).
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="/livebands" class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm">
+                    <a href="/livebands" class="btn-primary text-sm">
                         Mehr erfahren
                     </a>
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
-                        class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm"
+                        class="btn-primary text-sm"
                     >
                         Jetzt buchen
                     </button>
@@ -43,7 +52,14 @@
         </div>
 
         {{-- Service 2: DJs - Text Left, Image Right --}}
-        <div class="flex flex-col md:flex-row-reverse items-stretch gap-8 md:gap-12 mb-20">
+        <div
+            class="flex flex-col md:flex-row-reverse items-stretch gap-8 md:gap-12 mb-20"
+            x-show="visible"
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0 translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            style="transition-delay: 300ms"
+        >
             {{-- Image --}}
             <div class="w-full md:w-1/2 relative overflow-hidden rounded-2xl min-h-[300px] md:min-h-[450px]">
                 <img
@@ -62,12 +78,12 @@
                     Unsere DJs spielen einen maßgeschneiderten Mix aus Klassikern und aktuellen Hits – abgestimmt auf euer Event und eure Musikwünsche. Über unser Netzwerk vermitteln wir den passenden DJ für jeden Anlass. Ideal kombinierbar mit Liveband, auf Wunsch auch mit Sänger:innen oder Saxofon.
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="/djs" class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm">
+                    <a href="/djs" class="btn-primary text-sm">
                         Mehr erfahren
                     </a>
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
-                        class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm"
+                        class="btn-primary text-sm"
                     >
                         Jetzt buchen
                     </button>
@@ -76,7 +92,14 @@
         </div>
 
         {{-- Service 3: Technik - Image Left, Text Right --}}
-        <div class="flex flex-col md:flex-row items-stretch gap-8 md:gap-12">
+        <div
+            class="flex flex-col md:flex-row items-stretch gap-8 md:gap-12"
+            x-show="visible"
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0 translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            style="transition-delay: 450ms"
+        >
             {{-- Image --}}
             <div class="w-full md:w-1/2 relative overflow-hidden rounded-2xl min-h-[300px] md:min-h-[450px]">
                 <img
@@ -95,12 +118,12 @@
                     Wir stellen professionelle Musik- und Lichttechnik im Wert von über 100.000 € bereit, damit unsere Künstler:innen bei jeder Eventgröße optimal zur Geltung kommen. Egal welche Anforderungen euer Event hat, durch unseren Technikpartner sind wir optimal ausgestattet.
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="/technik" class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm">
+                    <a href="/technik" class="btn-primary text-sm">
                         Mehr erfahren
                     </a>
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
-                        class="inline-block px-8 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 uppercase tracking-wide text-sm"
+                        class="btn-primary text-sm"
                     >
                         Jetzt buchen
                     </button>
