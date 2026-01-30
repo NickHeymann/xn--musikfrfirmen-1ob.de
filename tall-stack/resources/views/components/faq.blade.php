@@ -27,7 +27,6 @@ $faqItems = \App\Models\Faq::active()->get();
                 <div
                     x-show="activeIndex === {{ $index }}"
                     x-collapse
-                    style="display: none;"
                     class="faq-answer overflow-hidden"
                 >
                     <p class="pt-0 pb-[30px] text-base leading-[1.6] font-light text-[#333] whitespace-pre-line">

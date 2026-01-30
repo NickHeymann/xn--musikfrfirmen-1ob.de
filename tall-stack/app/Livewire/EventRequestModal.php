@@ -87,11 +87,19 @@ class EventRequestModal extends Component
                 'date' => 'required|date|after_or_equal:today',
                 'city' => 'required|string|min:2',
                 'guests' => 'required|string',
+            ], [
+                'date.required' => 'Bitte wähle ein Datum in der Zukunft',
+                'date.after_or_equal' => 'Bitte wähle ein Datum in der Zukunft',
+                'city.required' => 'Bitte gib eine Stadt an',
+                'city.min' => 'Bitte gib eine Stadt an',
+                'guests.required' => 'Bitte wähle eine Gästeanzahl',
             ]);
             $this->step = 2;
         } elseif ($this->step === 2) {
             $this->validate([
                 'package' => 'required|string',
+            ], [
+                'package.required' => 'Bitte wähle ein Paket',
             ]);
             $this->step = 3;
         }
@@ -111,6 +119,13 @@ class EventRequestModal extends Component
             'email' => 'required|email',
             'phone' => 'required|string',
             'privacy' => 'accepted',
+        ], [
+            'name.required' => 'Bitte gib deinen Namen an',
+            'name.min' => 'Bitte gib deinen Namen an',
+            'email.required' => 'Bitte gib eine gültige E-Mail an',
+            'email.email' => 'Bitte gib eine gültige E-Mail an',
+            'phone.required' => 'Bitte gib eine Telefonnummer an',
+            'privacy.accepted' => 'Bitte akzeptiere die Datenschutzerklärung',
         ]);
 
         $data = [

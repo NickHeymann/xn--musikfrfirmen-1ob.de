@@ -25,7 +25,7 @@
     <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center justify-between">
         {{-- Left Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
-            <a href="/#kontakt" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium" style="font-family: 'Poppins', sans-serif">
+            <a href="/#kontakt" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-thin" style="font-family: 'Poppins', sans-serif">
                 Jetzt Buchen
             </a>
             <a href="/#waswirbieten" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-thin" style="font-family: 'Poppins', sans-serif">
@@ -34,13 +34,13 @@
         </div>
 
         {{-- Centered Logo --}}
-        <a href="/" class="text-[28px] md:text-[32px] font-medium text-[#1a1a1a] font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors absolute left-1/2 -translate-x-1/2">
-            musikfürfirmen
+        <a href="/" class="text-[24px] md:text-[30px] font-normal text-[#1a1a1a] font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors absolute left-1/2 -translate-x-1/2 leading-none whitespace-nowrap">
+            musikfürfirmen.de
         </a>
 
         {{-- Right Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
-            <a href="/uber-uns" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-thin" style="font-family: 'Poppins', sans-serif">
+            <a href="/#ueberuns" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-thin" style="font-family: 'Poppins', sans-serif">
                 Über uns
             </a>
             <a href="/#kontakt" class="text-lg text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-thin" style="font-family: 'Poppins', sans-serif">
@@ -75,7 +75,7 @@
             <a href="/#waswirbieten" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
                 Angebote
             </a>
-            <a href="/uber-uns" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
+            <a href="/#ueberuns" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
                 Über uns
             </a>
             <a href="/#kontakt" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
