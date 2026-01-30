@@ -1,13 +1,8 @@
-{{-- FAQ Component - Accordion Implementation --}}
-@php
-$faqItems = \App\Models\Faq::active()->get();
-@endphp
-
+{{-- FAQ Livewire Component - Accordion Implementation --}}
 <section
     class="faq-section max-w-[900px] mx-auto px-5"
     style="font-family: 'Poppins', sans-serif"
     x-data="{ activeIndex: null }"
-    x-init="console.log('FAQ Alpine initialized', $data)"
 >
     <div class="faq-container border-t border-[#e0e0e0]">
         @foreach($faqItems as $index => $item)

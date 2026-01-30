@@ -34,7 +34,7 @@
             >
                 FAQ
             </h2>
-            <x-faq />
+            <livewire:faq-section />
         </div>
     </section>
 

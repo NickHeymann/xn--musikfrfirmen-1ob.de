@@ -1,0 +1,113 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "musikfürfirmen.de" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e6]:
+        - link "Was wir bieten" [ref=e7] [cursor=pointer]:
+          - /url: /#waswirbieten
+        - link "Über uns" [ref=e8] [cursor=pointer]:
+          - /url: /uber-uns
+        - link "FAQ" [ref=e9] [cursor=pointer]:
+          - /url: /#faq
+  - generic [ref=e14]:
+    - heading "Deine M u s i k für Firmenevents!" [level=1] [ref=e15]:
+      - text: Deine
+      - generic [ref=e16]:
+        - generic [ref=e17]: M
+        - generic [ref=e18]: u
+        - generic [ref=e19]: s
+        - generic [ref=e20]: i
+        - generic [ref=e21]: k
+      - text: für Firmenevents!
+    - button "Unverbindliches Angebot anfragen" [ref=e22]
+    - list [ref=e23]:
+      - listitem [ref=e24]:
+        - img [ref=e25]
+        - generic [ref=e27]: Musik für jedes Firmenevent
+      - listitem [ref=e28]:
+        - img [ref=e29]
+        - generic [ref=e31]: Rundum-sorglos-Paket
+      - listitem [ref=e32]:
+        - img [ref=e33]
+        - generic [ref=e35]: Angebot innerhalb von 24 Stunden
+  - generic [ref=e38]:
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - img [ref=e43]
+        - generic [ref=e47]: "01"
+        - heading "Livebands" [level=3] [ref=e48]
+        - paragraph [ref=e49]: Unser absolutes Alleinstellungsmerkmal. Wir arbeiten mit einer festen Stammband, die wir persönlich kennen und die wir je nach Bedarf individuell für euch zusammenstellen und auf euer Event abstimmen.
+        - paragraph [ref=e50]: Viele Agenturen vermitteln nur Kontakte, die Bands kennen sie kaum persönlich. Bei musikfürfirmen.de läuft das anders. Wir arbeiten mit einer eingespielten Stammband, die je nach Eventgröße flexibel in unterschiedlichen Besetzungen auftritt.
+        - paragraph [ref=e51]: Alle Musiker:innen haben wir persönlich ausgewählt und zu einem harmonischen Team geformt. So garantieren wir absolute Spitzenqualität und eine sorgenfreie Zusammenarbeit.
+      - img "Livebands" [ref=e53]
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - img [ref=e60]
+        - generic [ref=e63]: "02"
+        - heading "DJ's" [level=3] [ref=e64]
+        - paragraph [ref=e65]: Unsere DJs liefern euch den perfekten Mix aus Klassikern und aktuellen Hits, maßgeschneidert für euer Event und perfekt abgestimmt auf eure individuellen Musikwünsche.
+        - paragraph [ref=e66]: "Ob entspannte Afterwork-Party oder festliches Firmenjubiläum: Wir finden über unser Netzwerk genau den richtigen DJ für euren Anlass. DJs lassen sich hervorragend mit einer Liveband kombinieren."
+        - paragraph [ref=e67]: Auf Wunsch erweitern wir das Setup um live auftretende Sänger:innen oder Saxofonist:innen.
+      - img "DJs" [ref=e69]
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - img [ref=e76]
+        - generic [ref=e80]: "03"
+        - heading "Technik" [level=3] [ref=e81]
+        - paragraph [ref=e82]: Mit Musik- und Lichttechnik im Wert von über 100.000 € stellen wir für jede Eventgröße die perfekte Ausstattung damit unsere Künstler:innen ihre Performance optimal präsentieren können.
+        - paragraph [ref=e83]: Unser umfangreiches Equipment ermöglicht es uns, für Events jeder Größenordnung die ideale Sound- und Lichtausstattung bereitzustellen.
+        - paragraph [ref=e84]: "Das Ergebnis: Ihr seid begeistert von der professionellen Darbietung, und unsere Musiker:innen können sich im besten Licht präsentieren."
+      - img "Technik" [ref=e86]
+  - generic [ref=e90]:
+    - generic [ref=e91]:
+      - heading "Musik und Technik? Läuft." [level=2] [ref=e92] [cursor=pointer]
+      - paragraph [ref=e93]: Von uns geplant. Von euch gefeiert.
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - generic [ref=e99]:
+          - heading "60 Sekunden" [level=3] [ref=e100]
+          - paragraph [ref=e101]: Schickt uns eure Anfrage innerhalb von 60 Sekunden über unser Formular. Schnell, einfach und unkompliziert.
+        - generic [ref=e106]:
+          - heading "24 Stunden" [level=3] [ref=e107]
+          - paragraph [ref=e108]: Erhaltet ein kostenloses Angebot innerhalb von 24 Stunden . Durch das von euch ausgefüllte Formular liefern wir euch ein individuelles Angebot.
+        - generic [ref=e113]:
+          - heading "Rundum-Service" [level=3] [ref=e114]
+          - paragraph [ref=e115]: Genießt professionelle Betreuung bis zum großen Tag! Wir sind 24/7 erreichbar. Über WhatsApp, Telefon oder E-Mail.
+      - button "Zum Angebot" [ref=e117] [cursor=pointer]
+  - generic [ref=e119]:
+    - heading "Moin aus Hamburg!" [level=2] [ref=e122] [cursor=pointer]
+    - paragraph [ref=e124]: Team section will appear here once team members are added.
+  - heading "FAQ" [level=2] [ref=e127] [cursor=pointer]
+  - generic [ref=e132]:
+    - generic [ref=e133]: musikfürfirmen.de
+    - generic [ref=e134]: Dein Partner für Firmenevents
+  - generic [ref=e137]:
+    - heading "Bereit für unvergessliche Musik?" [level=2] [ref=e138]
+    - paragraph [ref=e139]: Fordere jetzt dein unverbindliches Angebot an und mach dein nächstes Firmenevent zu einem Highlight.
+    - button "Jetzt Angebot anfragen" [ref=e140]
+  - contentinfo [ref=e141]:
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - heading "Kontakt" [level=4] [ref=e145]
+        - generic [ref=e146]:
+          - paragraph [ref=e147]:
+            - link "info@musikfuerfirmen.de" [ref=e148] [cursor=pointer]:
+              - /url: mailto:info@musikfuerfirmen.de
+          - paragraph [ref=e149]:
+            - link "+49 123 456 7890" [ref=e150] [cursor=pointer]:
+              - /url: tel:+491234567890
+      - generic [ref=e151]:
+        - heading "Info" [level=4] [ref=e152]
+        - generic [ref=e153]:
+          - paragraph [ref=e154]:
+            - link "Impressum" [ref=e155] [cursor=pointer]:
+              - /url: /impressum
+          - paragraph [ref=e156]:
+            - link "Datenschutz" [ref=e157] [cursor=pointer]:
+              - /url: /datenschutz
+    - paragraph [ref=e159]: © 2026 musikfürfirmen.de
+```
