@@ -10,11 +10,10 @@ $faqItems = \App\Models\Faq::active()->get();
 >
     <div class="faq-container border-t border-[#e0e0e0]">
         @foreach($faqItems as $index => $item)
-            <div class="faq-item border-b border-[#e0e0e0]" x-data="{ isOpen: false }">
+            <div class="faq-item border-b border-[#e0e0e0]">
                 <button
-                    @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}; isOpen = !isOpen"
-                    class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center transition-opacity duration-300 hover:opacity-70"
-                    :class="activeIndex === {{ $index }} ? 'pt-[30px] pb-[15px]' : 'py-[30px]'"
+                    @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}"
+                    class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center py-[30px] transition-opacity duration-300 hover:opacity-70"
                     style="font-family: 'Poppins', sans-serif"
                 >
                     <span class="pr-4">{{ $item->question }}</span>
@@ -28,6 +27,7 @@ $faqItems = \App\Models\Faq::active()->get();
                 <div
                     x-show="activeIndex === {{ $index }}"
                     x-collapse
+                    style="display: none;"
                     class="faq-answer overflow-hidden"
                 >
                     <p class="pt-0 pb-[30px] text-base leading-[1.6] font-light text-[#333] whitespace-pre-line">
