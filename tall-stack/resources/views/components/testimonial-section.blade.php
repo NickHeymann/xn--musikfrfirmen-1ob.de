@@ -1,5 +1,5 @@
 {{-- Testimonial Section - Direkt nach Hero --}}
-<section class="testimonial-section w-full py-16 sm:py-20 md:py-24 bg-[#f5f5f0]" data-section-theme="light" data-section-bg="#f5f5f0" style="font-family: 'Poppins', sans-serif">
+<section id="testimonial" class="testimonial-section w-full py-16 sm:py-20 md:py-24 bg-[#f5f5f0] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-20" data-section-theme="light" data-section-bg="#f5f5f0" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-4xl mx-auto px-6 sm:px-8 md:px-12">
         {{-- Section Heading --}}
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-light text-[#1a1a1a] mb-8 sm:mb-12 md:mb-16 text-center">

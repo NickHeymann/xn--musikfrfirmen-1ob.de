@@ -1,5 +1,5 @@
 {{-- Benefits Cards Section - "Das heißt für euch" (Refined & Airy) --}}
-<section class="benefits-cards-section w-full py-24 md:py-32 bg-white" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif"
+<section class="benefits-cards-section w-full py-24 md:py-32 bg-white relative z-20" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif"
          x-data="{ visible: false }"
          x-intersect="visible = true">
     <div class="max-w-7xl mx-auto px-6">
@@ -52,8 +52,14 @@
         <div class="text-center max-w-4xl mx-auto space-y-10 transition-all duration-700"
              :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
              style="transition-delay: 400ms">
-            <p class="text-2xl md:text-3xl font-medium text-[#1a1a1a] leading-relaxed">
-                Wir sind 24/7 für euch telefonisch oder auch über WhatsApp erreichbar.
+
+            <h3 class="text-2xl md:text-3xl font-medium text-[#1a1a1a] leading-relaxed">
+                Kostenloses Erstgespräch
+            </h3>
+
+            {{-- Description Text --}}
+            <p class="text-lg text-[#6b7280] leading-relaxed max-w-3xl mx-auto">
+                Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Vorstellungen und schaffen die Grundlage für ein individuelles Angebot.
             </p>
 
             {{-- CTA Button --}}
@@ -61,14 +67,9 @@
                 <button
                     onclick="Livewire.dispatch('openBookingModal')"
                     class="btn-secondary">
-                    Kostenloses Erstgespräch
+                    Jetzt Termin vereinbaren
                 </button>
             </div>
-
-            {{-- Description Text --}}
-            <p class="text-lg text-[#6b7280] leading-relaxed max-w-3xl mx-auto">
-                Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Vorstellungen und schaffen die Grundlage für ein individuelles Angebot.
-            </p>
         </div>
     </div>
 </section>

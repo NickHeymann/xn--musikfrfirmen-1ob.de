@@ -49,6 +49,7 @@
     "
     x-on:open-calcom.window="window.open($event.detail.url, '_blank')"
     x-on:open-m-f-f-calculator.window="openModal()"
+    @keydown.escape.window="if (showModal) $wire.closeModal()"
     style="font-family: 'Poppins', sans-serif"
 >
     {{-- Modal Overlay --}}
@@ -65,7 +66,7 @@
         style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); display: none;"
         @click.self="$wire.closeModal()"
     >
-        {{-- Modal Content --}}
+        {{-- Modal Content - Dark Mode --}}
         <div
             x-show="showModal"
             x-transition:enter="transition ease-out duration-300"
@@ -74,13 +75,13 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-90"
-            class="relative bg-white rounded-2xl max-w-[800px] w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
+            class="relative bg-[#1a1a1a] rounded-2xl max-w-[800px] w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
         >
             {{-- Close Button --}}
             <button
                 type="button"
                 wire:click="closeModal"
-                class="absolute top-5 right-5 bg-black/10 border-none rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10 transition-all duration-200 text-[#292929] hover:bg-black/20 hover:rotate-90"
+                class="absolute top-5 right-5 bg-white/5/10 border-none rounded-full w-10 h-10 flex items-center justify-center cursor-pointer z-10 transition-all duration-200 text-gray-400 hover:bg-white/5/20 hover:text-white hover:rotate-90"
             >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -88,14 +89,14 @@
             </button>
 
             {{-- Content --}}
-            <div class="w-full p-4 box-border text-[#1a1a1a] leading-relaxed">
-                <div class="bg-white rounded-xl p-6 md:px-[30px] relative">
+            <div class="w-full p-4 box-border text-white leading-relaxed">
+                <div class="bg-[#1a1a1a] rounded-xl p-6 md:px-[30px] relative">
                     {{-- Back Arrow --}}
                     @if ($step > 1 && $submitStatus !== 'success')
                         <button
                             type="button"
                             wire:click="prevStep"
-                            class="absolute top-4 left-4 bg-black/10 border-none rounded-full w-8 h-8 flex items-center justify-center cursor-pointer z-10 transition-all duration-200 text-[#292929] hover:bg-black/20 hover:-translate-x-[2px]"
+                            class="absolute top-4 left-4 bg-white/10 border-none rounded-full w-8 h-8 flex items-center justify-center cursor-pointer z-10 transition-all duration-200 text-gray-300 hover:bg-white/20 hover:-translate-x-[2px]"
                         >
                             <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -106,10 +107,10 @@
                     {{-- Header --}}
                     @if ($submitStatus !== 'success')
                         <div class="text-center mb-6">
-                            <h2 class="text-[26px] font-normal m-0 mb-2 text-[#1a1a1a]">
+                            <h2 class="text-[26px] font-normal m-0 mb-2 text-white">
                                 Deine Wünsche<br />für ein unvergessliches Event
                             </h2>
-                            <p class="text-sm font-light text-[#666666] m-0">
+                            <p class="text-sm font-light text-gray-400 m-0">
                                 Teile uns deine Anforderungen mit und erhalte innerhalb von 24 Stunden ein unverbindliches Angebot.
                             </p>
                         </div>
@@ -119,33 +120,33 @@
                     @if ($step === 1)
                         <div class="mb-4">
                             <div class="flex items-center gap-[10px] text-[15px] font-normal mb-[14px]">
-                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#B2EAD8] text-[#292929] rounded-full text-[13px] font-semibold">1</span>
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#2DD4A8] text-gray-300 rounded-full text-[13px] font-semibold">1</span>
                                 <span>Event-Details</span>
                             </div>
 
                             {{-- Date & Time Row --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-[6px] mb-[6px]">
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-date" class="text-[13px] font-normal text-[#1a1a1a]">Datum *</label>
+                                    <label for="mff-date" class="text-[13px] font-normal text-white">Datum *</label>
                                     <input
                                         type="date"
                                         id="mff-date"
                                         wire:model="date"
                                         min="{{ date('Y-m-d') }}"
                                         max="{{ date('Y-m-d', strtotime('+5 years')) }}"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('date') border-red-600 @else border-[#e0e0e0] @enderror"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
                                     />
                                     @error('date')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-time" class="text-[13px] font-normal text-[#1a1a1a]">Startzeit Event (optional)</label>
+                                    <label for="mff-time" class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
                                     <input
                                         type="time"
                                         id="mff-time"
                                         wire:model="time"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-[#e0e0e0] rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)]"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-white/10 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)]"
                                     />
                                 </div>
                             </div>
@@ -153,7 +154,7 @@
                             {{-- City & Budget Row --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-[6px] mb-[6px]">
                                 <div class="flex flex-col gap-[3px] relative">
-                                    <label for="mff-city" class="text-[13px] font-normal text-[#1a1a1a]">Stadt *</label>
+                                    <label for="mff-city" class="text-[13px] font-normal text-white">Stadt *</label>
                                     <input
                                         type="text"
                                         id="mff-city"
@@ -162,7 +163,7 @@
                                         x-on:blur="hideSuggestions()"
                                         placeholder="z.B. Hamburg"
                                         autocomplete="off"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('city') border-red-600 @else border-[#e0e0e0] @enderror"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('city') border-red-600 @else border-white/10 @enderror"
                                     />
                                     @error('city')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
@@ -172,38 +173,38 @@
                                     <div
                                         x-show="showSuggestions && citySuggestions.length > 0"
                                         x-transition
-                                        class="absolute top-full left-0 right-0 bg-white border-2 border-[#e0e0e0] border-t-0 rounded-b-xl max-h-[200px] overflow-y-auto z-[1000] shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                                        class="absolute top-full left-0 right-0 bg-white/5/5 border-2 border-white/10 border-t-0 rounded-b-xl max-h-[200px] overflow-y-auto z-[1000] shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                                     >
                                         <template x-for="(city, index) in citySuggestions" :key="index">
                                             <div
                                                 @click="selectCity(city)"
-                                                class="p-[10px_12px] cursor-pointer text-[13px] font-light border-b border-[#f0f0f0] last:border-b-0 transition-colors duration-200 hover:bg-[#B2EAD8]"
+                                                class="p-[10px_12px] cursor-pointer text-[13px] font-light border-b border-[#f0f0f0] last:border-b-0 transition-colors duration-200 hover:bg-[#2DD4A8]"
                                             >
-                                                <span class="font-normal text-[#1a1a1a]" x-text="city.city"></span>
-                                                <span x-show="city.state" class="text-xs text-[#666666] ml-2" x-text="city.state"></span>
+                                                <span class="font-normal text-white" x-text="city.city"></span>
+                                                <span x-show="city.state" class="text-xs text-gray-400 ml-2" x-text="city.state"></span>
                                             </div>
                                         </template>
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-budget" class="text-[13px] font-normal text-[#1a1a1a]">Budget (optional)</label>
+                                    <label for="mff-budget" class="text-[13px] font-normal text-white">Budget (optional)</label>
                                     <input
                                         type="text"
                                         id="mff-budget"
                                         wire:model="budget"
                                         placeholder="z.B. 5.000 Euro"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-[#e0e0e0] rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)]"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-white/10 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)]"
                                     />
                                 </div>
                             </div>
 
                             {{-- Guests --}}
                             <div class="flex flex-col gap-[3px] mb-[6px]">
-                                <label for="mff-guests" class="text-[13px] font-normal text-[#1a1a1a]">Anzahl Gäste *</label>
+                                <label for="mff-guests" class="text-[13px] font-normal text-white">Anzahl Gäste *</label>
                                 <select
                                     id="mff-guests"
                                     wire:model="guests"
-                                    class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('guests') border-red-600 @else border-[#e0e0e0] @enderror"
+                                    class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('guests') border-red-600 @else border-white/10 @enderror"
                                 >
                                     <option value="">Bitte wählen...</option>
                                     @foreach ($guestOptions as $opt)
@@ -220,7 +221,7 @@
                                 <button
                                     type="button"
                                     wire:click="nextStep"
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#B2EAD8] text-[#292929] hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#2DD4A8] text-gray-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                                 >
                                     Weiter
                                 </button>
@@ -232,7 +233,7 @@
                     @if ($step === 2)
                         <div class="mb-4">
                             <div class="flex items-center gap-[10px] text-[15px] font-normal mb-[14px]">
-                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#B2EAD8] text-[#292929] rounded-full text-[13px] font-semibold">2</span>
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#2DD4A8] text-gray-300 rounded-full text-[13px] font-semibold">2</span>
                                 <span>Paket-Auswahl</span>
                             </div>
 
@@ -240,7 +241,7 @@
                                 @foreach ($packageOptions as $pkg)
                                     <label
                                         for="package-{{ $pkg['value'] }}"
-                                        class="relative flex items-center p-[14px_18px] border-2 rounded-[10px] cursor-pointer transition-all duration-200 hover:border-[#B2EAD8] hover:bg-[#f8f8f8] hover:-translate-y-[2px] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#f8f8f8]' : 'border-[#e0e0e0]' }}"
+                                        class="relative flex items-center p-[14px_18px] border-2 rounded-[10px] cursor-pointer transition-all duration-200 hover:border-[#B2EAD8] hover:bg-[#f8f8f8] hover:-translate-y-[2px] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#f8f8f8]' : 'border-white/10' }}"
                                     >
                                         <input
                                             type="radio"
@@ -250,7 +251,7 @@
                                             wire:model.live="package"
                                             class="absolute opacity-0 pointer-events-none"
                                         />
-                                        <span class="relative w-5 h-5 border-2 rounded-full mr-3 transition-all duration-200 {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#B2EAD8]' : 'border-[#e0e0e0]' }}">
+                                        <span class="relative w-5 h-5 border-2 rounded-full mr-3 transition-all duration-200 {{ $package === $pkg['value'] ? 'border-[#B2EAD8] bg-[#2DD4A8]' : 'border-white/10' }}">
                                             @if ($package === $pkg['value'])
                                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#292929]"></span>
                                             @endif
@@ -266,7 +267,7 @@
                                     type="button"
                                     wire:click="nextStep"
                                     @if (!$package) disabled @endif
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#B2EAD8] text-[#292929] hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#e0e0e0]"
+                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#2DD4A8] text-gray-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#e0e0e0]"
                                 >
                                     Weiter
                                 </button>
@@ -278,33 +279,33 @@
                     @if ($step === 3 && $submitStatus !== 'success')
                         <form wire:submit="submit" class="mb-4">
                             <div class="flex items-center gap-[10px] text-[15px] font-normal mb-[14px]">
-                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#B2EAD8] text-[#292929] rounded-full text-[13px] font-semibold">3</span>
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-[#2DD4A8] text-gray-300 rounded-full text-[13px] font-semibold">3</span>
                                 <span>Deine Kontaktdaten</span>
                             </div>
 
                             {{-- Name & Company Row --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-[6px] mb-[6px]">
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-name" class="text-[13px] font-normal text-[#1a1a1a]">Name *</label>
+                                    <label for="mff-name" class="text-[13px] font-normal text-white">Name *</label>
                                     <input
                                         type="text"
                                         id="mff-name"
                                         wire:model="name"
                                         placeholder="Dein Name"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('name') border-red-600 @else border-[#e0e0e0] @enderror"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('name') border-red-600 @else border-white/10 @enderror"
                                     />
                                     @error('name')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-company" class="text-[13px] font-normal text-[#1a1a1a]">Firma (optional)</label>
+                                    <label for="mff-company" class="text-[13px] font-normal text-white">Firma (optional)</label>
                                     <input
                                         type="text"
                                         id="mff-company"
                                         wire:model="company"
                                         placeholder="Deine Firma"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-[#e0e0e0] rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)]"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-white/10 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)]"
                                     />
                                 </div>
                             </div>
@@ -312,26 +313,26 @@
                             {{-- Email & Phone Row --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-[6px] mb-[6px]">
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-email" class="text-[13px] font-normal text-[#1a1a1a]">E-Mail *</label>
+                                    <label for="mff-email" class="text-[13px] font-normal text-white">E-Mail *</label>
                                     <input
                                         type="email"
                                         id="mff-email"
                                         wire:model="email"
                                         placeholder="deine@email.de"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('email') border-red-600 @else border-[#e0e0e0] @enderror"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('email') border-red-600 @else border-white/10 @enderror"
                                     />
                                     @error('email')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-phone" class="text-[13px] font-normal text-[#1a1a1a]">Telefon *</label>
+                                    <label for="mff-phone" class="text-[13px] font-normal text-white">Telefon *</label>
                                     <input
                                         type="tel"
                                         id="mff-phone"
                                         wire:model="phone"
                                         placeholder="+49 123 456789"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] @error('phone') border-red-600 @else border-[#e0e0e0] @enderror"
+                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('phone') border-red-600 @else border-white/10 @enderror"
                                     />
                                     @error('phone')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
@@ -341,12 +342,12 @@
 
                             {{-- Message --}}
                             <div class="flex flex-col gap-[3px] mb-[6px]">
-                                <label for="mff-message" class="text-[13px] font-normal text-[#1a1a1a]">Nachricht (optional)</label>
+                                <label for="mff-message" class="text-[13px] font-normal text-white">Nachricht (optional)</label>
                                 <textarea
                                     id="mff-message"
                                     wire:model="message"
                                     placeholder="Weitere Details zu deinem Event..."
-                                    class="w-full p-2 px-[10px] text-sm font-light border-2 border-[#e0e0e0] rounded-[10px] bg-white text-[#1a1a1a] transition-all duration-200 focus:outline-none focus:border-[#B2EAD8] focus:shadow-[0_0_0_4px_rgba(178,234,216,0.1)] min-h-[50px] resize-y"
+                                    class="w-full p-2 px-[10px] text-sm font-light border-2 border-white/10 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] min-h-[50px] resize-y"
                                 ></textarea>
                             </div>
 
@@ -373,14 +374,14 @@
                                 <button
                                     type="button"
                                     wire:click="openCalCom"
-                                    class="p-[10px_20px] text-sm font-normal rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-white text-[#1a1a1a] border-2 border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white hover:-translate-y-[2px] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+                                    class="p-[10px_20px] text-sm font-normal rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-white/5 text-white border-2 border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white hover:-translate-y-[2px] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
                                 >
                                     Gespräch buchen
                                 </button>
                                 <button
                                     type="submit"
                                     wire:loading.attr="disabled"
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#B2EAD8] text-[#292929] hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#e0e0e0]"
+                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#2DD4A8] text-gray-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#e0e0e0]"
                                 >
                                     <span wire:loading.remove wire:target="submit">Anfrage absenden</span>
                                     <span wire:loading wire:target="submit" class="flex items-center gap-2">
@@ -415,7 +416,7 @@
                             <button
                                 type="button"
                                 wire:click="closeModal"
-                                class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer bg-[#B2EAD8] text-[#292929] hover:bg-[#7dc9b1]"
+                                class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer bg-[#2DD4A8] text-gray-300 hover:bg-[#7dc9b1]"
                             >
                                 Alles klar!
                             </button>

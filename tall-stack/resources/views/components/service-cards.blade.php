@@ -46,7 +46,7 @@
                         onclick="Livewire.dispatch('openMFFCalculator')"
                         class="btn-primary text-sm"
                     >
-                        Jetzt buchen
+                        Jetzt Angebot einholen
                     </button>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                         onclick="Livewire.dispatch('openMFFCalculator')"
                         class="btn-primary text-sm"
                     >
-                        Jetzt buchen
+                        Jetzt Angebot einholen
                     </button>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                         onclick="Livewire.dispatch('openMFFCalculator')"
                         class="btn-primary text-sm"
                     >
-                        Jetzt buchen
+                        Jetzt Angebot einholen
                     </button>
                 </div>
             </div>
