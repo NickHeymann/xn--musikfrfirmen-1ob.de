@@ -13,28 +13,24 @@
             }
          }">
 
-    {{-- Static Fallback Background (instant load) --}}
-    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('/images/events/event-1.jpg'); background-size: cover; background-position: center; filter: blur(2px); z-index: -21;"></div>
-
-    {{-- Video Background - fixed to viewport, completely static --}}
+    {{-- Video Background --}}
     <video
         autoplay
         muted
         loop
         playsinline
-        preload="none"
-        loading="lazy"
-        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(2px); opacity: 0;"
-        onloadeddata="this.style.opacity='1'"
+        preload="auto"
+        class="absolute top-0 left-0 w-full h-full object-cover"
+        style="z-index: 1; filter: blur(2px);"
     >
         <source src="/videos/hero-landing-page.mp4" type="video/mp4">
     </video>
 
-    {{-- Dark Overlay (80% opacity - much darker) - also fixed, static --}}
-    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); z-index: -19;"></div>
+    {{-- Dark Overlay (80% opacity) --}}
+    <div class="absolute top-0 left-0 w-full h-full bg-black/80" style="z-index: 2;"></div>
 
     {{-- Content with staggered fade-in animation --}}
-    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
+    <div class="relative max-w-4xl mx-auto px-6 text-center text-white" style="z-index: 10;">
 
         {{-- Text Content - Moved up 80px --}}
         <div style="margin-bottom: 80px;">
@@ -65,11 +61,11 @@
         </div>
     </div>
 
-    {{-- Down Arrow - Fixed to bottom of viewport with fade-in animation --}}
+    {{-- Down Arrow - At bottom of hero section with fade-in animation --}}
     <div
         @click="scrollToContent()"
-        style="position: fixed !important; bottom: 2rem !important; left: 50% !important; z-index: 9999 !important; opacity: 0; animation: fadeInUp 0.3s ease-out 0.15s forwards; will-change: opacity, transform;"
-        class="cursor-pointer hover:opacity-50 transition-all duration-200">
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-200"
+        style="z-index: 10; opacity: 0; animation: fadeInUp 0.3s ease-out 0.15s forwards;">
         <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
         </svg>
