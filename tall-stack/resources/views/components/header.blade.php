@@ -13,8 +13,9 @@
 
                     for (const section of sections) {
                         const rect = section.getBoundingClientRect();
-                        // Check if section's top is within header area (108px high)
-                        if (rect.top <= 54 && rect.bottom > 54) {
+                        // Check if section starts at or above header top (0px)
+                        // and extends below it - header adopts this section's color
+                        if (rect.top <= 0 && rect.bottom > 0) {
                             newBgColor = section.getAttribute('data-section-bg') || '#ffffff';
                             newIsDark = section.getAttribute('data-section-theme') === 'dark';
                             break;
@@ -56,9 +57,9 @@
             </a>
         </div>
 
-        {{-- Logo --}}
-        <a href="/" class="text-2xl md:text-3xl font-bold"
-           style="font-family: 'Poppins', sans-serif"
+        {{-- Centered Logo --}}
+        <a href="/"
+           class="text-[24px] md:text-[30px] font-normal font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors absolute left-1/2 -translate-x-1/2 leading-none whitespace-nowrap"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             musikfürfirmen.de
         </a>
