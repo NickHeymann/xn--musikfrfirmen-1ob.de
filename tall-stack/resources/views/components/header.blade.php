@@ -39,7 +39,7 @@
         style="transition: background-color 0.4s ease-in-out;"
         :class="!isDark ? 'shadow-sm' : ''">
 
-    <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center">
+    <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center justify-between relative">
         {{-- Left Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
             <button
@@ -57,19 +57,13 @@
             </a>
         </div>
 
-        {{-- Spacer --}}
-        <div class="flex-1"></div>
-
-        {{-- Logo --}}
+        {{-- Logo - Centered --}}
         <a href="/"
-           class="hidden md:block text-[26px] md:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide"
+           class="hidden md:block absolute left-1/2 -translate-x-1/2 text-[26px] md:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             musikfürfirmen.de
         </a>
-
-        {{-- Spacer --}}
-        <div class="flex-1"></div>
 
         {{-- Right Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
