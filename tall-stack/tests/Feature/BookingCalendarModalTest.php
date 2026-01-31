@@ -79,15 +79,18 @@ class BookingCalendarModalTest extends TestCase
             ->assertSet('step', 3); // Should progress to contact form
     }
 
-    public function test_can_toggle_between_12h_and_24h_time_format(): void
+    public function test_displays_time_slots_in_24h_format(): void
     {
-        Livewire::test(BookingCalendarModal::class)
-            ->dispatch('openBookingModal')
-            ->assertSet('timeFormat', '12h')
-            ->call('setTimeFormat', '24h')
-            ->assertSet('timeFormat', '24h')
-            ->call('setTimeFormat', '12h')
-            ->assertSet('timeFormat', '12h');
+        $component = Livewire::test(BookingCalendarModal::class)
+            ->dispatch('openBookingModal');
+
+        $slots = $component->get('availableSlots');
+
+        // All slots should be in 24h format (HH:MM)
+        expect($slots)->toContain('09:00');
+        expect($slots)->toContain('17:00');
+        expect($slots)->not->toContain('9:00 am');
+        expect($slots)->not->toContain('5:00 pm');
     }
 
     public function test_validates_required_fields_when_submitting_booking(): void

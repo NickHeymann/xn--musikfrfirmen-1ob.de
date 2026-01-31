@@ -88,19 +88,9 @@ test('complete booking flow from landing page', function () {
         ->assertSet('selectedDate', $date);
     // Date is displayed in the component
 
-    // User sees 12h/24h toggle
-    $component->assertSet('timeFormat', '12h')
-        ->assertSee('12h')
-        ->assertSee('24h');
-
-    // User can toggle to 24h format
-    $component->call('setTimeFormat', '24h')
-        ->assertSet('timeFormat', '24h')
-        ->assertSee('09:00'); // Should show 24h format
-
-    // User toggles back to 12h
-    $component->call('setTimeFormat', '12h')
-        ->assertSet('timeFormat', '12h');
+    // Time slots displayed in 24h format
+    $component->assertSee('09:00')
+        ->assertSee('17:00');
 
     // User selects a time slot
     $component->call('selectTime', $time)

@@ -249,33 +249,15 @@
                                     <p>Wählen Sie ein Datum</p>
                                 </div>
                             @else
-                                {{-- Header: Selected Date + 12h/24h Toggle --}}
-                                <div class="mb-6 flex items-start justify-between">
-                                    {{-- Selected Date Display --}}
-                                    <div>
-                                        <h3 class="text-2xl font-light text-white mb-1">
-                                            {{ \Carbon\Carbon::parse($selectedDate)->locale('en')->isoFormat('ddd') }}
-                                            <span class="text-3xl font-normal">{{ \Carbon\Carbon::parse($selectedDate)->format('d') }}</span>
-                                        </h3>
-                                    </div>
-
-                                    {{-- 12h/24h Toggle --}}
-                                    <div class="flex items-center bg-white/5 rounded-lg p-1">
-                                        <button
-                                            wire:click="setTimeFormat('12h')"
-                                            class="px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200"
-                                            :class="$wire.timeFormat === '12h' ? 'bg-white/10 text-white' : 'text-gray-500 hover:text-gray-300'"
-                                        >
-                                            12h
-                                        </button>
-                                        <button
-                                            wire:click="setTimeFormat('24h')"
-                                            class="px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200"
-                                            :class="$wire.timeFormat === '24h' ? 'bg-white/10 text-white' : 'text-gray-500 hover:text-gray-300'"
-                                        >
-                                            24h
-                                        </button>
-                                    </div>
+                                {{-- Header: Selected Date --}}
+                                <div class="mb-6">
+                                    <p class="text-sm text-gray-400 mb-1">
+                                        {{ \Carbon\Carbon::parse($selectedDate)->locale('de')->isoFormat('MMMM YYYY') }}
+                                    </p>
+                                    <h3 class="text-xl font-light text-gray-300">
+                                        {{ \Carbon\Carbon::parse($selectedDate)->locale('de')->isoFormat('ddd') }}
+                                        <span class="text-2xl font-normal text-white">{{ \Carbon\Carbon::parse($selectedDate)->format('d') }}</span>
+                                    </h3>
                                 </div>
 
                                 {{-- Time Slots Grid - Full height scrollable --}}
@@ -297,17 +279,12 @@
                                 </style>
                                 <div class="space-y-3 time-slots-container overflow-y-auto pr-2" style="flex: 1; min-height: 0;">
                                     @foreach($availableSlots as $index => $slot)
-                                        @php
-                                            $displayTime = $timeFormat === '12h'
-                                                ? \Carbon\Carbon::createFromFormat('H:i', $slot)->format('g:i a')
-                                                : $slot;
-                                        @endphp
                                         <button
                                             wire:click="selectTime('{{ $slot }}')"
                                             class="w-full px-4 py-3 rounded-md text-left transition-all duration-150 flex items-center justify-between group"
                                             :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5'"
                                         >
-                                            <span class="text-sm font-medium">{{ $displayTime }}</span>
+                                            <span class="text-sm font-medium">{{ $slot }}</span>
                                             <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4A8]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
                                         </button>
                                     @endforeach
