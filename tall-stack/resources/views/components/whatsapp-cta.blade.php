@@ -1,5 +1,5 @@
 {{-- WhatsApp/Contact CTA Section - Canva Redesign --}}
-<section id="kontakt" class="whatsapp-cta-section w-full py-20 bg-[#2DD4A8]" style="font-family: 'Poppins', sans-serif">
+<section id="kontakt" class="whatsapp-cta-section w-full py-20 bg-[#2DD4A8]" style="font-family: 'Poppins', sans-serif" data-section-bg="#2DD4A8" data-section-theme="dark">
     <div class="max-w-4xl mx-auto px-6 text-center">
         {{-- Main Text --}}
         <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed">

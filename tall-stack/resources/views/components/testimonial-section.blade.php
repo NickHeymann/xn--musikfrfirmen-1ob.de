@@ -1,5 +1,5 @@
 {{-- "Unser letztes Event" Section mit Event-Bild --}}
-<section class="testimonial-section w-full py-24 bg-white" style="font-family: 'Poppins', sans-serif">
+<section class="testimonial-section w-full py-24 bg-white" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
         <h2 class="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-16">

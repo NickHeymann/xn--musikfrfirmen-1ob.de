@@ -279,5 +279,8 @@
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
+
+        {{-- Booking Calendar Modal --}}
+        <livewire:booking-calendar-modal />
     </body>
 </html>

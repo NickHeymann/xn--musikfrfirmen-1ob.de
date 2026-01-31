@@ -17,15 +17,8 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white font-poppins" x-data="{ pageLoaded: false }" x-init="setTimeout(() => pageLoaded = true, 100)">
-    <div
-        x-show="pageLoaded"
-        x-transition:enter="transition ease-out duration-800"
-        x-transition:enter-start="opacity-0 translate-y-8"
-        x-transition:enter-end="opacity-100 translate-y-0"
-    >
-        {{ $slot }}
-    </div>
+<body class="antialiased bg-white font-poppins">
+    {{ $slot }}
 
     {{-- Event Request Modal --}}
     <livewire:event-request-modal />

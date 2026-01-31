@@ -50,9 +50,42 @@ class BookingCalendarModal extends Component
     public function open()
     {
         $this->isOpen = true;
-        $this->currentYear = Carbon::today()->year;
-        $this->currentMonth = Carbon::today()->month;
-        $this->selectedDate = null;
+
+        // Find first month with available dates
+        $today = Carbon::today();
+        $checkDate = $today->copy();
+        $foundAvailableMonth = false;
+
+        // Check up to 3 months ahead
+        for ($i = 0; $i < 3; $i++) {
+            $firstDay = $checkDate->copy()->startOfMonth();
+            $lastDay = $checkDate->copy()->endOfMonth();
+
+            // Check if this month has any available weekdays in the future
+            $current = max($today, $firstDay);
+            while ($current <= $lastDay) {
+                if (!$current->isPast() && !$current->isWeekend()) {
+                    $foundAvailableMonth = true;
+                    $this->currentYear = $checkDate->year;
+                    $this->currentMonth = $checkDate->month;
+
+                    // Auto-select first available date
+                    $this->selectedDate = $current->format('Y-m-d');
+                    break 2;
+                }
+                $current->addDay();
+            }
+
+            $checkDate->addMonth();
+        }
+
+        // Fallback to current month if no available dates found
+        if (!$foundAvailableMonth) {
+            $this->currentYear = $today->year;
+            $this->currentMonth = $today->month;
+            $this->selectedDate = null;
+        }
+
         $this->step = 1;
         $this->showSuccess = false;
     }
@@ -75,6 +108,11 @@ class BookingCalendarModal extends Component
     {
         $this->isOpen = false;
         $this->reset(['step', 'selectedDate', 'selectedTime', 'name', 'email', 'phone', 'message', 'showSuccess']);
+    }
+
+    public function hasFormData()
+    {
+        return !empty($this->name) || !empty($this->email) || !empty($this->phone) || !empty($this->message);
     }
 
     public function selectDate($date)
