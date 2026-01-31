@@ -38,18 +38,18 @@
         :style="{ backgroundColor: bgColor }"
         :class="!isDark ? 'shadow-sm' : ''">
 
-    <nav class="w-full px-4 sm:px-6 md:px-[80px] h-[80px] md:h-[108px] flex items-center justify-between relative">
-        {{-- Logo - Left on Mobile, Centered on Desktop --}}
+    <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
+        {{-- Logo - Left on Mobile/Tablet, Centered on Desktop --}}
         <a href="/"
-           class="text-[20px] sm:text-[22px] md:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide md:absolute md:left-1/2 md:-translate-x-1/2 z-10"
+           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             <span class="hidden sm:inline">musikfürfirmen.de</span>
             <span class="inline sm:hidden">musikfürfirmen</span>
         </a>
 
-        {{-- Left Navigation (Desktop only) --}}
-        <div class="hidden md:flex items-center gap-[32px] lg:gap-[40px] text-sm lg:text-base xl:text-lg">
+        {{-- Left Navigation (Large Desktop only) --}}
+        <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
                 class="hover:text-[#2DD4A8] transition-colors font-thin cursor-pointer whitespace-nowrap"
@@ -65,8 +65,8 @@
             </a>
         </div>
 
-        {{-- Right Navigation (Desktop only) --}}
-        <div class="hidden md:flex items-center gap-[32px] lg:gap-[40px] text-sm lg:text-base xl:text-lg">
+        {{-- Right Navigation (Large Desktop only) --}}
+        <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
             <a href="/#ueberuns"
                class="hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
@@ -81,9 +81,9 @@
             </a>
         </div>
 
-        {{-- Mobile Hamburger --}}
+        {{-- Mobile/Tablet Hamburger --}}
         <button @click="isOpen = !isOpen"
-                class="md:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-20">
+                class="lg:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-20">
             <span class="w-6 h-0.5 transition-all duration-300"
                   :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
                   :style="{ transform: isOpen ? 'rotate(45deg) translateY(4px)' : 'rotate(0)' }"></span>
@@ -95,7 +95,7 @@
         </button>
     </nav>
 
-    {{-- Mobile Menu Overlay --}}
+    {{-- Mobile/Tablet Menu Overlay --}}
     <div x-show="isOpen"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 translate-y-[-100%]"
@@ -104,7 +104,8 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-[-100%]"
          @click.away="isOpen = false"
-         class="md:hidden fixed top-[80px] left-0 right-0 bg-white shadow-lg overflow-hidden"
+         class="lg:hidden fixed left-0 right-0 bg-white shadow-lg overflow-hidden"
+         :style="{ top: window.innerWidth >= 1024 ? '108px' : '80px' }"
          style="z-index: 999998;">
         <nav class="flex flex-col px-4 sm:px-6 py-6 sm:py-8 gap-4 sm:gap-6" style="font-family: 'Poppins', sans-serif">
             <button
