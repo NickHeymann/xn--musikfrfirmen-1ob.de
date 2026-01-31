@@ -39,9 +39,6 @@ class BookingCalendarModal extends Component
     #[Validate('nullable|string|max:500')]
     public $message = '';
 
-    // Time format preference (12h or 24h)
-    public $timeFormat = '12h';
-
     // Available time slots (9:00 - 17:00, 30-minute intervals)
     public $availableSlots = [
         '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
@@ -107,11 +104,6 @@ class BookingCalendarModal extends Component
         $date = Carbon::create($this->currentYear, $this->currentMonth, 1)->addMonth();
         $this->currentYear = $date->year;
         $this->currentMonth = $date->month;
-    }
-
-    public function setTimeFormat($format)
-    {
-        $this->timeFormat = $format;
     }
 
     public function close()
