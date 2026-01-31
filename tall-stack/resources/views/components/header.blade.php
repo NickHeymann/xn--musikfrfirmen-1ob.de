@@ -61,8 +61,7 @@
         <div class="flex-1"></div>
 
         {{-- Logo --}}
-        <a href="/"
-           class="hidden md:block text-[28px] font-normal hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
+        <a href="/" class="hidden md:block text-2xl md:text-3xl font-bold"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             musikfürfirmen.de
