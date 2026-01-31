@@ -1,5 +1,5 @@
 {{-- Footer Component - Canva Redesign --}}
-<footer id="kontakt" class="bg-[#1a1a1a] scroll-mt-[108px]" style="font-family: 'Poppins', sans-serif">
+<footer id="kontakt" class="bg-[#1a1a1a] scroll-mt-[108px]" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6 py-16">
         <div class="flex flex-col md:flex-row justify-center gap-16 md:gap-32">
             {{-- Kontakt --}}

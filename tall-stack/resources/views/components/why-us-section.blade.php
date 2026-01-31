@@ -1,5 +1,5 @@
 {{-- "Warum Wir?" Section - Scroll-Linked Parallax Animation --}}
-<section class="why-us-section w-full py-20 bg-white overflow-hidden" style="font-family: 'Poppins', sans-serif"
+<section class="why-us-section w-full py-20 bg-white overflow-hidden" data-section-bg="#ffffff" data-section-theme="light" style="font-family: 'Poppins', sans-serif"
          x-data="{
             visible: false,
             init() {
