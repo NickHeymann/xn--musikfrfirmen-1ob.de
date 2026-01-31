@@ -39,7 +39,7 @@
         style="transition: background-color 0.2s ease-out;"
         :class="!isDark ? 'shadow-sm' : ''">
 
-    <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center justify-between">
+    <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center">
         {{-- Left Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
             <button
@@ -57,13 +57,22 @@
             </a>
         </div>
 
-        {{-- Right Group: Logo + Navigation (Desktop) --}}
+        {{-- Spacer --}}
+        <div class="flex-1"></div>
+
+        {{-- Logo (filigran, lighter weight) --}}
+        <a href="/"
+           class="hidden md:block text-[20px] font-light tracking-wide hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
+           style="font-family: 'Poppins', sans-serif"
+           :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
+            musikfürfirmen.de
+        </a>
+
+        {{-- Spacer --}}
+        <div class="flex-1"></div>
+
+        {{-- Right Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
-            <a href="/"
-               class="text-[24px] md:text-[30px] font-normal font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
-               :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-                musikfürfirmen.de
-            </a>
             <a href="/#ueberuns"
                class="text-lg hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
