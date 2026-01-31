@@ -2,6 +2,7 @@
 <section
     class="mff-services w-full py-20 bg-white"
     data-section-theme="light"
+    data-section-bg="#ffffff"
     x-data="{ visible: false }"
     x-intersect="visible = true"
 >
@@ -23,7 +24,7 @@
             {{-- Image --}}
             <div class="w-full md:w-1/2 relative overflow-hidden rounded-2xl min-h-[300px] md:min-h-[450px]">
                 <img
-                    src="/images/service-live-band.png"
+                    src="/images/services/liveband.jpg"
                     alt="Livebands für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover"
                 />
@@ -65,7 +66,7 @@
                 <img
                     src="/images/services/dj.jpg"
                     alt="DJs für Firmenevents"
-                    class="absolute inset-0 w-full h-full object-cover grayscale"
+                    class="absolute inset-0 w-full h-full object-cover"
                 />
             </div>
 
@@ -105,7 +106,7 @@
                 <img
                     src="/images/services/technik.jpg"
                     alt="Veranstaltungstechnik"
-                    class="absolute inset-0 w-full h-full object-cover grayscale"
+                    class="absolute inset-0 w-full h-full object-cover"
                 />
             </div>
 

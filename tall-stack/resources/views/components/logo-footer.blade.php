@@ -1,5 +1,5 @@
 {{-- Logo Section - Zwischen FAQ und Footer --}}
-<section class="py-16 bg-white" style="font-family: 'Poppins', sans-serif">
+<section class="py-16 bg-white" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-4xl mx-auto px-6 text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-2">
             musikfürfirmen.de

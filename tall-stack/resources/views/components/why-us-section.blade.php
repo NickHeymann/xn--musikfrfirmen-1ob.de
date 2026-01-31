@@ -1,9 +1,11 @@
 {{-- "Warum Wir?" Section - Scroll-Linked Parallax Animation --}}
 <section class="why-us-section w-full py-20 bg-white overflow-hidden" style="font-family: 'Poppins', sans-serif"
          x-data="{
+            visible: false,
             init() {
+                const section = this.$el;
+
                 const updatePositions = () => {
-                    const section = this.$el;
                     const sectionRect = section.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
 
@@ -36,6 +38,21 @@
 
                 // Update on scroll
                 window.addEventListener('scroll', updatePositions, { passive: true });
+
+                // IntersectionObserver to trigger animation when section becomes visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            this.visible = true;
+                            updatePositions();
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -10% 0px'
+                });
+
+                observer.observe(section);
 
                 // Initial update
                 updatePositions();

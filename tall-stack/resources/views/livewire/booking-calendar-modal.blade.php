@@ -1,10 +1,26 @@
 {{-- Booking Calendar Modal - Responsive Popup --}}
 {{-- Modal Overlay with Blur --}}
 <div
-    x-data="{ show: @entangle('isOpen') }"
+    x-data="{
+        show: @entangle('isOpen'),
+        hasFormData: @entangle('hasFormData')
+    }"
     x-show="show"
     x-cloak
-    @click="$wire.close()"
+    @click="if (hasFormData) {
+        if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
+            $wire.close()
+        }
+    } else {
+        $wire.close()
+    }"
+    x-init="$watch('show', value => {
+        if (value) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    })"
     class="fixed inset-0 z-[9999] flex items-center justify-center p-4 backdrop-blur-md bg-black/50"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
@@ -17,8 +33,7 @@
         {{-- Modal Content - Cal.com Style Dark Theme --}}
         <div
             @click.stop
-            class="bg-[#1a1a1a] rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden"
-            style="height: 650px;"
+            class="bg-[#1a1a1a] rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl md:h-[650px] h-auto max-h-[90vh]"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -28,7 +43,13 @@
         >
             {{-- Close Button --}}
             <button
-                wire:click="close"
+                @click.stop="if ($wire.hasFormData) {
+                    if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
+                        $wire.close()
+                    }
+                } else {
+                    $wire.close()
+                }"
                 class="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors z-10"
                 aria-label="Schließen"
             >
@@ -39,7 +60,7 @@
 
             @if($showSuccess)
                 {{-- Success Message - Dark Theme --}}
-                <div class="flex items-center justify-center" style="height: 650px;">
+                <div class="flex items-center justify-center md:h-[650px] h-auto py-12">
                     <div class="text-center max-w-md px-8">
                         <svg class="w-16 h-16 text-[#2DD4A8] mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -58,20 +79,20 @@
                 </div>
             @else
                 {{-- Cal.com Style: 2-Column Layout --}}
-                <div class="grid md:grid-cols-2 divide-x divide-white/10" style="height: 650px;">
+                <div class="grid md:grid-cols-2 md:divide-x divide-white/10 md:h-[650px] h-auto overflow-y-auto">
                     {{-- Left Column: Calendar --}}
-                    <div class="p-10 flex flex-col">
-                        <div class="mb-8">
-                            <h2 class="text-xl font-semibold text-white mb-1">
+                    <div class="p-6 md:p-10 flex flex-col">
+                        <div class="mb-6 md:mb-8">
+                            <h2 class="text-lg md:text-xl font-semibold text-white mb-1">
                                 Kostenloses Erstgespräch
                             </h2>
-                            <p class="text-sm text-gray-500">
+                            <p class="text-xs md:text-sm text-gray-500">
                                 30 Minuten
                             </p>
                         </div>
 
                         {{-- Month Navigation --}}
-                        <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center justify-between mb-6 md:mb-8">
                             <button
                                 wire:click="previousMonth"
                                 class="p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -98,23 +119,23 @@
                         </div>
 
                         {{-- Weekday Headers --}}
-                        <div class="grid grid-cols-7 gap-2 mb-3">
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Mo</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Di</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Mi</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Do</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Fr</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">Sa</div>
-                            <div class="text-center text-xs font-medium text-gray-600 uppercase">So</div>
+                        <div class="grid grid-cols-7 gap-1 md:gap-2 mb-2 md:mb-3">
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Mo</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Di</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Mi</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Do</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Fr</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Sa</div>
+                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">So</div>
                         </div>
 
                         {{-- Calendar Grid - Cal.com Style --}}
-                        <div class="grid grid-cols-7 gap-2">
+                        <div class="grid grid-cols-7 gap-1 md:gap-2">
                             @foreach($this->calendarDays as $day)
                                 <button
                                     wire:click="selectDate('{{ $day['date'] }}')"
                                     @if(!$day['isAvailable']) disabled @endif
-                                    class="aspect-square flex items-center justify-center rounded-md text-center transition-all duration-200 text-base font-normal"
+                                    class="aspect-square flex items-center justify-center rounded-md text-center transition-all duration-200 text-sm md:text-base font-normal"
                                     :class="{
                                         'bg-white text-black font-medium': $wire.selectedDate === '{{ $day['date'] }}',
                                         'hover:bg-white/5 cursor-pointer text-gray-300': {{ $day['isAvailable'] ? 'true' : 'false' }} && $wire.selectedDate !== '{{ $day['date'] }}',
@@ -129,7 +150,7 @@
                     </div>
 
                     {{-- Right Column: Time Slots & Contact Form --}}
-                    <div class="p-10 overflow-y-auto flex flex-col">
+                    <div class="p-6 md:p-10 overflow-y-auto flex flex-col">
                         @if($step === 3)
                             {{-- Contact Form --}}
                             {{-- Contact Form --}}
@@ -228,15 +249,31 @@
                                 </div>
                             @else
                                 {{-- Date Display --}}
-                                <div class="mb-6 pb-6 border-b border-white/10">
+                                <div class="mb-4 pb-4 border-b border-white/10">
                                     <h3 class="text-base font-medium text-white mb-1">
                                         {{ \Carbon\Carbon::parse($selectedDate)->locale('de')->isoFormat('ddd, D. MMM') }}
                                     </h3>
                                     <p class="text-xs text-gray-500">Wählen Sie eine Uhrzeit</p>
                                 </div>
 
-                                {{-- Time Slots Grid - Scrollable --}}
-                                <div class="space-y-3 overflow-y-auto flex-1 pr-2" style="max-height: 480px;">
+                                {{-- Time Slots Grid - Full height scrollable --}}
+                                <style>
+                                    /* Custom scrollbar styling */
+                                    .time-slots-container::-webkit-scrollbar {
+                                        width: 6px;
+                                    }
+                                    .time-slots-container::-webkit-scrollbar-track {
+                                        background: transparent;
+                                    }
+                                    .time-slots-container::-webkit-scrollbar-thumb {
+                                        background: rgba(255, 255, 255, 0.2);
+                                        border-radius: 3px;
+                                    }
+                                    .time-slots-container::-webkit-scrollbar-thumb:hover {
+                                        background: rgba(255, 255, 255, 0.3);
+                                    }
+                                </style>
+                                <div class="space-y-3 time-slots-container overflow-y-auto pr-2" style="flex: 1; min-height: 0;">
                                     @foreach($availableSlots as $slot)
                                         <button
                                             wire:click="selectTime('{{ $slot }}')"

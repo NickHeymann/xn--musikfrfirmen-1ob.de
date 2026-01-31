@@ -1,5 +1,5 @@
 {{-- Event Gallery Section - Swipeable Carousel --}}
-<section class="py-20 bg-gray-900" data-section-theme="dark">
+<section class="py-20 bg-gray-900" data-section-theme="dark" data-section-bg="#111827">
     <div class="container mx-auto px-4">
         <h2 class="font-poppins font-semibold text-4xl md:text-5xl text-center mb-12 text-white">
             Unser letztes Event.

@@ -1,6 +1,6 @@
 {{-- Team Section - Moin aus Hamburg --}}
 <section
-    class="team-section py-24 bg-white"
+    class="team-section py-24 bg-white" data-section-theme="light" data-section-bg="#ffffff"
     style="font-family: 'Poppins', sans-serif"
     x-data="{ modalOpen: false, currentMember: null }"
 >
