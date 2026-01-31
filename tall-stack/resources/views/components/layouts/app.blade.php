@@ -17,7 +17,7 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white font-poppins">
+<body class="antialiased bg-white font-sans">
     {{ $slot }}
 
     {{-- Event Request Modal --}}
