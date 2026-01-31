@@ -4,11 +4,11 @@ namespace App\Livewire;
 
 use App\Mail\BookingRequestSubmitted;
 use App\Models\CalendarBooking;
-use Illuminate\Support\Facades\Mail;
-use Livewire\Component;
-use Livewire\Attributes\Validate;
-use Livewire\Attributes\On;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class BookingCalendarModal extends Component
 {
@@ -19,10 +19,12 @@ class BookingCalendarModal extends Component
 
     // Calendar navigation
     public $currentYear;
+
     public $currentMonth;
 
     // Booking data
     public $selectedDate = null;
+
     public $selectedTime = null;
 
     #[Validate('required|string|min:2')]
@@ -37,11 +39,14 @@ class BookingCalendarModal extends Component
     #[Validate('nullable|string|max:500')]
     public $message = '';
 
+    // Time format preference (12h or 24h)
+    public $timeFormat = '12h';
+
     // Available time slots (9:00 - 17:00, 30-minute intervals)
     public $availableSlots = [
         '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
         '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-        '15:00', '15:30', '16:00', '16:30', '17:00'
+        '15:00', '15:30', '16:00', '16:30', '17:00',
     ];
 
     public $showSuccess = false;
@@ -64,7 +69,7 @@ class BookingCalendarModal extends Component
             // Check if this month has any available weekdays in the future
             $current = max($today, $firstDay);
             while ($current <= $lastDay) {
-                if (!$current->isPast() && !$current->isWeekend()) {
+                if (! $current->isPast() && ! $current->isWeekend()) {
                     $foundAvailableMonth = true;
                     $this->currentYear = $checkDate->year;
                     $this->currentMonth = $checkDate->month;
@@ -80,7 +85,7 @@ class BookingCalendarModal extends Component
         }
 
         // Fallback to current month if no available dates found
-        if (!$foundAvailableMonth) {
+        if (! $foundAvailableMonth) {
             $this->currentYear = $today->year;
             $this->currentMonth = $today->month;
             $this->selectedDate = null;
@@ -104,15 +109,15 @@ class BookingCalendarModal extends Component
         $this->currentMonth = $date->month;
     }
 
+    public function setTimeFormat($format)
+    {
+        $this->timeFormat = $format;
+    }
+
     public function close()
     {
         $this->isOpen = false;
         $this->reset(['step', 'selectedDate', 'selectedTime', 'name', 'email', 'phone', 'message', 'showSuccess']);
-    }
-
-    public function hasFormData()
-    {
-        return !empty($this->name) || !empty($this->email) || !empty($this->phone) || !empty($this->message);
     }
 
     public function selectDate($date)
@@ -167,9 +172,9 @@ class BookingCalendarModal extends Component
             'message' => $this->message,
         ];
 
-        // Send email notification to admin
-        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'moin@jonasglamann.de'));
-        Mail::to($recipients)->send(new BookingRequestSubmitted($bookingData));
+        // Send email notification to all recipients
+        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'kontakt@musikfürfirmen.de,moin@nickheymann.de,moin@jonasglamann.de'));
+        Mail::to(array_map('trim', $recipients))->send(new BookingRequestSubmitted($bookingData));
 
         // Show success state
         $this->showSuccess = true;
@@ -191,7 +196,7 @@ class BookingCalendarModal extends Component
             $isCurrentMonth = $current->month === $this->currentMonth;
             $isPast = $current->lt(Carbon::today());
             $isWeekend = $current->isWeekend();
-            $isAvailable = !$isPast && !$isWeekend && $isCurrentMonth;
+            $isAvailable = ! $isPast && ! $isWeekend && $isCurrentMonth;
 
             $days[] = [
                 'date' => $current->format('Y-m-d'),
@@ -212,6 +217,17 @@ class BookingCalendarModal extends Component
     public function getCurrentMonthNameProperty()
     {
         return Carbon::create($this->currentYear, $this->currentMonth, 1)->locale('de')->isoFormat('MMMM YYYY');
+    }
+
+    public function getFormattedSlotsProperty()
+    {
+        return collect($this->availableSlots)->map(function ($slot) {
+            if ($this->timeFormat === '12h') {
+                return Carbon::createFromFormat('H:i', $slot)->format('g:i a');
+            }
+
+            return $slot;
+        })->toArray();
     }
 
     public function render()
