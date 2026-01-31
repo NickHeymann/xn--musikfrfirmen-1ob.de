@@ -1,46 +1,62 @@
-{{-- Navigation Header - Canva Redesign --}}
-<header class="fixed top-0 left-0 right-0 z-[99999]"
+{{-- Navigation Header - Scroll-Based Color System --}}
+<header class="fixed top-0 left-0 right-0"
+        style="z-index: 999999 !important; position: fixed !important;"
         x-data="{
             isOpen: false,
             isDark: true,
             bgColor: '#000000',
-            ticking: false,
             init() {
-                const updateTheme = () => {
-                    const sections = document.querySelectorAll('[data-section-bg]');
-                    let newBgColor = '#000000';
-                    let newIsDark = true;
+                const updateColors = () => {
+                    const scrollY = window.scrollY;
 
-                    for (const section of sections) {
-                        const rect = section.getBoundingClientRect();
-                        if (rect.top <= 108 && rect.bottom > 108) {
-                            newBgColor = section.getAttribute('data-section-bg') || '#ffffff';
-                            newIsDark = section.getAttribute('data-section-theme') === 'dark';
-                            break;
-                        }
+                    // Hero (0-800px): schwarz
+                    if (scrollY < 800) {
+                        this.bgColor = '#000000';
+                        this.isDark = true;
                     }
-
-                    if (this.bgColor !== newBgColor || this.isDark !== newIsDark) {
-                        this.bgColor = newBgColor;
-                        this.isDark = newIsDark;
+                    // WhatsApp CTA (~800-1400px): grün
+                    else if (scrollY < 1400) {
+                        this.bgColor = '#2DD4A8';
+                        this.isDark = false;
                     }
-                    this.ticking = false;
+                    // Service Cards (~1400-2400px): weiß
+                    else if (scrollY < 2400) {
+                        this.bgColor = '#ffffff';
+                        this.isDark = false;
+                    }
+                    // Event Gallery (~2400-3400px): dunkelgrau
+                    else if (scrollY < 3400) {
+                        this.bgColor = '#111827';
+                        this.isDark = true;
+                    }
+                    // Benefits Section (~3400-4400px): weiß
+                    else if (scrollY < 4400) {
+                        this.bgColor = '#ffffff';
+                        this.isDark = false;
+                    }
+                    // Team Section (~4400-5400px): weiß
+                    else if (scrollY < 5400) {
+                        this.bgColor = '#ffffff';
+                        this.isDark = false;
+                    }
+                    // FAQ (~5400-6400px): weiß
+                    else if (scrollY < 6400) {
+                        this.bgColor = '#ffffff';
+                        this.isDark = false;
+                    }
+                    // Footer: weiß
+                    else {
+                        this.bgColor = '#ffffff';
+                        this.isDark = false;
+                    }
                 };
 
-                // Throttled scroll handler with requestAnimationFrame
-                window.addEventListener('scroll', () => {
-                    if (!this.ticking) {
-                        window.requestAnimationFrame(() => updateTheme());
-                        this.ticking = true;
-                    }
-                }, { passive: true });
-
-                // Initial detection
-                setTimeout(() => updateTheme(), 0);
+                window.addEventListener('scroll', updateColors, { passive: true });
+                updateColors();
             }
         }"
-        style="transition: background-color 0.15s ease-out;"
         :style="{ backgroundColor: bgColor }"
+        style="transition: background-color 0.2s ease-out;"
         :class="!isDark ? 'shadow-sm' : ''">
 
     <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center justify-between">
@@ -53,7 +69,7 @@
                 :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Kostenloses Erstgespräch
             </button>
-            <a href="/#waswirbieten"
+            <a href="/#angebote"
                class="text-lg hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
@@ -61,9 +77,9 @@
             </a>
         </div>
 
-        {{-- Centered Logo --}}
-        <a href="/"
-           class="text-[24px] md:text-[30px] font-normal font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors absolute left-1/2 -translate-x-1/2 leading-none whitespace-nowrap"
+        {{-- Logo --}}
+        <a href="/" class="text-2xl md:text-3xl font-bold"
+           style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             musikfürfirmen.de
         </a>
@@ -84,44 +100,53 @@
             </a>
         </div>
 
-        {{-- Mobile Menu Button --}}
+        {{-- Mobile Hamburger --}}
         <button @click="isOpen = !isOpen"
-                class="md:hidden p-2 ml-auto transition-colors"
-                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-            <svg x-show="!isOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-            <svg x-show="isOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+                class="md:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-[99999]">
+            <span class="w-6 h-0.5 transition-all duration-300"
+                  :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
+                  :style="{ transform: isOpen ? 'rotate(45deg) translateY(4px)' : 'rotate(0)' }"></span>
+            <span class="w-6 h-0.5 transition-all duration-300"
+                  :class="[isDark ? 'bg-white' : 'bg-[#1a1a1a]', isOpen ? 'opacity-0' : 'opacity-100']"></span>
+            <span class="w-6 h-0.5 transition-all duration-300"
+                  :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
+                  :style="{ transform: isOpen ? 'rotate(-45deg) translateY(-4px)' : 'rotate(0)' }"></span>
         </button>
     </nav>
 
-    {{-- Mobile Menu - Always solid background --}}
+    {{-- Mobile Menu Overlay --}}
     <div x-show="isOpen"
-         x-transition:enter="transition ease-out duration-200"
-         x-transition:enter-start="opacity-0 -translate-y-2"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-[-100%]"
          x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 -translate-y-2"
-         class="md:hidden bg-white border-t border-gray-200">
-        <div class="px-6 py-4 space-y-4">
+         x-transition:leave-end="opacity-0 translate-y-[-100%]"
+         @click.away="isOpen = false"
+         class="md:hidden fixed top-[108px] left-0 right-0 bg-white shadow-lg"
+         style="z-index: 999998;">
+        <nav class="flex flex-col px-6 py-8 gap-6" style="font-family: 'Poppins', sans-serif">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
                 @click="isOpen = false"
-                class="block w-full text-left text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
+                class="text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a]">
                 Kostenloses Erstgespräch
             </button>
-            <a href="/#waswirbieten" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
+            <a href="/#angebote"
+               @click="isOpen = false"
+               class="text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a]">
                 Angebote
             </a>
-            <a href="/#ueberuns" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
+            <a href="/#ueberuns"
+               @click="isOpen = false"
+               class="text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a]">
                 Über uns
             </a>
-            <a href="/#kontakt" @click="isOpen = false" class="block text-[#4a4a4a] hover:text-[#2DD4A8] transition-colors font-medium">
+            <a href="/#kontakt"
+               @click="isOpen = false"
+               class="text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a]">
                 Kontakt
             </a>
-        </div>
+        </nav>
     </div>
 </header>
