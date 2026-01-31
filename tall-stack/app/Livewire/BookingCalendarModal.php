@@ -164,8 +164,8 @@ class BookingCalendarModal extends Component
             'message' => $this->message,
         ];
 
-        // Send email notification to all recipients
-        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'kontakt@musikfürfirmen.de,moin@nickheymann.de,moin@jonasglamann.de'));
+        // Send email notification to all recipients (Punycode for IDN domains)
+        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de'));
         Mail::to(array_map('trim', $recipients))->send(new BookingRequestSubmitted($bookingData));
 
         // Show success state
