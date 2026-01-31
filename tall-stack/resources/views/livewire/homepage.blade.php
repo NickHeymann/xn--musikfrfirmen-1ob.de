@@ -29,7 +29,7 @@
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="pt-24 pb-16 bg-white scroll-mt-[108px]">
+    <section id="faq" class="pt-24 pb-16 bg-white scroll-mt-[108px]" data-section-bg="#ffffff" data-section-theme="light">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-center text-4xl md:text-5xl font-bold mb-16 tracking-[-1px] text-black"

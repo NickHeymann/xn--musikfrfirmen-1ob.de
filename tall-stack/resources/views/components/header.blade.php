@@ -1,58 +1,37 @@
-{{-- Navigation Header - Scroll-Based Color System --}}
+{{-- Navigation Header - Canva Redesign --}}
 <header class="fixed top-0 left-0 right-0"
-        style="z-index: 999999 !important; position: fixed !important;"
+        style="z-index: 999999 !important;"
         x-data="{
             isOpen: false,
             isDark: true,
             bgColor: '#000000',
             init() {
-                const updateColors = () => {
-                    const scrollY = window.scrollY;
+                const updateTheme = () => {
+                    const sections = document.querySelectorAll('[data-section-bg]');
+                    let newBgColor = '#000000';
+                    let newIsDark = true;
 
-                    // Hero (0-800px): schwarz
-                    if (scrollY < 800) {
-                        this.bgColor = '#000000';
-                        this.isDark = true;
+                    for (const section of sections) {
+                        const rect = section.getBoundingClientRect();
+                        // Check if section's top is within header area (108px high)
+                        if (rect.top <= 54 && rect.bottom > 54) {
+                            newBgColor = section.getAttribute('data-section-bg') || '#ffffff';
+                            newIsDark = section.getAttribute('data-section-theme') === 'dark';
+                            break;
+                        }
                     }
-                    // WhatsApp CTA (~800-1400px): grün
-                    else if (scrollY < 1400) {
-                        this.bgColor = '#2DD4A8';
-                        this.isDark = false;
-                    }
-                    // Service Cards (~1400-2400px): weiß
-                    else if (scrollY < 2400) {
-                        this.bgColor = '#ffffff';
-                        this.isDark = false;
-                    }
-                    // Event Gallery (~2400-3400px): dunkelgrau
-                    else if (scrollY < 3400) {
-                        this.bgColor = '#111827';
-                        this.isDark = true;
-                    }
-                    // Benefits Section (~3400-4400px): weiß
-                    else if (scrollY < 4400) {
-                        this.bgColor = '#ffffff';
-                        this.isDark = false;
-                    }
-                    // Team Section (~4400-5400px): weiß
-                    else if (scrollY < 5400) {
-                        this.bgColor = '#ffffff';
-                        this.isDark = false;
-                    }
-                    // FAQ (~5400-6400px): weiß
-                    else if (scrollY < 6400) {
-                        this.bgColor = '#ffffff';
-                        this.isDark = false;
-                    }
-                    // Footer: weiß
-                    else {
-                        this.bgColor = '#ffffff';
-                        this.isDark = false;
+
+                    if (this.bgColor !== newBgColor || this.isDark !== newIsDark) {
+                        this.bgColor = newBgColor;
+                        this.isDark = newIsDark;
                     }
                 };
 
-                window.addEventListener('scroll', updateColors, { passive: true });
-                updateColors();
+                // Update on scroll
+                window.addEventListener('scroll', updateTheme, { passive: true });
+
+                // Initial detection
+                setTimeout(() => updateTheme(), 100);
             }
         }"
         :style="{ backgroundColor: bgColor }"
@@ -102,7 +81,7 @@
 
         {{-- Mobile Hamburger --}}
         <button @click="isOpen = !isOpen"
-                class="md:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-[99999]">
+                class="md:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none">
             <span class="w-6 h-0.5 transition-all duration-300"
                   :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
                   :style="{ transform: isOpen ? 'rotate(45deg) translateY(4px)' : 'rotate(0)' }"></span>
