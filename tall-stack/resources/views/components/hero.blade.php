@@ -13,24 +13,27 @@
             }
          }">
 
-    {{-- Video Background --}}
+    {{-- Static Fallback Background (instant load) --}}
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('/images/events/event-1.jpg'); background-size: cover; background-position: center; filter: blur(2px); z-index: -21;"></div>
+
+    {{-- Video Background - fixed to viewport with glassmorphism --}}
     <video
         autoplay
         muted
         loop
         playsinline
         preload="auto"
-        class="absolute top-0 left-0 w-full h-full object-cover"
-        style="z-index: 1; filter: blur(2px);"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(2px); opacity: 0; transition: opacity 0.5s ease-out;"
+        onloadeddata="this.style.opacity='1'"
     >
         <source src="/videos/hero-landing-page.mp4" type="video/mp4">
     </video>
 
-    {{-- Dark Overlay (80% opacity) --}}
-    <div class="absolute top-0 left-0 w-full h-full bg-black/80" style="z-index: 2;"></div>
+    {{-- Dark Overlay (80% opacity - glassmorphism) - also fixed, static --}}
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); z-index: -19;"></div>
 
     {{-- Content with staggered fade-in animation --}}
-    <div class="relative max-w-4xl mx-auto px-6 text-center text-white" style="z-index: 10;">
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
 
         {{-- Text Content - Moved up 80px --}}
         <div style="margin-bottom: 80px;">
@@ -49,7 +52,7 @@
             </p>
         </div>
 
-        {{-- CTA Button - Stays in place --}}
+        {{-- CTA Button - Opens our booking calendar modal --}}
         <div class="flex justify-center items-center
                     opacity-0 translate-y-8 animate-[fadeInUp_0.3s_ease-out_0.1s_forwards]"
              style="will-change: opacity, transform;">
@@ -61,11 +64,11 @@
         </div>
     </div>
 
-    {{-- Down Arrow - At bottom of hero section with fade-in animation --}}
+    {{-- Down Arrow - Fixed to bottom of viewport with fade-in animation --}}
     <div
         @click="scrollToContent()"
-        class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-200"
-        style="z-index: 10; opacity: 0; animation: fadeInUp 0.3s ease-out 0.15s forwards;">
+        style="position: fixed !important; bottom: 2rem !important; left: 50%; transform: translateX(-50%); z-index: 9999 !important; opacity: 0; animation: fadeInUp 0.3s ease-out 0.15s forwards; will-change: opacity, transform;"
+        class="cursor-pointer hover:opacity-50 transition-all duration-200">
         <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
         </svg>
