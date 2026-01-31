@@ -62,10 +62,10 @@
 
         {{-- Logo --}}
         <a href="/"
-           class="hidden md:block text-[28px] md:text-[32px] font-medium hover:text-[#2DD4A8] transition-colors leading-none"
+           class="hidden md:block text-[26px] md:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-            musikfürfirmen
+            musikfürfirmen.de
         </a>
 
         {{-- Spacer --}}
