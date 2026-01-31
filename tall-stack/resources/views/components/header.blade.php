@@ -50,13 +50,6 @@
 
         {{-- Left Navigation (Large Desktop only) --}}
         <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
-            <button
-                onclick="Livewire.dispatch('openBookingModal')"
-                class="hover:text-[#2DD4A8] transition-colors font-thin cursor-pointer whitespace-nowrap"
-                style="font-family: 'Poppins', sans-serif"
-                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-                Kostenloses Erstgespräch
-            </button>
             <a href="/#waswirbieten"
                class="hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
@@ -73,12 +66,13 @@
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Über uns
             </a>
-            <a href="/#kontakt"
-               class="hover:text-[#2DD4A8] transition-colors font-thin"
-               style="font-family: 'Poppins', sans-serif"
-               :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
+            <button
+                onclick="Livewire.dispatch('openBookingModal')"
+                class="hover:text-[#2DD4A8] transition-colors font-thin cursor-pointer"
+                style="font-family: 'Poppins', sans-serif"
+                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Kontakt
-            </a>
+            </button>
         </div>
 
         {{-- Mobile/Tablet Hamburger --}}
@@ -108,12 +102,6 @@
          :style="{ top: window.innerWidth >= 1024 ? '108px' : '80px' }"
          style="z-index: 999998;">
         <nav class="flex flex-col px-4 sm:px-6 py-6 sm:py-8 gap-4 sm:gap-6" style="font-family: 'Poppins', sans-serif">
-            <button
-                onclick="Livewire.dispatch('openBookingModal')"
-                @click="isOpen = false"
-                class="text-base sm:text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
-                Kostenloses Erstgespräch
-            </button>
             <a href="/#waswirbieten"
                @click="isOpen = false"
                class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
@@ -124,11 +112,12 @@
                class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Über uns
             </a>
-            <a href="/#kontakt"
-               @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
+            <button
+                onclick="Livewire.dispatch('openBookingModal')"
+                @click="isOpen = false"
+                class="text-base sm:text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Kontakt
-            </a>
+            </button>
         </nav>
     </div>
 </header>

@@ -14,6 +14,16 @@
         } else {
             $wire.close()
         }"
+    @keydown.escape.window="if (show) {
+        const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
+        if (hasData) {
+            if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
+                $wire.close()
+            }
+        } else {
+            $wire.close()
+        }
+    }"
     x-init="$watch('show', value => {
         if (value) {
             document.body.style.overflow = 'hidden';
@@ -41,7 +51,7 @@
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
         >
-            {{-- Close Button --}}
+            {{-- Close Button - More Visible --}}
             <button
                 @click.stop="const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
                     if (hasData) {
@@ -51,11 +61,11 @@
                     } else {
                         $wire.close()
                     }"
-                class="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors z-10"
+                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 z-10 hover:rotate-90"
                 aria-label="Schließen"
             >
-                <svg class="w-5 h-5 text-gray-400 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
 
