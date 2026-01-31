@@ -21,7 +21,7 @@
             document.body.style.overflow = '';
         }
     })"
-    class="fixed inset-0 z-[9999] flex items-center justify-center p-4 backdrop-blur-md bg-black/50"
+    class="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 backdrop-blur-md bg-black/50"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
@@ -33,7 +33,7 @@
         {{-- Modal Content - Cal.com Style Dark Theme --}}
         <div
             @click.stop
-            class="bg-[#1a1a1a] rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl md:h-[650px] h-auto max-h-[90vh]"
+            class="bg-[#1a1a1a] rounded-xl sm:rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl h-[95vh] sm:h-auto sm:max-h-[90vh] md:h-[650px] flex flex-col"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -80,63 +80,63 @@
                 </div>
             @else
                 {{-- Cal.com Style: 2-Column Layout --}}
-                <div class="grid md:grid-cols-2 md:divide-x divide-white/10 md:h-[650px] h-auto overflow-y-auto">
+                <div class="flex flex-col md:grid md:grid-cols-2 md:divide-x divide-white/10 h-full overflow-hidden">
                     {{-- Left Column: Calendar --}}
-                    <div class="p-6 md:p-10 flex flex-col">
-                        <div class="mb-6 md:mb-8">
-                            <h2 class="text-lg md:text-xl font-semibold text-white mb-1">
+                    <div class="p-4 sm:p-6 md:p-10 flex flex-col overflow-y-auto">
+                        <div class="mb-4 sm:mb-6 md:mb-8">
+                            <h2 class="text-base sm:text-lg md:text-xl font-semibold text-white mb-1">
                                 Kostenloses Erstgespräch
                             </h2>
-                            <p class="text-xs md:text-sm text-gray-500">
+                            <p class="text-xs sm:text-sm text-gray-500">
                                 30 Minuten
                             </p>
                         </div>
 
                         {{-- Month Navigation --}}
-                        <div class="flex items-center justify-between mb-6 md:mb-8">
+                        <div class="flex items-center justify-between mb-4 sm:mb-6 md:mb-8">
                             <button
                                 wire:click="previousMonth"
-                                class="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                class="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation"
                                 aria-label="Vorheriger Monat"
                             >
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                 </svg>
                             </button>
 
-                            <h3 class="text-sm font-medium text-white capitalize">
+                            <h3 class="text-sm sm:text-base font-medium text-white capitalize">
                                 {{ $this->currentMonthName }}
                             </h3>
 
                             <button
                                 wire:click="nextMonth"
-                                class="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                class="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation"
                                 aria-label="Nächster Monat"
                             >
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </button>
                         </div>
 
                         {{-- Weekday Headers --}}
-                        <div class="grid grid-cols-7 gap-1 md:gap-2 mb-2 md:mb-3">
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Mo</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Di</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Mi</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Do</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Fr</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">Sa</div>
-                            <div class="text-center text-[10px] md:text-xs font-medium text-gray-600 uppercase">So</div>
+                        <div class="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2 mb-2 md:mb-3">
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Mo</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Di</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Mi</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Do</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Fr</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">Sa</div>
+                            <div class="text-center text-[10px] sm:text-xs font-medium text-gray-600 uppercase">So</div>
                         </div>
 
                         {{-- Calendar Grid - Cal.com Style --}}
-                        <div class="grid grid-cols-7 gap-1 md:gap-2">
+                        <div class="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2">
                             @foreach($this->calendarDays as $day)
                                 <button
                                     wire:click="selectDate('{{ $day['date'] }}')"
                                     @if(!$day['isAvailable']) disabled @endif
-                                    class="aspect-square flex items-center justify-center rounded-md text-center transition-all duration-200 text-sm md:text-base font-normal"
+                                    class="aspect-square flex items-center justify-center rounded-md text-center transition-all duration-200 text-xs sm:text-sm md:text-base font-normal touch-manipulation min-h-[40px] sm:min-h-[44px]"
                                     :class="{
                                         'bg-white text-black font-medium': $wire.selectedDate === '{{ $day['date'] }}',
                                         'hover:bg-white/5 cursor-pointer text-gray-300': {{ $day['isAvailable'] ? 'true' : 'false' }} && $wire.selectedDate !== '{{ $day['date'] }}',
@@ -151,14 +151,13 @@
                     </div>
 
                     {{-- Right Column: Time Slots & Contact Form --}}
-                    <div class="p-6 md:p-10 overflow-y-auto flex flex-col">
+                    <div class="p-4 sm:p-6 md:p-10 overflow-y-auto flex flex-col border-t md:border-t-0 border-white/10">
                         @if($step === 3)
                             {{-- Contact Form --}}
-                            {{-- Contact Form --}}
                             <div>
-                                <h3 class="text-lg font-semibold text-white mb-6">Ihre Kontaktdaten</h3>
+                                <h3 class="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6">Ihre Kontaktdaten</h3>
 
-                                <form wire:submit.prevent="submitBooking" class="space-y-4">
+                                <form wire:submit.prevent="submitBooking" class="space-y-3 sm:space-y-4">
                                     <div>
                                         <label for="name" class="block text-sm font-medium text-gray-300 mb-2">
                                             Name *
@@ -167,7 +166,7 @@
                                             type="text"
                                             id="name"
                                             wire:model="name"
-                                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
                                             placeholder="Max Mustermann"
                                         >
                                         @error('name')
@@ -183,7 +182,7 @@
                                             type="email"
                                             id="email"
                                             wire:model="email"
-                                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
                                             placeholder="max@beispiel.de"
                                         >
                                         @error('email')
@@ -199,7 +198,7 @@
                                             type="tel"
                                             id="phone"
                                             wire:model="phone"
-                                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
                                             placeholder="+49 123 456789"
                                         >
                                         @error('phone')
@@ -250,13 +249,13 @@
                                 </div>
                             @else
                                 {{-- Header: Selected Date --}}
-                                <div class="mb-6">
-                                    <p class="text-sm text-gray-400 mb-1">
+                                <div class="mb-4 sm:mb-6">
+                                    <p class="text-xs sm:text-sm text-gray-400 mb-1">
                                         {{ \Carbon\Carbon::parse($selectedDate)->locale('de')->isoFormat('MMMM YYYY') }}
                                     </p>
-                                    <h3 class="text-xl font-light text-gray-300">
+                                    <h3 class="text-lg sm:text-xl font-light text-gray-300">
                                         {{ \Carbon\Carbon::parse($selectedDate)->locale('de')->isoFormat('ddd') }}
-                                        <span class="text-2xl font-normal text-white">{{ \Carbon\Carbon::parse($selectedDate)->format('d') }}</span>
+                                        <span class="text-xl sm:text-2xl font-normal text-white">{{ \Carbon\Carbon::parse($selectedDate)->format('d') }}</span>
                                     </h3>
                                 </div>
 
@@ -277,14 +276,14 @@
                                         background: rgba(255, 255, 255, 0.3);
                                     }
                                 </style>
-                                <div class="space-y-3 time-slots-container overflow-y-auto pr-2" style="flex: 1; min-height: 0;">
+                                <div class="space-y-2 sm:space-y-3 time-slots-container overflow-y-auto pr-1 sm:pr-2" style="flex: 1; min-height: 0;">
                                     @foreach($availableSlots as $index => $slot)
                                         <button
                                             wire:click="selectTime('{{ $slot }}')"
-                                            class="w-full px-4 py-3 rounded-md text-left transition-all duration-150 flex items-center justify-between group"
-                                            :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5'"
+                                            class="w-full px-3 py-3 sm:px-4 sm:py-3.5 rounded-md text-left transition-all duration-150 flex items-center justify-between group touch-manipulation min-h-[48px]"
+                                            :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10'"
                                         >
-                                            <span class="text-sm font-medium">{{ $slot }}</span>
+                                            <span class="text-sm sm:text-base font-medium">{{ $slot }}</span>
                                             <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4A8]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
                                         </button>
                                     @endforeach
