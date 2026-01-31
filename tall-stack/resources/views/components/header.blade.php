@@ -36,7 +36,7 @@
             }
         }"
         :style="{ backgroundColor: bgColor }"
-        style="transition: background-color 0.2s ease-out;"
+        style="transition: background-color 0.4s ease-in-out;"
         :class="!isDark ? 'shadow-sm' : ''">
 
     <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center">
