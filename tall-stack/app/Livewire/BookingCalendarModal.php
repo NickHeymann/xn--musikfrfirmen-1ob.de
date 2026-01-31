@@ -213,13 +213,8 @@ class BookingCalendarModal extends Component
 
     public function getFormattedSlotsProperty()
     {
-        return collect($this->availableSlots)->map(function ($slot) {
-            if ($this->timeFormat === '12h') {
-                return Carbon::createFromFormat('H:i', $slot)->format('g:i a');
-            }
-
-            return $slot;
-        })->toArray();
+        // Always return 24h format for DACH region
+        return $this->availableSlots;
     }
 
     public function render()

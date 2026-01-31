@@ -57,7 +57,7 @@
                 :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Kostenloses Erstgespräch
             </button>
-            <a href="/#angebote"
+            <a href="/#waswirbieten"
                class="hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
@@ -104,29 +104,29 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-[-100%]"
          @click.away="isOpen = false"
-         class="lg:hidden fixed left-0 right-0 bg-white shadow-lg overflow-hidden"
+         class="lg:hidden fixed left-0 right-0 bg-black shadow-lg overflow-hidden"
          :style="{ top: window.innerWidth >= 1024 ? '108px' : '80px' }"
          style="z-index: 999998;">
         <nav class="flex flex-col px-4 sm:px-6 py-6 sm:py-8 gap-4 sm:gap-6" style="font-family: 'Poppins', sans-serif">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
                 @click="isOpen = false"
-                class="text-base sm:text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a] py-2">
+                class="text-base sm:text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Kostenloses Erstgespräch
             </button>
-            <a href="/#angebote"
+            <a href="/#waswirbieten"
                @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a] py-2">
+               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Angebote
             </a>
             <a href="/#ueberuns"
                @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a] py-2">
+               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Über uns
             </a>
             <a href="/#kontakt"
                @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-[#1a1a1a] py-2">
+               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
                 Kontakt
             </a>
         </nav>

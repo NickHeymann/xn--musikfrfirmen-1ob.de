@@ -6,6 +6,9 @@
 
     <title>{{ $title ?? 'musikfürfirmen.de' }}</title>
 
+    {{-- Preload Hero Poster Image for Instant Display --}}
+    <link rel="preload" href="{{ asset('images/hero-poster.webp') }}" as="image" fetchpriority="high">
+
     {{-- Google Fonts: Poppins (erweiterte Weights) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
