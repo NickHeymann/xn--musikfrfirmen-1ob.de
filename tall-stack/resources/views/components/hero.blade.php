@@ -13,20 +13,18 @@
             }
          }">
 
-    {{-- Static Fallback Background (instant load) --}}
-    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('/images/events/event-1.jpg'); background-size: cover; background-position: center; filter: blur(2px); z-index: -21;"></div>
-
-    {{-- Video Background - fixed to viewport with glassmorphism --}}
+    {{-- Video Background - fixed to viewport with instant poster display --}}
     <video
         autoplay
         muted
         loop
         playsinline
         preload="auto"
-        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(2px); opacity: 0;"
-        onloadeddata="this.style.opacity='1'"
+        poster="{{ asset('images/hero-poster.webp') }}"
+        disablepictureinpicture
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(2px);"
     >
-        <source src="/videos/hero-landing-page.mp4" type="video/mp4">
+        <source src="{{ asset('videos/hero-landing-page.mp4') }}" type="video/mp4">
     </video>
 
     {{-- Dark Overlay (80% opacity - glassmorphism) - also fixed, static --}}
