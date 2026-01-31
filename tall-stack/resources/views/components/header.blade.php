@@ -1,5 +1,5 @@
 {{-- Navigation Header - Canva Redesign --}}
-<header class="fixed top-0 left-0 right-0"
+<header class="fixed top-0 left-0 right-0 header-smooth-transition"
         style="z-index: 999999 !important;"
         x-data="{
             isOpen: false,
@@ -36,7 +36,6 @@
             }
         }"
         :style="{ backgroundColor: bgColor }"
-        style="transition: background-color 0.4s ease-in-out;"
         :class="!isDark ? 'shadow-sm' : ''">
 
     <nav class="w-full px-6 md:px-[80px] h-[108px] flex items-center justify-between relative">
