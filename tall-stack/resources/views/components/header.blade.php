@@ -60,9 +60,9 @@
         {{-- Spacer --}}
         <div class="flex-1"></div>
 
-        {{-- Logo (filigran, lighter weight) --}}
+        {{-- Logo --}}
         <a href="/"
-           class="hidden md:block text-[20px] font-light tracking-wide hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
+           class="hidden md:block text-[28px] font-normal hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             musikfürfirmen.de
