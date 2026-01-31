@@ -57,15 +57,13 @@
             </a>
         </div>
 
-        {{-- Centered Logo --}}
-        <a href="/"
-           class="text-[24px] md:text-[30px] font-normal font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors absolute left-1/2 -translate-x-1/2 leading-none whitespace-nowrap"
-           :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-            musikfürfirmen.de
-        </a>
-
-        {{-- Right Navigation (Desktop) --}}
+        {{-- Right Group: Logo + Navigation (Desktop) --}}
         <div class="hidden md:flex items-center gap-[40px]">
+            <a href="/"
+               class="text-[24px] md:text-[30px] font-normal font-['Poppins',sans-serif] hover:text-[#2DD4A8] transition-colors leading-none whitespace-nowrap"
+               :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
+                musikfürfirmen.de
+            </a>
             <a href="/#ueberuns"
                class="text-lg hover:text-[#2DD4A8] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
