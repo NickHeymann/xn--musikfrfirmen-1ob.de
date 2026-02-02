@@ -394,7 +394,7 @@
                                 <select
                                     id="mff-guests"
                                     wire:model="guests"
-                                    class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('guests') border-red-600 @else border-white/10 @enderror"
+                                    class="w-full p-2 px-[10px] pr-10 text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('guests') border-red-600 @else border-white/10 @enderror appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%23fff\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E')] bg-[length:1.25rem] bg-[right_1rem_center] bg-no-repeat"
                                 >
                                     <option value="">Bitte wählen...</option>
                                     @foreach ($guestOptions as $opt)
