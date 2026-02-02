@@ -37,6 +37,7 @@ return [
 
     'google_sheets' => [
         'event_requests_id' => env('GOOGLE_SHEETS_EVENT_REQUESTS_ID'),
+        'bookings_id' => env('GOOGLE_SHEETS_BOOKINGS_ID', env('GOOGLE_SHEETS_EVENT_REQUESTS_ID')), // Falls separate Sheet, sonst gleiche wie Event Requests
         'credentials_path' => env('GOOGLE_SHEETS_CREDENTIALS_PATH'),
         // Alternative: individual service account credentials
         'project_id' => env('GOOGLE_SHEETS_PROJECT_ID'),

@@ -6,8 +6,8 @@
     {{-- Hero Section - Simplified --}}
     <x-hero />
 
-    {{-- NEW: Testimonial Section --}}
-    <x-testimonial-section />
+    {{-- NEW: Testimonial Section (Dynamic with Filament) --}}
+    <livewire:testimonial-carousel />
 
     {{-- Was wir bieten - Alternating Service Layout --}}
     <section id="waswirbieten" class="bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-20">
