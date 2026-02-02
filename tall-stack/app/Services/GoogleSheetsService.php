@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Log;
 class GoogleSheetsService
 {
     private ?string $spreadsheetId;
+    private ?string $bookingsSheetId;
 
     public function __construct()
     {
         $this->spreadsheetId = config('services.google_sheets.event_requests_id');
+        $this->bookingsSheetId = config('services.google_sheets.bookings_id', $this->spreadsheetId);
     }
 
     /**
@@ -99,6 +101,78 @@ class GoogleSheetsService
         } catch (\Exception $e) {
             Log::error('Google Sheets API error', ['message' => $e->getMessage()]);
 
+            return false;
+        }
+    }
+
+    /**
+     * Append a booking request to the Google Sheet.
+     *
+     * @param array{
+     *     selectedDate: string,
+     *     selectedTime: string,
+     *     name: string,
+     *     email: string,
+     *     phone: string,
+     *     message: string|null,
+     * } $data
+     */
+    public function createBookingRequest(array $data): bool
+    {
+        $sheetId = $this->bookingsSheetId ?: $this->spreadsheetId;
+
+        if (empty($sheetId)) {
+            Log::warning('Google Sheets spreadsheet ID not configured for bookings');
+            return false;
+        }
+
+        try {
+            $client = $this->getClient();
+            $service = new Sheets($client);
+
+            // Header: Datum, Name, Email, Telefon, Termin-Datum, Termin-Zeit, Nachricht, Status
+            // Prefix phone with ' to prevent formula interpretation
+            $phone = $data['phone'] ? "'" . $data['phone'] : '-';
+
+            $row = [
+                now()->format('Y-m-d H:i'),                    // A: Eingangsdatum
+                $data['name'],                                  // B: Name
+                $data['email'],                                 // C: Email
+                $phone,                                         // D: Telefon
+                $data['selectedDate'],                          // E: Termin-Datum
+                $data['selectedTime'],                          // F: Termin-Zeit
+                $data['message'] ?: '-',                        // G: Nachricht
+                'Neu',                                          // H: Status
+            ];
+
+            $body = new Sheets\ValueRange([
+                'values' => [$row],
+            ]);
+
+            $params = [
+                'valueInputOption' => 'USER_ENTERED',
+            ];
+
+            // Use different sheet name or range if needed
+            $range = 'Bookings!A:H'; // Falls separates Sheet gewünscht, sonst 'A:H'
+
+            $service->spreadsheets_values->append(
+                $sheetId,
+                $range,
+                $body,
+                $params
+            );
+
+            Log::info('Booking request added to Google Sheet', [
+                'email' => $data['email'],
+                'date' => $data['selectedDate'],
+                'time' => $data['selectedTime']
+            ]);
+
+            return true;
+
+        } catch (\Exception $e) {
+            Log::error('Google Sheets API error (booking)', ['message' => $e->getMessage()]);
             return false;
         }
     }

@@ -46,6 +46,13 @@
         $watch('showModal', (value) => {
             document.body.style.overflow = value ? 'hidden' : '';
         });
+
+        // Prevent scroll wheel on date/time inputs (UX improvement)
+        document.addEventListener('wheel', function(e) {
+            if (e.target.type === 'date' || e.target.type === 'time' || e.target.type === 'number') {
+                e.target.blur();
+            }
+        }, { passive: true });
     "
     x-on:open-calcom.window="window.open($event.detail.url, '_blank')"
     x-on:open-m-f-f-calculator.window="openModal()"
@@ -126,28 +133,211 @@
 
                             {{-- Date & Time Row --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-[6px] mb-[6px]">
-                                <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-date" class="text-[13px] font-normal text-white">Datum *</label>
-                                    <input
-                                        type="date"
-                                        id="mff-date"
-                                        wire:model="date"
-                                        min="{{ date('Y-m-d') }}"
-                                        max="{{ date('Y-m-d', strtotime('+5 years')) }}"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
-                                    />
+                                <div class="flex flex-col gap-[3px]"
+                                     x-data="{
+                                        day: '',
+                                        month: '',
+                                        year: '',
+                                        init() {
+                                            // Initialize from wire:model if date exists
+                                            if ($wire.date) {
+                                                const parts = $wire.date.split('-');
+                                                this.year = parts[0];
+                                                this.month = parts[1];
+                                                this.day = parts[2];
+                                            }
+                                        },
+                                        updateDate() {
+                                            // Auto-format and combine
+                                            if (this.day.length === 2 && this.month && this.year.length === 4) {
+                                                const date = `${this.year}-${this.month.padStart(2, '0')}-${this.day.padStart(2, '0')}`;
+                                                $wire.set('date', date);
+                                            }
+                                        },
+                                        openCalendar() {
+                                            $refs.hiddenDateInput.showPicker();
+                                        }
+                                     }">
+                                    <label class="text-[13px] font-normal text-white">Datum *</label>
+                                    <div class="flex gap-2 items-center">
+                                        {{-- Tag (DD) --}}
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            placeholder="TT"
+                                            maxlength="2"
+                                            x-model="day"
+                                            @input="
+                                                day = day.replace(/[^0-9]/g, '');
+                                                if (day.length === 2 && parseInt(day) >= 1 && parseInt(day) <= 31) {
+                                                    $refs.month.focus();
+                                                }
+                                                updateDate();
+                                            "
+                                            @wheel="$event.target.blur()"
+                                            class="w-16 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
+                                        />
+                                        <span class="text-white self-center">/</span>
+
+                                        {{-- Monat (MM) --}}
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            placeholder="MM"
+                                            maxlength="2"
+                                            x-model="month"
+                                            x-ref="month"
+                                            @input="
+                                                month = month.replace(/[^0-9]/g, '');
+                                                if (month.length === 2 && parseInt(month) >= 1 && parseInt(month) <= 12) {
+                                                    $refs.year.focus();
+                                                }
+                                                updateDate();
+                                            "
+                                            @wheel="$event.target.blur()"
+                                            class="w-16 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
+                                        />
+                                        <span class="text-white self-center">/</span>
+
+                                        {{-- Jahr (YYYY) --}}
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            placeholder="JJJJ"
+                                            maxlength="4"
+                                            x-model="year"
+                                            x-ref="year"
+                                            @input="
+                                                year = year.replace(/[^0-9]/g, '');
+                                                updateDate();
+                                            "
+                                            @wheel="$event.target.blur()"
+                                            class="w-20 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
+                                        />
+
+                                        {{-- Calendar Icon Button --}}
+                                        <button
+                                            type="button"
+                                            @click="openCalendar()"
+                                            class="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                                            aria-label="Kalender öffnen">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </button>
+
+                                        {{-- Hidden native date input for calendar picker --}}
+                                        <input
+                                            type="date"
+                                            x-ref="hiddenDateInput"
+                                            wire:model.live="date"
+                                            @change="
+                                                if ($wire.date) {
+                                                    const parts = $wire.date.split('-');
+                                                    year = parts[0];
+                                                    month = parts[1];
+                                                    day = parts[2];
+                                                }
+                                            "
+                                            min="{{ date('Y-m-d') }}"
+                                            max="{{ date('Y-m-d', strtotime('+5 years')) }}"
+                                            class="absolute opacity-0 pointer-events-none"
+                                            style="width: 0; height: 0;"
+                                        />
+                                    </div>
                                     @error('date')
                                         <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="flex flex-col gap-[3px]">
-                                    <label for="mff-time" class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
-                                    <input
-                                        type="time"
-                                        id="mff-time"
-                                        wire:model="time"
-                                        class="w-full p-2 px-[10px] text-sm font-light border-2 border-white/10 rounded-[10px] bg-white/5 text-white transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)]"
-                                    />
+                                <div class="flex flex-col gap-[3px]"
+                                     x-data="{
+                                        hours: '',
+                                        minutes: '',
+                                        init() {
+                                            // Initialize from wire:model if time exists
+                                            if ($wire.time) {
+                                                const parts = $wire.time.split(':');
+                                                this.hours = parts[0];
+                                                this.minutes = parts[1];
+                                            }
+                                        },
+                                        updateTime() {
+                                            // Auto-format and combine
+                                            if (this.hours.length === 2 && this.minutes.length === 2) {
+                                                const time = `${this.hours.padStart(2, '0')}:${this.minutes.padStart(2, '0')}`;
+                                                $wire.set('time', time);
+                                            } else if (this.hours === '' && this.minutes === '') {
+                                                $wire.set('time', '');
+                                            }
+                                        },
+                                        openTimePicker() {
+                                            $refs.hiddenTimeInput.showPicker();
+                                        }
+                                     }">
+                                    <label class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
+                                    <div class="flex gap-2 items-center">
+                                        {{-- Stunden (HH) --}}
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            placeholder="HH"
+                                            maxlength="2"
+                                            x-model="hours"
+                                            @input="
+                                                hours = hours.replace(/[^0-9]/g, '');
+                                                if (hours.length === 2 && parseInt(hours) >= 0 && parseInt(hours) <= 23) {
+                                                    $refs.minutes.focus();
+                                                }
+                                                updateTime();
+                                            "
+                                            @wheel="$event.target.blur()"
+                                            class="w-16 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] border-white/10"
+                                        />
+                                        <span class="text-white self-center">:</span>
+
+                                        {{-- Minuten (MM) --}}
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            placeholder="MM"
+                                            maxlength="2"
+                                            x-model="minutes"
+                                            x-ref="minutes"
+                                            @input="
+                                                minutes = minutes.replace(/[^0-9]/g, '');
+                                                updateTime();
+                                            "
+                                            @wheel="$event.target.blur()"
+                                            class="w-16 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] border-white/10"
+                                        />
+
+                                        {{-- Clock Icon Button --}}
+                                        <button
+                                            type="button"
+                                            @click="openTimePicker()"
+                                            class="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                                            aria-label="Uhrzeit wählen">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </button>
+
+                                        {{-- Hidden native time input for time picker --}}
+                                        <input
+                                            type="time"
+                                            x-ref="hiddenTimeInput"
+                                            wire:model.live="time"
+                                            @change="
+                                                if ($wire.time) {
+                                                    const parts = $wire.time.split(':');
+                                                    hours = parts[0];
+                                                    minutes = parts[1];
+                                                }
+                                            "
+                                            class="absolute opacity-0 pointer-events-none"
+                                            style="width: 0; height: 0;"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

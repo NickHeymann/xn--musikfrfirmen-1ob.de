@@ -4,7 +4,9 @@ namespace App\Livewire;
 
 use App\Mail\BookingRequestSubmitted;
 use App\Models\CalendarBooking;
+use App\Services\GoogleSheetsService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -139,11 +141,21 @@ class BookingCalendarModal extends Component
         }
     }
 
-    public function submitBooking()
+    public function submitBooking(GoogleSheetsService $sheetsService)
     {
         $this->validate();
 
-        // Save booking to database
+        // Prepare booking data
+        $bookingData = [
+            'selectedDate' => $this->selectedDate,
+            'selectedTime' => $this->selectedTime,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'message' => $this->message,
+        ];
+
+        // 1. Save booking to database
         $booking = CalendarBooking::create([
             'selected_date' => $this->selectedDate,
             'selected_time' => $this->selectedTime,
@@ -154,22 +166,31 @@ class BookingCalendarModal extends Component
             'status' => 'pending',
         ]);
 
-        // Prepare booking data for email
-        $bookingData = [
-            'selectedDate' => $this->selectedDate,
-            'selectedTime' => $this->selectedTime,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'message' => $this->message,
-        ];
+        // 2. Add to Google Sheet
+        $sheetsService->createBookingRequest($bookingData);
 
-        // Send email notification to all recipients (Punycode for IDN domains)
-        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de'));
-        Mail::to(array_map('trim', $recipients))->send(new BookingRequestSubmitted($bookingData));
+        // 3. Send email notification to all recipients (Punycode for IDN domains)
+        $this->sendEmailNotification($bookingData);
 
         // Show success state
         $this->showSuccess = true;
+    }
+
+    private function sendEmailNotification(array $bookingData): void
+    {
+        $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
+        $recipientList = array_map('trim', explode(',', $recipients));
+
+        try {
+            Mail::to($recipientList)->send(new BookingRequestSubmitted($bookingData));
+            Log::info('Booking request email sent', [
+                'recipients' => $recipientList,
+                'date' => $bookingData['selectedDate'],
+                'time' => $bookingData['selectedTime']
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send booking request email', ['error' => $e->getMessage()]);
+        }
     }
 
     public function getCalendarDaysProperty()
