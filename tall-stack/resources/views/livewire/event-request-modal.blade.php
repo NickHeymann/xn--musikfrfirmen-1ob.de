@@ -159,8 +159,7 @@
                                         }
                                      }">
                                     <label class="text-[13px] font-normal text-white">Datum *</label>
-                                    <div class="flex gap-2 items-center justify-between">
-                                        <div class="flex gap-2 items-center">
+                                    <div class="flex gap-2 items-center">
                                         {{-- Tag (DD) --}}
                                         <input
                                             type="text"
@@ -215,13 +214,12 @@
                                             @wheel="$event.target.blur()"
                                             class="w-20 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] @error('date') border-red-600 @else border-white/10 @enderror"
                                         />
-                                        </div>
 
                                         {{-- Calendar Icon Button --}}
                                         <button
                                             type="button"
                                             @click="openCalendar()"
-                                            class="p-2 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
+                                            class="p-1.5 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
                                             aria-label="Kalender öffnen">
                                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -277,8 +275,7 @@
                                         }
                                      }">
                                     <label class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
-                                    <div class="flex gap-2 items-center justify-between">
-                                        <div class="flex gap-2 items-center">
+                                    <div class="flex gap-2 items-center">
                                         {{-- Stunden (HH) --}}
                                         <input
                                             type="text"
@@ -313,13 +310,12 @@
                                             @wheel="$event.target.blur()"
                                             class="w-16 p-2 px-[10px] text-sm font-light border-2 rounded-[10px] bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#2DD4A8] focus:shadow-[0_0_0_4px_rgba(45,212,168,0.1)] border-white/10"
                                         />
-                                        </div>
 
                                         {{-- Clock Icon Button --}}
                                         <button
                                             type="button"
                                             @click="openTimePicker()"
-                                            class="p-2 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
+                                            class="p-1.5 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
                                             aria-label="Uhrzeit wählen">
                                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -415,7 +411,7 @@
                                 <button
                                     type="button"
                                     wire:click="nextStep"
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#2DD4A8] text-gray-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[6px] bg-[#2DD4A8] text-black hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                                 >
                                     Weiter
                                 </button>
