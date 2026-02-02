@@ -153,7 +153,7 @@ class EventRequestModal extends Component
 
     private function sendEmailNotification(array $data): void
     {
-        $recipients = config('services.event_request.recipients', 'moin@nickheymann.de,moin@jonasglamann.de');
+        $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
         $recipientList = array_map('trim', explode(',', $recipients));
 
         try {
