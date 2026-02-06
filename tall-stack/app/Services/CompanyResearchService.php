@@ -26,9 +26,9 @@ class CompanyResearchService
         }
 
         $tavilyKey = config('services.tavily.api_key');
-        $anthropicKey = config('services.anthropic.api_key');
+        $groqKey = config('services.groq.api_key');
 
-        if (empty($tavilyKey) || empty($anthropicKey)) {
+        if (empty($tavilyKey) || empty($groqKey)) {
             Log::info('Company research skipped: missing API keys');
 
             return null;
@@ -53,11 +53,11 @@ class CompanyResearchService
                 return null;
             }
 
-            return $this->summarizeWithClaude(
+            return $this->summarizeWithGroq(
                 $companyName,
                 $generalResults,
                 $eventResults,
-                $anthropicKey
+                $groqKey
             );
         } catch (\Exception $e) {
             Log::warning('Company research failed', [
@@ -111,7 +111,7 @@ class CompanyResearchService
      * @param  array<int, array{title: string, url: string, content: string}>  $generalResults
      * @param  array<int, array{title: string, url: string, content: string}>  $eventResults
      */
-    private function summarizeWithClaude(
+    private function summarizeWithGroq(
         string $companyName,
         array $generalResults,
         array $eventResults,
@@ -126,17 +126,23 @@ class CompanyResearchService
             $snippets .= "- [{$r['title']}]({$r['url']}): {$r['content']}\n";
         }
 
-        $response = Http::timeout(10)
+        $model = config('services.groq.model', 'llama-3.3-70b-versatile');
+
+        $response = Http::timeout(15)
             ->withHeaders([
                 'Content-Type' => 'application/json',
-                'x-api-key' => $apiKey,
-                'anthropic-version' => '2023-06-01',
+                'Authorization' => "Bearer {$apiKey}",
             ])
-            ->post('https://api.anthropic.com/v1/messages', [
-                'model' => 'claude-haiku-4-5-20251001',
+            ->post('https://api.groq.com/openai/v1/chat/completions', [
+                'model' => $model,
                 'max_tokens' => 1024,
-                'system' => 'Du bist ein Firmen-Recherche-Assistent. Extrahiere NUR verifizierte Fakten aus den Suchergebnissen. Wenn du dir bei einer Information unsicher bist, gib null für das Feld zurück. Antworte ausschließlich mit validem JSON.',
+                'temperature' => 0.1,
+                'response_format' => ['type' => 'json_object'],
                 'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'Du bist ein Firmen-Recherche-Assistent. Extrahiere NUR verifizierte Fakten aus den Suchergebnissen. Wenn du dir bei einer Information unsicher bist, gib null für das Feld zurück. Antworte ausschließlich mit validem JSON.',
+                    ],
                     [
                         'role' => 'user',
                         'content' => "Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein strukturiertes Firmenprofil.\n\n{$snippets}\n\nAntworte als JSON mit diesem Schema:\n{\"industry\": \"Branche oder null\", \"employee_count\": \"Anzahl oder null\", \"website\": \"URL oder null\", \"location\": \"Standort oder null\", \"description\": \"Kurze Beschreibung (1-2 Sätze) oder null\", \"recent_news\": [{\"title\": \"...\", \"url\": \"...\"}], \"past_events\": [{\"title\": \"...\", \"url\": \"...\"}], \"sources\": [\"url1\", \"url2\"]}",
@@ -145,16 +151,16 @@ class CompanyResearchService
             ]);
 
         if (! $response->successful()) {
-            Log::warning('Claude API call failed', [
+            Log::warning('Groq API call failed', [
                 'status' => $response->status(),
             ]);
 
             return null;
         }
 
-        $content = $response->json('content.0.text', '');
+        $content = $response->json('choices.0.message.content', '');
 
-        // Extract JSON from response (Claude may wrap it in markdown code blocks)
+        // Extract JSON from response (LLM may wrap it in markdown code blocks)
         if (preg_match('/\{[\s\S]*\}/', $content, $matches)) {
             $parsed = json_decode($matches[0], true);
 
@@ -163,7 +169,7 @@ class CompanyResearchService
             }
         }
 
-        Log::warning('Failed to parse Claude response', ['content' => $content]);
+        Log::warning('Failed to parse Groq response', ['content' => $content]);
 
         return null;
     }
