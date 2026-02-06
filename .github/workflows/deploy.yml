@@ -8,6 +8,10 @@ on:
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: nickheymann/xn--musikfrfirmen-1ob.de-tall
@@ -53,16 +57,14 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: GHCR_TOKEN
+          command_timeout: 15m
           script: |
             cd /opt/apps/xn--musikfrfirmen-1ob.de-tall
 
             # Login to GitHub Container Registry
             echo "$GHCR_TOKEN" | docker login ghcr.io -u nickheymann --password-stdin
 
-            # Pull latest image
-            docker pull ghcr.io/nickheymann/xn--musikfrfirmen-1ob.de-tall:latest
-
-            # Recreate containers
+            # Pull and recreate containers
             docker compose pull
             docker compose up -d --force-recreate
 
