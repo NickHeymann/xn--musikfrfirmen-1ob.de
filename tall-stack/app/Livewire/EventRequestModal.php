@@ -2,10 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Mail\EventRequestNotification;
-use App\Services\GoogleSheetsService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendEventRequestNotification;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -19,7 +16,7 @@ class EventRequestModal extends Component
     public string $submitStatus = 'idle'; // idle, success, error
 
     // Step 1: Event Details
-    #[Validate('required|date|after_or_equal:today', message: 'Bitte wähle ein Datum in der Zukunft')]
+    #[Validate('required|date|after_or_equal:today', message: 'Bitte wähle ein Datum das in der Zukunft liegt')]
     public string $date = '';
 
     public string $time = '';
@@ -37,21 +34,27 @@ class EventRequestModal extends Component
     public string $package = '';
 
     // Step 3: Contact Details
-    #[Validate('required|string|min:2', message: 'Bitte gib deinen Namen an')]
-    public string $name = '';
+    #[Validate('required|string|min:2', message: 'Bitte gib deinen Vornamen an')]
+    public string $firstname = '';
 
+    public string $lastname = '';
+
+    #[Validate('required|string|min:2', message: 'Bitte gib deine Firma an')]
     public string $company = '';
 
     #[Validate('required|email', message: 'Bitte gib eine gültige E-Mail an')]
     public string $email = '';
 
-    #[Validate('required|string', message: 'Bitte gib eine Telefonnummer an')]
+    // Phone is optional - no validation attribute
     public string $phone = '';
 
     public string $message = '';
 
     #[Validate('accepted', message: 'Bitte akzeptiere die Datenschutzerklärung')]
     public bool $privacy = false;
+
+    // Optional: User consent for localStorage (GDPR compliance)
+    public bool $storageConsent = false;
 
     public array $packageOptions = [
         ['value' => 'dj', 'label' => 'Nur DJ'],
@@ -66,6 +69,8 @@ class EventRequestModal extends Component
         ['value' => 'gt500', 'label' => '>500'],
     ];
 
+    public bool $isGuestsDropdownOpen = false;
+
     #[On('openMFFCalculator')]
     public function openModal(): void
     {
@@ -77,7 +82,9 @@ class EventRequestModal extends Component
     {
         $this->showModal = false;
         $this->dispatch('modal-closed');
-        $this->resetAfterClose();
+
+        // DO NOT reset data - keep it for next time modal opens
+        // Data persists in Livewire session + localStorage (via Alpine.js)
     }
 
     public function nextStep(): void
@@ -88,8 +95,8 @@ class EventRequestModal extends Component
                 'city' => 'required|string|min:2',
                 'guests' => 'required|string',
             ], [
-                'date.required' => 'Bitte wähle ein Datum in der Zukunft',
-                'date.after_or_equal' => 'Bitte wähle ein Datum in der Zukunft',
+                'date.required' => 'Bitte wähle ein Datum das in der Zukunft liegt',
+                'date.after_or_equal' => 'Bitte wähle ein Datum das in der Zukunft liegt',
                 'city.required' => 'Bitte gib eine Stadt an',
                 'city.min' => 'Bitte gib eine Stadt an',
                 'guests.required' => 'Bitte wähle eine Gästeanzahl',
@@ -112,24 +119,54 @@ class EventRequestModal extends Component
         }
     }
 
-    public function submit(GoogleSheetsService $sheetsService): void
+    public function toggleGuestsDropdown(): void
+    {
+        $this->isGuestsDropdownOpen = ! $this->isGuestsDropdownOpen;
+    }
+
+    public function openGuestsDropdown(): void
+    {
+        $this->isGuestsDropdownOpen = true;
+    }
+
+    public function closeGuestsDropdown(): void
+    {
+        $this->isGuestsDropdownOpen = false;
+    }
+
+    public function selectGuests(string $value): void
+    {
+        $this->guests = $value;
+        $this->isGuestsDropdownOpen = false;
+
+        // No auto-advance - user must click "Weiter" button manually
+        $this->dispatch('guests-selected');
+    }
+
+    public function submit(): void
     {
         $this->validate([
-            'name' => 'required|string|min:2',
+            'firstname' => 'required|string|min:2',
+            'company' => 'required|string|min:2',
             'email' => 'required|email',
-            'phone' => 'required|string',
+            // phone is optional
             'privacy' => 'accepted',
         ], [
-            'name.required' => 'Bitte gib deinen Namen an',
-            'name.min' => 'Bitte gib deinen Namen an',
+            'firstname.required' => 'Bitte gib deinen Vornamen an',
+            'firstname.min' => 'Bitte gib deinen Vornamen an',
+            'company.required' => 'Bitte gib deine Firma an',
+            'company.min' => 'Bitte gib deine Firma an',
             'email.required' => 'Bitte gib eine gültige E-Mail an',
             'email.email' => 'Bitte gib eine gültige E-Mail an',
-            'phone.required' => 'Bitte gib eine Telefonnummer an',
             'privacy.accepted' => 'Bitte akzeptiere die Datenschutzerklärung',
         ]);
 
+        $fullName = trim($this->firstname.' '.$this->lastname);
+
         $data = [
-            'name' => $this->name,
+            'name' => $fullName,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
             'email' => $this->email,
             'phone' => $this->phone,
             'company' => $this->company,
@@ -142,28 +179,13 @@ class EventRequestModal extends Component
             'message' => $this->message,
         ];
 
-        // 1. Add to Google Sheet
-        $sheetsService->createEventRequest($data);
-
-        // 2. Send email notification to team
-        $this->sendEmailNotification($data);
+        // Dispatch async: email + Google Sheets
+        SendEventRequestNotification::dispatch($data);
 
         $this->submitStatus = 'success';
-    }
 
-    private function sendEmailNotification(array $data): void
-    {
-        $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
-        $recipientList = array_map('trim', explode(',', $recipients));
-
-        try {
-            Mail::to($recipientList)
-                ->send(new EventRequestNotification($data));
-
-            Log::info('Event request email sent', ['recipients' => $recipientList, 'city' => $data['city']]);
-        } catch (\Exception $e) {
-            Log::error('Failed to send event request email', ['error' => $e->getMessage()]);
-        }
+        // Clear stored form data after successful submission
+        $this->dispatch('clear-calculator-storage');
     }
 
     public function openCalCom(): void
@@ -175,7 +197,7 @@ class EventRequestModal extends Component
     {
         $this->reset([
             'step', 'submitStatus', 'date', 'time', 'city', 'budget', 'guests',
-            'package', 'name', 'company', 'email', 'phone', 'message', 'privacy',
+            'package', 'firstname', 'lastname', 'company', 'email', 'phone', 'message', 'privacy',
         ]);
         $this->resetValidation();
     }

@@ -2,35 +2,74 @@
 {{-- Modal Overlay with Blur --}}
 <div
     x-data="{
-        show: @entangle('isOpen')
+        show: @entangle('isOpen'),
+        showCloseConfirm: false,
+        saveToStorage() {
+            const formData = {
+                name: $wire.name,
+                email: $wire.email,
+                phone: $wire.phone,
+                message: $wire.message,
+            };
+            localStorage.setItem('mff-booking-data', JSON.stringify(formData));
+        },
+        loadFromStorage() {
+            const stored = localStorage.getItem('mff-booking-data');
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    if (data.name) $wire.set('name', data.name);
+                    if (data.email) $wire.set('email', data.email);
+                    if (data.phone) $wire.set('phone', data.phone);
+                    if (data.message) $wire.set('message', data.message);
+                } catch (e) {
+                    console.error('Failed to restore booking data:', e);
+                }
+            }
+        },
+        clearStorage() {
+            localStorage.removeItem('mff-booking-data');
+        },
+        handleClose() {
+            const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
+            const isContactForm = $wire.step === 3;
+            if (hasData && isContactForm) {
+                this.showCloseConfirm = true;
+            } else {
+                $wire.close();
+            }
+        },
+        confirmClose() {
+            this.showCloseConfirm = false;
+            $wire.close();
+        },
+        cancelClose() {
+            this.showCloseConfirm = false;
+        }
     }"
     x-show="show"
     x-cloak
-    @click="const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
-        if (hasData) {
-            if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
-                $wire.close()
+    @click.self="handleClose()"
+    @keydown.escape.window="if (show && !showCloseConfirm) { handleClose() }"
+    @clear-booking-storage.window="clearStorage()"
+    @reset-success-after-close.window="
+        setTimeout(() => {
+            $wire.dispatch('reset-success-state');
+        }, 250);
+    "
+    x-init="
+        loadFromStorage();
+
+        $watch('show', value => {
+            if (value) {
+                document.body.style.overflow = 'hidden';
+                loadFromStorage();
+            } else {
+                document.body.style.overflow = '';
+                saveToStorage();
             }
-        } else {
-            $wire.close()
-        }"
-    @keydown.escape.window="if (show) {
-        const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
-        if (hasData) {
-            if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
-                $wire.close()
-            }
-        } else {
-            $wire.close()
-        }
-    }"
-    x-init="$watch('show', value => {
-        if (value) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    })"
+        })
+    "
     class="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 backdrop-blur-md bg-black/50"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
@@ -53,14 +92,7 @@
         >
             {{-- Close Button - More Visible --}}
             <button
-                @click.stop="const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
-                    if (hasData) {
-                        if (confirm('Möchten Sie wirklich abbrechen? Ihre eingegebenen Daten gehen verloren.')) {
-                            $wire.close()
-                        }
-                    } else {
-                        $wire.close()
-                    }"
+                @click.stop="handleClose()"
                 class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 z-10 hover:rotate-90"
                 aria-label="Schließen"
             >
@@ -243,9 +275,17 @@
 
                                         <button
                                             type="submit"
-                                            class="px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                                            wire:loading.attr="disabled"
+                                            class="px-6 py-3 bg-white text-black rounded-lg font-semibold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed active:scale-95 hover:bg-[#2DD4A8] hover:shadow-[0_0_20px_rgba(45,212,168,0.4)] hover:-translate-y-0.5"
                                         >
-                                            Termin anfragen
+                                            <span wire:loading.remove wire:target="submitBooking">Termin anfragen</span>
+                                            <span wire:loading wire:target="submitBooking" class="flex items-center gap-2">
+                                                <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Wird gesendet...
+                                            </span>
                                         </button>
                                     </div>
                                 </form>
@@ -303,6 +343,41 @@
                     </div>
                 </div>
             @endif
+        </div>
+
+        {{-- Custom Close Confirmation - Subtle & Helpful --}}
+        <div x-show="showCloseConfirm"
+             x-cloak
+             @click.self="cancelClose()"
+             class="absolute inset-0 z-[100] flex items-center justify-center bg-black/20 backdrop-blur-sm"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+            <div @click.stop
+                 class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-4"
+                 x-transition:enter="transition ease-out duration-200 delay-100"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <p class="text-gray-800 text-base mb-6 text-center">
+                    Deine eingegebenen Daten gehen verloren. Möchtest du wirklich abbrechen?
+                </p>
+                <div class="flex gap-3">
+                    <button @click="cancelClose()"
+                            class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Zurück
+                    </button>
+                    <button @click="confirmClose()"
+                            class="flex-1 px-4 py-2.5 bg-[#2DD4A8] text-black rounded-lg font-medium hover:bg-[#7dc9b1] transition-colors">
+                        Abbrechen
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

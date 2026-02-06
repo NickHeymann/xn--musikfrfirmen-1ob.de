@@ -5,29 +5,30 @@ namespace Tests\Feature\Livewire;
 use App\Livewire\EventRequestModal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EventRequestModalTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_renders_the_component()
+    #[Test]
+    public function it_renders_the_component(): void
     {
         Livewire::test(EventRequestModal::class)
             ->assertStatus(200);
     }
 
-    /** @test */
-    public function it_starts_on_step_1()
+    #[Test]
+    public function it_starts_on_step_1(): void
     {
         Livewire::test(EventRequestModal::class)
             ->assertSet('step', 1)
             ->assertSet('showModal', false);
     }
 
-    /** @test */
-    public function it_can_open_modal()
+    #[Test]
+    public function it_can_open_modal(): void
     {
         Livewire::test(EventRequestModal::class)
             ->call('openModal')
@@ -35,8 +36,8 @@ class EventRequestModalTest extends TestCase
             ->assertDispatched('modal-opened');
     }
 
-    /** @test */
-    public function it_can_close_modal()
+    #[Test]
+    public function it_can_close_modal(): void
     {
         Livewire::test(EventRequestModal::class)
             ->call('openModal')
@@ -46,8 +47,8 @@ class EventRequestModalTest extends TestCase
             ->assertDispatched('modal-closed');
     }
 
-    /** @test */
-    public function it_validates_step_1_fields()
+    #[Test]
+    public function it_validates_step_1_fields(): void
     {
         Livewire::test(EventRequestModal::class)
             ->call('nextStep')
@@ -55,8 +56,8 @@ class EventRequestModalTest extends TestCase
             ->assertSet('step', 1); // Should stay on step 1
     }
 
-    /** @test */
-    public function it_advances_to_step_2_with_valid_step_1_data()
+    #[Test]
+    public function it_advances_to_step_2_with_valid_step_1_data(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -67,8 +68,8 @@ class EventRequestModalTest extends TestCase
             ->assertSet('step', 2);
     }
 
-    /** @test */
-    public function it_validates_package_on_step_2()
+    #[Test]
+    public function it_validates_package_on_step_2(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -81,8 +82,8 @@ class EventRequestModalTest extends TestCase
             ->assertSet('step', 2);
     }
 
-    /** @test */
-    public function it_advances_to_step_3_with_valid_package()
+    #[Test]
+    public function it_advances_to_step_3_with_valid_package(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -95,8 +96,8 @@ class EventRequestModalTest extends TestCase
             ->assertSet('step', 3);
     }
 
-    /** @test */
-    public function it_can_navigate_back_to_previous_steps()
+    #[Test]
+    public function it_can_navigate_back_to_previous_steps(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -108,9 +109,10 @@ class EventRequestModalTest extends TestCase
             ->assertSet('step', 1);
     }
 
-    /** @test */
-    public function it_validates_contact_details_on_submit()
+    #[Test]
+    public function it_validates_contact_details_on_submit(): void
     {
+        // Note: phone is optional, so only firstname, company, email, and privacy are required
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
             ->set('city', 'Hamburg')
@@ -119,11 +121,11 @@ class EventRequestModalTest extends TestCase
             ->set('package', 'band')
             ->call('nextStep')
             ->call('submit')
-            ->assertHasErrors(['name', 'email', 'phone', 'privacy']);
+            ->assertHasErrors(['firstname', 'company', 'email', 'privacy']);
     }
 
-    /** @test */
-    public function it_can_submit_with_valid_data()
+    #[Test]
+    public function it_can_submit_with_valid_data(): void
     {
         // Without BREVO_API_KEY configured, submission still succeeds (graceful degradation)
         Livewire::test(EventRequestModal::class)
@@ -133,7 +135,9 @@ class EventRequestModalTest extends TestCase
             ->call('nextStep')
             ->set('package', 'band')
             ->call('nextStep')
-            ->set('name', 'Max Mustermann')
+            ->set('firstname', 'Max')
+            ->set('lastname', 'Mustermann')
+            ->set('company', 'Test GmbH')
             ->set('email', 'max@test.de')
             ->set('phone', '+49 123 456789')
             ->set('privacy', true)
@@ -142,8 +146,8 @@ class EventRequestModalTest extends TestCase
             ->assertSet('submitStatus', 'success');
     }
 
-    /** @test */
-    public function it_validates_email_format()
+    #[Test]
+    public function it_validates_email_format(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -152,16 +156,16 @@ class EventRequestModalTest extends TestCase
             ->call('nextStep')
             ->set('package', 'band')
             ->call('nextStep')
-            ->set('name', 'Max Mustermann')
+            ->set('firstname', 'Max')
+            ->set('company', 'Test GmbH')
             ->set('email', 'invalid-email')
-            ->set('phone', '+49 123 456789')
             ->set('privacy', true)
             ->call('submit')
             ->assertHasErrors(['email']);
     }
 
-    /** @test */
-    public function it_requires_privacy_acceptance()
+    #[Test]
+    public function it_requires_privacy_acceptance(): void
     {
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
@@ -170,17 +174,18 @@ class EventRequestModalTest extends TestCase
             ->call('nextStep')
             ->set('package', 'band')
             ->call('nextStep')
-            ->set('name', 'Max Mustermann')
+            ->set('firstname', 'Max')
+            ->set('company', 'Test GmbH')
             ->set('email', 'max@test.de')
-            ->set('phone', '+49 123 456789')
             ->set('privacy', false)
             ->call('submit')
             ->assertHasErrors(['privacy']);
     }
 
-    /** @test */
-    public function it_allows_optional_fields()
+    #[Test]
+    public function it_allows_optional_fields(): void
     {
+        // Test that phone, message, lastname, time, and budget are optional
         Livewire::test(EventRequestModal::class)
             ->set('date', now()->addWeek()->format('Y-m-d'))
             ->set('city', 'Hamburg')
@@ -189,18 +194,67 @@ class EventRequestModalTest extends TestCase
             ->call('nextStep')
             ->set('package', 'dj')
             ->call('nextStep')
-            ->set('name', 'Max Mustermann')
+            ->set('firstname', 'Max')
+            // lastname is optional
+            ->set('company', 'Test GmbH')
             ->set('email', 'max@test.de')
-            ->set('phone', '+49 123 456789')
-            // company, message are optional
+            // phone is optional
+            // message is optional
             ->set('privacy', true)
             ->call('submit')
             ->assertHasNoErrors()
             ->assertSet('submitStatus', 'success');
     }
 
-    /** @test */
-    public function it_has_correct_package_options()
+    #[Test]
+    public function it_allows_phone_to_be_optional(): void
+    {
+        // Verify that phone field is truly optional (can be empty)
+        Livewire::test(EventRequestModal::class)
+            ->set('date', now()->addWeek()->format('Y-m-d'))
+            ->set('city', 'Hamburg')
+            ->set('guests', 'lt100')
+            ->call('nextStep')
+            ->set('package', 'band')
+            ->call('nextStep')
+            ->set('firstname', 'Max')
+            ->set('company', 'Test GmbH')
+            ->set('email', 'max@test.de')
+            ->set('phone', '') // Explicitly empty
+            ->set('privacy', true)
+            ->call('submit')
+            ->assertHasNoErrors()
+            ->assertSet('submitStatus', 'success');
+    }
+
+    #[Test]
+    public function it_has_storage_consent_property(): void
+    {
+        // Verify the storageConsent property exists for GDPR-compliant localStorage
+        Livewire::test(EventRequestModal::class)
+            ->assertSet('storageConsent', false);
+    }
+
+    #[Test]
+    public function it_dispatches_clear_storage_event_on_successful_submit(): void
+    {
+        Livewire::test(EventRequestModal::class)
+            ->set('date', now()->addWeek()->format('Y-m-d'))
+            ->set('city', 'Hamburg')
+            ->set('guests', 'lt100')
+            ->call('nextStep')
+            ->set('package', 'band')
+            ->call('nextStep')
+            ->set('firstname', 'Max')
+            ->set('company', 'Test GmbH')
+            ->set('email', 'max@test.de')
+            ->set('privacy', true)
+            ->call('submit')
+            ->assertDispatched('clear-calculator-storage');
+    }
+
+    #[Test]
+    public function it_has_correct_package_options(): void
     {
         $component = Livewire::test(EventRequestModal::class);
 
@@ -211,8 +265,8 @@ class EventRequestModalTest extends TestCase
         ], $component->get('packageOptions'));
     }
 
-    /** @test */
-    public function it_has_correct_guest_options()
+    #[Test]
+    public function it_has_correct_guest_options(): void
     {
         $component = Livewire::test(EventRequestModal::class);
 

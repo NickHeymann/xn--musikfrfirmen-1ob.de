@@ -87,7 +87,7 @@ services:
     container_name: musikfürfirmen.de-queue
     restart: unless-stopped
     working_dir: /var/www
-    command: php artisan queue:work --tries=3 --timeout=90
+    command: php artisan queue:work --tries=3 --timeout=90 --max-jobs=1000 --max-time=3600 --sleep=3
     environment:
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}

@@ -61,22 +61,22 @@ test.describe('FAQ Accordion Debugging', () => {
 
   test('Phase 3: Alpine Component State Inspection', async ({ page }) => {
     console.log('\n=== PHASE 3: ALPINE COMPONENT STATE ===\n');
-    
+
     const state = await page.evaluate(() => {
-      const faqSection = document.querySelector('.faq-section');
+      const faqContainer = document.querySelector('.faq-container');
 
       return {
-        elementExists: !!faqSection,
-        hasAlpineComponent: !!faqSection?.__x,
-        alpineData: faqSection?.__x?.$data,
-        xDataAttribute: faqSection?.getAttribute('x-data'),
+        elementExists: !!faqContainer,
+        hasAlpineComponent: !!faqContainer?.__x,
+        alpineData: faqContainer?.__x?.$data,
+        xDataAttribute: faqContainer?.getAttribute('x-data'),
       };
     });
 
-    console.log('FAQ Section state:', JSON.stringify(state, null, 2));
+    console.log('FAQ Container state:', JSON.stringify(state, null, 2));
 
     if (!state.hasAlpineComponent) {
-      console.error('❌ ISSUE: Alpine.js not bound to FAQ section');
+      console.error('❌ ISSUE: Alpine.js not bound to FAQ container');
       console.log('Possible causes:');
       console.log('  1. x-data attribute missing or malformed');
       console.log('  2. Alpine.start() not called');
@@ -124,8 +124,8 @@ test.describe('FAQ Accordion Debugging', () => {
 
     // 1. Get initial state
     const initialState = await page.evaluate(() => {
-      const faqSection = document.querySelector('.faq-section');
-      const alpineData = faqSection?.__x?.$data;
+      const faqContainer = document.querySelector('.faq-container');
+      const alpineData = faqContainer?.__x?.$data;
       const firstAnswer = document.querySelector('.faq-answer');
 
       return {
@@ -145,8 +145,8 @@ test.describe('FAQ Accordion Debugging', () => {
 
     // 3. Get state after click
     const afterClickState = await page.evaluate(() => {
-      const faqSection = document.querySelector('.faq-section');
-      const alpineData = faqSection?.__x?.$data;
+      const faqContainer = document.querySelector('.faq-container');
+      const alpineData = faqContainer?.__x?.$data;
       const firstAnswer = document.querySelector('.faq-answer');
 
       return {

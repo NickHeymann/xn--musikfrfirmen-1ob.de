@@ -6,14 +6,15 @@ use App\Livewire\ContactForm;
 use App\Models\ContactSubmission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ContactFormTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_can_submit_contact_form()
+    #[Test]
+    public function it_can_submit_contact_form(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
@@ -35,8 +36,8 @@ class ContactFormTest extends TestCase
         $this->assertEquals('I need a band for our corporate event', $submission->message);
     }
 
-    /** @test */
-    public function it_validates_required_fields()
+    #[Test]
+    public function it_validates_required_fields(): void
     {
         Livewire::test(ContactForm::class)
             ->set('inquiry_type', '') // Clear default value to test validation
@@ -51,8 +52,8 @@ class ContactFormTest extends TestCase
         $this->assertDatabaseCount('contact_submissions', 0);
     }
 
-    /** @test */
-    public function it_validates_email_format()
+    #[Test]
+    public function it_validates_email_format(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
@@ -65,8 +66,8 @@ class ContactFormTest extends TestCase
         $this->assertDatabaseCount('contact_submissions', 0);
     }
 
-    /** @test */
-    public function it_validates_inquiry_type_is_valid()
+    #[Test]
+    public function it_validates_inquiry_type_is_valid(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
@@ -79,8 +80,8 @@ class ContactFormTest extends TestCase
         $this->assertDatabaseCount('contact_submissions', 0);
     }
 
-    /** @test */
-    public function it_accepts_all_valid_inquiry_types()
+    #[Test]
+    public function it_accepts_all_valid_inquiry_types(): void
     {
         $validTypes = ['general', 'booking', 'partnership', 'other'];
 
@@ -101,8 +102,8 @@ class ContactFormTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_allows_optional_phone_and_company_fields()
+    #[Test]
+    public function it_allows_optional_phone_and_company_fields(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
@@ -118,8 +119,8 @@ class ContactFormTest extends TestCase
         $this->assertTrue(empty($submission->company));
     }
 
-    /** @test */
-    public function it_resets_form_fields_after_successful_submission()
+    #[Test]
+    public function it_resets_form_fields_after_successful_submission(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
@@ -137,8 +138,8 @@ class ContactFormTest extends TestCase
             ->assertSet('message', '');
     }
 
-    /** @test */
-    public function it_creates_contact_submission_with_new_status_by_default()
+    #[Test]
+    public function it_creates_contact_submission_with_new_status_by_default(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')

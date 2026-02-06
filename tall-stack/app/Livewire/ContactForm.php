@@ -2,11 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Jobs\SendContactFormNotification;
 use App\Models\ContactSubmission;
-use App\Mail\ContactFormSubmitted;
-use Illuminate\Support\Facades\Mail;
-use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class ContactForm extends Component
 {
@@ -37,11 +36,13 @@ class ContactForm extends Component
             'status' => 'new',
         ]);
 
-        // Send email notification to admin
-        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'moin@jonasglamann.de'));
-        Mail::to($recipients)->send(new ContactFormSubmitted($submission));
+        // Dispatch async: email notification
+        SendContactFormNotification::dispatch($submission);
 
         session()->flash('message', 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.');
+
+        // Clear stored form data after successful submission
+        $this->dispatch('clear-contact-storage');
 
         $this->reset();
         $this->inquiry_type = 'general';

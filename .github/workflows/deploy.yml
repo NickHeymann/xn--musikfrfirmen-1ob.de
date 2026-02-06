@@ -74,5 +74,11 @@ jobs:
             docker compose exec -T app php artisan route:cache
             docker compose exec -T app php artisan view:cache
 
+            # Restart queue workers so they pick up new code
+            docker compose exec -T app php artisan queue:restart
+
+            # Verify queue container is running
+            docker compose ps queue --format "table {{.Name}}\t{{.Status}}"
+
             # Cleanup old images
             docker image prune -f

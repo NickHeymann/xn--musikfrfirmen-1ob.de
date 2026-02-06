@@ -1,4 +1,44 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8"
+    x-data="{
+        saveToStorage() {
+            const formData = {
+                name: $wire.name,
+                email: $wire.email,
+                phone: $wire.phone,
+                company: $wire.company,
+                subject: $wire.subject,
+                message: $wire.message,
+            };
+            localStorage.setItem('mff-contact-data', JSON.stringify(formData));
+        },
+        loadFromStorage() {
+            const stored = localStorage.getItem('mff-contact-data');
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    if (data.name) $wire.set('name', data.name);
+                    if (data.email) $wire.set('email', data.email);
+                    if (data.phone) $wire.set('phone', data.phone);
+                    if (data.company) $wire.set('company', data.company);
+                    if (data.subject) $wire.set('subject', data.subject);
+                    if (data.message) $wire.set('message', data.message);
+                } catch (e) {
+                    console.error('Failed to restore contact data:', e);
+                }
+            }
+        },
+        clearStorage() {
+            localStorage.removeItem('mff-contact-data');
+        }
+    }"
+    x-init="
+        loadFromStorage();
+
+        // Auto-save on input changes
+        setInterval(() => saveToStorage(), 2000);
+    "
+    @clear-contact-storage.window="clearStorage()"
+>
     <div class="max-w-2xl mx-auto">
         <h1 class="text-4xl font-bold mb-4">Contact Us</h1>
         <p class="text-gray-600 mb-8">Have a question or want to book our services? Send us a message and we'll respond within 24 hours.</p>

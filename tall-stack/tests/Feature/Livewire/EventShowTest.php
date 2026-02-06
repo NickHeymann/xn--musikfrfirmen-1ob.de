@@ -3,18 +3,19 @@
 namespace Tests\Feature\Livewire;
 
 use App\Livewire\EventShow;
-use App\Models\Event;
 use App\Models\Booking;
+use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EventShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_can_submit_booking_for_event()
+    #[Test]
+    public function it_can_submit_booking_for_event(): void
     {
         // Create a published event
         $event = Event::factory()->create([
@@ -43,8 +44,8 @@ class EventShowTest extends TestCase
         $this->assertEquals(200, $booking->total_price); // 2 musicians * €100
     }
 
-    /** @test */
-    public function it_validates_required_fields_on_booking_submission()
+    #[Test]
+    public function it_validates_required_fields_on_booking_submission(): void
     {
         $event = Event::factory()->create([
             'status' => 'published',
@@ -64,8 +65,8 @@ class EventShowTest extends TestCase
         $this->assertDatabaseCount('bookings', 0);
     }
 
-    /** @test */
-    public function it_validates_email_format_on_booking()
+    #[Test]
+    public function it_validates_email_format_on_booking(): void
     {
         $event = Event::factory()->create([
             'status' => 'published',
@@ -84,8 +85,8 @@ class EventShowTest extends TestCase
         $this->assertDatabaseCount('bookings', 0);
     }
 
-    /** @test */
-    public function it_validates_num_musicians_does_not_exceed_event_capacity()
+    #[Test]
+    public function it_validates_num_musicians_does_not_exceed_event_capacity(): void
     {
         $event = Event::factory()->create([
             'status' => 'published',
@@ -104,8 +105,8 @@ class EventShowTest extends TestCase
         $this->assertDatabaseCount('bookings', 0);
     }
 
-    /** @test */
-    public function it_resets_form_fields_after_successful_booking()
+    #[Test]
+    public function it_resets_form_fields_after_successful_booking(): void
     {
         $event = Event::factory()->create([
             'status' => 'published',
