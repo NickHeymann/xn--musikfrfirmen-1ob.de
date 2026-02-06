@@ -13,7 +13,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_null_when_api_keys_are_empty(): void
     {
         config(['services.tavily.api_key' => '']);
-        config(['services.anthropic.api_key' => '']);
+        config(['services.groq.api_key' => '']);
 
         $service = new CompanyResearchService;
         $result = $service->research('SAP SE');
@@ -25,7 +25,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_null_for_empty_company_name(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
 
         $service = new CompanyResearchService;
         $result = $service->research('');
@@ -37,7 +37,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_null_for_whitespace_only_company_name(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
 
         $service = new CompanyResearchService;
         $result = $service->research('   ');
@@ -49,7 +49,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_structured_data_on_success(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
         config(['services.tavily.timeout' => 8]);
 
         Http::fake([
@@ -58,9 +58,9 @@ class CompanyResearchServiceTest extends TestCase
                     ['title' => 'SAP SE - IT Company', 'url' => 'https://sap.com', 'content' => 'SAP is a German software company'],
                 ],
             ]),
-            'api.anthropic.com/*' => Http::response([
-                'content' => [
-                    ['type' => 'text', 'text' => '{"industry": "Software", "employee_count": "107000", "website": "https://sap.com", "location": "Walldorf", "description": "SAP is a global enterprise software company.", "recent_news": [], "past_events": [], "sources": ["https://sap.com"]}'],
+            'api.groq.com/*' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => '{"industry": "Software", "employee_count": "107000", "website": "https://sap.com", "location": "Walldorf", "description": "SAP is a global enterprise software company.", "recent_news": [], "past_events": [], "sources": ["https://sap.com"]}']],
                 ],
             ]),
         ]);
@@ -79,7 +79,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_null_when_tavily_fails(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
         config(['services.tavily.timeout' => 8]);
 
         Http::fake([
@@ -93,10 +93,10 @@ class CompanyResearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function returns_null_when_claude_fails(): void
+    public function returns_null_when_groq_fails(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
         config(['services.tavily.timeout' => 8]);
 
         Http::fake([
@@ -105,7 +105,7 @@ class CompanyResearchServiceTest extends TestCase
                     ['title' => 'Test', 'url' => 'https://test.com', 'content' => 'Some content'],
                 ],
             ]),
-            'api.anthropic.com/*' => Http::response([], 500),
+            'api.groq.com/*' => Http::response([], 500),
         ]);
 
         $service = new CompanyResearchService;
@@ -118,7 +118,7 @@ class CompanyResearchServiceTest extends TestCase
     public function returns_null_on_timeout(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
         config(['services.tavily.timeout' => 1]);
 
         Http::fake([
@@ -134,10 +134,10 @@ class CompanyResearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function handles_claude_response_with_markdown_wrapping(): void
+    public function handles_groq_response_with_markdown_wrapping(): void
     {
         config(['services.tavily.api_key' => 'test-key']);
-        config(['services.anthropic.api_key' => 'test-key']);
+        config(['services.groq.api_key' => 'test-key']);
         config(['services.tavily.timeout' => 8]);
 
         Http::fake([
@@ -146,9 +146,9 @@ class CompanyResearchServiceTest extends TestCase
                     ['title' => 'Test', 'url' => 'https://test.com', 'content' => 'Content'],
                 ],
             ]),
-            'api.anthropic.com/*' => Http::response([
-                'content' => [
-                    ['type' => 'text', 'text' => "```json\n{\"industry\": \"IT\", \"employee_count\": null, \"website\": null, \"location\": \"Berlin\", \"description\": null, \"recent_news\": [], \"past_events\": [], \"sources\": []}\n```"],
+            'api.groq.com/*' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => "```json\n{\"industry\": \"IT\", \"employee_count\": null, \"website\": null, \"location\": \"Berlin\", \"description\": null, \"recent_news\": [], \"past_events\": [], \"sources\": []}\n```"]],
                 ],
             ]),
         ]);
