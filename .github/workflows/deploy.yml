@@ -8,6 +8,10 @@ on:
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
+concurrency:
+  group: deploy-musikfuerfirmen
+  cancel-in-progress: true
+
 jobs:
   deploy:
     uses: NickHeymann/shared-workflows/.github/workflows/deploy-hetzner.yml@main
@@ -15,7 +19,6 @@ jobs:
       image-name: nickheymann/xn--musikfrfirmen-1ob.de-tall
       deploy-path: /opt/apps/xn--musikfrfirmen-1ob.de-tall
       docker-context: ./tall-stack
-      concurrency-group: deploy-production
       post-deploy-commands: |
         docker compose exec -T app php artisan migrate --force
         docker compose exec -T app php artisan config:cache
