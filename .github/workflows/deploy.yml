@@ -15,6 +15,9 @@ concurrency:
 jobs:
   deploy:
     uses: NickHeymann/shared-workflows/.github/workflows/deploy-hetzner.yml@main
+    permissions:
+      contents: read
+      packages: write
     with:
       image-name: nickheymann/xn--musikfrfirmen-1ob.de-tall
       deploy-path: /opt/apps/xn--musikfrfirmen-1ob.de-tall
