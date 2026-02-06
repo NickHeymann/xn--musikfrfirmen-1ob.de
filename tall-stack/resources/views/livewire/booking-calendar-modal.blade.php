@@ -4,6 +4,7 @@
     x-data="{
         show: @entangle('isOpen'),
         showCloseConfirm: false,
+        mobileStep: 'calendar',
         saveToStorage() {
             const formData = {
                 name: $wire.name,
@@ -71,6 +72,12 @@
                 saveToStorage();
             }
         })
+
+        $watch('$wire.selectedDate', value => {
+            if (value && window.innerWidth < 768) {
+                mobileStep = 'timeslots';
+            }
+        });
     "
     class="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 backdrop-blur-md bg-black/50"
         x-transition:enter="transition ease-out duration-300"
@@ -95,7 +102,7 @@
             {{-- Close Button - More Visible --}}
             <button
                 @click.stop="handleClose()"
-                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 z-10 hover:rotate-90"
+                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition-all duration-200 z-10 hover:rotate-90"
                 aria-label="Schließen"
             >
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -107,7 +114,7 @@
                 {{-- Success Message - Dark Theme --}}
                 <div class="flex items-center justify-center md:h-[650px] h-auto py-12">
                     <div class="text-center max-w-md px-8">
-                        <svg class="w-16 h-16 text-[#2DD4A8] mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-16 h-16 text-[#C8E6DC] mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <h3 class="text-2xl font-bold text-white mb-3">Vielen Dank!</h3>
@@ -126,7 +133,8 @@
                 {{-- Cal.com Style: 2-Column Layout --}}
                 <div class="flex flex-col md:grid md:grid-cols-2 md:divide-x divide-white/10 h-full overflow-hidden">
                     {{-- Left Column: Calendar --}}
-                    <div class="p-4 sm:p-6 md:p-10 flex flex-col overflow-y-auto">
+                    <div class="p-4 sm:p-6 md:p-10 flex flex-col overflow-y-auto"
+     x-bind:class="{ 'hidden md:flex': mobileStep === 'timeslots' }">
                         <div class="mb-4 sm:mb-6 md:mb-8">
                             <h2 class="text-base sm:text-lg md:text-xl font-semibold text-white mb-1">
                                 Kostenloses Erstgespräch
@@ -195,7 +203,18 @@
                     </div>
 
                     {{-- Right Column: Time Slots & Contact Form --}}
-                    <div class="p-4 sm:p-6 md:p-10 overflow-y-auto flex flex-col border-t md:border-t-0 border-white/10">
+                    <div class="p-4 sm:p-6 md:p-10 overflow-y-auto flex flex-col border-t md:border-t-0 border-white/10"
+     x-bind:class="{ 'hidden md:flex': !$wire.selectedDate || mobileStep === 'calendar' }">
+                        {{-- Mobile Back to Calendar --}}
+                        <button
+                            @click="mobileStep = 'calendar'; $wire.set('selectedDate', null)"
+                            class="md:hidden flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors mb-4 touch-manipulation"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                            Datum ändern
+                        </button>
                         @if($step === 3)
                             {{-- Contact Form --}}
                             <div>
@@ -210,7 +229,7 @@
                                             type="text"
                                             id="name"
                                             wire:model="name"
-                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="Max Mustermann"
                                         >
                                         @error('name')
@@ -226,7 +245,7 @@
                                             type="text"
                                             id="company"
                                             wire:model="company"
-                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="Firmenname GmbH"
                                         >
                                         @error('company')
@@ -242,7 +261,7 @@
                                             type="email"
                                             id="email"
                                             wire:model="email"
-                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="max@beispiel.de"
                                         >
                                         @error('email')
@@ -258,7 +277,7 @@
                                             type="tel"
                                             id="phone"
                                             wire:model="phone"
-                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="+49 123 456789"
                                         >
                                         @error('phone')
@@ -274,7 +293,7 @@
                                             id="message"
                                             wire:model="message"
                                             rows="3"
-                                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors resize-none"
+                                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors resize-none"
                                             placeholder="Erzählen Sie uns kurz über Ihr geplantes Event..."
                                         ></textarea>
                                         @error('message')
@@ -294,7 +313,7 @@
                                         <button
                                             type="submit"
                                             wire:loading.attr="disabled"
-                                            class="px-6 py-3 bg-white text-black rounded-lg font-semibold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed active:scale-95 hover:bg-[#2DD4A8] hover:shadow-[0_0_20px_rgba(45,212,168,0.4)] hover:-translate-y-0.5"
+                                            class="px-6 py-3 bg-white text-black rounded-lg font-semibold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed active:scale-95 hover:bg-[#C8E6DC] hover:shadow-[0_0_20px_rgba(200,230,220,0.4)] hover:-translate-y-0.5"
                                         >
                                             <span wire:loading.remove wire:target="submitBooking">Termin anfragen</span>
                                             <span wire:loading wire:target="submitBooking" class="flex items-center gap-2">
@@ -352,7 +371,7 @@
                                             :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10'"
                                         >
                                             <span class="text-sm sm:text-base font-medium">{{ $slot }}</span>
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4A8]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#C8E6DC]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
                                         </button>
                                     @endforeach
                                 </div>
@@ -391,7 +410,7 @@
                         Zurück
                     </button>
                     <button @click="confirmClose()"
-                            class="flex-1 px-4 py-2.5 bg-[#2DD4A8] text-black rounded-lg font-medium hover:bg-[#7dc9b1] transition-colors">
+                            class="flex-1 px-4 py-2.5 bg-[#C8E6DC] text-black rounded-lg font-medium hover:bg-[#A0C4B5] transition-colors">
                         Abbrechen
                     </button>
                 </div>

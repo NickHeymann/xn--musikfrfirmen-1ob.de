@@ -55,7 +55,7 @@
             {{-- Left Column: Large Headline with line break --}}
             <div class="opacity-0 translate-y-8 animate-[fadeInUp_0.5s_ease-out_0.1s_forwards]">
                 <h1 class="font-poppins font-semibold text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
-                    Livemusik für<br><span class="text-[#2DD4A8]">Firmenevents.</span>
+                    Livemusik für<br><span class="text-[#C8E6DC]">Firmenevents.</span>
                 </h1>
             </div>
 
@@ -71,8 +71,8 @@
                     {{-- Left: Green "Jetzt Angebot einholen" with animated hover (like reference) --}}
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
-                        class="group px-4 py-2 rounded-full bg-[#2DD4A8] text-black font-medium text-xs tracking-wide transition-all duration-500 hover:bg-black/80 shadow-lg hover:shadow-2xl whitespace-nowrap hover:scale-105">
-                        <span class="transition-colors duration-500 group-hover:text-[#2DD4A8]">
+                        class="group px-4 py-2 rounded-full bg-[#C8E6DC] text-black font-medium text-xs tracking-wide transition-all duration-500 hover:bg-black/80 shadow-lg hover:shadow-2xl whitespace-nowrap hover:scale-105">
+                        <span class="transition-colors duration-500 group-hover:text-[#C8E6DC]">
                             Jetzt Angebot einholen
                         </span>
                     </button>
@@ -93,9 +93,9 @@
                                 </div>
                             </div>
                             {{-- Green availability dot (right of images) --}}
-                            <div class="w-2 h-2 bg-[#2DD4A8] rounded-full"></div>
+                            <div class="w-2 h-2 bg-[#C8E6DC] rounded-full"></div>
                         </div>
-                        <span class="transition-colors duration-500 group-hover:text-[#2DD4A8]">
+                        <span class="transition-colors duration-500 group-hover:text-[#C8E6DC]">
                             Kostenloses Erstgespräch
                         </span>
                     </button>
@@ -106,7 +106,7 @@
         {{-- Down Arrow - Fixed below content --}}
         <div
             @click="scrollToContent()"
-            class="fixed top-[calc(50%+250px)] left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards]">
+            class="fixed bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards]">
             <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
             </svg>

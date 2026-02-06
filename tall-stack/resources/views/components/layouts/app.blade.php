@@ -20,7 +20,7 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white font-sans">
+<body class="antialiased bg-[#1a1a1a] font-sans">
     {{ $slot }}
 
     {{-- Event Request Modal --}}
