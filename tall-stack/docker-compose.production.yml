@@ -67,6 +67,7 @@ services:
     volumes:
       - storage-data:/var/www/storage
     networks:
+      - traefik-net
       - internal
     depends_on:
       redis:
