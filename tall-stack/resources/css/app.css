@@ -5,6 +5,11 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* Prevent overscroll rubber-band revealing fixed hero behind footer */
+html, body {
+    overscroll-behavior: none;
+}
+
 @theme {
     --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
