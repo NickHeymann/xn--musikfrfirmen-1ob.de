@@ -22,8 +22,9 @@ jobs:
       image-name: nickheymann/xn--musikfrfirmen-1ob.de-tall
       deploy-path: /opt/apps/xn--musikfrfirmen-1ob.de-tall
       docker-context: ./tall-stack
+      pre-deploy-commands: |
+        docker compose run --rm app php artisan migrate --force
       post-deploy-commands: |
-        docker compose exec -T app php artisan migrate --force
         docker compose exec -T app php artisan config:cache
         docker compose exec -T app php artisan route:cache
         docker compose exec -T app php artisan view:cache
