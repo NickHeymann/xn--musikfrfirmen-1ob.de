@@ -46,7 +46,7 @@
                 {{-- Stat 1 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
                     <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#C8E6DC] text-right">10+</span>
+                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">10+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Jahre in der Musikbranche</span>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 {{-- Stat 2 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
                     <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#C8E6DC] text-right">100%</span>
+                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">100%</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Hauseigene Stammbands</span>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 {{-- Stat 3 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
                     <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#C8E6DC] text-right">100k€+</span>
+                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">100k€+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Professionelles Equipment</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 {{-- Stat 4 --}}
                 <div class="py-5">
                     <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#C8E6DC] text-right">1</span>
+                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">1</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Ansprechpartner für alles</span>
                     </div>
                 </div>
