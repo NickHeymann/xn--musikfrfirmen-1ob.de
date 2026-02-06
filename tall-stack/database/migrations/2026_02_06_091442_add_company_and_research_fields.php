@@ -12,9 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Add company as nullable first, then fill existing rows, then make NOT NULL
         Schema::table('calendar_bookings', function (Blueprint $table) {
-            $table->string('company')->after('name');
+            $table->string('company')->nullable()->after('name');
             $table->json('company_research')->nullable()->after('company');
+        });
+
+        DB::table('calendar_bookings')
+            ->whereNull('company')
+            ->update(['company' => '']);
+
+        Schema::table('calendar_bookings', function (Blueprint $table) {
+            $table->string('company')->nullable(false)->change();
         });
 
         // Fill existing null company values before making non-nullable
