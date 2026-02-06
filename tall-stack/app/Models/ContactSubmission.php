@@ -17,5 +17,13 @@ class ContactSubmission extends Model
         'inquiry_type',
         'message',
         'status',
+        'company_research',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'company_research' => 'array',
+        ];
+    }
 }

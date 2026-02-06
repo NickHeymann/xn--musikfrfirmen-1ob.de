@@ -45,6 +45,7 @@ class ContactFormTest extends TestCase
             ->assertHasErrors([
                 'name',
                 'email',
+                'company',
                 'message',
             ]);
 
@@ -58,6 +59,7 @@ class ContactFormTest extends TestCase
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
             ->set('email', 'invalid-email')
+            ->set('company', 'Test Corp')
             ->set('inquiry_type', 'general')
             ->set('message', 'Test message')
             ->call('submit')
@@ -72,6 +74,7 @@ class ContactFormTest extends TestCase
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
             ->set('email', 'john@test.com')
+            ->set('company', 'Test Corp')
             ->set('inquiry_type', 'invalid_type')
             ->set('message', 'Test message')
             ->call('submit')
@@ -91,6 +94,7 @@ class ContactFormTest extends TestCase
             Livewire::test(ContactForm::class)
                 ->set('name', 'John Doe')
                 ->set('email', 'john@test.com')
+                ->set('company', 'Test Corp')
                 ->set('inquiry_type', $type)
                 ->set('message', 'Test message')
                 ->call('submit')
@@ -103,20 +107,34 @@ class ContactFormTest extends TestCase
     }
 
     #[Test]
-    public function it_allows_optional_phone_and_company_fields(): void
+    public function it_allows_optional_phone_field(): void
     {
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
             ->set('email', 'john@test.com')
+            ->set('company', 'Test Corp')
             ->set('inquiry_type', 'general')
             ->set('message', 'Test message')
             ->call('submit')
             ->assertHasNoErrors();
 
         $submission = ContactSubmission::first();
-        // Livewire sets empty fields to empty strings, not null
         $this->assertTrue(empty($submission->phone));
-        $this->assertTrue(empty($submission->company));
+    }
+
+    #[Test]
+    public function it_requires_company_field(): void
+    {
+        Livewire::test(ContactForm::class)
+            ->set('name', 'John Doe')
+            ->set('email', 'john@test.com')
+            ->set('company', '')
+            ->set('inquiry_type', 'general')
+            ->set('message', 'Test message')
+            ->call('submit')
+            ->assertHasErrors(['company']);
+
+        $this->assertDatabaseCount('contact_submissions', 0);
     }
 
     #[Test]
@@ -144,6 +162,7 @@ class ContactFormTest extends TestCase
         Livewire::test(ContactForm::class)
             ->set('name', 'John Doe')
             ->set('email', 'john@test.com')
+            ->set('company', 'Test Corp')
             ->set('inquiry_type', 'general')
             ->set('message', 'Test message')
             ->call('submit');

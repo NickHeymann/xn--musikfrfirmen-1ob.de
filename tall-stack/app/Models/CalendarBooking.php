@@ -10,10 +10,12 @@ class CalendarBooking extends Model
         'selected_date',
         'selected_time',
         'name',
+        'company',
         'email',
         'phone',
         'message',
         'status',
+        'company_research',
     ];
 
     protected function casts(): array
@@ -21,6 +23,7 @@ class CalendarBooking extends Model
         return [
             'selected_date' => 'date',
             'selected_time' => 'datetime',
+            'company_research' => 'array',
         ];
     }
 }

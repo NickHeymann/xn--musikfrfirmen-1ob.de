@@ -92,7 +92,7 @@
                         </div>
 
                         <div>
-                            <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                            <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Firma *</label>
                             <input
                                 type="text"
                                 id="company"

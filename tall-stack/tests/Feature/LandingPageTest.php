@@ -99,6 +99,7 @@ test('complete booking flow from landing page', function () {
 
     // User fills out contact form
     $component->set('name', 'Max Mustermann')
+        ->set('company', 'Mustermann GmbH')
         ->set('email', 'max@example.com')
         ->set('phone', '+49 123 456789')
         ->set('message', 'Wir planen ein Firmenevent im Juni');
@@ -134,10 +135,11 @@ test('user cannot submit booking without required fields', function () {
         ->call('selectDate', $date)
         ->call('selectTime', $time)
         ->set('name', '')
+        ->set('company', '')
         ->set('email', '')
         ->set('phone', '')
         ->call('submitBooking')
-        ->assertHasErrors(['name', 'email', 'phone']);
+        ->assertHasErrors(['name', 'company', 'email', 'phone']);
 
     // No booking should be created
     expect(CalendarBooking::count())->toBe(0);
@@ -246,6 +248,7 @@ test('success message is shown after booking', function () {
         ->call('selectDate', $date)
         ->call('selectTime', '10:00')
         ->set('name', 'Test User')
+        ->set('company', 'Test GmbH')
         ->set('email', 'test@example.com')
         ->set('phone', '+49 123 456789')
         ->call('submitBooking')
@@ -263,6 +266,7 @@ test('modal can be closed after successful booking', function () {
         ->call('selectDate', $date)
         ->call('selectTime', '10:00')
         ->set('name', 'Test User')
+        ->set('company', 'Test GmbH')
         ->set('email', 'test@example.com')
         ->set('phone', '+49 123 456789')
         ->call('submitBooking')
@@ -286,6 +290,7 @@ test('email validation works correctly', function () {
         ->call('selectDate', $date)
         ->call('selectTime', '10:00')
         ->set('name', 'Test User')
+        ->set('company', 'Test GmbH')
         ->set('email', 'invalid-email') // Invalid email
         ->set('phone', '+49 123 456789')
         ->call('submitBooking')
@@ -303,6 +308,7 @@ test('message field is optional', function () {
         ->call('selectDate', $date)
         ->call('selectTime', '10:00')
         ->set('name', 'Test User')
+        ->set('company', 'Test GmbH')
         ->set('email', 'test@example.com')
         ->set('phone', '+49 123 456789')
         ->set('message', '') // Empty message
@@ -320,6 +326,7 @@ test('booking stores correct status as pending', function () {
         ->call('selectDate', $date)
         ->call('selectTime', '10:00')
         ->set('name', 'Test User')
+        ->set('company', 'Test GmbH')
         ->set('email', 'test@example.com')
         ->set('phone', '+49 123 456789')
         ->call('submitBooking');
