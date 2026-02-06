@@ -48,7 +48,7 @@
                 @endif
 
                 {{-- Testimonials Container --}}
-                <div class="relative w-full overflow-hidden"
+                <div class="relative w-full overflow-hidden min-h-[120px] sm:min-h-[140px]"
                      @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                      @touchend.passive="
                         touchEndX = $event.changedTouches[0].screenX;

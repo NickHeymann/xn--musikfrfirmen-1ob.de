@@ -2,7 +2,7 @@
 <section
     class="team-section py-12 md:py-20 bg-white" data-section-theme="light" data-section-bg="#ffffff"
     style="font-family: 'Poppins', sans-serif"
-    x-data="{ modalOpen: false, currentMember: null, visible: false }"
+    x-data="{ modalOpen: false, currentMember: null, visible: false, hoveredMember: null }"
 >
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
@@ -19,10 +19,14 @@
         {{-- Cutout Animation Layout - Always side-by-side --}}
         <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
              x-intersect.once="visible = true">
+            {{-- Desktop hover dim overlay --}}
+            <div class="hidden lg:block fixed inset-0 bg-black/20 transition-opacity duration-300 pointer-events-none z-[-1]"
+                 :class="hoveredMember ? 'opacity-100' : 'opacity-0'"></div>
             {{-- Jonas --}}
-            <div class="cutout-person flex flex-col items-center transition-all duration-700"
+            <div class="cutout-person relative flex flex-col items-center transition-all duration-700"
                  :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                 style="transition-delay: 100ms">
+                 style="transition-delay: 100ms"
+                 @mouseenter.self="hoveredMember = 'jonas'" @mouseleave.self="hoveredMember = null">
                 <div class="cutout-container" @click="modalOpen = true; currentMember = 'jonas'">
                     <div class="cutout-inner">
                         <div class="cutout-circle"></div>
@@ -41,11 +45,22 @@
                      style="transition-delay: 500ms">
                     <p class="text-sm italic text-[#1a1a1a]/70 leading-relaxed">"Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne."</p>
                 </div>
+                {{-- Desktop Hover Bio --}}
+                <div class="hidden lg:block absolute left-full top-0 ml-8 w-[320px] transition-all duration-300 pointer-events-none"
+                     :class="hoveredMember === 'jonas' ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'"
+                     x-show="hoveredMember === 'jonas'">
+                    <div class="bg-white rounded-2xl shadow-xl p-6">
+                        <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Jonas Glamann</h3>
+                        <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Musikalischer Leiter</p>
+                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
+                    </div>
+                </div>
             </div>
             {{-- Nick --}}
-            <div class="cutout-person flex flex-col items-center transition-all duration-700"
+            <div class="cutout-person relative flex flex-col items-center transition-all duration-700"
                  :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-                 style="transition-delay: 200ms">
+                 style="transition-delay: 200ms"
+                 @mouseenter.self="hoveredMember = 'nick'" @mouseleave.self="hoveredMember = null">
                 <div class="cutout-container" @click="modalOpen = true; currentMember = 'nick'">
                     <div class="cutout-inner">
                         <div class="cutout-circle"></div>
@@ -63,6 +78,16 @@
                      :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
                      style="transition-delay: 600ms">
                     <p class="text-sm italic text-[#1a1a1a]/70 leading-relaxed">"Mit technischem Know-how und Leidenschaft sorge ich dafür, dass die Technik bei jedem Event perfekt läuft."</p>
+                </div>
+                {{-- Desktop Hover Bio --}}
+                <div class="hidden lg:block absolute right-full top-0 mr-8 w-[320px] transition-all duration-300 pointer-events-none"
+                     :class="hoveredMember === 'nick' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'"
+                     x-show="hoveredMember === 'nick'">
+                    <div class="bg-white rounded-2xl shadow-xl p-6">
+                        <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Nick Heymann</h3>
+                        <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Technischer Leiter</p>
+                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Mit technischem Know-how und Leidenschaft für Veranstaltungen kümmere ich mich darum, dass bei jedem Event die Technik perfekt läuft und unsere Künstler optimal präsentiert werden.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -175,11 +200,11 @@
 .cutout-name { color: #404245; font-size: 28px; font-weight: 600; margin-bottom: 10px; text-align: center; }
 .cutout-role { color: #333; font-size: 14px; text-align: center; font-weight: 300; line-height: 1.5; }
 @media (max-width: 767px) {
-    .cutout-container { width: 200px; height: 200px; transform: scale(0.85); margin-bottom: -20px; }
-    .cutout-container:hover { transform: scale(0.90); }
-    .cutout-inner { top: -150px; transform: scale(0.5); transform-origin: top center; }
-    .cutout-name { font-size: 18px; }
-    .cutout-role { font-size: 12px; }
-    .cutout-divider { width: 100px; }
+    .cutout-container { width: 300px; height: 300px; transform: scale(0.6); margin-bottom: -40px; }
+    .cutout-container:hover { transform: scale(0.65); }
+    .cutout-inner { top: -150px; transform: scale(0.75); transform-origin: top center; }
+    .cutout-name { font-size: 20px; }
+    .cutout-role { font-size: 13px; }
+    .cutout-divider { width: 120px; }
 }
 </style>

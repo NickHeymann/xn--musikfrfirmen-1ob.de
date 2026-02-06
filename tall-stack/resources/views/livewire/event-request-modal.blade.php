@@ -223,7 +223,7 @@
             </div>
 
             {{-- Content --}}
-            <div class="w-full p-6 sm:p-8 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col">
+            <div class="w-full p-6 sm:p-8 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col justify-center">
                 <div class="bg-[#1a1a1a] rounded-xl relative max-w-4xl mx-auto flex-1 flex flex-col">
                     {{-- Back Arrow --}}
                     @if ($step > 1 && $submitStatus !== 'success')
@@ -240,7 +240,7 @@
 
                     {{-- Header --}}
                     @if ($submitStatus !== 'success')
-                        <div class="text-center mb-6">
+                        <div class="text-center mb-8">
                             <div class="text-2xl md:text-3xl font-normal m-0 mb-4 text-white">
                                 <span class="block whitespace-nowrap">Deine Wünsche</span>
                                 <span class="block whitespace-nowrap text-xl md:text-2xl">für ein unvergessliches Event</span>
@@ -254,7 +254,7 @@
                     {{-- Step 1: Event Details --}}
                     @if ($step === 1)
                         <div class="mb-8">
-                            <div class="flex items-center gap-4 text-lg font-normal mb-6">
+                            <div class="flex items-center gap-4 text-lg font-normal mb-8">
                                 <span class="inline-flex items-center justify-center w-9 h-9 bg-[#C8E6DC] text-black rounded-full text-base font-semibold">1</span>
                                 <span class="text-[#C8E6DC]">Event-Details</span>
                             </div>

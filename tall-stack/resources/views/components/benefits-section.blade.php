@@ -10,12 +10,12 @@
         </h2>
 
         {{-- Collapsible Benefits --}}
-        <div class="max-w-4xl mb-10 md:mb-16 space-y-2">
+        <div class="max-w-4xl mb-10 md:mb-16 space-y-0">
             {{-- Item 1: Einen Ansprechpartner --}}
-            <div class="rounded-2xl transition-all duration-300"
+            <div class="transition-colors duration-300"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
-                     openIndex === 0 ? 'bg-[#C8E6DC]' : 'bg-transparent border-b border-[#1a1a1a]/10'
+                     openIndex === 0 ? 'bg-[#C8E6DC] rounded-t-2xl' : 'bg-white rounded-t-2xl border-b border-[#1a1a1a]/10'
                  ]"
                  style="transition-delay: 100ms">
                 <button @click="openIndex = openIndex === 0 ? null : 0"
@@ -39,10 +39,10 @@
             </div>
 
             {{-- Item 2: Kein Ausfallrisiko --}}
-            <div class="rounded-2xl transition-all duration-300"
+            <div class="transition-colors duration-300"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
-                     openIndex === 1 ? 'bg-[#C8E6DC]' : 'bg-transparent border-b border-[#1a1a1a]/10'
+                     openIndex === 1 ? 'bg-[#C8E6DC]' : 'bg-white border-b border-[#1a1a1a]/10'
                  ]"
                  style="transition-delay: 200ms">
                 <button @click="openIndex = openIndex === 1 ? null : 1"
@@ -66,10 +66,10 @@
             </div>
 
             {{-- Item 3: 100% Qualität --}}
-            <div class="rounded-2xl transition-all duration-300"
+            <div class="transition-colors duration-300"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
-                     openIndex === 2 ? 'bg-[#C8E6DC]' : 'bg-transparent border-b border-[#1a1a1a]/10'
+                     openIndex === 2 ? 'bg-[#C8E6DC] rounded-b-2xl' : 'bg-white rounded-b-2xl'
                  ]"
                  style="transition-delay: 300ms">
                 <button @click="openIndex = openIndex === 2 ? null : 2"

@@ -91,7 +91,7 @@
         {{-- Modal Content - Cal.com Style Dark Theme --}}
         <div
             @click.stop
-            class="bg-[#1a1a1a] rounded-xl sm:rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl h-[95vh] sm:h-auto sm:max-h-[90vh] md:h-[650px] flex flex-col"
+            class="relative bg-[#1a1a1a] rounded-xl sm:rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl h-[95vh] sm:h-auto sm:max-h-[90vh] md:h-[650px] flex flex-col"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -363,11 +363,11 @@
                                         background: rgba(255, 255, 255, 0.3);
                                     }
                                 </style>
-                                <div class="space-y-2 sm:space-y-3 time-slots-container overflow-y-auto pr-1 sm:pr-2" style="flex: 1; min-height: 0;">
+                                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-col sm:space-y-3 time-slots-container overflow-y-auto pr-1 sm:pr-2" style="flex: 1; min-height: 0;">
                                     @foreach($availableSlots as $index => $slot)
                                         <button
                                             wire:click="selectTime('{{ $slot }}')"
-                                            class="w-full px-3 py-3 sm:px-4 sm:py-3.5 rounded-md text-left transition-all duration-150 flex items-center justify-between group touch-manipulation min-h-[48px]"
+                                            class="w-full px-3 py-2 sm:px-4 sm:py-3.5 rounded-md text-left transition-all duration-150 flex items-center justify-between group touch-manipulation min-h-[48px]"
                                             :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10'"
                                         >
                                             <span class="text-sm sm:text-base font-medium">{{ $slot }}</span>
