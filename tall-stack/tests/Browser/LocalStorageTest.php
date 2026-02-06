@@ -75,6 +75,7 @@ describe('BookingCalendarModal localStorage', function () {
 
         // Fill in contact form
         $page->type('#name', 'Test User')
+            ->type('#company', 'Test GmbH')
             ->type('#email', 'test@example.com')
             ->type('#phone', '+49 123 456789');
 
@@ -107,6 +108,7 @@ describe('BookingCalendarModal localStorage', function () {
         $page->script("
             localStorage.setItem('mff-booking-data', JSON.stringify({
                 name: 'Restored User',
+                company: 'Restored GmbH',
                 email: 'restored@example.com',
                 phone: '+49 987 654321',
                 message: 'Test message'
@@ -154,6 +156,7 @@ describe('BookingCalendarModal localStorage', function () {
         $page->script("
             localStorage.setItem('mff-booking-data', JSON.stringify({
                 name: 'Test User',
+                company: 'Test GmbH',
                 email: 'test@example.com',
                 phone: '+49 123 456789'
             }));
@@ -190,6 +193,7 @@ describe('BookingCalendarModal localStorage', function () {
 
         // Fill required fields and submit
         $page->type('#name', 'Test User')
+            ->type('#company', 'Test GmbH')
             ->type('#email', 'test@example.com')
             ->type('#phone', '+49 123 456789')
             ->click('Termin anfragen')

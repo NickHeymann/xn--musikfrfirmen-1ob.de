@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\ContactSubmission;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,40 +15,34 @@ class ContactFormSubmitted extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
+     * @param  array<string, mixed>|null  $companyResearch
      */
     public function __construct(
-        public ContactSubmission $submission
-    ) {
-        //
-    }
+        public ContactSubmission $submission,
+        public ?array $companyResearch = null,
+    ) {}
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
+            replyTo: [
+                new Address($this->submission->email, $this->submission->name),
+            ],
             subject: 'Neue Kontaktanfrage von musikfürfirmen.de',
-            replyTo: [$this->submission->email],
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.contact-form-submitted',
+            view: 'emails.contact-form-submitted',
+            with: [
+                'submission' => $this->submission,
+                'companyResearch' => $this->companyResearch,
+            ],
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];

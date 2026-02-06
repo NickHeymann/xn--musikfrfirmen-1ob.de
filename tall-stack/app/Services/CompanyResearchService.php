@@ -1,0 +1,170 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+class CompanyResearchService
+{
+    /**
+     * @return array{
+     *     industry: ?string,
+     *     employee_count: ?string,
+     *     website: ?string,
+     *     location: ?string,
+     *     description: ?string,
+     *     recent_news: array<int, array{title: string, url: string}>,
+     *     past_events: array<int, array{title: string, url: string}>,
+     *     sources: string[]
+     * }|null
+     */
+    public function research(string $companyName): ?array
+    {
+        if (empty(trim($companyName))) {
+            return null;
+        }
+
+        $tavilyKey = config('services.tavily.api_key');
+        $anthropicKey = config('services.anthropic.api_key');
+
+        if (empty($tavilyKey) || empty($anthropicKey)) {
+            Log::info('Company research skipped: missing API keys');
+
+            return null;
+        }
+
+        try {
+            $timeout = (int) config('services.tavily.timeout', 8);
+
+            $generalResults = $this->tavilySearch(
+                "{$companyName} Unternehmen Branche Mitarbeiter",
+                $tavilyKey,
+                $timeout
+            );
+
+            $eventResults = $this->tavilySearch(
+                "{$companyName} Firmenevent Sommerfest Weihnachtsfeier",
+                $tavilyKey,
+                $timeout
+            );
+
+            if (empty($generalResults) && empty($eventResults)) {
+                return null;
+            }
+
+            return $this->summarizeWithClaude(
+                $companyName,
+                $generalResults,
+                $eventResults,
+                $anthropicKey
+            );
+        } catch (\Exception $e) {
+            Log::warning('Company research failed', [
+                'company' => $companyName,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
+     * @return array<int, array{title: string, url: string, content: string}>
+     */
+    private function tavilySearch(string $query, string $apiKey, int $timeout): array
+    {
+        $response = Http::timeout($timeout)
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->post('https://api.tavily.com/search', [
+                'api_key' => $apiKey,
+                'query' => $query,
+                'search_depth' => 'basic',
+                'max_results' => 5,
+                'include_answer' => true,
+            ]);
+
+        if (! $response->successful()) {
+            Log::warning('Tavily search failed', [
+                'status' => $response->status(),
+                'query' => $query,
+            ]);
+
+            return [];
+        }
+
+        $data = $response->json();
+        $results = [];
+
+        foreach ($data['results'] ?? [] as $result) {
+            $results[] = [
+                'title' => $result['title'] ?? '',
+                'url' => $result['url'] ?? '',
+                'content' => $result['content'] ?? '',
+            ];
+        }
+
+        return $results;
+    }
+
+    /**
+     * @param  array<int, array{title: string, url: string, content: string}>  $generalResults
+     * @param  array<int, array{title: string, url: string, content: string}>  $eventResults
+     */
+    private function summarizeWithClaude(
+        string $companyName,
+        array $generalResults,
+        array $eventResults,
+        string $apiKey
+    ): ?array {
+        $snippets = "## Allgemeine Suchergebnisse\n";
+        foreach ($generalResults as $r) {
+            $snippets .= "- [{$r['title']}]({$r['url']}): {$r['content']}\n";
+        }
+        $snippets .= "\n## Event-Suchergebnisse\n";
+        foreach ($eventResults as $r) {
+            $snippets .= "- [{$r['title']}]({$r['url']}): {$r['content']}\n";
+        }
+
+        $response = Http::timeout(10)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'x-api-key' => $apiKey,
+                'anthropic-version' => '2023-06-01',
+            ])
+            ->post('https://api.anthropic.com/v1/messages', [
+                'model' => 'claude-haiku-4-5-20251001',
+                'max_tokens' => 1024,
+                'system' => 'Du bist ein Firmen-Recherche-Assistent. Extrahiere NUR verifizierte Fakten aus den Suchergebnissen. Wenn du dir bei einer Information unsicher bist, gib null für das Feld zurück. Antworte ausschließlich mit validem JSON.',
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => "Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein strukturiertes Firmenprofil.\n\n{$snippets}\n\nAntworte als JSON mit diesem Schema:\n{\"industry\": \"Branche oder null\", \"employee_count\": \"Anzahl oder null\", \"website\": \"URL oder null\", \"location\": \"Standort oder null\", \"description\": \"Kurze Beschreibung (1-2 Sätze) oder null\", \"recent_news\": [{\"title\": \"...\", \"url\": \"...\"}], \"past_events\": [{\"title\": \"...\", \"url\": \"...\"}], \"sources\": [\"url1\", \"url2\"]}",
+                    ],
+                ],
+            ]);
+
+        if (! $response->successful()) {
+            Log::warning('Claude API call failed', [
+                'status' => $response->status(),
+            ]);
+
+            return null;
+        }
+
+        $content = $response->json('content.0.text', '');
+
+        // Extract JSON from response (Claude may wrap it in markdown code blocks)
+        if (preg_match('/\{[\s\S]*\}/', $content, $matches)) {
+            $parsed = json_decode($matches[0], true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($parsed)) {
+                return $parsed;
+            }
+        }
+
+        Log::warning('Failed to parse Claude response', ['content' => $content]);
+
+        return null;
+    }
+}

@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,40 +14,34 @@ class BookingRequestSubmitted extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
+     * @param  array<string, mixed>|null  $companyResearch
      */
     public function __construct(
-        public array $bookingData
-    ) {
-        //
-    }
+        public array $bookingData,
+        public ?array $companyResearch = null,
+    ) {}
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
+            replyTo: [
+                new Address($this->bookingData['email'], $this->bookingData['name']),
+            ],
             subject: 'Neue Erstgesprächs-Anfrage von musikfürfirmen.de',
-            replyTo: [$this->bookingData['email']],
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.booking-request-submitted',
+            view: 'emails.booking-request-submitted',
+            with: [
+                'bookingData' => $this->bookingData,
+                'companyResearch' => $this->companyResearch,
+            ],
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];

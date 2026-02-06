@@ -103,10 +103,11 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', '')
+            ->set('company', '')
             ->set('email', '')
             ->set('phone', '')
             ->call('submitBooking')
-            ->assertHasErrors(['name', 'email', 'phone']);
+            ->assertHasErrors(['name', 'company', 'email', 'phone']);
     }
 
     public function test_validates_email_format(): void
@@ -119,6 +120,7 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', 'John Doe')
+            ->set('company', 'Doe Corp')
             ->set('email', 'invalid-email')
             ->set('phone', '+49 123 456789')
             ->call('submitBooking')
@@ -137,6 +139,7 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', 'John Doe')
+            ->set('company', 'Doe Corp')
             ->set('email', 'john@example.com')
             ->set('phone', '+49 123 456789')
             ->set('message', 'Looking forward to discussing our event')
@@ -199,6 +202,7 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', 'John Doe')
+            ->set('company', 'Doe Corp')
             ->set('email', 'john@example.com')
             ->set('phone', '+49 123 456789')
             ->call('submitBooking')
@@ -215,6 +219,7 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', 'John Doe')
+            ->set('company', 'Doe Corp')
             ->set('email', 'john@example.com')
             ->set('phone', '+49 123 456789')
             ->set('message', '') // Empty message
@@ -266,6 +271,7 @@ class BookingCalendarModalTest extends TestCase
             ->call('selectDate', $date)
             ->call('selectTime', $time)
             ->set('name', 'John Doe')
+            ->set('company', 'Doe Corp')
             ->set('email', 'john@example.com')
             ->set('phone', '+49 123 456789')
             ->call('submitBooking')

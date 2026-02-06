@@ -7,6 +7,7 @@
         saveToStorage() {
             const formData = {
                 name: $wire.name,
+                company: $wire.company,
                 email: $wire.email,
                 phone: $wire.phone,
                 message: $wire.message,
@@ -19,6 +20,7 @@
                 try {
                     const data = JSON.parse(stored);
                     if (data.name) $wire.set('name', data.name);
+                    if (data.company) $wire.set('company', data.company);
                     if (data.email) $wire.set('email', data.email);
                     if (data.phone) $wire.set('phone', data.phone);
                     if (data.message) $wire.set('message', data.message);
@@ -31,7 +33,7 @@
             localStorage.removeItem('mff-booking-data');
         },
         handleClose() {
-            const hasData = $wire.name || $wire.email || $wire.phone || $wire.message;
+            const hasData = $wire.name || $wire.company || $wire.email || $wire.phone || $wire.message;
             const isContactForm = $wire.step === 3;
             if (hasData && isContactForm) {
                 this.showCloseConfirm = true;
@@ -212,6 +214,22 @@
                                             placeholder="Max Mustermann"
                                         >
                                         @error('name')
+                                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="company" class="block text-sm font-medium text-gray-300 mb-2">
+                                            Firma *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="company"
+                                            wire:model="company"
+                                            class="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            placeholder="Firmenname GmbH"
+                                        >
+                                        @error('company')
                                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>

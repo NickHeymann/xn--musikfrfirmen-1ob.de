@@ -27,9 +27,11 @@ class EventRequestNotification extends Mailable
      *     package: string,
      *     message: string,
      * } $eventData
+     * @param  array<string, mixed>|null  $companyResearch
      */
     public function __construct(
-        public array $eventData
+        public array $eventData,
+        public ?array $companyResearch = null,
     ) {}
 
     public function envelope(): Envelope
@@ -51,6 +53,7 @@ class EventRequestNotification extends Mailable
             view: 'emails.event-request-notification',
             with: [
                 'data' => $this->eventData,
+                'companyResearch' => $this->companyResearch,
                 'packageLabels' => [
                     'dj' => 'Nur DJ',
                     'band' => 'Full Band',

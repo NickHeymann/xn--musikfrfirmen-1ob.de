@@ -51,4 +51,13 @@ return [
         'recipients' => env('EVENT_REQUEST_RECIPIENTS', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de'),
     ],
 
+    'tavily' => [
+        'api_key' => env('TAVILY_API_KEY', ''),
+        'timeout' => env('TAVILY_TIMEOUT', 8),
+    ],
+
+    'anthropic' => [
+        'api_key' => env('ANTHROPIC_API_KEY', ''),
+    ],
+
 ];

@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\ContactFormSubmitted;
 use App\Models\ContactSubmission;
+use App\Services\CompanyResearchService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -26,13 +27,25 @@ class SendContactFormNotification implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(CompanyResearchService $researchService): void
     {
+        // 1. Company research (non-blocking, optional)
+        $companyResearch = null;
+        if (! empty($this->submission->company)) {
+            try {
+                $companyResearch = $researchService->research($this->submission->company);
+                $this->submission->update(['company_research' => $companyResearch]);
+            } catch (\Exception $e) {
+                Log::warning('Company research failed for contact form', ['error' => $e->getMessage()]);
+            }
+        }
+
+        // 2. Send email notification
         $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
         $recipientList = array_map('trim', explode(',', $recipients));
 
         try {
-            Mail::to($recipientList)->send(new ContactFormSubmitted($this->submission));
+            Mail::to($recipientList)->send(new ContactFormSubmitted($this->submission, $companyResearch));
             Log::info('Contact form email sent', [
                 'recipients' => $recipientList,
                 'email' => $this->submission->email,

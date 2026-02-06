@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\EventRequestNotification;
+use App\Services\CompanyResearchService;
 use App\Services\GoogleSheetsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,14 +27,25 @@ class SendEventRequestNotification implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(GoogleSheetsService $sheetsService): void
+    public function handle(GoogleSheetsService $sheetsService, CompanyResearchService $researchService): void
     {
-        // 1. Send email notification
+        // 1. Company research (non-blocking, optional)
+        $companyResearch = null;
+        $companyName = $this->eventData['company'] ?? '';
+        if (! empty($companyName)) {
+            try {
+                $companyResearch = $researchService->research($companyName);
+            } catch (\Exception $e) {
+                Log::warning('Company research failed for event request', ['error' => $e->getMessage()]);
+            }
+        }
+
+        // 2. Send email notification
         $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
         $recipientList = array_map('trim', explode(',', $recipients));
 
         try {
-            Mail::to($recipientList)->send(new EventRequestNotification($this->eventData));
+            Mail::to($recipientList)->send(new EventRequestNotification($this->eventData, $companyResearch));
             Log::info('Event request email sent', [
                 'recipients' => $recipientList,
                 'city' => $this->eventData['city'],
@@ -42,7 +54,7 @@ class SendEventRequestNotification implements ShouldQueue
             Log::error('Failed to send event request email', ['error' => $e->getMessage()]);
         }
 
-        // 2. Add to Google Sheet
+        // 3. Add to Google Sheet
         try {
             $sheetsService->createEventRequest($this->eventData);
         } catch (\Exception $e) {

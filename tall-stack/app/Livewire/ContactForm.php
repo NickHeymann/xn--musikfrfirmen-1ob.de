@@ -18,7 +18,7 @@ class ContactForm extends Component
     #[Validate('nullable|string')]
     public $phone = '';
 
-    #[Validate('nullable|string|max:255')]
+    #[Validate('required|string|min:2|max:255')]
     public $company = '';
 
     #[Validate('required|in:general,booking,partnership,other')]

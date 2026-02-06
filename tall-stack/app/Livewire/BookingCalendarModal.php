@@ -34,6 +34,9 @@ class BookingCalendarModal extends Component
     #[Validate('required|string')]
     public $phone = '';
 
+    #[Validate('required|string|min:2')]
+    public $company = '';
+
     #[Validate('nullable|string|max:500')]
     public $message = '';
 
@@ -141,7 +144,7 @@ class BookingCalendarModal extends Component
             if ($this->step === 1) {
                 $this->selectedTime = null;
             } elseif ($this->step === 2) {
-                $this->reset(['name', 'email', 'phone', 'message']);
+                $this->reset(['name', 'company', 'email', 'phone', 'message']);
             }
         }
     }
@@ -155,6 +158,7 @@ class BookingCalendarModal extends Component
             'selectedDate' => $this->selectedDate,
             'selectedTime' => $this->selectedTime,
             'name' => $this->name,
+            'company' => $this->company,
             'email' => $this->email,
             'phone' => $this->phone,
             'message' => $this->message,
@@ -165,6 +169,7 @@ class BookingCalendarModal extends Component
             'selected_date' => $this->selectedDate,
             'selected_time' => $this->selectedTime,
             'name' => $this->name,
+            'company' => $this->company,
             'email' => $this->email,
             'phone' => $this->phone,
             'message' => $this->message,

@@ -1,37 +1,107 @@
-<x-mail::message>
-# Neue Erstgesprächs-Anfrage
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neues Erstgespräch</title>
+</head>
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+        {{-- Header --}}
+        <tr>
+            <td style="background: #B2EAD8; padding: 14px 20px; border-radius: 8px 8px 0 0;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="font-size: 16px; font-weight: 700; color: #1a1a1a;">
+                            NEUES ERSTGESPRÄCH
+                        </td>
+                        <td align="right" style="font-size: 13px; color: #292929;">
+                            {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->locale('de')->isoFormat('dd, D.MM.YYYY') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-Sie haben eine neue Erstgesprächs-Anfrage über den Kalender auf musikfürfirmen.de erhalten.
+        {{-- Two-Column: Contact + Appointment --}}
+        <tr>
+            <td style="background: #ffffff; padding: 14px 20px 10px;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        {{-- Left: Contact --}}
+                        <td width="50%" valign="top" style="padding-right: 12px;">
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 6px;">KONTAKT</div>
+                            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a; padding-bottom: 2px;">{{ $bookingData['name'] }}</div>
+                            @if(! empty($bookingData['company']))
+                            <div style="font-size: 13px; color: #555; padding-bottom: 2px;">{{ $bookingData['company'] }}</div>
+                            @endif
+                            <div style="padding-bottom: 2px;">
+                                <a href="mailto:{{ $bookingData['email'] }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $bookingData['email'] }} &#x2197;</a>
+                            </div>
+                            <div>
+                                <a href="tel:{{ $bookingData['phone'] }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $bookingData['phone'] }} &#x2197;</a>
+                            </div>
+                        </td>
 
-## Termin-Details
+                        {{-- Right: Appointment --}}
+                        <td width="50%" valign="top" style="padding-left: 12px; border-left: 1px solid #eee;">
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 6px;">TERMIN</div>
+                            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a; padding-bottom: 2px;">
+                                {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}, {{ $bookingData['selectedTime'] }} Uhr
+                            </div>
+                            <div style="font-size: 13px; color: #555;">Dauer: 30 Min</div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-**Datum:** {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->locale('de')->isoFormat('dddd, D. MMMM YYYY') }}
-**Uhrzeit:** {{ $bookingData['selectedTime'] }} Uhr
-**Dauer:** 30 Minuten
+        {{-- Message --}}
+        @if(! empty($bookingData['message']))
+        <tr>
+            <td style="background: #ffffff; padding: 6px 20px 10px;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="background: #f8f8f8; padding: 10px 14px; border-radius: 6px; font-size: 13px; color: #333; line-height: 1.5;">
+                            &#x1F4AC; "{{ $bookingData['message'] }}"
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        @endif
 
-## Kontaktdaten
+        {{-- Company Research --}}
+        <tr>
+            <td style="background: #ffffff; padding: 4px 20px;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    @include('emails.partials.company-research', ['companyResearch' => $companyResearch, 'companyName' => $bookingData['company'] ?? ''])
+                </table>
+            </td>
+        </tr>
 
-**Name:** {{ $bookingData['name'] }}
-**E-Mail:** {{ $bookingData['email'] }}
-**Telefon:** {{ $bookingData['phone'] }}
+        {{-- Action Buttons --}}
+        <tr>
+            <td style="background: #ffffff; padding: 12px 20px 16px;">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="padding-right: 8px;">
+                            <a href="mailto:{{ $bookingData['email'] }}?subject=Re: Ihr Erstgespräch am {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}" style="display: inline-block; background: #B2EAD8; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
+                        </td>
+                        <td>
+                            <a href="tel:{{ $bookingData['phone'] }}" style="display: inline-block; background: #1a1a1a; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x1F4DE; Anrufen</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-@if(!empty($bookingData['message']))
-## Nachricht
-
-{{ $bookingData['message'] }}
-@endif
-
----
-
-<x-mail::button :url="'mailto:' . $bookingData['email']">
-Auf E-Mail antworten
-</x-mail::button>
-
-**Nächste Schritte:**
-1. Termin im Kalender eintragen
-2. Bestätigungs-E-Mail an {{ $bookingData['email'] }} senden
-3. Gesprächsnotizen vorbereiten
-
-Viele Grüße,<br>
-{{ config('app.name') }}
-</x-mail::message>
+        {{-- Footer --}}
+        <tr>
+            <td style="background: #f8f8f8; padding: 10px 20px; border-radius: 0 0 8px 8px; text-align: center;">
+                <span style="font-size: 11px; color: #999;">musikfürfirmen.de &middot; automatisch generiert</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
