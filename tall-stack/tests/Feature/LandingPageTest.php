@@ -146,16 +146,18 @@ test('user cannot submit booking without required fields', function () {
     Mail::assertNothingSent();
 });
 
-test('user gets warning when closing modal with unsaved data', function () {
+test('modal preserves form data when closing for localStorage persistence', function () {
     $component = Livewire::test(BookingCalendarModal::class)
         ->dispatch('openBookingModal')
         ->set('name', 'John Doe');
 
-    // Check that Alpine.js has data detection logic
-    $response = $component->call('close');
+    // Close the modal
+    $component->call('close');
 
-    // Modal should still have the data (since we can't test confirm() in unit tests)
-    expect($component->get('name'))->toBe('');
+    // Data is preserved on close (for localStorage feature)
+    // Alpine.js handles the actual localStorage sync and confirmation dialogs
+    expect($component->get('name'))->toBe('John Doe');
+    expect($component->get('isOpen'))->toBe(false);
 });
 
 test('calendar displays a month with available dates on open', function () {
@@ -266,9 +268,13 @@ test('modal can be closed after successful booking', function () {
         ->call('submitBooking')
         ->assertSet('showSuccess', true);
 
-    // Close modal
+    // Close modal - showSuccess is reset via async event (reset-success-after-close)
     $component->call('close')
         ->assertSet('isOpen', false)
+        ->assertDispatched('reset-success-after-close');
+
+    // Simulate the browser dispatching the reset event after animation
+    $component->dispatch('reset-success-state')
         ->assertSet('showSuccess', false);
 });
 

@@ -2,17 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Models\Event;
 use App\Models\Booking;
+use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EventBookingTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_calculates_correct_total_price_for_booking()
+    #[Test]
+    public function it_calculates_correct_total_price_for_booking(): void
     {
         $event = Event::factory()->create([
             'price_per_musician' => 150,
@@ -32,8 +33,8 @@ class EventBookingTest extends TestCase
         $this->assertEquals(450, $booking->total_price);
     }
 
-    /** @test */
-    public function it_creates_booking_with_correct_default_status()
+    #[Test]
+    public function it_creates_booking_with_correct_default_status(): void
     {
         $event = Event::factory()->create();
 
@@ -55,8 +56,8 @@ class EventBookingTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_associates_booking_with_event_correctly()
+    #[Test]
+    public function it_associates_booking_with_event_correctly(): void
     {
         $event = Event::factory()->create([
             'title' => 'Corporate Jazz Night',
@@ -77,8 +78,8 @@ class EventBookingTest extends TestCase
         $this->assertEquals('Corporate Jazz Night', $booking->event->title);
     }
 
-    /** @test */
-    public function it_updates_booking_status_correctly()
+    #[Test]
+    public function it_updates_booking_status_correctly(): void
     {
         $event = Event::factory()->create();
 
@@ -102,8 +103,8 @@ class EventBookingTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_retrieve_all_bookings_for_an_event()
+    #[Test]
+    public function it_can_retrieve_all_bookings_for_an_event(): void
     {
         $event = Event::factory()->create();
 
@@ -115,8 +116,8 @@ class EventBookingTest extends TestCase
         $this->assertCount(3, $event->bookings);
     }
 
-    /** @test */
-    public function it_stores_special_requests_correctly()
+    #[Test]
+    public function it_stores_special_requests_correctly(): void
     {
         $event = Event::factory()->create();
 

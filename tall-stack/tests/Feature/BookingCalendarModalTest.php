@@ -171,8 +171,10 @@ class BookingCalendarModalTest extends TestCase
         // This is intentional UX - user can see their selected time again
     }
 
-    public function test_modal_closes_and_resets_state(): void
+    public function test_modal_closes_and_preserves_form_data(): void
     {
+        // Data now persists on close for localStorage feature
+        // Only showSuccess is reset on close
         $date = now()->addWeekday()->format('Y-m-d');
 
         Livewire::test(BookingCalendarModal::class)
@@ -181,8 +183,26 @@ class BookingCalendarModalTest extends TestCase
             ->set('name', 'John Doe')
             ->call('close')
             ->assertSet('isOpen', false)
-            ->assertSet('selectedDate', null)
-            ->assertSet('name', '');
+            ->assertSet('showSuccess', false)
+            // Data is preserved for localStorage persistence
+            ->assertSet('selectedDate', $date)
+            ->assertSet('name', 'John Doe');
+    }
+
+    public function test_modal_dispatches_clear_storage_event_on_submit(): void
+    {
+        $date = now()->addWeekday()->format('Y-m-d');
+        $time = '10:00';
+
+        Livewire::test(BookingCalendarModal::class)
+            ->dispatch('openBookingModal')
+            ->call('selectDate', $date)
+            ->call('selectTime', $time)
+            ->set('name', 'John Doe')
+            ->set('email', 'john@example.com')
+            ->set('phone', '+49 123 456789')
+            ->call('submitBooking')
+            ->assertDispatched('clear-booking-storage');
     }
 
     public function test_message_field_is_optional(): void

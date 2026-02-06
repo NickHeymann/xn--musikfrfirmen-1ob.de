@@ -2,12 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Mail\BookingRequestSubmitted;
 use App\Models\CalendarBooking;
-use App\Services\GoogleSheetsService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -111,7 +107,16 @@ class BookingCalendarModal extends Component
     public function close()
     {
         $this->isOpen = false;
-        $this->reset(['step', 'selectedDate', 'selectedTime', 'name', 'email', 'phone', 'message', 'showSuccess']);
+
+        // Reset success state after close animation completes (300ms)
+        // This prevents the calendar from briefly appearing during close transition
+        $this->dispatch('reset-success-after-close');
+    }
+
+    #[On('reset-success-state')]
+    public function resetSuccessState()
+    {
+        $this->reset(['showSuccess']);
     }
 
     public function selectDate($date)
@@ -141,7 +146,7 @@ class BookingCalendarModal extends Component
         }
     }
 
-    public function submitBooking(GoogleSheetsService $sheetsService)
+    public function submitBooking()
     {
         $this->validate();
 
@@ -155,8 +160,8 @@ class BookingCalendarModal extends Component
             'message' => $this->message,
         ];
 
-        // 1. Save booking to database
-        $booking = CalendarBooking::create([
+        // 1. Save booking to database (ONLY blocking operation - fast!)
+        CalendarBooking::create([
             'selected_date' => $this->selectedDate,
             'selected_time' => $this->selectedTime,
             'name' => $this->name,
@@ -166,31 +171,14 @@ class BookingCalendarModal extends Component
             'status' => 'pending',
         ]);
 
-        // 2. Add to Google Sheet
-        $sheetsService->createBookingRequest($bookingData);
+        // 2. Dispatch job for email + Google Sheets (runs in background queue)
+        \App\Jobs\SendBookingNotification::dispatch($bookingData);
 
-        // 3. Send email notification to all recipients (Punycode for IDN domains)
-        $this->sendEmailNotification($bookingData);
-
-        // Show success state
+        // Show success state IMMEDIATELY (no waiting for email/sheets)
         $this->showSuccess = true;
-    }
 
-    private function sendEmailNotification(array $bookingData): void
-    {
-        $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
-        $recipientList = array_map('trim', explode(',', $recipients));
-
-        try {
-            Mail::to($recipientList)->send(new BookingRequestSubmitted($bookingData));
-            Log::info('Booking request email sent', [
-                'recipients' => $recipientList,
-                'date' => $bookingData['selectedDate'],
-                'time' => $bookingData['selectedTime']
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Failed to send booking request email', ['error' => $e->getMessage()]);
-        }
+        // Clear stored form data after successful submission
+        $this->dispatch('clear-booking-storage');
     }
 
     public function getCalendarDaysProperty()

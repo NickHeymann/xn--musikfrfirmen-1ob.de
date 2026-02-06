@@ -12,8 +12,26 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
+
+/*
+|--------------------------------------------------------------------------
+| Browser Tests
+|--------------------------------------------------------------------------
+|
+| Configure browser tests with Pest Browser Plugin. These tests use Playwright
+| to test real browser interactions including localStorage, JavaScript, etc.
+|
+*/
+
+pest()->extend(Tests\TestCase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->in('Browser');
+
+pest()->browser()
+    ->timeout(30000)
+    ->inChrome();
 
 /*
 |--------------------------------------------------------------------------

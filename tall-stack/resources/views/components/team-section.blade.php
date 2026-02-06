@@ -135,7 +135,7 @@
                                 Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.
                             </p>
                             <p class="leading-relaxed">
-                                Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt und dabei unzählige Events begleitet. Diese Erfahrung fließt direkt in unser Angebot ein – ich weiß genau, worauf es ankommt, damit die Musik perfekt zur Stimmung eures Events passt.
+                                Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt und dabei unzählige Events begleitet. Diese Erfahrung fließt direkt in unser Angebot ein - ich weiß genau, worauf es ankommt, damit die Musik perfekt zur Stimmung eures Events passt.
                             </p>
                             <p class="leading-relaxed">
                                 Als Teil der Band auf der Bühne zu stehen und gleichzeitig die technischen und organisatorischen Aspekte zu koordinieren, gibt mir einen einzigartigen Einblick in alle Facetten eines erfolgreichen Firmenevents.
@@ -174,7 +174,7 @@
                                 Meine Expertise liegt in der professionellen Event-Technik und der nahtlosen Integration von Sound- und Lichtsystemen. Durch unsere Partnerschaft mit einem führenden Technikpartner können wir Equipment im Wert von über 100.000 € einsetzen.
                             </p>
                             <p class="leading-relaxed">
-                                Ich bin bei jedem Event persönlich vor Ort, um sicherzustellen, dass alles reibungslos funktioniert – von der ersten Planung bis zum letzten Ton. So könnt ihr euch entspannt auf eure Gäste konzentrieren, während ich mich um die perfekte technische Umsetzung kümmere.
+                                Ich bin bei jedem Event persönlich vor Ort, um sicherzustellen, dass alles reibungslos funktioniert - von der ersten Planung bis zum letzten Ton. So könnt ihr euch entspannt auf eure Gäste konzentrieren, während ich mich um die perfekte technische Umsetzung kümmere.
                             </p>
                         </div>
 

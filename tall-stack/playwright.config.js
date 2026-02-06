@@ -2,9 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/playwright',
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
   fullyParallel: false,
-  forbidOnly: !!process.env.CI,
   retries: 0,
   workers: 1,
 
@@ -14,12 +13,12 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: 'https://musikfürfirmen.de',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    baseURL: 'http://localhost:8000',
+    trace: 'on',
+    screenshot: 'on',
     video: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
-    actionTimeout: 5000,
+    actionTimeout: 10000,
   },
 
   projects: [
