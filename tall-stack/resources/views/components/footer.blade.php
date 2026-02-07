@@ -1,5 +1,5 @@
 {{-- Footer Component - Compact Responsive --}}
-<footer id="kontakt" class="bg-[#1a1a1a] relative z-20 scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
+<footer id="kontakt" class="bg-[#1a1a1a] relative z-[28] -mt-6 scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6 py-10 md:py-16 flex-grow">
         <div class="flex flex-row justify-center gap-12 md:gap-32">
             {{-- Kontakt --}}
@@ -13,15 +13,11 @@
                             E-Mail
                         </a>
                     </p>
-                    <div class="flex items-center gap-3">
+                    <p>
                         <a href="tel:+491746935533" class="hover:text-[#C8E6DC] transition-colors">
                             +49 174 6935533
                         </a>
-                        <span class="text-gray-600">|</span>
-                        <a href="/datenschutz" class="hover:text-[#C8E6DC] transition-colors">
-                            Datenschutz
-                        </a>
-                    </div>
+                    </p>
                 </div>
             </div>
 
@@ -37,6 +33,11 @@
                     <p>
                         <a href="/impressum" class="text-gray-300 hover:text-[#C8E6DC] transition-colors font-light">
                             Impressum
+                        </a>
+                    </p>
+                    <p>
+                        <a href="/datenschutz" class="text-gray-300 hover:text-[#C8E6DC] transition-colors font-light">
+                            Datenschutz
                         </a>
                     </p>
                 </div>

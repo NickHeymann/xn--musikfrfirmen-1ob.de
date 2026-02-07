@@ -19,7 +19,9 @@
         },
         citySuggestions: [],
         showSuggestions: false,
+        citySelected: false,
         async fetchCities(query) {
+            this.citySelected = false;
             if (query.length < 2) {
                 this.citySuggestions = [];
                 this.showSuggestions = false;
@@ -50,6 +52,7 @@
             $wire.set('city', city.city);
             this.citySuggestions = [];
             this.showSuggestions = false;
+            this.citySelected = true;
 
             // Auto-navigate to budget field
             setTimeout(() => {
@@ -223,7 +226,7 @@
             </div>
 
             {{-- Content --}}
-            <div class="w-full p-6 sm:p-8 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col justify-center">
+            <div class="w-full p-4 sm:p-6 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col">
                 <div class="bg-[#1a1a1a] rounded-xl relative max-w-4xl mx-auto flex-1 flex flex-col">
                     {{-- Back Arrow --}}
                     @if ($step > 1 && $submitStatus !== 'success')
@@ -240,7 +243,7 @@
 
                     {{-- Header --}}
                     @if ($submitStatus !== 'success')
-                        <div class="text-center mb-8">
+                        <div class="text-center mb-4">
                             <div class="text-2xl md:text-3xl font-normal m-0 mb-4 text-white">
                                 <span class="block whitespace-nowrap">Deine Wünsche</span>
                                 <span class="block whitespace-nowrap text-xl md:text-2xl">für ein unvergessliches Event</span>
@@ -253,14 +256,14 @@
 
                     {{-- Step 1: Event Details --}}
                     @if ($step === 1)
-                        <div class="mb-8">
-                            <div class="flex items-center gap-4 text-lg font-normal mb-8">
+                        <div>
+                            <div class="flex items-center gap-4 text-lg font-normal mb-4">
                                 <span class="inline-flex items-center justify-center w-9 h-9 bg-[#C8E6DC] text-black rounded-full text-base font-semibold">1</span>
                                 <span class="text-[#C8E6DC]">Event-Details</span>
                             </div>
 
                             {{-- Date & Time Row --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div class="flex flex-col gap-[4px]"
                                      x-data="{
                                         day: '',
@@ -321,8 +324,8 @@
                                             $refs.hiddenDateInput.showPicker();
                                         }
                                      }">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <label class="text-sm font-medium text-white">Datum *</label>
+                                    <div class="flex items-center gap-2">
+                                        <label class="text-[13px] font-normal text-white">Datum *</label>
                                         <button
                                             type="button"
                                             @click="openCalendar()"
@@ -453,115 +456,24 @@
                                         <span class="text-xs text-red-400 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="flex flex-col gap-[4px]"
-                                     x-data="{
-                                        hours: '',
-                                        minutes: '',
-                                        init() {
-                                            // Initialize from wire:model if time exists
-                                            if ($wire.time) {
-                                                const parts = $wire.time.split(':');
-                                                this.hours = parts[0];
-                                                this.minutes = parts[1];
-                                            }
-                                        },
-                                        updateTime() {
-                                            // Auto-format and combine
-                                            if (this.hours.length === 2 && this.minutes.length === 2) {
-                                                const time = `${this.hours.padStart(2, '0')}:${this.minutes.padStart(2, '0')}`;
-                                                $wire.set('time', time);
-                                            } else if (this.hours === '' && this.minutes === '') {
-                                                $wire.set('time', '');
-                                            }
-                                        },
-                                        openTimePicker() {
-                                            $refs.hiddenTimeInput.showPicker();
-                                        }
-                                     }">
-                                    <div class="flex items-center gap-2">
-                                        <label class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
-                                        <button
-                                            type="button"
-                                            @click="openTimePicker()"
-                                            class="p-1 rounded hover:bg-white/10 transition-colors"
-                                            aria-label="Uhrzeit wählen">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="flex gap-2 items-center">
-                                        {{-- Stunden (HH) --}}
-                                        <input
-                                            type="text"
-                                            inputmode="numeric"
-                                            placeholder="HH"
-                                            maxlength="2"
-                                            x-model="hours"
-                                            @focus="$event.target.select()"
-                                            @input="
-                                                hours = hours.replace(/[^0-9]/g, '');
-                                                if (hours.length === 2) {
-                                                    if (parseInt(hours) > 23) {
-                                                        hours = '23';
-                                                    }
-                                                    if (parseInt(hours) >= 0 && parseInt(hours) <= 23) {
-                                                        $refs.minutes.focus();
-                                                    }
-                                                }
-                                                updateTime();
-                                            "
-                                            @keydown.enter.prevent="$wire.nextStep()"
-                                            @wheel="$event.target.blur()"
-                                            class="w-20 p-2.5 px-3 text-sm font-light border-2 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)] border-white/10"
-                                        />
-                                        <span class="text-white self-center">:</span>
-
-                                        {{-- Minuten (MM) --}}
-                                        <input
-                                            type="text"
-                                            inputmode="numeric"
-                                            placeholder="MM"
-                                            maxlength="2"
-                                            x-model="minutes"
-                                            x-ref="minutes"
-                                            @focus="$event.target.select()"
-                                            @input="
-                                                minutes = minutes.replace(/[^0-9]/g, '');
-                                                if (minutes.length === 2 && parseInt(minutes) > 59) {
-                                                    minutes = '59';
-                                                }
-                                                updateTime();
-                                                // Auto-navigate to city field when minutes are complete
-                                                if (minutes.length === 2) {
-                                                    const cityInput = document.getElementById('mff-city');
-                                                    if (cityInput) cityInput.focus();
-                                                }
-                                            "
-                                            @keydown.tab.prevent="
-                                                const cityInput = document.getElementById('mff-city');
-                                                if (cityInput) cityInput.focus();
-                                            "
-                                            @keydown.enter.prevent="$wire.nextStep()"
-                                            @wheel="$event.target.blur()"
-                                            class="w-20 p-2.5 px-3 text-sm font-light border-2 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)] border-white/10"
-                                        />
-
-                                        {{-- Hidden native time input for time picker --}}
-                                        <input
-                                            type="time"
-                                            x-ref="hiddenTimeInput"
-                                            wire:model.live="time"
-                                            @change="
-                                                if ($wire.time) {
-                                                    const parts = $wire.time.split(':');
-                                                    hours = parts[0];
-                                                    minutes = parts[1];
-                                                }
-                                            "
-                                            class="absolute opacity-0 pointer-events-none"
-                                            style="width: 0; height: 0;"
-                                        />
+                                <div class="flex flex-col gap-[4px]">
+                                    <label class="text-[13px] font-normal text-white">Startzeit (optional)</label>
+                                    <div class="flex gap-2">
+                                        @foreach([
+                                            ['value' => '08:00-12:00', 'label' => 'Morgens', 'sub' => '08–12 Uhr'],
+                                            ['value' => '12:00-16:00', 'label' => 'Mittags', 'sub' => '12–16 Uhr'],
+                                            ['value' => '16:00-20:00', 'label' => 'Abends', 'sub' => '16–20 Uhr'],
+                                        ] as $slot)
+                                            <button
+                                                type="button"
+                                                @click="$wire.time === '{{ $slot['value'] }}' ? $wire.set('time', '') : $wire.set('time', '{{ $slot['value'] }}')"
+                                                class="flex-1 py-2 px-1 text-center border-2 rounded-xl transition-all duration-200 cursor-pointer"
+                                                :class="$wire.time === '{{ $slot['value'] }}' ? 'border-[#C8E6DC] bg-[#C8E6DC]/15 text-white' : 'border-white/10 bg-white/5 text-white hover:border-white/20'"
+                                            >
+                                                <span class="block text-sm font-normal">{{ $slot['label'] }}</span>
+                                                <span class="block text-[11px] font-light text-white/60">{{ $slot['sub'] }}</span>
+                                            </button>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -576,7 +488,7 @@
                                         wire:model.blur="city"
                                         x-on:input="fetchCities($event.target.value)"
                                         x-on:blur="hideSuggestions()"
-                                        @focus="$event.target.select()"
+                                        @focus="$event.target.select(); if (citySuggestions.length > 0 && !citySelected) showSuggestions = true;"
                                         @keydown.tab.prevent="
                                             const budgetInput = document.getElementById('mff-budget');
                                             if (budgetInput) budgetInput.focus();
@@ -696,11 +608,11 @@
                             </div>
 
                             {{-- Next Button --}}
-                            <div class="grid grid-cols-1 gap-3 mt-4">
+                            <div style="margin-top: 32px">
                                 <button
                                     type="button"
                                     wire:click="nextStep"
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[8px] bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                                    class="w-full p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[8px] bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                                 >
                                     Weiter
                                 </button>
@@ -881,9 +793,7 @@
                                         class="w-5 h-5 mt-[2px] cursor-pointer accent-[#C8E6DC] flex-shrink-0"
                                     />
                                     <label for="mff-privacy" class="text-[13px] font-normal text-white cursor-pointer leading-[1.5]">
-                                        Ich habe die
-                                        <a href="/datenschutz" target="_blank" class="text-[#C8E6DC] underline font-semibold hover:text-[#A0C4B5]">Datenschutzerklärung</a>
-                                        gelesen und akzeptiert. *
+                                        <a href="/datenschutz" target="_blank" class="text-[#C8E6DC] underline font-semibold hover:text-[#A0C4B5]">Datenschutzerklärung</a> gelesen und akzeptiert *
                                     </label>
                                 </div>
                                 @error('privacy')
@@ -900,8 +810,8 @@
                                         class="w-5 h-5 mt-[2px] cursor-pointer accent-[#C8E6DC] flex-shrink-0"
                                     />
                                     <label for="mff-storage-consent" class="text-[13px] font-normal text-white/80 cursor-pointer leading-[1.5]">
-                                        <span class="text-white">Formular-Daten lokal speichern</span><br>
-                                        <span class="text-[11px] text-white/60">Deine Eingaben werden nur in deinem Browser gespeichert (nicht an Server gesendet), damit du sie beim nächsten Besuch wiederfindest.</span>
+                                        <span class="text-white">Formular-Daten lokal speichern</span>
+                                        <span class="text-[11px] text-white/60 ml-1">– nur in deinem Browser, nicht auf dem Server.</span>
                                     </label>
                                 </div>
                             </div>
