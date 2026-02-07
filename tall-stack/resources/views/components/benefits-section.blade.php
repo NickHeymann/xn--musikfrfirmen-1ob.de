@@ -1,7 +1,8 @@
 {{-- Benefits Cards Section - "Das heißt für euch" (Collapsible) --}}
-<section class="benefits-cards-section sticky top-0 w-full py-12 md:py-20 bg-white relative z-[24]" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif"
+<section class="benefits-cards-section sticky top-[80px] lg:top-[108px] w-full py-12 md:py-20 bg-white relative z-[24]" data-section-theme="light" data-section-bg="#ffffff" data-card-index="4" style="font-family: 'Poppins', sans-serif"
          x-data="{ visible: false, openIndex: null }"
          x-intersect="visible = true">
+    <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-10 md:mb-16 transition-all duration-700"
