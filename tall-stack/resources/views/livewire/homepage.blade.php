@@ -10,7 +10,8 @@
     <livewire:testimonial-carousel />
 
     {{-- Was wir bieten - Alternating Service Layout --}}
-    <section id="waswirbieten" class="sticky top-0 bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[22]" data-section-bg="#ffffff" data-section-theme="light">
+    <section id="waswirbieten" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[22]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="2">
+        <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <x-service-cards />
     </section>
 
@@ -24,12 +25,14 @@
     <x-event-gallery />
 
     {{-- Team Section --}}
-    <section id="ueberuns" class="sticky top-0 bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26]" data-section-bg="#ffffff" data-section-theme="light">
+    <section id="ueberuns" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
+        <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <x-team-section />
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="sticky top-0 pt-12 md:pt-20 pb-10 md:pb-16 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light">
+    <section id="faq" class="sticky top-[80px] lg:top-[108px] pt-12 md:pt-20 pb-10 md:pb-16 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light" data-card-index="7">
+        <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-center text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 tracking-[-1px] text-black"
@@ -121,4 +124,88 @@
 
     {{-- Booking Calendar Modal --}}
     <livewire:booking-calendar-modal />
+
+    {{-- Card Stack Blur/Darken Effect --}}
+    <script>
+        (function() {
+            let ticking = false;
+            const getHeaderHeight = () => window.innerWidth >= 1024 ? 108 : 80;
+
+            function updateCardEffects() {
+                const sectionEls = Array.from(document.querySelectorAll('[data-card-index]'));
+                if (!sectionEls.length) return;
+
+                const hH = getHeaderHeight();
+                const viewH = window.innerHeight - hH;
+
+                // Sort by card-index
+                sectionEls.sort((a, b) => parseInt(a.dataset.cardIndex) - parseInt(b.dataset.cardIndex));
+
+                // Build array of { el, overlay, topRelHeader }
+                const sections = sectionEls.map(sec => ({
+                    el: sec,
+                    overlay: sec.querySelector('.card-stack-overlay'),
+                    topRel: sec.getBoundingClientRect().top - hH
+                }));
+
+                // Find the "active" section: the last one whose top is at or near the header
+                let activeIdx = 0;
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    if (sections[i].topRel <= 5) {
+                        activeIdx = i;
+                        break;
+                    }
+                }
+
+                sections.forEach((sec, i) => {
+                    if (!sec.overlay) return;
+
+                    let blur = 0;
+                    let darken = 0;
+
+                    if (i < activeIdx) {
+                        // Already scrolled past - fully blurred and darkened
+                        blur = 8;
+                        darken = 0.35;
+                    } else if (i === activeIdx) {
+                        // Currently active/pinned section
+                        // Check if next section is starting to cover it
+                        const next = sections[i + 1];
+                        if (next && next.topRel < viewH) {
+                            // Next section is entering viewport - darken this one
+                            const coverProgress = Math.max(0, 1 - (next.topRel / viewH));
+                            blur = coverProgress * 8;
+                            darken = coverProgress * 0.35;
+                        }
+                    } else if (i === activeIdx + 1) {
+                        // Next section entering from below
+                        if (sec.topRel > 0 && sec.topRel < viewH) {
+                            const enterProgress = 1 - (sec.topRel / viewH);
+                            blur = Math.max(0, (1 - enterProgress) * 6);
+                        }
+                    } else {
+                        // Sections further below - fully blurred
+                        blur = 6;
+                    }
+
+                    sec.overlay.style.backdropFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    sec.overlay.style.webkitBackdropFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    sec.overlay.style.background = darken > 0.01 ? `rgba(0,0,0,${darken.toFixed(3)})` : 'transparent';
+                });
+            }
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        updateCardEffects();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            document.addEventListener('DOMContentLoaded', updateCardEffects);
+            document.addEventListener('livewire:navigated', updateCardEffects);
+        })();
+    </script>
 </div>

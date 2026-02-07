@@ -1,5 +1,6 @@
 {{-- Event Gallery Section - Swipeable Carousel --}}
-<section class="sticky top-0 py-12 md:py-20 bg-[#C8E6DC] relative z-[25]" data-section-theme="light" data-section-bg="#C8E6DC">
+<section class="sticky top-[80px] lg:top-[108px] py-12 md:py-20 bg-[#C8E6DC] relative z-[25]" data-section-theme="light" data-section-bg="#C8E6DC" data-card-index="5">
+    <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
     <div class="container mx-auto px-4">
         {{-- Swiper Gallery --}}
         <div
