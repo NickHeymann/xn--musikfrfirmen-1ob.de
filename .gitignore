@@ -44,6 +44,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Syncthing temp files
+.syncthing.*.tmp
+
 # CLAUDE.md backups (local only)
 CLAUDE.old.*.md
 *.old.*.md

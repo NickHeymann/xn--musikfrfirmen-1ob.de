@@ -1,12 +1,14 @@
 {{-- "Warum Wir?" Section - Inspired by Seed Hub Layout --}}
 <section
-    class="why-us-section sticky top-0 w-full py-12 md:py-20 bg-[#C8E6DC] overflow-hidden relative z-[23]"
+    class="why-us-section sticky top-[80px] lg:top-[108px] w-full py-12 md:py-20 bg-[#C8E6DC] overflow-hidden relative z-[23]"
     data-section-bg="#C8E6DC"
     data-section-theme="light"
+    data-card-index="3"
     style="font-family: 'Poppins', sans-serif"
     x-data="{ visible: false }"
     x-intersect.once="visible = true"
 >
+    <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
     <div class="max-w-7xl mx-auto px-6">
 
         {{-- Top Section: Story Left + Stats Right --}}
