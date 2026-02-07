@@ -79,7 +79,7 @@
             }
         });
     "
-    class="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 backdrop-blur-md bg-black/50"
+    class="fixed inset-0 z-[2147483647] flex items-center justify-center p-2 sm:p-4 backdrop-blur-md bg-black/50"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
