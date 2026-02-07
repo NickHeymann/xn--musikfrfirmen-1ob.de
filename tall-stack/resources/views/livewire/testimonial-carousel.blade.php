@@ -4,11 +4,6 @@
          data-section-bg="#C8E6DC"
          style="font-family: 'Poppins', sans-serif">
     <div class="max-w-3xl mx-auto px-6 sm:px-8">
-        {{-- Section Heading --}}
-        <h2 class="text-lg sm:text-xl md:text-2xl font-medium text-[#1a1a1a] mb-6 sm:mb-8 text-center">
-            Testimonials
-        </h2>
-
         @if($testimonials->count() > 0)
             <div class="flex items-center gap-2 sm:gap-4"
                  x-data="{
