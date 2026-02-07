@@ -178,14 +178,16 @@
                             darken = coverProgress * 0.35;
                         }
                     } else if (i === activeIdx + 1) {
-                        // Next section entering from below
+                        // Next section entering from below - light blur so content is recognizable
                         if (sec.topRel > 0 && sec.topRel < viewH) {
                             const enterProgress = 1 - (sec.topRel / viewH);
-                            blur = Math.max(0, (1 - enterProgress) * 6);
+                            blur = Math.max(0, (1 - enterProgress) * 2);
+                        } else {
+                            blur = 2;
                         }
                     } else {
-                        // Sections further below - fully blurred
-                        blur = 6;
+                        // Sections further below - moderate blur
+                        blur = 3;
                     }
 
                     sec.overlay.style.backdropFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';

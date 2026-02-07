@@ -6,20 +6,33 @@
             isDark: true,
             bgColor: '#000000',
             init() {
+                const getHeaderH = () => window.innerWidth >= 1024 ? 108 : 80;
+
                 const updateTheme = () => {
+                    const hH = getHeaderH();
                     const sections = document.querySelectorAll('[data-section-bg]');
                     let newBgColor = '#000000';
                     let newIsDark = true;
+                    let bestSection = null;
+                    let bestZ = -1;
 
+                    // Find the section with the highest z-index that covers the header area.
+                    // Tolerance of 50px so sections near bottom of page (that can't scroll
+                    // all the way to the header) are still detected.
                     for (const section of sections) {
                         const rect = section.getBoundingClientRect();
-                        // Check if section starts at or above header top (0px)
-                        // and extends below it - header adopts this section's color
-                        if (rect.top <= 0 && rect.bottom > 0) {
-                            newBgColor = section.getAttribute('data-section-bg') || '#ffffff';
-                            newIsDark = section.getAttribute('data-section-theme') === 'dark';
-                            break;
+                        if (rect.top <= hH + 50 && rect.bottom > hH) {
+                            const z = parseInt(getComputedStyle(section).zIndex) || 0;
+                            if (z > bestZ) {
+                                bestZ = z;
+                                bestSection = section;
+                            }
                         }
+                    }
+
+                    if (bestSection) {
+                        newBgColor = bestSection.getAttribute('data-section-bg') || '#ffffff';
+                        newIsDark = bestSection.getAttribute('data-section-theme') === 'dark';
                     }
 
                     if (this.bgColor !== newBgColor || this.isDark !== newIsDark) {
@@ -28,10 +41,8 @@
                     }
                 };
 
-                // Update on scroll
                 window.addEventListener('scroll', updateTheme, { passive: true });
-
-                // Initial detection
+                window.addEventListener('resize', updateTheme);
                 setTimeout(() => updateTheme(), 100);
             }
         }"
