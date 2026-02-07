@@ -22,16 +22,16 @@
         preload="auto"
         poster="{{ asset('images/hero-poster.webp') }}"
         disablepictureinpicture
-        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(0.5px);"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -20; filter: blur(0.5px); pointer-events: none;"
     >
         <source src="{{ asset('videos/hero-landing-page.mp4') }}" type="video/mp4">
     </video>
 
     {{-- Lighter Dark Overlay (50% opacity for brighter video) - also fixed, static --}}
-    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); z-index: -19;"></div>
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); z-index: -19; pointer-events: none;"></div>
 
     {{-- Content with staggered fade-in animation and scroll-based blur - FIXED POSITION --}}
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-[1600px] px-8 lg:px-16 xl:px-20 text-white"
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-[1600px] px-8 lg:px-16 xl:px-20 text-white pointer-events-none"
          x-data="{ scrollBlur: 0 }"
          x-init="
             const updateBlur = () => {
@@ -67,7 +67,7 @@
                 </p>
 
                 {{-- CTA Buttons - Swapped with founder images and enhanced hover effects --}}
-                <div class="flex flex-col sm:flex-row gap-2">
+                <div class="flex flex-col sm:flex-row gap-2 pointer-events-auto">
                     {{-- Left: Green "Jetzt Angebot einholen" with animated hover (like reference) --}}
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
@@ -106,7 +106,7 @@
         {{-- Down Arrow - Fixed below content --}}
         <div
             @click="scrollToContent()"
-            class="fixed bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards]">
+            class="fixed bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards] pointer-events-auto">
             <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
             </svg>
