@@ -1,7 +1,7 @@
 {{-- "Warum Wir?" Section - Inspired by Seed Hub Layout --}}
 <section
-    class="why-us-section w-full py-12 md:py-20 bg-[#f5f5f0] overflow-hidden relative z-20"
-    data-section-bg="#f5f5f0"
+    class="why-us-section w-full py-12 md:py-20 bg-[#C8E6DC] overflow-hidden relative z-[23] -mt-6"
+    data-section-bg="#C8E6DC"
     data-section-theme="light"
     style="font-family: 'Poppins', sans-serif"
     x-data="{ visible: false }"
@@ -45,32 +45,32 @@
             >
                 {{-- Stat 1 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">10+</span>
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                        <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">10+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Jahre in der Musikbranche</span>
                     </div>
                 </div>
 
                 {{-- Stat 2 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">100%</span>
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                        <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">100%</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Hauseigene Stammbands</span>
                     </div>
                 </div>
 
                 {{-- Stat 3 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">100k€+</span>
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                        <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">100k€+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Professionelles Equipment</span>
                     </div>
                 </div>
 
                 {{-- Stat 4 --}}
                 <div class="py-5">
-                    <div class="grid grid-cols-[120px_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
-                        <span class="text-3xl md:text-4xl font-bold text-[#5a9a84] text-right">1</span>
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                        <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">1</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Ansprechpartner für alles</span>
                     </div>
                 </div>

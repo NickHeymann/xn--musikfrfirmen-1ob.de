@@ -10,7 +10,7 @@
     <livewire:testimonial-carousel />
 
     {{-- Was wir bieten - Alternating Service Layout --}}
-    <section id="waswirbieten" class="bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-20">
+    <section id="waswirbieten" class="bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[22] -mt-6" data-section-bg="#ffffff" data-section-theme="light">
         <x-service-cards />
     </section>
 
@@ -24,12 +24,12 @@
     <x-event-gallery />
 
     {{-- Team Section --}}
-    <section id="ueberuns" class="bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-20">
+    <section id="ueberuns" class="bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26] -mt-6" data-section-bg="#ffffff" data-section-theme="light">
         <x-team-section />
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="pt-12 md:pt-20 pb-10 md:pb-16 bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-20" data-section-bg="#ffffff" data-section-theme="light">
+    <section id="faq" class="pt-12 md:pt-20 pb-10 md:pb-16 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27] -mt-6" data-section-bg="#C8E6DC" data-section-theme="light">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-center text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 tracking-[-1px] text-black"
@@ -39,63 +39,78 @@
             </h2>
             <livewire:faq-section />
 
-            {{-- Animated Logo with Musical Notes --}}
+            {{-- Animated Logo with Musical Notes (click to spawn) --}}
             <div class="mt-20 relative flex justify-center">
-                <div class="relative">
-                    <a href="/"
-                       class="text-2xl sm:text-3xl font-light hover:text-[#C8E6DC] transition-colors text-[#1a1a1a]"
-                       style="font-family: 'Poppins', sans-serif">
+                <div class="relative group"
+                     x-data="{
+                         hovered: false,
+                         musicNotes: [],
+                         noteId: 0,
+                         symbols: ['♪', '♫', '♬', '♩'],
+                         spawnNotes() {
+                             const count = 8;
+                             for (let i = 0; i < count; i++) {
+                                 const note = this.symbols[Math.floor(Math.random() * this.symbols.length)];
+                                 const x = (Math.random() - 0.5) * 250;
+                                 const id = this.noteId++;
+                                 setTimeout(() => {
+                                     this.musicNotes.push({ id, note, x });
+                                     setTimeout(() => {
+                                         this.musicNotes = this.musicNotes.filter(n => n.id !== id);
+                                     }, 2000);
+                                 }, i * 100);
+                             }
+                         }
+                     }"
+                     @mouseenter="hovered = true"
+                     @mouseleave="hovered = false">
+                    <span @click="spawnNotes()"
+                          class="text-2xl sm:text-3xl font-light text-[#1a1a1a] cursor-pointer select-none"
+                          style="font-family: 'Poppins', sans-serif">
                         musikfürfirmen.de
-                    </a>
+                    </span>
 
-                    {{-- Floating Musical Notes Animation --}}
-                    <div class="absolute inset-0 pointer-events-none">
+                    {{-- Floating Musical Notes - Hover (ambient) --}}
+                    <div class="absolute inset-0 pointer-events-none overflow-visible">
                         @for($i = 1; $i <= 5; $i++)
-                            <span class="absolute text-[#C8E6DC] opacity-0"
-                                  style="
-                                      left: {{ ($i - 1) * 20 }}%;
-                                      animation: floatNote{{ $i }} {{ 3 + $i * 0.5 }}s infinite ease-in-out;
-                                      animation-delay: {{ $i * 0.3 }}s;
-                                      font-size: {{ 16 + $i * 2 }}px;
-                                  ">
+                            <span class="absolute opacity-0 text-2xl text-[#1a1a1a]"
+                                  style="left: {{ ($i - 1) * 22 }}%; top: -8px; -webkit-text-stroke: 1px #000; text-stroke: 1px #000;"
+                                  :class="hovered ? 'animate-floatNote{{ $i }}' : 'opacity-0'">
                                 {{ $i % 3 === 0 ? '♫' : '♪' }}
                             </span>
                         @endfor
                     </div>
+
+                    {{-- Click-spawned Notes --}}
+                    <template x-for="note in musicNotes" :key="note.id">
+                        <span class="absolute pointer-events-none text-2xl text-[#1a1a1a] animate-note-burst"
+                              style="-webkit-text-stroke: 1px #000; text-stroke: 1px #000;"
+                              :style="`left: calc(50% + ${note.x}px); top: 50%`"
+                              x-text="note.note"></span>
+                    </template>
                 </div>
             </div>
 
             {{-- Musical Notes Animation Keyframes --}}
             <style>
-                @keyframes floatNote1 {
+                .animate-floatNote1 { animation: floatNote 2.5s ease-in-out infinite; animation-delay: 0s; }
+                .animate-floatNote2 { animation: floatNote 2.8s ease-in-out infinite; animation-delay: 0.2s; }
+                .animate-floatNote3 { animation: floatNote 3.0s ease-in-out infinite; animation-delay: 0.4s; }
+                .animate-floatNote4 { animation: floatNote 2.6s ease-in-out infinite; animation-delay: 0.6s; }
+                .animate-floatNote5 { animation: floatNote 3.2s ease-in-out infinite; animation-delay: 0.8s; }
+                @keyframes floatNote {
                     0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.6; }
-                    50% { transform: translateY(-30px) rotate(10deg); opacity: 0.8; }
-                    90% { opacity: 0.3; }
+                    15% { opacity: 0.7; }
+                    50% { transform: translateY(-25px) rotate(10deg); opacity: 0.9; }
+                    85% { opacity: 0.3; }
                 }
-                @keyframes floatNote2 {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.5; }
-                    50% { transform: translateY(-40px) rotate(-15deg); opacity: 0.7; }
-                    90% { opacity: 0.2; }
+                @keyframes noteBurst {
+                    0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+                    50% { opacity: 0.8; }
+                    100% { opacity: 0; transform: translateY(-70px) rotate(25deg) scale(1.3); }
                 }
-                @keyframes floatNote3 {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.7; }
-                    50% { transform: translateY(-35px) rotate(20deg); opacity: 0.9; }
-                    90% { opacity: 0.4; }
-                }
-                @keyframes floatNote4 {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.4; }
-                    50% { transform: translateY(-45px) rotate(-10deg); opacity: 0.6; }
-                    90% { opacity: 0.2; }
-                }
-                @keyframes floatNote5 {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.6; }
-                    50% { transform: translateY(-38px) rotate(15deg); opacity: 0.8; }
-                    90% { opacity: 0.3; }
+                .animate-note-burst {
+                    animation: noteBurst 2s ease-out forwards;
                 }
             </style>
         </div>

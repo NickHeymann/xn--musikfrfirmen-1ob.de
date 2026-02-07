@@ -91,7 +91,7 @@
         {{-- Modal Content - Cal.com Style Dark Theme --}}
         <div
             @click.stop
-            class="relative bg-[#1a1a1a] rounded-xl sm:rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl h-[95vh] sm:h-auto sm:max-h-[90vh] md:h-[650px] flex flex-col"
+            class="relative bg-[#1a1a1a] rounded-xl sm:rounded-2xl shadow-2xl w-full overflow-hidden max-w-5xl h-[95vh] sm:h-auto sm:max-h-[85vh] flex flex-col"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -112,7 +112,7 @@
 
             @if($showSuccess)
                 {{-- Success Message - Dark Theme --}}
-                <div class="flex items-center justify-center md:h-[650px] h-auto py-12">
+                <div class="flex items-center justify-center h-auto py-12">
                     <div class="text-center max-w-md px-8">
                         <svg class="w-16 h-16 text-[#C8E6DC] mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -346,7 +346,7 @@
                                     </h3>
                                 </div>
 
-                                {{-- Time Slots Grid - Full height scrollable --}}
+                                {{-- Time Range Categories / Individual Slots --}}
                                 <style>
                                     /* Custom scrollbar styling */
                                     .time-slots-container::-webkit-scrollbar {
@@ -363,18 +363,48 @@
                                         background: rgba(255, 255, 255, 0.3);
                                     }
                                 </style>
-                                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-col sm:space-y-3 time-slots-container overflow-y-auto pr-1 sm:pr-2" style="flex: 1; min-height: 0;">
-                                    @foreach($availableSlots as $index => $slot)
-                                        <button
-                                            wire:click="selectTime('{{ $slot }}')"
-                                            class="w-full px-3 py-2 sm:px-4 sm:py-3.5 rounded-md text-left transition-all duration-150 flex items-center justify-between group touch-manipulation min-h-[48px]"
-                                            :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10'"
-                                        >
-                                            <span class="text-sm sm:text-base font-medium">{{ $slot }}</span>
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#C8E6DC]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
-                                        </button>
-                                    @endforeach
-                                </div>
+                                @if(!$selectedTimeRange)
+                                    <div class="space-y-3">
+                                        @foreach($this->timeRanges as $key => $range)
+                                            <button
+                                                wire:click="selectTimeRange('{{ $key }}')"
+                                                class="w-full px-4 py-4 rounded-lg text-left transition-all duration-150 border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10 flex items-center justify-between"
+                                            >
+                                                <div>
+                                                    <span class="text-base font-medium block">{{ $range['label'] }}</span>
+                                                    <span class="text-sm text-gray-500">{{ $range['subtitle'] }}</span>
+                                                </div>
+                                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                </svg>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    {{-- Back to ranges button --}}
+                                    <button
+                                        wire:click="$set('selectedTimeRange', null)"
+                                        class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors mb-4"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                        </svg>
+                                        {{ $this->timeRanges[$selectedTimeRange]['label'] ?? 'Zurück' }}
+                                    </button>
+                                    {{-- Show filtered individual time slots --}}
+                                    <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-col sm:space-y-3 time-slots-container overflow-y-auto pr-1 sm:pr-2" style="flex: 1; min-height: 0;">
+                                        @foreach($this->filteredSlots as $index => $slot)
+                                            <button
+                                                wire:click="selectTime('{{ $slot }}')"
+                                                class="w-full px-3 py-2 sm:px-4 sm:py-3.5 rounded-md text-left transition-all duration-150 flex items-center justify-between group touch-manipulation min-h-[48px]"
+                                                :class="$wire.selectedTime === '{{ $slot }}' ? 'bg-white text-black' : 'border border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/5 active:bg-white/10'"
+                                            >
+                                                <span class="text-sm sm:text-base font-medium">{{ $slot }}</span>
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#C8E6DC]" x-show="$wire.selectedTime !== '{{ $slot }}'"></span>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                @endif
                             @endif
                         @endif
                     </div>

@@ -25,6 +25,8 @@ class BookingCalendarModal extends Component
 
     public $selectedTime = null;
 
+    public $selectedTimeRange = null;
+
     #[Validate('required|string|min:2')]
     public $name = '';
 
@@ -40,11 +42,11 @@ class BookingCalendarModal extends Component
     #[Validate('nullable|string|max:500')]
     public $message = '';
 
-    // Available time slots (9:00 - 17:00, 30-minute intervals)
+    // Available time slots (8:00 - 19:30, 30-minute intervals)
     public $availableSlots = [
-        '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-        '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-        '15:00', '15:30', '16:00', '16:30', '17:00',
+        '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+        '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
+        '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
     ];
 
     public $showSuccess = false;
@@ -125,6 +127,7 @@ class BookingCalendarModal extends Component
     public function selectDate($date)
     {
         $this->selectedDate = $date;
+        $this->selectedTimeRange = null;
         // Stay on step 1 to show time slots in right column
         $this->step = 1;
     }
@@ -135,6 +138,11 @@ class BookingCalendarModal extends Component
         $this->step = 3; // Progress to contact form
     }
 
+    public function selectTimeRange($range)
+    {
+        $this->selectedTimeRange = $range;
+    }
+
     public function goBack()
     {
         if ($this->step > 1) {
@@ -143,6 +151,7 @@ class BookingCalendarModal extends Component
             // Clear data from abandoned step
             if ($this->step === 1) {
                 $this->selectedTime = null;
+                $this->selectedTimeRange = null;
             } elseif ($this->step === 2) {
                 $this->reset(['name', 'company', 'email', 'phone', 'message']);
             }
@@ -184,6 +193,33 @@ class BookingCalendarModal extends Component
 
         // Clear stored form data after successful submission
         $this->dispatch('clear-booking-storage');
+    }
+
+    public function getTimeRangesProperty()
+    {
+        return [
+            'morning' => ['label' => 'Vormittag', 'subtitle' => '8 – 12 Uhr', 'start' => '08:00', 'end' => '12:00'],
+            'afternoon' => ['label' => 'Nachmittag', 'subtitle' => '12 – 16 Uhr', 'start' => '12:00', 'end' => '16:00'],
+            'evening' => ['label' => 'Abend', 'subtitle' => '16 – 20 Uhr', 'start' => '16:00', 'end' => '20:00'],
+        ];
+    }
+
+    public function getFilteredSlotsProperty()
+    {
+        if (! $this->selectedTimeRange) {
+            return [];
+        }
+
+        $ranges = $this->timeRanges;
+        $range = $ranges[$this->selectedTimeRange] ?? null;
+
+        if (! $range) {
+            return [];
+        }
+
+        return collect($this->availableSlots)->filter(function ($slot) use ($range) {
+            return $slot >= $range['start'] && $slot < $range['end'];
+        })->values()->toArray();
     }
 
     public function getCalendarDaysProperty()

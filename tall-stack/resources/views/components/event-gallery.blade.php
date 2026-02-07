@@ -1,5 +1,5 @@
 {{-- Event Gallery Section - Swipeable Carousel --}}
-<section class="py-12 md:py-20 bg-[#C8E6DC] relative z-20" data-section-theme="light" data-section-bg="#C8E6DC">
+<section class="py-12 md:py-20 bg-[#C8E6DC] relative z-[25] -mt-6" data-section-theme="light" data-section-bg="#C8E6DC">
     <div class="container mx-auto px-4">
         {{-- Swiper Gallery --}}
         <div
@@ -8,11 +8,25 @@
                 totalSlides: 5,
                 touchStartX: 0,
                 touchEndX: 0,
+                dragging: false,
+                dragStartX: 0,
+                autoplayTimer: null,
+                wheelCooldown: false,
                 next() {
                     this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
                 },
                 prev() {
                     this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                },
+                startAutoplay() {
+                    this.autoplayTimer = setInterval(() => this.next(), 5000);
+                },
+                resetAutoplay() {
+                    clearInterval(this.autoplayTimer);
+                    this.startAutoplay();
+                },
+                init() {
+                    this.startAutoplay();
                 }
             }"
             class="relative max-w-6xl mx-auto"
@@ -21,8 +35,8 @@
             <div class="flex items-center gap-2 lg:gap-4">
                 {{-- Left Arrow - Desktop only --}}
                 <button
-                    @click="prev()"
-                    class="hidden lg:flex shrink-0 w-8 h-8 items-center justify-center rounded-full text-[#1a1a1a]/30 hover:text-[#1a1a1a]/60 transition-colors"
+                    @click="prev(); resetAutoplay()"
+                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-white/40 text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-200"
                     aria-label="Vorheriges Bild"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,12 +45,32 @@
                 </button>
 
                 {{-- Gallery Container --}}
-                <div class="overflow-hidden rounded-3xl flex-1"
+                <div class="overflow-hidden rounded-3xl flex-1 cursor-grab active:cursor-grabbing select-none"
                      @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                      @touchend.passive="
                          touchEndX = $event.changedTouches[0].screenX;
-                         if (touchStartX - touchEndX > 50) { next(); }
-                         if (touchEndX - touchStartX > 50) { prev(); }
+                         if (touchStartX - touchEndX > 50) { next(); resetAutoplay(); }
+                         if (touchEndX - touchStartX > 50) { prev(); resetAutoplay(); }
+                     "
+                     @mousedown.prevent="dragging = true; dragStartX = $event.clientX"
+                     @mousemove.prevent="if (!dragging) return"
+                     @mouseup.prevent="
+                         if (!dragging) return;
+                         dragging = false;
+                         let diff = dragStartX - $event.clientX;
+                         if (diff > 50) { next(); resetAutoplay(); }
+                         if (diff < -50) { prev(); resetAutoplay(); }
+                     "
+                     @mouseleave="dragging = false"
+                     @wheel="
+                         if (wheelCooldown) return;
+                         if (Math.abs($event.deltaX) > Math.abs($event.deltaY) && Math.abs($event.deltaX) > 30) {
+                             $event.preventDefault();
+                             wheelCooldown = true;
+                             if ($event.deltaX > 30) { next(); resetAutoplay(); }
+                             if ($event.deltaX < -30) { prev(); resetAutoplay(); }
+                             setTimeout(() => wheelCooldown = false, 500);
+                         }
                      ">
                     <div
                         class="flex transition-transform duration-500 ease-out"
@@ -56,8 +90,8 @@
 
                 {{-- Right Arrow - Desktop only --}}
                 <button
-                    @click="next()"
-                    class="hidden lg:flex shrink-0 w-8 h-8 items-center justify-center rounded-full text-[#1a1a1a]/30 hover:text-[#1a1a1a]/60 transition-colors"
+                    @click="next(); resetAutoplay()"
+                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-white/40 text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-200"
                     aria-label="Nächstes Bild"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
