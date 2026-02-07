@@ -137,6 +137,11 @@
             let ticking = false;
             const getHeaderHeight = () => window.innerWidth >= 1024 ? 108 : 80;
 
+            // Cubic bezier easeInOut: slow start, accelerate, slow end
+            function easeInOut(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
             function updateCardEffects() {
                 const sectionEls = Array.from(document.querySelectorAll('[data-card-index]'));
                 if (!sectionEls.length) return;
@@ -167,37 +172,35 @@
                     let darken = 0;
 
                     if (i < activeIdx) {
-                        // Already scrolled past
                         blur = 6;
                         darken = 0.3;
                     } else if (i === activeIdx) {
-                        // Currently active - progressively blur/darken as next section covers it
+                        // Active section - eased blur/darken as next section covers it
                         const next = sections[i + 1];
                         if (next && next.topRel < viewH) {
-                            const coverProgress = Math.max(0, 1 - (next.topRel / viewH));
-                            blur = coverProgress * 6;
-                            darken = coverProgress * 0.3;
+                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / viewH)));
+                            const eased = easeInOut(t);
+                            blur = eased * 6;
+                            darken = eased * 0.3;
                         }
-                    } else if (i === activeIdx + 1) {
-                        // Next section entering - readable once ~40% into viewport
-                        // At topRel = viewH (just appeared) -> blur 3px
-                        // At topRel = viewH*0.4 (60% visible) -> blur 0 (fully readable)
-                        if (sec.topRel > 0) {
-                            const readableAt = viewH * 0.4;
-                            blur = sec.topRel <= readableAt ? 0 : Math.min(((sec.topRel - readableAt) / (viewH - readableAt)) * 3, 3);
+                    } else if (i > activeIdx) {
+                        // Sections below active: eased blur based on position
+                        // Readable at 1/3 from top of viewport (topRel = viewH * 0.33)
+                        // Off-screen (topRel >= viewH) = max 3px blur
+                        if (sec.topRel > viewH) {
+                            blur = 3;
+                        } else if (sec.topRel > 0) {
+                            const readableAt = viewH * 0.33;
+                            const t = sec.topRel <= readableAt ? 0 : Math.min(1, (sec.topRel - readableAt) / (viewH - readableAt));
+                            blur = easeInOut(t) * 3;
                         }
-                    } else {
-                        // Sections further below
-                        blur = 3;
                     }
 
-                    // Apply filter:blur on the content wrapper (uniform blur, no gradient)
                     if (sec.content) {
                         sec.content.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
                         sec.content.style.webkitFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
                     }
 
-                    // Apply darken on overlay (just background color, no backdrop-filter)
                     if (sec.overlay) {
                         sec.overlay.style.background = darken > 0.01 ? `rgba(0,0,0,${darken.toFixed(3)})` : 'transparent';
                     }
