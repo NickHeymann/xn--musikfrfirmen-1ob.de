@@ -9,7 +9,7 @@
                 Dein Partner für Firmenevents
             </p>
             {{-- Grüner Strich genau unter der Tagline --}}
-            <div style="height: 2px; background-color: #B2EAD8;"></div>
+            <div style="height: 2px; background-color: #B0D4C5;"></div>
         </div>
     </div>
 </section>

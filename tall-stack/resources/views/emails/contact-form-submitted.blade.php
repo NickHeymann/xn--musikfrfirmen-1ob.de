@@ -9,7 +9,7 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
         {{-- Header --}}
         <tr>
-            <td style="background: #B2EAD8; padding: 14px 20px; border-radius: 8px 8px 0 0;">
+            <td style="background: #B0D4C5; padding: 14px 20px; border-radius: 8px 8px 0 0;">
                 <span style="font-size: 16px; font-weight: 700; color: #1a1a1a;">NEUE KONTAKTANFRAGE</span>
             </td>
         </tr>
@@ -21,10 +21,10 @@
                     {{ $submission->name }} &middot; {{ $submission->company }}
                 </div>
                 <div style="padding-bottom: 4px;">
-                    <a href="mailto:{{ $submission->email }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $submission->email }} &#x2197;</a>
+                    <a href="mailto:{{ $submission->email }}" style="font-size: 13px; color: #A0C4B5; text-decoration: none;">{{ $submission->email }} &#x2197;</a>
                     @if($submission->phone)
                     &middot;
-                    <a href="tel:{{ $submission->phone }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $submission->phone }} &#x2197;</a>
+                    <a href="tel:{{ $submission->phone }}" style="font-size: 13px; color: #A0C4B5; text-decoration: none;">{{ $submission->phone }} &#x2197;</a>
                     @endif
                 </div>
                 <div style="font-size: 12px; color: #999;">
@@ -61,7 +61,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding-right: 8px;">
-                            <a href="mailto:{{ $submission->email }}?subject=Re: Ihre Kontaktanfrage" style="display: inline-block; background: #B2EAD8; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
+                            <a href="mailto:{{ $submission->email }}?subject=Re: Ihre Kontaktanfrage" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
                         </td>
                         @if($submission->phone)
                         <td style="padding-right: 8px;">

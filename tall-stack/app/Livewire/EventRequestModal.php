@@ -69,8 +69,6 @@ class EventRequestModal extends Component
         ['value' => 'gt500', 'label' => '>500'],
     ];
 
-    public bool $isGuestsDropdownOpen = false;
-
     #[On('openMFFCalculator')]
     public function openModal(): void
     {
@@ -119,25 +117,9 @@ class EventRequestModal extends Component
         }
     }
 
-    public function toggleGuestsDropdown(): void
-    {
-        $this->isGuestsDropdownOpen = ! $this->isGuestsDropdownOpen;
-    }
-
-    public function openGuestsDropdown(): void
-    {
-        $this->isGuestsDropdownOpen = true;
-    }
-
-    public function closeGuestsDropdown(): void
-    {
-        $this->isGuestsDropdownOpen = false;
-    }
-
     public function selectGuests(string $value): void
     {
         $this->guests = $value;
-        $this->isGuestsDropdownOpen = false;
 
         // No auto-advance - user must click "Weiter" button manually
         $this->dispatch('guests-selected');

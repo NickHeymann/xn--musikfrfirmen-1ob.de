@@ -34,7 +34,7 @@
                         {{-- Step 1: Date --}}
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-all"
-                                 :class="$wire.step >= 1 ? 'bg-[#2DD4A8] text-white' : 'bg-gray-300 text-gray-600'">
+                                 :class="$wire.step >= 1 ? 'bg-[#C8E6DC] text-white' : 'bg-gray-300 text-gray-600'">
                                 1
                             </div>
                             <span class="text-sm font-medium" :class="$wire.step >= 1 ? 'text-[#1a1a1a]' : 'text-gray-500'">
@@ -47,7 +47,7 @@
                         {{-- Step 2: Time --}}
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-all"
-                                 :class="$wire.step >= 2 ? 'bg-[#2DD4A8] text-white' : 'bg-gray-300 text-gray-600'">
+                                 :class="$wire.step >= 2 ? 'bg-[#C8E6DC] text-white' : 'bg-gray-300 text-gray-600'">
                                 2
                             </div>
                             <span class="text-sm font-medium" :class="$wire.step >= 2 ? 'text-[#1a1a1a]' : 'text-gray-500'">
@@ -60,7 +60,7 @@
                         {{-- Step 3: Contact --}}
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-all"
-                                 :class="$wire.step >= 3 ? 'bg-[#2DD4A8] text-white' : 'bg-gray-300 text-gray-600'">
+                                 :class="$wire.step >= 3 ? 'bg-[#C8E6DC] text-white' : 'bg-gray-300 text-gray-600'">
                                 3
                             </div>
                             <span class="text-sm font-medium" :class="$wire.step >= 3 ? 'text-[#1a1a1a]' : 'text-gray-500'">
@@ -79,7 +79,7 @@
                         <div class="space-y-4">
                             {{-- Selected Date --}}
                             <div class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-[#2DD4A8] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#5a9a84] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 <div>
@@ -96,7 +96,7 @@
 
                             {{-- Selected Time --}}
                             <div class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-[#2DD4A8] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#5a9a84] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -111,7 +111,7 @@
 
                             {{-- Duration --}}
                             <div class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-[#2DD4A8] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#5a9a84] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
                                 <div>
@@ -144,7 +144,7 @@
                                         <button
                                             wire:click="selectDate('{{ $dateOption['date'] }}')"
                                             class="p-4 border-2 rounded-xl text-center transition-all duration-300 hover:scale-105"
-                                            :class="$wire.selectedDate === '{{ $dateOption['date'] }}' ? 'border-[#2DD4A8] bg-[#2DD4A8]/10' : 'border-gray-200 hover:border-[#2DD4A8]/50'"
+                                            :class="$wire.selectedDate === '{{ $dateOption['date'] }}' ? 'border-[#C8E6DC] bg-[#C8E6DC]/10' : 'border-gray-200 hover:border-[#C8E6DC]/50'"
                                         >
                                             <div class="text-xs text-gray-500 mb-1">{{ $dateOption['dayOfWeek'] }}</div>
                                             <div class="text-2xl font-bold text-[#1a1a1a]">{{ $dateOption['day'] }}</div>
@@ -165,7 +165,7 @@
                                         <button
                                             wire:click="selectTime('{{ $slot }}')"
                                             class="p-4 border-2 rounded-xl text-center font-medium transition-all duration-300 hover:scale-105"
-                                            :class="$wire.selectedTime === '{{ $slot }}' ? 'border-[#2DD4A8] bg-[#2DD4A8]/10 text-[#1a1a1a]' : 'border-gray-200 hover:border-[#2DD4A8]/50 text-gray-700'"
+                                            :class="$wire.selectedTime === '{{ $slot }}' ? 'border-[#C8E6DC] bg-[#C8E6DC]/10 text-[#1a1a1a]' : 'border-gray-200 hover:border-[#C8E6DC]/50 text-gray-700'"
                                         >
                                             {{ $slot }} Uhr
                                         </button>
@@ -189,7 +189,7 @@
                                             type="text"
                                             id="name"
                                             wire:model="name"
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="Max Mustermann"
                                         >
                                         @error('name')
@@ -206,7 +206,7 @@
                                             type="email"
                                             id="email"
                                             wire:model="email"
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="max@beispiel.de"
                                         >
                                         @error('email')
@@ -223,7 +223,7 @@
                                             type="tel"
                                             id="phone"
                                             wire:model="phone"
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#2DD4A8] focus:outline-none transition-colors"
+                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#C8E6DC] focus:outline-none transition-colors"
                                             placeholder="+49 123 456789"
                                         >
                                         @error('phone')
@@ -240,7 +240,7 @@
                                             id="message"
                                             wire:model="message"
                                             rows="4"
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#2DD4A8] focus:outline-none transition-colors resize-none"
+                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#C8E6DC] focus:outline-none transition-colors resize-none"
                                             placeholder="Erzählen Sie uns kurz über Ihr geplantes Event..."
                                         ></textarea>
                                         @error('message')
