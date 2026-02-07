@@ -41,7 +41,7 @@
     <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
         {{-- Logo - Left on Mobile/Tablet, Centered on Desktop --}}
         <a href="/"
-           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#2DD4A8] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10"
+           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             <span class="hidden sm:inline">musikfürfirmen.de</span>
@@ -51,7 +51,7 @@
         {{-- Left Navigation (Large Desktop only) --}}
         <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
             <a href="/#waswirbieten"
-               class="hover:text-[#2DD4A8] transition-colors font-thin"
+               class="hover:text-[#C8E6DC] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Angebote
@@ -61,14 +61,14 @@
         {{-- Right Navigation (Large Desktop only) --}}
         <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
             <a href="/#ueberuns"
-               class="hover:text-[#2DD4A8] transition-colors font-thin"
+               class="hover:text-[#C8E6DC] transition-colors font-thin"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Über uns
             </a>
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="hover:text-[#2DD4A8] transition-colors font-thin cursor-pointer"
+                class="hover:text-[#C8E6DC] transition-colors font-thin cursor-pointer"
                 style="font-family: 'Poppins', sans-serif"
                 :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Kontakt
@@ -77,15 +77,15 @@
 
         {{-- Mobile/Tablet Hamburger --}}
         <button @click="isOpen = !isOpen"
-                class="lg:hidden relative w-8 h-6 flex flex-col justify-center items-center gap-1.5 focus:outline-none z-20">
-            <span class="w-6 h-0.5 transition-all duration-300"
+                class="lg:hidden relative w-7 h-5 flex flex-col justify-center items-center gap-1 focus:outline-none z-20">
+            <span class="w-5 h-[1.5px] rounded-full transition-all duration-300"
                   :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
-                  :style="{ transform: isOpen ? 'rotate(45deg) translateY(4px)' : 'rotate(0)' }"></span>
-            <span class="w-6 h-0.5 transition-all duration-300"
+                  :style="{ transform: isOpen ? 'rotate(45deg) translateY(3px)' : 'rotate(0)' }"></span>
+            <span class="w-5 h-[1.5px] rounded-full transition-all duration-300"
                   :class="[isDark ? 'bg-white' : 'bg-[#1a1a1a]', isOpen ? 'opacity-0' : 'opacity-100']"></span>
-            <span class="w-6 h-0.5 transition-all duration-300"
+            <span class="w-5 h-[1.5px] rounded-full transition-all duration-300"
                   :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"
-                  :style="{ transform: isOpen ? 'rotate(-45deg) translateY(-4px)' : 'rotate(0)' }"></span>
+                  :style="{ transform: isOpen ? 'rotate(-45deg) translateY(-3px)' : 'rotate(0)' }"></span>
         </button>
     </nav>
 
@@ -104,18 +104,18 @@
         <nav class="flex flex-col px-4 sm:px-6 py-6 sm:py-8 gap-4 sm:gap-6" style="font-family: 'Poppins', sans-serif">
             <a href="/#waswirbieten"
                @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
+               class="text-base sm:text-lg hover:text-[#C8E6DC] transition-colors font-thin text-white py-2">
                 Angebote
             </a>
             <a href="/#ueberuns"
                @click="isOpen = false"
-               class="text-base sm:text-lg hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
+               class="text-base sm:text-lg hover:text-[#C8E6DC] transition-colors font-thin text-white py-2">
                 Über uns
             </a>
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
                 @click="isOpen = false"
-                class="text-base sm:text-lg text-left hover:text-[#2DD4A8] transition-colors font-thin text-white py-2">
+                class="text-base sm:text-lg text-left hover:text-[#C8E6DC] transition-colors font-thin text-white py-2">
                 Kontakt
             </button>
         </nav>

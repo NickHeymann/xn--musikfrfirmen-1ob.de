@@ -91,9 +91,9 @@
             const degrees = progress * 360;
             return `conic-gradient(
                 from 0deg at 50% 50%,
-                #D4F4E8 0deg,
-                #B2EAD8 ${degrees * 0.95}deg,
-                #D4F4E8 ${degrees}deg,
+                #C8E6DC 0deg,
+                #B0D4C5 ${degrees * 0.95}deg,
+                #C8E6DC ${degrees}deg,
                 transparent ${degrees}deg,
                 transparent 360deg
             )`;
@@ -123,7 +123,7 @@
                     </h3>
                     <p class="text-[#4a4a4a] font-light leading-[1.7]">
                         Schickt uns eure Anfrage innerhalb von
-                        <span class="text-[#2DD4A8] font-semibold">60 Sekunden</span>
+                        <span class="text-[#5a9a84] font-semibold">60 Sekunden</span>
                          über unser Formular. Schnell, einfach und unkompliziert.
                     </p>
                 </div>
@@ -131,7 +131,7 @@
 
             <div class="service-connecting-line w-16 h-1 md:w-16 md:h-1 relative bg-[#e5e7eb] rounded-sm my-4 md:my-0 md:mx-0 rotate-90 md:rotate-0">
                 <div
-                    class="absolute top-0 left-0 h-full bg-[#2DD4A8] rounded-sm"
+                    class="absolute top-0 left-0 h-full bg-[#C8E6DC] rounded-sm"
                     :style="`width: ${lineProgress[0] * 100}%; transition: width 0.05s linear`"
                 ></div>
             </div>
@@ -159,7 +159,7 @@
                     </h3>
                     <p class="text-[#4a4a4a] font-light leading-[1.7]">
                         Erhaltet ein kostenloses Angebot innerhalb von
-                        <span class="text-[#2DD4A8] font-semibold">24 Stunden</span>
+                        <span class="text-[#5a9a84] font-semibold">24 Stunden</span>
                         . Durch das von euch ausgefüllte Formular liefern wir euch ein individuelles Angebot.
                     </p>
                 </div>
@@ -167,7 +167,7 @@
 
             <div class="service-connecting-line w-16 h-1 md:w-16 md:h-1 relative bg-[#e5e7eb] rounded-sm my-4 md:my-0 md:mx-0 rotate-90 md:rotate-0">
                 <div
-                    class="absolute top-0 left-0 h-full bg-[#2DD4A8] rounded-sm"
+                    class="absolute top-0 left-0 h-full bg-[#C8E6DC] rounded-sm"
                     :style="`width: ${lineProgress[1] * 100}%; transition: width 0.05s linear`"
                 ></div>
             </div>
@@ -195,7 +195,7 @@
                     </h3>
                     <p class="text-[#4a4a4a] font-light leading-[1.7]">
                         Genießt
-                        <span class="text-[#2DD4A8] font-semibold">professionelle Betreuung</span>
+                        <span class="text-[#5a9a84] font-semibold">professionelle Betreuung</span>
                          bis zum großen Tag! Wir sind 24/7 erreichbar. Über WhatsApp, Telefon oder E-Mail.
                     </p>
                 </div>
@@ -206,7 +206,7 @@
     <div class="w-full flex justify-center mt-[60px]">
         <button
             onclick="Livewire.dispatch('openMFFCalculator')"
-            class="service-cta-button py-[18px] px-12 bg-[#D4F4E8] text-[#292929] border-none rounded-[50px] text-lg font-medium cursor-pointer transition-all duration-300 hover:bg-[#7dc9b1] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            class="service-cta-button py-[18px] px-12 bg-[#C8E6DC] text-[#292929] border-none rounded-[50px] text-lg font-medium cursor-pointer transition-all duration-300 hover:bg-[#A0C4B5] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
             :class="{ 'opacity-100': ctaVisible, 'opacity-0': !ctaVisible }"
             style="font-family: 'Poppins', sans-serif; transition: all 0.3s ease, opacity 1s ease-out"
         >

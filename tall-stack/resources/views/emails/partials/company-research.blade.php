@@ -27,7 +27,45 @@
                         @if($companyResearch['website'] ?? null)
                         <tr>
                             <td style="padding-top: 6px;">
-                                <a href="{{ $companyResearch['website'] }}" style="font-size: 12px; color: #7dc9b1; text-decoration: none;">&#x1F310; {{ preg_replace('#^https?://(www\.)?#', '', $companyResearch['website']) }}</a>
+                                <a href="{{ $companyResearch['website'] }}" style="font-size: 12px; color: #A0C4B5; text-decoration: none;">&#x1F310; {{ preg_replace('#^https?://(www\.)?#', '', $companyResearch['website']) }}</a>
+                            </td>
+                        </tr>
+                        @endif
+                        @if($companyResearch['call_prep'] ?? null)
+                        <tr>
+                            <td style="padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                                <span style="font-size: 11px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px;">GESPRÄCHSVORBEREITUNG</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 12px; color: #555; padding-top: 4px; line-height: 1.5;">
+                                {{ $companyResearch['call_prep'] }}
+                            </td>
+                        </tr>
+                        @endif
+                        @if(!empty($companyResearch['talking_points'] ?? []))
+                        <tr>
+                            <td style="padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                                <span style="font-size: 11px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px;">FRAGEN FÜR DEN ANRUF</span>
+                            </td>
+                        </tr>
+                        @foreach($companyResearch['talking_points'] as $point)
+                        <tr>
+                            <td style="font-size: 12px; color: #555; padding-top: 3px; padding-left: 8px;">
+                                &bull; {{ $point }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                        @if($companyResearch['potential_needs'] ?? null)
+                        <tr>
+                            <td style="padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                                <span style="font-size: 11px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px;">MÖGLICHE BEDÜRFNISSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 12px; color: #555; padding-top: 4px; line-height: 1.5;">
+                                {{ $companyResearch['potential_needs'] }}
                             </td>
                         </tr>
                         @endif

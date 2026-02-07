@@ -71,7 +71,7 @@
     }
 
     .service-highlight {
-        color: #2DD4A8;
+        color: #C8E6DC;
         font-weight: 600;
     }
 

@@ -135,7 +135,7 @@ class CompanyResearchService
             ])
             ->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => $model,
-                'max_tokens' => 1024,
+                'max_tokens' => 1500,
                 'temperature' => 0.1,
                 'response_format' => ['type' => 'json_object'],
                 'messages' => [
@@ -145,7 +145,7 @@ class CompanyResearchService
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein strukturiertes Firmenprofil.\n\n{$snippets}\n\nAntworte als JSON mit diesem Schema:\n{\"industry\": \"Branche oder null\", \"employee_count\": \"Anzahl oder null\", \"website\": \"URL oder null\", \"location\": \"Standort oder null\", \"description\": \"Kurze Beschreibung (1-2 Sätze) oder null\", \"recent_news\": [{\"title\": \"...\", \"url\": \"...\"}], \"past_events\": [{\"title\": \"...\", \"url\": \"...\"}], \"sources\": [\"url1\", \"url2\"]}",
+                        'content' => "Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein strukturiertes Firmenprofil.\n\n{$snippets}\n\nAntworte als JSON mit diesem Schema:\n{\"industry\": \"Branche oder null\", \"employee_count\": \"Anzahl oder null\", \"website\": \"URL oder null\", \"location\": \"Standort oder null\", \"description\": \"Kurze Beschreibung (1-2 Sätze) oder null\", \"call_prep\": \"2-3 Sätze Vorbereitung für den Anruf oder null\", \"talking_points\": [\"Frage 1\", \"Frage 2\"], \"potential_needs\": \"Mögliche Bedürfnisse basierend auf Branche/Größe oder null\", \"recent_news\": [{\"title\": \"...\", \"url\": \"...\"}], \"past_events\": [{\"title\": \"...\", \"url\": \"...\"}], \"sources\": [\"url1\", \"url2\"]}",
                     ],
                 ],
             ]);
