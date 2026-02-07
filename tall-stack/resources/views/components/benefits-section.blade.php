@@ -3,6 +3,7 @@
          x-data="{ visible: false, openIndex: null }"
          x-intersect="visible = true">
     <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
+    <div class="card-stack-content">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-10 md:mb-16 transition-all duration-700"
@@ -115,5 +116,6 @@
                 </button>
             </div>
         </div>
+    </div>
     </div>
 </section>

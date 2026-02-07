@@ -5,6 +5,7 @@
          data-card-index="1"
          style="font-family: 'Poppins', sans-serif">
     <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
+    <div class="card-stack-content">
     <div class="max-w-3xl mx-auto px-6 sm:px-8">
         @if($testimonials->count() > 0)
             <div class="flex items-center gap-2 sm:gap-4"
@@ -104,5 +105,6 @@
                 <p class="text-lg text-gray-500">Keine Testimonials verfügbar.</p>
             </div>
         @endif
+    </div>
     </div>
 </section>

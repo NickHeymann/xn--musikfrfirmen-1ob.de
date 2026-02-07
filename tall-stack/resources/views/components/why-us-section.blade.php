@@ -9,6 +9,7 @@
     x-intersect.once="visible = true"
 >
     <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
+    <div class="card-stack-content">
     <div class="max-w-7xl mx-auto px-6">
 
         {{-- Top Section: Story Left + Stats Right --}}
@@ -80,5 +81,6 @@
         </div>
 
 
+    </div>
     </div>
 </section>
