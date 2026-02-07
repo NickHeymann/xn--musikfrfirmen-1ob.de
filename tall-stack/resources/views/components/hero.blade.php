@@ -1,5 +1,5 @@
 {{-- Hero Section - Video Background --}}
-<section class="hero-section relative w-full h-screen flex items-center justify-center overflow-hidden"
+<section class="hero-section sticky top-0 z-[20] relative w-full h-screen flex items-center justify-center overflow-hidden"
          data-section-theme="dark"
          data-section-bg="#000000"
          x-data="{

@@ -1,5 +1,5 @@
 {{-- Testimonial Carousel - Client-side Alpine.js with swipe support --}}
-<section id="testimonial" class="testimonial-section w-full py-12 md:py-20 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21] -mt-6"
+<section id="testimonial" class="testimonial-section sticky top-0 w-full py-12 md:py-20 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21]"
          data-section-theme="light"
          data-section-bg="#C8E6DC"
          style="font-family: 'Poppins', sans-serif">

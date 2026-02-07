@@ -1,6 +1,6 @@
 {{-- "Warum Wir?" Section - Inspired by Seed Hub Layout --}}
 <section
-    class="why-us-section w-full py-12 md:py-20 bg-[#C8E6DC] overflow-hidden relative z-[23] -mt-6"
+    class="why-us-section sticky top-0 w-full py-12 md:py-20 bg-[#C8E6DC] overflow-hidden relative z-[23]"
     data-section-bg="#C8E6DC"
     data-section-theme="light"
     style="font-family: 'Poppins', sans-serif"
