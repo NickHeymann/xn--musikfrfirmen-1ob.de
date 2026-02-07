@@ -456,115 +456,24 @@
                                         <span class="text-xs text-red-400 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="flex flex-col gap-[4px]"
-                                     x-data="{
-                                        hours: '',
-                                        minutes: '',
-                                        init() {
-                                            // Initialize from wire:model if time exists
-                                            if ($wire.time) {
-                                                const parts = $wire.time.split(':');
-                                                this.hours = parts[0];
-                                                this.minutes = parts[1];
-                                            }
-                                        },
-                                        updateTime() {
-                                            // Auto-format and combine
-                                            if (this.hours.length === 2 && this.minutes.length === 2) {
-                                                const time = `${this.hours.padStart(2, '0')}:${this.minutes.padStart(2, '0')}`;
-                                                $wire.set('time', time);
-                                            } else if (this.hours === '' && this.minutes === '') {
-                                                $wire.set('time', '');
-                                            }
-                                        },
-                                        openTimePicker() {
-                                            $refs.hiddenTimeInput.showPicker();
-                                        }
-                                     }">
-                                    <div class="flex items-center gap-2">
-                                        <label class="text-[13px] font-normal text-white">Startzeit Event (optional)</label>
-                                        <button
-                                            type="button"
-                                            @click="openTimePicker()"
-                                            class="p-1.5 rounded hover:bg-white/10 transition-colors"
-                                            aria-label="Uhrzeit wählen">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="flex gap-2 items-center">
-                                        {{-- Stunden (HH) --}}
-                                        <input
-                                            type="text"
-                                            inputmode="numeric"
-                                            placeholder="HH"
-                                            maxlength="2"
-                                            x-model="hours"
-                                            @focus="$event.target.select()"
-                                            @input="
-                                                hours = hours.replace(/[^0-9]/g, '');
-                                                if (hours.length === 2) {
-                                                    if (parseInt(hours) > 23) {
-                                                        hours = '23';
-                                                    }
-                                                    if (parseInt(hours) >= 0 && parseInt(hours) <= 23) {
-                                                        $refs.minutes.focus();
-                                                    }
-                                                }
-                                                updateTime();
-                                            "
-                                            @keydown.enter.prevent="$wire.nextStep()"
-                                            @wheel="$event.target.blur()"
-                                            class="w-20 p-2.5 px-3 text-sm font-light border-2 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)] border-white/10"
-                                        />
-                                        <span class="text-white self-center">:</span>
-
-                                        {{-- Minuten (MM) --}}
-                                        <input
-                                            type="text"
-                                            inputmode="numeric"
-                                            placeholder="MM"
-                                            maxlength="2"
-                                            x-model="minutes"
-                                            x-ref="minutes"
-                                            @focus="$event.target.select()"
-                                            @input="
-                                                minutes = minutes.replace(/[^0-9]/g, '');
-                                                if (minutes.length === 2 && parseInt(minutes) > 59) {
-                                                    minutes = '59';
-                                                }
-                                                updateTime();
-                                                // Auto-navigate to city field when minutes are complete
-                                                if (minutes.length === 2) {
-                                                    const cityInput = document.getElementById('mff-city');
-                                                    if (cityInput) cityInput.focus();
-                                                }
-                                            "
-                                            @keydown.tab.prevent="
-                                                const cityInput = document.getElementById('mff-city');
-                                                if (cityInput) cityInput.focus();
-                                            "
-                                            @keydown.enter.prevent="$wire.nextStep()"
-                                            @wheel="$event.target.blur()"
-                                            class="w-20 p-2.5 px-3 text-sm font-light border-2 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)] border-white/10"
-                                        />
-
-                                        {{-- Hidden native time input for time picker --}}
-                                        <input
-                                            type="time"
-                                            x-ref="hiddenTimeInput"
-                                            wire:model.live="time"
-                                            @change="
-                                                if ($wire.time) {
-                                                    const parts = $wire.time.split(':');
-                                                    hours = parts[0];
-                                                    minutes = parts[1];
-                                                }
-                                            "
-                                            class="absolute opacity-0 pointer-events-none"
-                                            style="width: 0; height: 0;"
-                                        />
+                                <div class="flex flex-col gap-[4px]">
+                                    <label class="text-[13px] font-normal text-white">Startzeit (optional)</label>
+                                    <div class="flex gap-2">
+                                        @foreach([
+                                            ['value' => '08:00-12:00', 'label' => 'Morgens', 'sub' => '08–12 Uhr'],
+                                            ['value' => '12:00-16:00', 'label' => 'Mittags', 'sub' => '12–16 Uhr'],
+                                            ['value' => '16:00-20:00', 'label' => 'Abends', 'sub' => '16–20 Uhr'],
+                                        ] as $slot)
+                                            <button
+                                                type="button"
+                                                @click="$wire.time === '{{ $slot['value'] }}' ? $wire.set('time', '') : $wire.set('time', '{{ $slot['value'] }}')"
+                                                class="flex-1 py-2 px-1 text-center border-2 rounded-xl transition-all duration-200 cursor-pointer"
+                                                :class="$wire.time === '{{ $slot['value'] }}' ? 'border-[#C8E6DC] bg-[#C8E6DC]/15 text-white' : 'border-white/10 bg-white/5 text-white hover:border-white/20'"
+                                            >
+                                                <span class="block text-sm font-normal">{{ $slot['label'] }}</span>
+                                                <span class="block text-[11px] font-light text-white/60">{{ $slot['sub'] }}</span>
+                                            </button>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
