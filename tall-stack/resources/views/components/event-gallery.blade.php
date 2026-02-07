@@ -1,5 +1,5 @@
 {{-- Event Gallery Section - Swipeable Carousel --}}
-<section class="py-12 md:py-20 bg-[#C8E6DC] relative z-[25] -mt-6" data-section-theme="light" data-section-bg="#C8E6DC">
+<section class="sticky top-0 py-12 md:py-20 bg-[#C8E6DC] relative z-[25]" data-section-theme="light" data-section-bg="#C8E6DC">
     <div class="container mx-auto px-4">
         {{-- Swiper Gallery --}}
         <div
