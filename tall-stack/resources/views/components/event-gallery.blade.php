@@ -38,7 +38,7 @@
                 {{-- Left Arrow - Desktop only --}}
                 <button
                     @click="prev(); resetAutoplay()"
-                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-white/40 text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-200"
+                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-black/30 text-black/70 hover:text-black hover:border-black/60 hover:bg-black/5 transition-all duration-200"
                     aria-label="Vorheriges Bild"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@
                 {{-- Right Arrow - Desktop only --}}
                 <button
                     @click="next(); resetAutoplay()"
-                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-white/40 text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-200"
+                    class="hidden lg:flex shrink-0 w-10 h-10 items-center justify-center rounded-full border border-black/30 text-black/70 hover:text-black hover:border-black/60 hover:bg-black/5 transition-all duration-200"
                     aria-label="Nächstes Bild"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
