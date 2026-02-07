@@ -12,7 +12,9 @@
     {{-- Was wir bieten - Alternating Service Layout --}}
     <section id="waswirbieten" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[22]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="2">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
-        <x-service-cards />
+        <div class="card-stack-content">
+            <x-service-cards />
+        </div>
     </section>
 
     {{-- NEW: Warum Wir? Section --}}
@@ -27,12 +29,15 @@
     {{-- Team Section --}}
     <section id="ueberuns" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
-        <x-team-section />
+        <div class="card-stack-content">
+            <x-team-section />
+        </div>
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="sticky top-[80px] lg:top-[108px] pt-12 md:pt-20 pb-10 md:pb-16 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light" data-card-index="7">
+    <section id="faq" class="sticky top-[80px] lg:top-[108px] bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light" data-card-index="7">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
+        <div class="card-stack-content pt-12 md:pt-20 pb-10 md:pb-16">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-center text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 tracking-[-1px] text-black"
@@ -117,6 +122,7 @@
                 }
             </style>
         </div>
+        </div>
     </section>
 
     {{-- Footer --}}
@@ -138,17 +144,16 @@
                 const hH = getHeaderHeight();
                 const viewH = window.innerHeight - hH;
 
-                // Sort by card-index
                 sectionEls.sort((a, b) => parseInt(a.dataset.cardIndex) - parseInt(b.dataset.cardIndex));
 
-                // Build array of { el, overlay, topRelHeader }
                 const sections = sectionEls.map(sec => ({
                     el: sec,
+                    content: sec.querySelector('.card-stack-content'),
                     overlay: sec.querySelector('.card-stack-overlay'),
                     topRel: sec.getBoundingClientRect().top - hH
                 }));
 
-                // Find the "active" section: the last one whose top is at or near the header
+                // Find the "active" section: the last one pinned at the header
                 let activeIdx = 0;
                 for (let i = sections.length - 1; i >= 0; i--) {
                     if (sections[i].topRel <= 5) {
@@ -158,41 +163,44 @@
                 }
 
                 sections.forEach((sec, i) => {
-                    if (!sec.overlay) return;
-
                     let blur = 0;
                     let darken = 0;
 
                     if (i < activeIdx) {
-                        // Already scrolled past - fully blurred and darkened
-                        blur = 8;
-                        darken = 0.35;
+                        // Already scrolled past
+                        blur = 6;
+                        darken = 0.3;
                     } else if (i === activeIdx) {
-                        // Currently active/pinned section
-                        // Check if next section is starting to cover it
+                        // Currently active - progressively blur/darken as next section covers it
                         const next = sections[i + 1];
                         if (next && next.topRel < viewH) {
-                            // Next section is entering viewport - darken this one
                             const coverProgress = Math.max(0, 1 - (next.topRel / viewH));
-                            blur = coverProgress * 8;
-                            darken = coverProgress * 0.35;
+                            blur = coverProgress * 6;
+                            darken = coverProgress * 0.3;
                         }
                     } else if (i === activeIdx + 1) {
-                        // Next section entering from below - light blur so content is recognizable
-                        if (sec.topRel > 0 && sec.topRel < viewH) {
-                            const enterProgress = 1 - (sec.topRel / viewH);
-                            blur = Math.max(0, (1 - enterProgress) * 2);
-                        } else {
-                            blur = 2;
+                        // Next section entering - readable once ~40% into viewport
+                        // At topRel = viewH (just appeared) -> blur 3px
+                        // At topRel = viewH*0.4 (60% visible) -> blur 0 (fully readable)
+                        if (sec.topRel > 0) {
+                            const readableAt = viewH * 0.4;
+                            blur = sec.topRel <= readableAt ? 0 : Math.min(((sec.topRel - readableAt) / (viewH - readableAt)) * 3, 3);
                         }
                     } else {
-                        // Sections further below - moderate blur
+                        // Sections further below
                         blur = 3;
                     }
 
-                    sec.overlay.style.backdropFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                    sec.overlay.style.webkitBackdropFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                    sec.overlay.style.background = darken > 0.01 ? `rgba(0,0,0,${darken.toFixed(3)})` : 'transparent';
+                    // Apply filter:blur on the content wrapper (uniform blur, no gradient)
+                    if (sec.content) {
+                        sec.content.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                        sec.content.style.webkitFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    }
+
+                    // Apply darken on overlay (just background color, no backdrop-filter)
+                    if (sec.overlay) {
+                        sec.overlay.style.background = darken > 0.01 ? `rgba(0,0,0,${darken.toFixed(3)})` : 'transparent';
+                    }
                 });
             }
 
