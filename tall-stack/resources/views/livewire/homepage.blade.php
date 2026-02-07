@@ -186,11 +186,11 @@
                             darken = 0.3;
                         }
                     } else if (i === activeIdx) {
-                        // Active section - only blur/darken once next section
-                        // is close to the header (last 1/3 of viewport travel)
+                        // Active section - start blur/darken immediately as next
+                        // section enters viewport, ramp smoothly over full travel
                         const next = sections[i + 1];
-                        if (next && next.topRel < viewH * 0.33) {
-                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / (viewH * 0.33))));
+                        if (next && next.topRel < viewH) {
+                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / viewH)));
                             const eased = easeInOut(t);
                             blur = eased * 6;
                             darken = eased * 0.3;
