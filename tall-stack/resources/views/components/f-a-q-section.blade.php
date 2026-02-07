@@ -109,7 +109,7 @@
 
     .faq-icon {
         flex-shrink: 0;
-        color: #2DD4A8;
+        color: #C8E6DC;
         transition: transform 0.3s ease;
         display: flex;
         align-items: center;
@@ -136,7 +136,7 @@
         gap: 8px;
         margin-top: 20px;
         padding: 12px 24px;
-        background: #2DD4A8;
+        background: #C8E6DC;
         color: #fff;
         border-radius: 8px;
         text-decoration: none;

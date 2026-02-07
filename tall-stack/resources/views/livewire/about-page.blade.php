@@ -7,7 +7,7 @@
     <section class="relative py-32 px-6 bg-gradient-to-br from-teal-500 via-emerald-500 to-cyan-600 text-white">
         <div class="max-w-4xl mx-auto text-center">
             <h1 class="text-5xl md:text-7xl font-bold mb-6">Über uns</h1>
-            <p class="text-xl md:text-2xl text-[#D4F4E8]">
+            <p class="text-xl md:text-2xl text-[#C8E6DC]">
                 Wir sind euer zuverlässiger Partner für unvergessliche Firmenevents in ganz Deutschland
             </p>
         </div>
@@ -37,7 +37,7 @@
                         {{-- Bio --}}
                         <div class="lg:w-1/2">
                             <h3 class="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-3">{{ $member->name }}</h3>
-                            <p class="text-[#2DD4A8] font-semibold text-xl mb-2">{{ $member->role }}</p>
+                            <p class="text-[#5a9a84] font-semibold text-xl mb-2">{{ $member->role }}</p>
                             @if($member->role_second_line)
                                 <p class="text-[#4a4a4a] text-lg mb-8">{{ $member->role_second_line }}</p>
                             @endif
@@ -88,8 +88,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {{-- Professionalität --}}
                 <div class="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 bg-[#D4F4E8] rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-[#2DD4A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-[#C8E6DC] rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-[#3a7a64]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
@@ -101,8 +101,8 @@
 
                 {{-- Zuverlässigkeit --}}
                 <div class="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 bg-[#D4F4E8] rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-[#2DD4A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-[#C8E6DC] rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-[#3a7a64]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
@@ -114,8 +114,8 @@
 
                 {{-- Leidenschaft --}}
                 <div class="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition-shadow duration-300">
-                    <div class="w-16 h-16 bg-[#D4F4E8] rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-[#2DD4A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-[#C8E6DC] rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-[#3a7a64]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
                     </div>
@@ -132,10 +132,10 @@
     <section class="py-20 px-6 bg-gradient-to-br from-teal-500 via-emerald-500 to-cyan-600 text-white">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-4xl md:text-5xl font-bold mb-6">Bereit für euer Event?</h2>
-            <p class="text-xl mb-10 text-[#D4F4E8]">
+            <p class="text-xl mb-10 text-[#C8E6DC]">
                 Schickt uns eure Anfrage und erhaltet innerhalb von 24 Stunden ein individuelles Angebot.
             </p>
-            <a href="/#kontakt" class="inline-block bg-white text-teal-600 px-10 py-4 rounded-full font-semibold text-lg hover:bg-[#D4F4E8] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
+            <a href="/#kontakt" class="inline-block bg-white text-teal-600 px-10 py-4 rounded-full font-semibold text-lg hover:bg-[#C8E6DC] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
                 Jetzt Angebot anfragen
             </a>
         </div>
@@ -154,7 +154,7 @@
         position: relative;
         width: 500px;
         height: 700px;
-        background-color: #D4F4E8;
+        background-color: #C8E6DC;
         clip-path: path("M 487.5,500 C 487.5,631.168 381.168,737.5 250,737.5 118.83225,737.5 12.5,631.168 12.5,500 V 12.5 H 250 487.5 Z");
         transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         transform: scale(0.60);

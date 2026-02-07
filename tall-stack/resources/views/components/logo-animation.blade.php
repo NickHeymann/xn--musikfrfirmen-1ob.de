@@ -63,7 +63,7 @@
             class="mff-logo-elegant-text text-[42px] font-semibold relative inline-block leading-none"
             :class="{ 'animate-metallic-swoosh': isAnimated }"
             style="font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                   background: linear-gradient(90deg, #000 0%, #000 45%, #B2EAD8 49%, #D4F4E8 50%, #B2EAD8 51%, #000 55%, #000 100%);
+                   background: linear-gradient(90deg, #000 0%, #000 45%, #B0D4C5 49%, #C8E6DC 50%, #B0D4C5 51%, #000 55%, #000 100%);
                    background-size: 300% 100%;
                    background-position: 0% 0;
                    -webkit-background-clip: text;
@@ -82,7 +82,7 @@
         >
             Dein Partner für Firmenevents
             <span
-                class="absolute bottom-[-4px] left-0 w-full h-[2px] bg-[#d4f4e8]"
+                class="absolute bottom-[-4px] left-0 w-full h-[2px] bg-[#C8E6DC]"
                 :class="{ 'animate-underline-appear': isAnimated }"
                 :style="!isAnimated ? 'opacity: 0' : ''"
             ></span>
@@ -91,7 +91,7 @@
         {{-- Music Notes --}}
         <template x-for="note in musicNotes" :key="note.id">
             <div
-                class="mff-music-note absolute text-xl text-[#B2EAD8] pointer-events-none z-10 animate-note-float"
+                class="mff-music-note absolute text-xl text-[#B0D4C5] pointer-events-none z-10 animate-note-float"
                 :style="`left: calc(50% + ${note.x}px); top: 50%`"
                 x-text="note.note"
             ></div>

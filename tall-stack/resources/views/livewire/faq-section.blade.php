@@ -1,39 +1,30 @@
-{{-- FAQ Livewire Component - Accordion Implementation --}}
 <div>
     <section
-        class="faq-section max-w-[900px] mx-auto px-5"
-        style="font-family: 'Poppins', sans-serif"
+        class="max-w-[900px] mx-auto px-5"
+        x-data="{ openItems: {} }"
     >
-        <div
-            class="faq-container border-t border-[#e0e0e0]"
-            x-data="{ activeIndex: null }"
-            x-init="console.log('FAQ Alpine initialized, activeIndex:', activeIndex)"
-        >
+        <div class="divide-y divide-[#e5e5e5]">
             @foreach($faqItems as $index => $item)
-                <div class="faq-item border-b border-[#e0e0e0]">
+                <div class="faq-item" wire:key="faq-{{ $item->id ?? $index }}">
                     <button
-                        @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}"
-                        class="faq-question w-full bg-transparent border-none outline-none text-left text-[1.25rem] font-semibold text-black cursor-pointer flex justify-between items-center py-[30px] transition-opacity duration-300 hover:opacity-70"
-                        style="font-family: 'Poppins', sans-serif"
+                        @click="openItems[{{ $index }}] = !openItems[{{ $index }}]; $nextTick(() => { if(openItems[{{ $index }}]) { $el.closest('.faq-item').scrollIntoView({ behavior: 'smooth', block: 'nearest' }) } })"
+                        class="w-full flex items-center justify-between gap-4 py-5 text-left text-base md:text-lg font-medium text-[#1a1a1a] transition-colors duration-200 hover:text-[#5a9a84] cursor-pointer"
                     >
-                        <span class="pr-4">{{ $item->question }}</span>
+                        <span>{{ $item->question }}</span>
                         <span
-                            class="icon text-2xl font-light min-w-[30px] text-center ml-5 transition-transform duration-300"
-                            :class="activeIndex === {{ $index }} ? 'rotate-45' : ''"
-                        >
-                            +
-                        </span>
+                            class="shrink-0 text-xl text-[#5a9a84] transition-transform duration-300 select-none"
+                            :class="openItems[{{ $index }}] ? 'rotate-45' : ''"
+                        >+</span>
                     </button>
                     <div
-                        x-show="activeIndex === {{ $index }}"
+                        x-show="openItems[{{ $index }}]"
                         x-collapse
-                        class="faq-answer overflow-hidden"
                     >
-                        <p class="pt-0 pb-[30px] text-base leading-[1.6] font-light text-[#333] whitespace-pre-line">
+                        <p class="pb-5 text-sm md:text-base leading-relaxed text-[#1a1a1a]/70 whitespace-pre-line">
                             @if($item->has_link)
                                 {!! str_replace(
                                     '"Unverbindliches Angebot anfragen"',
-                                    '<span onclick="Livewire.dispatch(\'openMFFCalculator\')" class="text-[#7dc9b1] cursor-pointer underline hover:text-[#5eb89d] transition-colors">Unverbindliches Angebot anfragen</span>',
+                                    '<span onclick="Livewire.dispatch(\'openMFFCalculator\')" class="text-[#5a9a84] cursor-pointer underline hover:text-[#4a8a74] transition-colors">Unverbindliches Angebot anfragen</span>',
                                     $item->answer
                                 ) !!}
                             @else
