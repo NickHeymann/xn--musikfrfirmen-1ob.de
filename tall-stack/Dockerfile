@@ -119,7 +119,8 @@ stdout_logfile=/var/log/supervisor/nginx.out.log
 EOF
 
 # Optimize PHP for production
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && sed -i 's/expose_php = On/expose_php = Off/' "$PHP_INI_DIR/php.ini"
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \

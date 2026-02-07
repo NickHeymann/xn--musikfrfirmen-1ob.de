@@ -1,8 +1,8 @@
 {{-- WhatsApp/Contact CTA Section - Canva Redesign --}}
-<section id="kontakt" class="whatsapp-cta-section w-full py-20 bg-[#2DD4A8]" style="font-family: 'Poppins', sans-serif" data-section-bg="#2DD4A8" data-section-theme="dark">
+<section id="kontakt" class="whatsapp-cta-section w-full py-20 bg-[#C8E6DC]" style="font-family: 'Poppins', sans-serif" data-section-bg="#C8E6DC" data-section-theme="light">
     <div class="max-w-4xl mx-auto px-6 text-center">
         {{-- Main Text --}}
-        <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed">
+        <p class="text-xl md:text-2xl text-[#1a1a1a] mb-8 leading-relaxed">
             Wir sind 24/7 für euch telefonisch oder auch über WhatsApp erreichbar.
         </p>
 
@@ -20,7 +20,7 @@
         </a>
 
         {{-- Description --}}
-        <p class="text-white/90 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+        <p class="text-[#1a1a1a]/80 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Veranstaltung und schaffen die Grundlage für ein individuelles Angebot.
         </p>
     </div>

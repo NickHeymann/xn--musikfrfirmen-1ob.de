@@ -9,7 +9,7 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
         {{-- Header --}}
         <tr>
-            <td style="background: #B2EAD8; padding: 14px 20px; border-radius: 8px 8px 0 0;">
+            <td style="background: #B0D4C5; padding: 14px 20px; border-radius: 8px 8px 0 0;">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="font-size: 16px; font-weight: 700; color: #1a1a1a;">
@@ -36,10 +36,10 @@
                             <div style="font-size: 13px; color: #555; padding-bottom: 2px;">{{ $bookingData['company'] }}</div>
                             @endif
                             <div style="padding-bottom: 2px;">
-                                <a href="mailto:{{ $bookingData['email'] }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $bookingData['email'] }} &#x2197;</a>
+                                <a href="mailto:{{ $bookingData['email'] }}" style="font-size: 13px; color: #A0C4B5; text-decoration: none;">{{ $bookingData['email'] }} &#x2197;</a>
                             </div>
                             <div>
-                                <a href="tel:{{ $bookingData['phone'] }}" style="font-size: 13px; color: #7dc9b1; text-decoration: none;">{{ $bookingData['phone'] }} &#x2197;</a>
+                                <a href="tel:{{ $bookingData['phone'] }}" style="font-size: 13px; color: #A0C4B5; text-decoration: none;">{{ $bookingData['phone'] }} &#x2197;</a>
                             </div>
                         </td>
 
@@ -86,7 +86,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding-right: 8px;">
-                            <a href="mailto:{{ $bookingData['email'] }}?subject=Re: Ihr Erstgespräch am {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}" style="display: inline-block; background: #B2EAD8; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
+                            <a href="mailto:{{ $bookingData['email'] }}?subject=Re: Ihr Erstgespräch am {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
                         </td>
                         <td>
                             <a href="tel:{{ $bookingData['phone'] }}" style="display: inline-block; background: #1a1a1a; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x1F4DE; Anrufen</a>
