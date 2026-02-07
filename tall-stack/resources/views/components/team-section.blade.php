@@ -18,10 +18,18 @@
 
         {{-- Cutout Animation Layout - Always side-by-side --}}
         <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
-             x-intersect.once="visible = true">
+             x-intersect.once="visible = true"
+             @mouseleave="hoveredMember = null">
             {{-- Desktop hover dim overlay --}}
             <div class="hidden lg:block fixed inset-0 bg-black/20 transition-opacity duration-300 pointer-events-none z-[-1]"
-                 :class="hoveredMember ? 'opacity-100' : 'opacity-0'"></div>
+                 x-show="hoveredMember"
+                 x-cloak
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"></div>
             {{-- Jonas --}}
             <div class="cutout-person relative flex flex-col items-center transition-all duration-700"
                  :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
@@ -52,7 +60,7 @@
                     <div class="bg-white rounded-2xl shadow-xl p-6">
                         <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Jonas Glamann</h3>
                         <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Musikalischer Leiter</p>
-                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
+                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +94,7 @@
                     <div class="bg-white rounded-2xl shadow-xl p-6">
                         <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Nick Heymann</h3>
                         <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Technischer Leiter</p>
-                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Mit technischem Know-how und Leidenschaft für Veranstaltungen kümmere ich mich darum, dass bei jedem Event die Technik perfekt läuft und unsere Künstler optimal präsentiert werden.</p>
+                        <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Durch unsere Partnerschaft mit einem führenden Technikpartner können wir Equipment im Wert von über 100.000 € einsetzen. Ich bin bei jedem Event persönlich vor Ort.</p>
                     </div>
                 </div>
             </div>
@@ -131,7 +139,7 @@
                     </div>
                 </div>
                 <div class="space-y-3 text-sm text-[#1a1a1a] leading-relaxed">
-                    <p>Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne. Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
+                    <p>Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
                     <p>Vor Musikfürfirmen.de habe ich selbst in vielen Coverbands gespielt und dabei unzählige Events begleitet. Diese Erfahrung fließt direkt in unser Angebot ein - ich weiß genau, worauf es ankommt, damit die Musik perfekt zur Stimmung eures Events passt.</p>
                     <p>Als Teil der Band auf der Bühne zu stehen und gleichzeitig die technischen und organisatorischen Aspekte zu koordinieren, gibt mir einen einzigartigen Einblick in alle Facetten eines erfolgreichen Firmenevents.</p>
                 </div>
@@ -147,7 +155,6 @@
                     </div>
                 </div>
                 <div class="space-y-3 text-sm text-[#1a1a1a] leading-relaxed">
-                    <p>Mit technischem Know-how und Leidenschaft für Veranstaltungen kümmere ich mich darum, dass bei jedem Event die Technik perfekt läuft und unsere Künstler optimal präsentiert werden.</p>
                     <p>Meine Expertise liegt in der professionellen Event-Technik und der nahtlosen Integration von Sound- und Lichtsystemen. Durch unsere Partnerschaft mit einem führenden Technikpartner können wir Equipment im Wert von über 100.000 € einsetzen.</p>
                     <p>Ich bin bei jedem Event persönlich vor Ort, um sicherzustellen, dass alles reibungslos funktioniert - von der ersten Planung bis zum letzten Ton. So könnt ihr euch entspannt auf eure Gäste konzentrieren, während ich mich um die perfekte technische Umsetzung kümmere.</p>
                 </div>
@@ -206,5 +213,7 @@
     .cutout-name { font-size: 20px; }
     .cutout-role { font-size: 13px; }
     .cutout-divider { width: 120px; }
+    .cutout-img-jonas, .cutout-img-nick { left: 50%; transform: translateX(-50%) translateY(20px) scale(1.15); }
+    .cutout-container:hover .cutout-img-jonas, .cutout-container:hover .cutout-img-nick { transform: translateX(-50%) translateY(0) scale(1.2); }
 }
 </style>
