@@ -40,8 +40,9 @@
 
     <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
         {{-- Logo - Left on Mobile/Tablet, Centered on Desktop --}}
-        <a href="/"
-           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10"
+        <a href="#"
+           @click.prevent="window.scrollTo({ top: 0, behavior: 'smooth' })"
+           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10 cursor-pointer"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             <span class="hidden sm:inline">musikfürfirmen.de</span>

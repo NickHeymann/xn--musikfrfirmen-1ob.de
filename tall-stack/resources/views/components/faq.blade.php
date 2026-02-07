@@ -14,7 +14,8 @@ $halfCount = ceil($faqItems->count() / 2);
         {{-- Left Column --}}
         <div>
             @foreach($faqItems->take($halfCount) as $index => $item)
-                <div class="border-b border-[#e0e0e0]">
+                <div class="border-b border-[#C8E6DC] transition-all duration-500 ease-in-out rounded-lg"
+                     :class="activeIndex === {{ $index }} ? 'bg-[#C8E6DC]' : 'bg-transparent'">
                     <button
                         @click="activeIndex = activeIndex === {{ $index }} ? null : {{ $index }}"
                         class="w-full bg-transparent border-none outline-none text-left text-sm sm:text-base font-semibold text-black cursor-pointer flex justify-between items-center py-3 md:py-4 transition-opacity duration-300 hover:opacity-70"
@@ -22,8 +23,8 @@ $halfCount = ceil($faqItems->count() / 2);
                     >
                         <span class="pr-4 leading-snug">{{ $item->question }}</span>
                         <span
-                            class="text-lg font-light min-w-[24px] text-center ml-3 transition-transform duration-300 text-[#1a1a1a]/40"
-                            :class="activeIndex === {{ $index }} ? 'rotate-45' : ''"
+                            class="text-lg font-light min-w-[24px] text-center ml-3 transition-all duration-300"
+                            :class="activeIndex === {{ $index }} ? 'rotate-45 text-[#5a9a84]' : 'text-[#5a9a84]'"
                         >+</span>
                     </button>
                     <div
@@ -51,7 +52,8 @@ $halfCount = ceil($faqItems->count() / 2);
         <div>
             @foreach($faqItems->skip($halfCount) as $index => $item)
                 @php $realIndex = $index; @endphp
-                <div class="border-b border-[#e0e0e0]">
+                <div class="border-b border-[#C8E6DC] transition-all duration-500 ease-in-out rounded-lg"
+                     :class="activeIndex === {{ $realIndex }} ? 'bg-[#C8E6DC]' : 'bg-transparent'">
                     <button
                         @click="activeIndex = activeIndex === {{ $realIndex }} ? null : {{ $realIndex }}"
                         class="w-full bg-transparent border-none outline-none text-left text-sm sm:text-base font-semibold text-black cursor-pointer flex justify-between items-center py-3 md:py-4 transition-opacity duration-300 hover:opacity-70"
@@ -59,8 +61,8 @@ $halfCount = ceil($faqItems->count() / 2);
                     >
                         <span class="pr-4 leading-snug">{{ $item->question }}</span>
                         <span
-                            class="text-lg font-light min-w-[24px] text-center ml-3 transition-transform duration-300 text-[#1a1a1a]/40"
-                            :class="activeIndex === {{ $realIndex }} ? 'rotate-45' : ''"
+                            class="text-lg font-light min-w-[24px] text-center ml-3 transition-all duration-300"
+                            :class="activeIndex === {{ $realIndex }} ? 'rotate-45 text-[#5a9a84]' : 'text-[#5a9a84]'"
                         >+</span>
                     </button>
                     <div

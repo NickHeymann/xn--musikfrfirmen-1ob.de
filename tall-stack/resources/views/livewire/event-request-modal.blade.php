@@ -19,7 +19,9 @@
         },
         citySuggestions: [],
         showSuggestions: false,
+        citySelected: false,
         async fetchCities(query) {
+            this.citySelected = false;
             if (query.length < 2) {
                 this.citySuggestions = [];
                 this.showSuggestions = false;
@@ -50,6 +52,7 @@
             $wire.set('city', city.city);
             this.citySuggestions = [];
             this.showSuggestions = false;
+            this.citySelected = true;
 
             // Auto-navigate to budget field
             setTimeout(() => {
@@ -223,7 +226,7 @@
             </div>
 
             {{-- Content --}}
-            <div class="w-full p-6 sm:p-8 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col justify-center">
+            <div class="w-full p-4 sm:p-6 md:p-10 box-border text-white leading-relaxed overflow-y-auto flex-1 min-h-0 flex flex-col">
                 <div class="bg-[#1a1a1a] rounded-xl relative max-w-4xl mx-auto flex-1 flex flex-col">
                     {{-- Back Arrow --}}
                     @if ($step > 1 && $submitStatus !== 'success')
@@ -240,7 +243,7 @@
 
                     {{-- Header --}}
                     @if ($submitStatus !== 'success')
-                        <div class="text-center mb-8">
+                        <div class="text-center mb-4">
                             <div class="text-2xl md:text-3xl font-normal m-0 mb-4 text-white">
                                 <span class="block whitespace-nowrap">Deine Wünsche</span>
                                 <span class="block whitespace-nowrap text-xl md:text-2xl">für ein unvergessliches Event</span>
@@ -253,14 +256,14 @@
 
                     {{-- Step 1: Event Details --}}
                     @if ($step === 1)
-                        <div class="mb-8">
-                            <div class="flex items-center gap-4 text-lg font-normal mb-8">
+                        <div>
+                            <div class="flex items-center gap-4 text-lg font-normal mb-4">
                                 <span class="inline-flex items-center justify-center w-9 h-9 bg-[#C8E6DC] text-black rounded-full text-base font-semibold">1</span>
                                 <span class="text-[#C8E6DC]">Event-Details</span>
                             </div>
 
                             {{-- Date & Time Row --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div class="flex flex-col gap-[4px]"
                                      x-data="{
                                         day: '',
@@ -321,8 +324,8 @@
                                             $refs.hiddenDateInput.showPicker();
                                         }
                                      }">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <label class="text-sm font-medium text-white">Datum *</label>
+                                    <div class="flex items-center gap-2">
+                                        <label class="text-[13px] font-normal text-white">Datum *</label>
                                         <button
                                             type="button"
                                             @click="openCalendar()"
@@ -483,9 +486,9 @@
                                         <button
                                             type="button"
                                             @click="openTimePicker()"
-                                            class="p-1 rounded hover:bg-white/10 transition-colors"
+                                            class="p-1.5 rounded hover:bg-white/10 transition-colors"
                                             aria-label="Uhrzeit wählen">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
                                         </button>
@@ -576,7 +579,7 @@
                                         wire:model.blur="city"
                                         x-on:input="fetchCities($event.target.value)"
                                         x-on:blur="hideSuggestions()"
-                                        @focus="$event.target.select()"
+                                        @focus="$event.target.select(); if (citySuggestions.length > 0 && !citySelected) showSuggestions = true;"
                                         @keydown.tab.prevent="
                                             const budgetInput = document.getElementById('mff-budget');
                                             if (budgetInput) budgetInput.focus();
@@ -696,11 +699,11 @@
                             </div>
 
                             {{-- Next Button --}}
-                            <div class="grid grid-cols-1 gap-3 mt-4">
+                            <div style="margin-top: 32px">
                                 <button
                                     type="button"
                                     wire:click="nextStep"
-                                    class="p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[8px] bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                                    class="w-full p-[10px_20px] text-sm font-normal border-none rounded-[10px] cursor-pointer transition-all duration-200 text-center inline-flex items-center justify-center gap-[8px] bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                                 >
                                     Weiter
                                 </button>
@@ -881,9 +884,7 @@
                                         class="w-5 h-5 mt-[2px] cursor-pointer accent-[#C8E6DC] flex-shrink-0"
                                     />
                                     <label for="mff-privacy" class="text-[13px] font-normal text-white cursor-pointer leading-[1.5]">
-                                        Ich habe die
-                                        <a href="/datenschutz" target="_blank" class="text-[#C8E6DC] underline font-semibold hover:text-[#A0C4B5]">Datenschutzerklärung</a>
-                                        gelesen und akzeptiert. *
+                                        <a href="/datenschutz" target="_blank" class="text-[#C8E6DC] underline font-semibold hover:text-[#A0C4B5]">Datenschutzerklärung</a> gelesen und akzeptiert *
                                     </label>
                                 </div>
                                 @error('privacy')
@@ -900,8 +901,8 @@
                                         class="w-5 h-5 mt-[2px] cursor-pointer accent-[#C8E6DC] flex-shrink-0"
                                     />
                                     <label for="mff-storage-consent" class="text-[13px] font-normal text-white/80 cursor-pointer leading-[1.5]">
-                                        <span class="text-white">Formular-Daten lokal speichern</span><br>
-                                        <span class="text-[11px] text-white/60">Deine Eingaben werden nur in deinem Browser gespeichert (nicht an Server gesendet), damit du sie beim nächsten Besuch wiederfindest.</span>
+                                        <span class="text-white">Formular-Daten lokal speichern</span>
+                                        <span class="text-[11px] text-white/60 ml-1">– nur in deinem Browser, nicht auf dem Server.</span>
                                     </label>
                                 </div>
                             </div>

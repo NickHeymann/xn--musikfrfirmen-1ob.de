@@ -1,5 +1,5 @@
 {{-- Benefits Cards Section - "Das heißt für euch" (Collapsible) --}}
-<section class="benefits-cards-section w-full py-12 md:py-20 bg-white relative z-20" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif"
+<section class="benefits-cards-section w-full py-12 md:py-20 bg-white relative z-[24] -mt-6" data-section-theme="light" data-section-bg="#ffffff" style="font-family: 'Poppins', sans-serif"
          x-data="{ visible: false, openIndex: null }"
          x-intersect="visible = true">
     <div class="max-w-7xl mx-auto px-6">
@@ -12,7 +12,7 @@
         {{-- Collapsible Benefits --}}
         <div class="max-w-4xl mb-10 md:mb-16 space-y-0">
             {{-- Item 1: Einen Ansprechpartner --}}
-            <div class="transition-colors duration-300"
+            <div class="transition-all duration-500 ease-in-out"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
                      openIndex === 0 ? 'bg-[#C8E6DC] rounded-t-2xl' : 'bg-white rounded-t-2xl border-b border-[#1a1a1a]/10'
@@ -39,7 +39,7 @@
             </div>
 
             {{-- Item 2: Kein Ausfallrisiko --}}
-            <div class="transition-colors duration-300"
+            <div class="transition-all duration-500 ease-in-out"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
                      openIndex === 1 ? 'bg-[#C8E6DC]' : 'bg-white border-b border-[#1a1a1a]/10'
@@ -66,7 +66,7 @@
             </div>
 
             {{-- Item 3: 100% Qualität --}}
-            <div class="transition-colors duration-300"
+            <div class="transition-all duration-500 ease-in-out"
                  :class="[
                      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12',
                      openIndex === 2 ? 'bg-[#C8E6DC] rounded-b-2xl' : 'bg-white rounded-b-2xl'
@@ -93,8 +93,8 @@
             </div>
         </div>
 
-        {{-- CTA Section - Compact & Subtle --}}
-        <div class="text-center max-w-2xl mx-auto space-y-5 transition-all duration-700"
+        {{-- CTA Section - Left-aligned like rest of section --}}
+        <div class="max-w-4xl space-y-5 transition-all duration-700"
              :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
              style="transition-delay: 400ms">
 
@@ -102,7 +102,7 @@
                 Kostenloses Erstgespräch
             </h3>
 
-            <p class="text-sm md:text-base text-[#6b7280] leading-relaxed max-w-xl mx-auto">
+            <p class="text-sm md:text-base text-[#6b7280] leading-relaxed max-w-xl">
                 Gemeinsam definieren wir die musikalischen Anforderungen, besprechen eure Vorstellungen und schaffen die Grundlage für ein individuelles Angebot.
             </p>
 

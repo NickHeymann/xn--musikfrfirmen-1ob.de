@@ -31,11 +31,12 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"></div>
             {{-- Jonas --}}
-            <div class="cutout-person relative flex flex-col items-center transition-all duration-700"
-                 :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+            <div class="cutout-person relative flex flex-col items-center transition-all duration-700 cursor-pointer"
+                 :class="[visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8', hoveredMember === 'jonas' ? 'z-10' : 'z-0']"
                  style="transition-delay: 100ms"
-                 @mouseenter.self="hoveredMember = 'jonas'" @mouseleave.self="hoveredMember = null">
-                <div class="cutout-container" @click="modalOpen = true; currentMember = 'jonas'">
+                 @mouseenter="hoveredMember = 'jonas'" @mouseleave="hoveredMember = null"
+                 @click="hoveredMember = null; modalOpen = true; currentMember = 'jonas'">
+                <div class="cutout-container">
                     <div class="cutout-inner">
                         <div class="cutout-circle"></div>
                         <img src="/images/team/jonas.png" alt="Jonas Glamann" class="cutout-img cutout-img-jonas" loading="lazy" />
@@ -53,23 +54,31 @@
                      style="transition-delay: 500ms">
                     <p class="text-sm italic text-[#1a1a1a]/70 leading-relaxed">"Mit 7 Jahren habe ich angefangen Gitarre zu spielen und stehe seitdem auf der Bühne."</p>
                 </div>
-                {{-- Desktop Hover Bio --}}
-                <div class="hidden lg:block absolute left-full top-0 ml-8 w-[320px] transition-all duration-300 pointer-events-none"
-                     :class="hoveredMember === 'jonas' ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'"
-                     x-show="hoveredMember === 'jonas'">
+                {{-- Desktop Hover Bio - LEFT side of Jonas --}}
+                <div class="hidden lg:block absolute right-full top-[200px] -translate-y-1/2 mr-8 w-[280px] pointer-events-none z-10"
+                     x-show="hoveredMember === 'jonas'"
+                     x-cloak
+                     x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0 scale-75"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition duration-250"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-50"
+                     style="transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)">
                     <div class="bg-white rounded-2xl shadow-xl p-6">
                         <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Jonas Glamann</h3>
-                        <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Musikalischer Leiter</p>
+                        <p class="text-sm text-[#5a9a84] mb-3">Co-Founder &<br>Musikalischer Leiter</p>
                         <p class="text-sm text-[#1a1a1a]/80 leading-relaxed">Ich bin selbst Teil der Band und koordiniere diese, sowie alles rund um Technik.</p>
                     </div>
                 </div>
             </div>
             {{-- Nick --}}
-            <div class="cutout-person relative flex flex-col items-center transition-all duration-700"
-                 :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+            <div class="cutout-person relative flex flex-col items-center transition-all duration-700 cursor-pointer"
+                 :class="[visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8', hoveredMember === 'nick' ? 'z-10' : 'z-0']"
                  style="transition-delay: 200ms"
-                 @mouseenter.self="hoveredMember = 'nick'" @mouseleave.self="hoveredMember = null">
-                <div class="cutout-container" @click="modalOpen = true; currentMember = 'nick'">
+                 @mouseenter="hoveredMember = 'nick'" @mouseleave="hoveredMember = null"
+                 @click="hoveredMember = null; modalOpen = true; currentMember = 'nick'">
+                <div class="cutout-container">
                     <div class="cutout-inner">
                         <div class="cutout-circle"></div>
                         <img src="/images/team/nick.png" alt="Nick Heymann" class="cutout-img cutout-img-nick" loading="lazy" />
@@ -87,10 +96,17 @@
                      style="transition-delay: 600ms">
                     <p class="text-sm italic text-[#1a1a1a]/70 leading-relaxed">"Mit technischem Know-how und Leidenschaft sorge ich dafür, dass die Technik bei jedem Event perfekt läuft."</p>
                 </div>
-                {{-- Desktop Hover Bio --}}
-                <div class="hidden lg:block absolute right-full top-0 mr-8 w-[320px] transition-all duration-300 pointer-events-none"
-                     :class="hoveredMember === 'nick' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'"
-                     x-show="hoveredMember === 'nick'">
+                {{-- Desktop Hover Bio - RIGHT side of Nick --}}
+                <div class="hidden lg:block absolute left-full top-[200px] -translate-y-1/2 ml-8 w-[280px] pointer-events-none z-10"
+                     x-show="hoveredMember === 'nick'"
+                     x-cloak
+                     x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0 scale-75"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition duration-250"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-50"
+                     style="transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)">
                     <div class="bg-white rounded-2xl shadow-xl p-6">
                         <h3 class="text-lg font-bold text-[#1a1a1a] mb-1">Nick Heymann</h3>
                         <p class="text-sm text-[#5a9a84] mb-3">Co-Founder & Technischer Leiter</p>
