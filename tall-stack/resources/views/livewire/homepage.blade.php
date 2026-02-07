@@ -172,13 +172,25 @@
                     let darken = 0;
 
                     if (i < activeIdx) {
-                        blur = 6;
-                        darken = 0.3;
+                        // Already covered - check the section that covered us
+                        // to ease the transition (not instant max blur)
+                        const coverer = sections[i + 1];
+                        if (coverer && coverer.topRel > -viewH) {
+                            // coverer.topRel: 0 = just pinned, -viewH = fully scrolled past
+                            const coverAmount = Math.min(1, Math.abs(coverer.topRel) / (viewH * 0.5));
+                            const eased = easeInOut(coverAmount);
+                            blur = eased * 6;
+                            darken = eased * 0.3;
+                        } else {
+                            blur = 6;
+                            darken = 0.3;
+                        }
                     } else if (i === activeIdx) {
-                        // Active section - eased blur/darken as next section covers it
+                        // Active section - only blur/darken once next section
+                        // is close to the header (last 1/3 of viewport travel)
                         const next = sections[i + 1];
-                        if (next && next.topRel < viewH) {
-                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / viewH)));
+                        if (next && next.topRel < viewH * 0.33) {
+                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / (viewH * 0.33))));
                             const eased = easeInOut(t);
                             blur = eased * 6;
                             darken = eased * 0.3;
