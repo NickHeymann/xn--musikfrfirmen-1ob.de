@@ -1,8 +1,10 @@
 {{-- Testimonial Carousel - Client-side Alpine.js with swipe support --}}
-<section id="testimonial" class="testimonial-section sticky top-0 w-full py-12 md:py-20 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21]"
+<section id="testimonial" class="testimonial-section sticky top-[80px] lg:top-[108px] w-full py-12 md:py-20 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21]"
          data-section-theme="light"
          data-section-bg="#C8E6DC"
+         data-card-index="1"
          style="font-family: 'Poppins', sans-serif">
+    <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
     <div class="max-w-3xl mx-auto px-6 sm:px-8">
         @if($testimonials->count() > 0)
             <div class="flex items-center gap-2 sm:gap-4"
