@@ -26,11 +26,16 @@
     {{-- Event Gallery - Swipeable Carousel --}}
     <x-event-gallery />
 
-    {{-- Team Section --}}
-    <section id="ueberuns" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
+    {{-- Team Section - Intro (scrolls freely, not sticky) --}}
+    <section id="ueberuns" class="bg-white relative z-[26] scroll-mt-[80px] lg:scroll-mt-[108px]" data-section-bg="#ffffff" data-section-theme="light">
+        <x-team-intro />
+    </section>
+
+    {{-- Team Section - Member Grid (sticky card) --}}
+    <section class="sticky top-[80px] lg:top-[108px] bg-white relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <div class="card-stack-content">
-            <x-team-section />
+            <x-team-grid />
         </div>
     </section>
 
@@ -135,87 +140,87 @@
     <script>
         (function() {
             let ticking = false;
-            const getHeaderHeight = () => window.innerWidth >= 1024 ? 108 : 80;
+            let sections = null;
 
-            // Cubic bezier easeInOut: slow start, accelerate, slow end
-            function easeInOut(t) {
-                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            }
-
-            function updateCardEffects() {
+            function buildSections() {
                 const sectionEls = Array.from(document.querySelectorAll('[data-card-index]'));
                 if (!sectionEls.length) return;
-
-                const hH = getHeaderHeight();
-                const viewH = window.innerHeight - hH;
-
                 sectionEls.sort((a, b) => parseInt(a.dataset.cardIndex) - parseInt(b.dataset.cardIndex));
 
-                const sections = sectionEls.map(sec => ({
+                sections = sectionEls.map(sec => ({
                     el: sec,
                     content: sec.querySelector('.card-stack-content'),
                     overlay: sec.querySelector('.card-stack-overlay'),
-                    topRel: sec.getBoundingClientRect().top - hH
+                    stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
+                    pinScrollY: null,   // scrollY when next section first pinned
+                    height: sec.getBoundingClientRect().height,
                 }));
+            }
 
-                // Find the "active" section: the last one pinned at the header
-                let activeIdx = 0;
-                for (let i = sections.length - 1; i >= 0; i--) {
-                    if (sections[i].topRel <= 5) {
-                        activeIdx = i;
-                        break;
-                    }
-                }
+            function updateCardEffects() {
+                if (!sections) return;
+
+                // Blur starts the INSTANT the next section pins at the
+                // header (rectTop <= stickyTop).  Since sticky elements'
+                // getBoundingClientRect() stays constant once pinned, we
+                // track progress via window.scrollY instead of DOM rects.
+                //
+                // When next section first pins: record scrollY as pinScrollY.
+                // Progress t = (currentScrollY - pinScrollY) / rampPx
+                // Ramp is linear, 0 → max over rampPx of additional scroll.
+
+                const scrollY = window.scrollY;
 
                 sections.forEach((sec, i) => {
+                    if (!sec.content) return;
+
                     let blur = 0;
                     let darken = 0;
 
-                    if (i < activeIdx) {
-                        // Already covered - check the section that covered us
-                        // to ease the transition (not instant max blur)
-                        const coverer = sections[i + 1];
-                        if (coverer && coverer.topRel > -viewH) {
-                            // coverer.topRel: 0 = just pinned, -viewH = fully scrolled past
-                            const coverAmount = Math.min(1, Math.abs(coverer.topRel) / (viewH * 0.5));
-                            const eased = easeInOut(coverAmount);
-                            blur = eased * 6;
-                            darken = eased * 0.3;
+                    const next = sections[i + 1];
+                    if (next) {
+                        const nextTop = next.el.getBoundingClientRect().top;
+                        const pinned  = nextTop <= next.stickyTop + 2;
+
+                        if (pinned) {
+                            // Record the scrollY when pinning first occurs
+                            if (sec.pinScrollY === null) {
+                                sec.pinScrollY = scrollY;
+                            }
+
+                            // Linear ramp over 40% of section height
+                            const ramp = sec.height * 0.4;
+                            const scrolledSincePin = scrollY - sec.pinScrollY;
+
+                            if (ramp > 0 && scrolledSincePin > 0) {
+                                const t = Math.min(1, scrolledSincePin / ramp);
+                                blur   = t * 6;
+                                darken = t * 0.3;
+                            }
                         } else {
-                            blur = 6;
-                            darken = 0.3;
-                        }
-                    } else if (i === activeIdx) {
-                        // Active section - start blur/darken immediately as next
-                        // section enters viewport, ramp smoothly over full travel
-                        const next = sections[i + 1];
-                        if (next && next.topRel < viewH) {
-                            const t = Math.max(0, Math.min(1, 1 - (next.topRel / viewH)));
-                            const eased = easeInOut(t);
-                            blur = eased * 6;
-                            darken = eased * 0.3;
-                        }
-                    } else if (i > activeIdx) {
-                        // Sections below active: eased blur based on position
-                        // Readable at 1/3 from top of viewport (topRel = viewH * 0.33)
-                        // Off-screen (topRel >= viewH) = max 3px blur
-                        if (sec.topRel > viewH) {
-                            blur = 3;
-                        } else if (sec.topRel > 0) {
-                            const readableAt = viewH * 0.33;
-                            const t = sec.topRel <= readableAt ? 0 : Math.min(1, (sec.topRel - readableAt) / (viewH - readableAt));
-                            blur = easeInOut(t) * 3;
+                            // Next section unpinned — reset tracking
+                            sec.pinScrollY = null;
                         }
                     }
 
-                    if (sec.content) {
-                        sec.content.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                        sec.content.style.webkitFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                    }
+                    sec.content.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    sec.content.style.webkitFilter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
 
                     if (sec.overlay) {
                         sec.overlay.style.background = darken > 0.01 ? `rgba(0,0,0,${darken.toFixed(3)})` : 'transparent';
                     }
+                });
+
+                // Expose state for Playwright tests
+                window.__cardStackCache = sections.map(s => {
+                    const rect = s.el.getBoundingClientRect();
+                    return {
+                        idx: parseInt(s.el.dataset.cardIndex),
+                        stickyTop: s.stickyTop,
+                        rectTop: Math.round(rect.top),
+                        height: Math.round(rect.height),
+                        hasContent: !!s.content,
+                    };
                 });
             }
 
@@ -229,8 +234,26 @@
                 }
             }, { passive: true });
 
-            document.addEventListener('DOMContentLoaded', updateCardEffects);
-            document.addEventListener('livewire:navigated', updateCardEffects);
+            window.addEventListener('resize', function() {
+                sections = null;
+                requestAnimationFrame(function() {
+                    buildSections();
+                    updateCardEffects();
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                buildSections();
+                updateCardEffects();
+            });
+
+            document.addEventListener('livewire:navigated', function() {
+                sections = null;
+                requestAnimationFrame(function() {
+                    buildSections();
+                    updateCardEffects();
+                });
+            });
         })();
     </script>
 </div>
