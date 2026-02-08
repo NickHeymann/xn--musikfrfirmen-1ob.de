@@ -1,5 +1,5 @@
 {{-- Testimonial Carousel - Client-side Alpine.js with swipe support --}}
-<section id="testimonial" class="testimonial-section sticky top-[80px] lg:top-[108px] w-full py-12 md:py-20 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21]"
+<section id="testimonial" class="testimonial-section sticky top-[80px] lg:top-[108px] w-full py-8 md:py-12 bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[21]"
          data-section-theme="light"
          data-section-bg="#C8E6DC"
          data-card-index="1"
@@ -46,7 +46,7 @@
                 @endif
 
                 {{-- Testimonials Container --}}
-                <div class="relative w-full overflow-visible min-h-[280px] sm:min-h-[240px]"
+                <div class="relative w-full overflow-visible" style="height: 192px;"
                      @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                      @touchend.passive="
                         touchEndX = $event.changedTouches[0].screenX;
@@ -61,8 +61,7 @@
                              x-transition:leave="transition ease-in duration-200"
                              x-transition:leave-start="opacity-100"
                              x-transition:leave-end="opacity-0"
-                             class="flex flex-col items-center"
-                             @if($index > 0) style="position: absolute; inset: 0;" @endif>
+                             class="absolute inset-0 flex flex-col items-center justify-center">
 
                             {{-- Quote --}}
                             <blockquote class="mb-4">

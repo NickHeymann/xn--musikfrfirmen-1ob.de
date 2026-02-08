@@ -1,10 +1,20 @@
 {{-- Team Section - Moin aus Hamburg --}}
 <section
-    class="team-section py-12 md:py-20 bg-white" data-section-theme="light" data-section-bg="#ffffff"
+    class="team-section relative py-12 md:py-20 bg-white" data-section-theme="light" data-section-bg="#ffffff"
     style="font-family: 'Poppins', sans-serif"
     x-data="{ modalOpen: false, currentMember: null, visible: false, hoveredMember: null }"
 >
-    <div class="max-w-7xl mx-auto px-6">
+    {{-- Desktop hover dim overlay — scoped to this section --}}
+    <div class="hidden lg:block absolute inset-0 bg-black/20 transition-opacity duration-300 pointer-events-none z-[1]"
+         x-show="hoveredMember"
+         x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"></div>
+    <div class="max-w-7xl mx-auto px-6 relative z-[2]">
         {{-- Section Heading --}}
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4 md:mb-6 px-4">
             Moin aus Hamburg.
@@ -20,16 +30,6 @@
         <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
              x-intersect.once="visible = true"
              @mouseleave="hoveredMember = null">
-            {{-- Desktop hover dim overlay --}}
-            <div class="hidden lg:block fixed inset-0 bg-black/20 transition-opacity duration-300 pointer-events-none z-[-1]"
-                 x-show="hoveredMember"
-                 x-cloak
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"></div>
             {{-- Jonas --}}
             <div class="cutout-person relative flex flex-col items-center transition-all duration-700 cursor-pointer"
                  :class="[visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8', hoveredMember === 'jonas' ? 'z-10' : 'z-0']"
