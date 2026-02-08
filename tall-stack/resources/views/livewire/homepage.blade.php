@@ -152,11 +152,24 @@
                     content: sec.querySelector('.card-stack-content'),
                     overlay: sec.querySelector('.card-stack-overlay'),
                     stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
+                    pinScrollY: null,   // scrollY when next section first pinned
+                    height: sec.getBoundingClientRect().height,
                 }));
             }
 
             function updateCardEffects() {
                 if (!sections) return;
+
+                // Blur starts the INSTANT the next section pins at the
+                // header (rectTop <= stickyTop).  Since sticky elements'
+                // getBoundingClientRect() stays constant once pinned, we
+                // track progress via window.scrollY instead of DOM rects.
+                //
+                // When next section first pins: record scrollY as pinScrollY.
+                // Progress t = (currentScrollY - pinScrollY) / rampPx
+                // Ramp is linear, 0 → max over rampPx of additional scroll.
+
+                const scrollY = window.scrollY;
 
                 sections.forEach((sec, i) => {
                     if (!sec.content) return;
@@ -167,21 +180,26 @@
                     const next = sections[i + 1];
                     if (next) {
                         const nextTop = next.el.getBoundingClientRect().top;
-                        // Blur ramps over a 200px window just above the pin
-                        // point. nextTop is the actual CSS position of the
-                        // next section — it equals its natural scroll
-                        // position while the section is still approaching,
-                        // and clamps at stickyTop once pinned.
-                        const travelStart = next.stickyTop + 200;
-                        const travelEnd   = next.stickyTop;
-                        const travel = travelStart - travelEnd; // 200
+                        const pinned  = nextTop <= next.stickyTop + 2;
 
-                        if (nextTop < travelStart && travel > 0) {
-                            const linear = Math.min(1, (travelStart - nextTop) / travel);
-                            // ease-in: blur accelerates toward the end
-                            const t = linear * linear;
-                            blur   = t * 6;
-                            darken = t * 0.3;
+                        if (pinned) {
+                            // Record the scrollY when pinning first occurs
+                            if (sec.pinScrollY === null) {
+                                sec.pinScrollY = scrollY;
+                            }
+
+                            // Linear ramp over 40% of section height
+                            const ramp = sec.height * 0.4;
+                            const scrolledSincePin = scrollY - sec.pinScrollY;
+
+                            if (ramp > 0 && scrolledSincePin > 0) {
+                                const t = Math.min(1, scrolledSincePin / ramp);
+                                blur   = t * 6;
+                                darken = t * 0.3;
+                            }
+                        } else {
+                            // Next section unpinned — reset tracking
+                            sec.pinScrollY = null;
                         }
                     }
 
