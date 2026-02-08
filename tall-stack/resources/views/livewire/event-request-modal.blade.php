@@ -263,7 +263,7 @@
                             </div>
 
                             {{-- Date & Time Row --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                            <div class="grid grid-cols-2 gap-3 mb-3">
                                 <div class="flex flex-col gap-[4px]"
                                      x-data="{
                                         day: '',
@@ -324,14 +324,14 @@
                                             $refs.hiddenDateInput.showPicker();
                                         }
                                      }">
-                                    <div class="flex items-center gap-2">
-                                        <label class="text-[13px] font-normal text-white">Datum *</label>
+                                    <div class="flex items-center gap-1.5 mb-1">
+                                        <label class="text-[13px] font-normal text-white leading-none">Datum *</label>
                                         <button
                                             type="button"
                                             @click="openCalendar()"
-                                            class="p-1.5 rounded hover:bg-white/10 transition-colors"
+                                            class="p-0.5 rounded hover:bg-white/10 transition-colors"
                                             aria-label="Kalender öffnen">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
                                         </button>
@@ -456,24 +456,96 @@
                                         <span class="text-xs text-red-400 mt-1">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="flex flex-col gap-[4px]">
-                                    <label class="text-[13px] font-normal text-white">Startzeit (optional)</label>
-                                    <div class="flex gap-2">
-                                        @foreach([
-                                            ['value' => '08:00-12:00', 'label' => 'Morgens', 'sub' => '08–12 Uhr'],
-                                            ['value' => '12:00-16:00', 'label' => 'Mittags', 'sub' => '12–16 Uhr'],
-                                            ['value' => '16:00-20:00', 'label' => 'Abends', 'sub' => '16–20 Uhr'],
-                                        ] as $slot)
-                                            <button
-                                                type="button"
-                                                @click="$wire.time === '{{ $slot['value'] }}' ? $wire.set('time', '') : $wire.set('time', '{{ $slot['value'] }}')"
-                                                class="flex-1 py-2 px-1 text-center border-2 rounded-xl transition-all duration-200 cursor-pointer"
-                                                :class="$wire.time === '{{ $slot['value'] }}' ? 'border-[#C8E6DC] bg-[#C8E6DC]/15 text-white' : 'border-white/10 bg-white/5 text-white hover:border-white/20'"
-                                            >
-                                                <span class="block text-sm font-normal">{{ $slot['label'] }}</span>
-                                                <span class="block text-[11px] font-light text-white/60">{{ $slot['sub'] }}</span>
-                                            </button>
-                                        @endforeach
+                                <div class="flex flex-col gap-[4px]"
+                                     x-data="{
+                                         hour: '',
+                                         minute: '',
+                                         showPicker: false,
+                                         init() {
+                                             const t = $wire.time;
+                                             if (t && t.includes(':')) {
+                                                 const parts = t.split(':');
+                                                 this.hour = parts[0];
+                                                 this.minute = parts[1];
+                                             }
+                                         },
+                                         sync() {
+                                             if (this.hour !== '' && this.minute !== '') {
+                                                 $wire.set('time', this.hour.padStart(2, '0') + ':' + this.minute.padStart(2, '0'));
+                                             } else if (this.hour === '' && this.minute === '') {
+                                                 $wire.set('time', '');
+                                             }
+                                         },
+                                         pickTime(h, m) {
+                                             this.hour = h;
+                                             this.minute = m;
+                                             this.sync();
+                                             this.showPicker = false;
+                                         }
+                                     }">
+                                    <div class="flex items-center gap-1.5 mb-1">
+                                        <label class="text-[13px] font-normal text-white leading-none">Startzeit (optional)</label>
+                                        <button type="button" @click="showPicker = !showPicker" class="p-0.5 rounded hover:bg-white/10 transition-colors relative" aria-label="Uhrzeit wählen">
+                                            <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                                <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="flex gap-2 items-center">
+                                            <input type="text" inputmode="numeric" placeholder="HH" maxlength="2"
+                                                   x-model="hour"
+                                                   @focus="$event.target.select()"
+                                                   @input="
+                                                       hour = hour.replace(/[^0-9]/g, '');
+                                                       if (hour.length === 2) {
+                                                           let h = parseInt(hour);
+                                                           if (h > 23) hour = '23';
+                                                           $refs.minuteInput.focus();
+                                                       }
+                                                       sync();
+                                                   "
+                                                   @keydown.enter.prevent="$wire.nextStep()"
+                                                   class="w-16 p-2.5 px-3 text-sm font-light border-2 border-white/10 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)]"
+                                            />
+                                            <span class="text-white/40 text-lg">:</span>
+                                            <input type="text" inputmode="numeric" placeholder="MM" maxlength="2"
+                                                   x-model="minute"
+                                                   x-ref="minuteInput"
+                                                   @focus="$event.target.select()"
+                                                   @input="
+                                                       minute = minute.replace(/[^0-9]/g, '');
+                                                       if (minute.length === 2) {
+                                                           let m = parseInt(minute);
+                                                           if (m > 59) minute = '59';
+                                                       }
+                                                       sync();
+                                                   "
+                                                   @keydown.enter.prevent="$wire.nextStep()"
+                                                   class="w-16 p-2.5 px-3 text-sm font-light border-2 border-white/10 rounded-xl bg-white/5 text-white text-center transition-all duration-200 focus:outline-none focus:border-[#C8E6DC] focus:shadow-[0_0_0_4px_rgba(200,230,220,0.1)]"
+                                            />
+                                        </div>
+                                        {{-- Time Picker Dropdown --}}
+                                        <div x-show="showPicker" x-cloak
+                                             @click.outside="showPicker = false"
+                                             x-transition:enter="transition ease-out duration-150"
+                                             x-transition:enter-start="opacity-0 -translate-y-1"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             class="absolute top-full left-0 mt-1 bg-[#2a2a2a] border border-white/10 rounded-xl shadow-xl z-50 p-2 grid grid-cols-4 gap-1 w-[200px] max-h-[200px] overflow-y-auto">
+                                            @foreach([
+                                                '08:00','09:00','10:00','11:00',
+                                                '12:00','13:00','14:00','15:00',
+                                                '16:00','17:00','18:00','19:00',
+                                                '20:00','21:00','22:00','23:00',
+                                            ] as $t)
+                                                <button type="button"
+                                                        @click="pickTime('{{ substr($t,0,2) }}', '{{ substr($t,3,2) }}')"
+                                                        class="text-xs py-1.5 px-1 rounded-lg text-white/80 hover:bg-[#C8E6DC]/20 hover:text-white transition-colors text-center">
+                                                    {{ $t }}
+                                                </button>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>

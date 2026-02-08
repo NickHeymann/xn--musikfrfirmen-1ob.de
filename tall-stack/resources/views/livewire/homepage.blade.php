@@ -37,6 +37,10 @@
         <div class="card-stack-content">
             <x-team-grid />
         </div>
+        {{-- Team hover dim overlay — outside card-stack-content so it won't be blurred --}}
+        <div class="hidden lg:block absolute inset-0 bg-black/20 pointer-events-none opacity-0 transition-opacity duration-300"
+             id="team-hover-overlay"
+             style="z-index: 49;"></div>
     </section>
 
     {{-- FAQ Section --}}
@@ -147,29 +151,45 @@
                 if (!sectionEls.length) return;
                 sectionEls.sort((a, b) => parseInt(a.dataset.cardIndex) - parseInt(b.dataset.cardIndex));
 
-                sections = sectionEls.map(sec => ({
-                    el: sec,
-                    content: sec.querySelector('.card-stack-content'),
-                    overlay: sec.querySelector('.card-stack-overlay'),
-                    stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
-                    pinScrollY: null,   // scrollY when next section first pinned
-                    height: sec.getBoundingClientRect().height,
-                }));
+                sections = sectionEls.map((sec, i) => {
+                    // For overlap detection, use the immediate next DOM sibling
+                    // if it's a non-card section between this and the next card.
+                    // This ensures sections like Event Gallery (idx=5) blur when
+                    // #ueberuns scrolls over them, not only when Team Grid (idx=6) does.
+                    let overlapEl = null;
+                    const nextCard = sectionEls[i + 1];
+                    if (nextCard) {
+                        const sibling = sec.nextElementSibling;
+                        if (sibling && sibling !== nextCard && !sibling.hasAttribute('data-card-index')) {
+                            overlapEl = sibling;
+                        }
+                    }
+
+                    return {
+                        el: sec,
+                        content: sec.querySelector('.card-stack-content'),
+                        overlay: sec.querySelector('.card-stack-overlay'),
+                        stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
+                        overlapEl: overlapEl,
+                    };
+                });
             }
 
             function updateCardEffects() {
                 if (!sections) return;
 
-                // Blur starts the INSTANT the next section pins at the
-                // header (rectTop <= stickyTop).  Since sticky elements'
-                // getBoundingClientRect() stays constant once pinned, we
-                // track progress via window.scrollY instead of DOM rects.
+                // Blur the ACTIVE visible card as the NEXT card slides up.
                 //
-                // When next section first pins: record scrollY as pinScrollY.
-                // Progress t = (currentScrollY - pinScrollY) / rampPx
-                // Ramp is linear, 0 → max over rampPx of additional scroll.
-
-                const scrollY = window.scrollY;
+                // The next card approaches from below. When its top edge
+                // reaches the bottom edge of the current pinned card,
+                // the overlap begins and blur starts. When it reaches the
+                // header (pins), it fully covers the current card.
+                //
+                // Progress: from when next.top == sec.bottom (t=0)
+                //           to when next.top == sec.stickyTop (t=1)
+                // Range = sec.bottom - sec.stickyTop = sec.height (since sec is pinned at stickyTop)
+                //
+                // This is fully live — no cached positions, no state tracking.
 
                 sections.forEach((sec, i) => {
                     if (!sec.content) return;
@@ -179,27 +199,22 @@
 
                     const next = sections[i + 1];
                     if (next) {
-                        const nextTop = next.el.getBoundingClientRect().top;
-                        const pinned  = nextTop <= next.stickyTop + 2;
+                        const secRect  = sec.el.getBoundingClientRect();
+                        // Use the closer element for overlap: either an intermediate
+                        // non-card sibling or the next card-index section
+                        const overlapTop = sec.overlapEl
+                            ? Math.min(sec.overlapEl.getBoundingClientRect().top, next.el.getBoundingClientRect().top)
+                            : next.el.getBoundingClientRect().top;
+                        const secBottom = secRect.top + secRect.height;
 
-                        if (pinned) {
-                            // Record the scrollY when pinning first occurs
-                            if (sec.pinScrollY === null) {
-                                sec.pinScrollY = scrollY;
+                        // Next element is overlapping the current card's area
+                        if (overlapTop < secBottom) {
+                            const range = secBottom - sec.stickyTop;
+                            if (range > 0) {
+                                const t = Math.min(1, (secBottom - overlapTop) / range);
+                                blur   = t * 4.8;   // 80% of 6px max
+                                darken = t * 0.24;   // 80% of 0.3 max
                             }
-
-                            // Linear ramp over 40% of section height
-                            const ramp = sec.height * 0.4;
-                            const scrolledSincePin = scrollY - sec.pinScrollY;
-
-                            if (ramp > 0 && scrolledSincePin > 0) {
-                                const t = Math.min(1, scrolledSincePin / ramp);
-                                blur   = t * 6;
-                                darken = t * 0.3;
-                            }
-                        } else {
-                            // Next section unpinned — reset tracking
-                            sec.pinScrollY = null;
                         }
                     }
 
@@ -214,12 +229,14 @@
                 // Expose state for Playwright tests
                 window.__cardStackCache = sections.map(s => {
                     const rect = s.el.getBoundingClientRect();
+                    const overlapRect = s.overlapEl ? s.overlapEl.getBoundingClientRect() : null;
                     return {
                         idx: parseInt(s.el.dataset.cardIndex),
                         stickyTop: s.stickyTop,
                         rectTop: Math.round(rect.top),
                         height: Math.round(rect.height),
                         hasContent: !!s.content,
+                        overlapTop: overlapRect ? Math.round(overlapRect.top) : null,
                     };
                 });
             }

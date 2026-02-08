@@ -3,13 +3,16 @@ import { test, expect } from '@playwright/test';
 /**
  * Card Stack Blur/Darken Animation Tests
  *
+ * The effect uses live rect positions — no cached values, no state tracking.
+ * Blur starts when the next section overlaps the current section's area
+ * and ramps linearly until the next section pins at the header.
+ *
  * Rules:
- * 1. Blur starts at the INSTANT the next section pins at the header
- *    (rectTop <= stickyTop + 2)
- * 2. Blur ramps LINEARLY from 0 to max(6px) via scrollY tracking
- * 3. No blur before next section pins
- * 4. FAQ (last card) must never blur — it has no next card-index section
- * 5. Footer must NOT participate in the card stack (no data-card-index)
+ * 1. Blur on a section starts when the next section enters its area
+ * 2. Blur ramps LINEARLY from 0 to max(4.8px) (80% cap)
+ * 3. No blur when next section is fully below current section
+ * 4. FAQ (last card) must never blur — no next card-index section
+ * 5. Footer must NOT participate in the card stack
  */
 
 const BASE = 'http://localhost:8080';
@@ -33,7 +36,8 @@ async function progressiveScan(page) {
       const scrollY = Math.round(window.scrollY);
 
       const entry = { scrollY, sections: [] };
-      for (const s of secs) {
+      for (let si = 0; si < secs.length; si++) {
+        const s = secs[si];
         const idx = parseInt(s.dataset.cardIndex);
         const rect = s.getBoundingClientRect();
         const stickyTop = parseFloat(getComputedStyle(s).top) || 0;
@@ -51,15 +55,27 @@ async function progressiveScan(page) {
           darken = parseFloat(bgVal.match(/rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*([0-9.]+)\)/)?.[1] || '0');
         }
 
+        // Check for intermediate non-card sibling (used for overlap detection)
+        let overlapTop = null;
+        const nextCard = secs[si + 1];
+        if (nextCard) {
+          const sib = s.nextElementSibling;
+          if (sib && sib !== nextCard && !sib.hasAttribute('data-card-index')) {
+            overlapTop = Math.round(sib.getBoundingClientRect().top);
+          }
+        }
+
         entry.sections.push({
           idx,
           top: Math.round(rect.top),
+          bottom: Math.round(rect.top + rect.height),
           height: Math.round(rect.height),
           stickyTop: Math.round(stickyTop),
           blur: Math.round(blur * 100) / 100,
           darken: Math.round(darken * 1000) / 1000,
           hasContent: !!content,
           pinned: rect.top <= stickyTop + 2,
+          overlapTop,
         });
       }
       data.push(entry);
@@ -77,7 +93,7 @@ test.describe('Card Stack Blur Animation', () => {
     await page.waitForTimeout(500);
   });
 
-  test('no blur before next section pins at header', async ({ page }) => {
+  test('no blur when next section is fully below current section', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
@@ -87,9 +103,13 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Next section has NOT pinned yet
-        if (!nextSec.pinned && sec.blur > 0.1) {
-          errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but next section not pinned (top=${nextSec.top})`);
+        // Use the overlap element's top if available (intermediate non-card sibling),
+        // otherwise the next card-index section's top
+        const effectiveTop = sec.overlapTop !== null ? Math.min(sec.overlapTop, nextSec.top) : nextSec.top;
+
+        // Next element's top is below current section's bottom → no overlap → no blur
+        if (effectiveTop >= sec.bottom && sec.blur > 0.1) {
+          errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but next element below (top=${effectiveTop} >= secBottom=${sec.bottom})`);
         }
       }
     }
@@ -98,14 +118,13 @@ test.describe('Card Stack Blur Animation', () => {
       console.log('\n=== PREMATURE BLUR ERRORS ===');
       errors.slice(0, 10).forEach(e => console.log('  FAIL:', e));
     }
-    expect(errors, 'No blur before next section pins').toHaveLength(0);
+    expect(errors, 'No blur when next section is below current').toHaveLength(0);
   });
 
-  test('blur starts when next section pins at header', async ({ page }) => {
+  test('blur ramps up as next section overlaps current section', async ({ page }) => {
     const data = await progressiveScan(page);
 
-    // For each section with content, find a frame where the next section
-    // has JUST pinned and blur has started ramping
+    // For each section with content, find frames where blur is active
     const found = {};
     for (const entry of data) {
       for (const sec of entry.sections) {
@@ -113,25 +132,26 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Next section is pinned and current section has some blur
-        if (nextSec.pinned && sec.blur > 0.1) {
-          found[sec.idx] = { scrollY: entry.scrollY, blur: sec.blur };
+        // Use overlap element top if available
+        const effTop = sec.overlapTop !== null ? Math.min(sec.overlapTop, nextSec.top) : nextSec.top;
+
+        // Next element overlaps current and blur is active
+        if (effTop < sec.bottom && sec.blur > 0.1) {
+          found[sec.idx] = { scrollY: entry.scrollY, blur: sec.blur, nextTop: effTop, secBottom: sec.bottom };
         }
       }
     }
 
-    console.log('\n  Pin-triggered blur detections:', JSON.stringify(found, null, 2));
+    console.log('\n  Blur detections:', JSON.stringify(found, null, 2));
 
-    // At least some sections should show blur after their next section pins
     const foundCount = Object.keys(found).length;
-    expect(foundCount, `Expected blur after pinning for some sections (found ${foundCount})`).toBeGreaterThan(0);
+    expect(foundCount, `Expected blur for some sections (found ${foundCount})`).toBeGreaterThan(0);
   });
 
   test('blur ramp must be smooth and linear — no sudden jumps', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
-    // Group blur values by section
     const sectionSamples = {};
     for (const entry of data) {
       for (const sec of entry.sections) {
@@ -147,7 +167,6 @@ test.describe('Card Stack Blur Animation', () => {
     for (const [idx, samples] of Object.entries(sectionSamples)) {
       if (samples.length < 3) continue;
 
-      // Check that blur never decreases significantly (monotonic ramp)
       for (let i = 1; i < samples.length; i++) {
         const delta = samples[i].blur - samples[i - 1].blur;
         if (delta < -1.5) {
@@ -155,14 +174,12 @@ test.describe('Card Stack Blur Animation', () => {
         }
       }
 
-      // Check that max blur doesn't exceed 6px + tolerance
       for (const s of samples) {
-        if (s.blur > 6.5) {
-          errors.push(`Section ${idx}: blur ${s.blur.toFixed(2)} exceeds max at scroll=${s.scrollY}`);
+        if (s.blur > 5.2) {
+          errors.push(`Section ${idx}: blur ${s.blur.toFixed(2)} exceeds 80% max (4.8px) at scroll=${s.scrollY}`);
         }
       }
 
-      // Print ramp summary
       console.log(`\n  Section ${idx} blur ramp (${samples.length} samples):`);
       const step = Math.max(1, Math.floor(samples.length / 8));
       for (let i = 0; i < samples.length; i += step) {
@@ -179,7 +196,6 @@ test.describe('Card Stack Blur Animation', () => {
     const data = await progressiveScan(page);
     const errors = [];
 
-    // Find the highest card-index (should be FAQ = 7)
     let maxCardIndex = 0;
     for (const entry of data) {
       for (const sec of entry.sections) {
@@ -187,7 +203,6 @@ test.describe('Card Stack Blur Animation', () => {
       }
     }
 
-    // The last card-stack section should never blur (no next section to trigger it)
     for (const entry of data) {
       const lastSec = entry.sections.find(s => s.idx === maxCardIndex);
       if (lastSec && lastSec.blur > 0.1) {
@@ -195,7 +210,6 @@ test.describe('Card Stack Blur Animation', () => {
       }
     }
 
-    // Footer must NOT have data-card-index
     const footerInStack = await page.evaluate(() => {
       const footer = document.querySelector('footer');
       return footer?.dataset?.cardIndex !== undefined;

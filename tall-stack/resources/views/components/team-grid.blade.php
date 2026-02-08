@@ -1,24 +1,26 @@
 {{-- Team Grid - Member portraits and bios (sticky card) --}}
 <section
-    class="team-section py-12 md:py-20 bg-white" data-section-theme="light" data-section-bg="#ffffff"
+    class="team-section pt-4 md:pt-6 pb-12 md:pb-20 bg-white" data-section-theme="light" data-section-bg="#ffffff"
     style="font-family: 'Poppins', sans-serif"
-    x-data="{ modalOpen: false, currentMember: null, visible: false, hoveredMember: null }"
+    x-data="{
+        modalOpen: false, currentMember: null, visible: false, hoveredMember: null,
+        init() {
+            this.$watch('hoveredMember', v => {
+                const overlay = document.getElementById('team-hover-overlay');
+                if (!overlay) return;
+                // Only show overlay when #ueberuns has scrolled past the header
+                const ueberuns = document.getElementById('ueberuns');
+                const canShow = !ueberuns || ueberuns.getBoundingClientRect().bottom <= 0;
+                overlay.style.opacity = (v && canShow) ? '1' : '0';
+            });
+        }
+    }"
 >
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6 relative">
         {{-- Cutout Animation Layout - Always side-by-side --}}
         <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
              x-intersect.once="visible = true"
              @mouseleave="hoveredMember = null">
-            {{-- Desktop hover dim overlay --}}
-            <div class="hidden lg:block fixed inset-0 bg-black/20 transition-opacity duration-300 pointer-events-none z-[-1]"
-                 x-show="hoveredMember"
-                 x-cloak
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"></div>
             {{-- Jonas --}}
             <div class="cutout-person relative flex flex-col items-center transition-all duration-700 cursor-pointer"
                  :class="[visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8', hoveredMember === 'jonas' ? 'z-10' : 'z-0']"
