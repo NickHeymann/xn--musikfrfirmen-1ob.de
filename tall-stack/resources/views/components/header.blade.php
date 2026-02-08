@@ -47,7 +47,7 @@
             }
         }"
         :style="{ backgroundColor: bgColor }"
-        :class="!isDark ? 'shadow-sm' : ''">
+        :class="''">
 
     <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
         {{-- Logo - Left on Mobile/Tablet, Centered on Desktop --}}

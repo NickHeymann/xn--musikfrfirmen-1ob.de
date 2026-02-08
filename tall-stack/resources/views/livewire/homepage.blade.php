@@ -147,12 +147,32 @@
                     content: sec.querySelector('.card-stack-content'),
                     overlay: sec.querySelector('.card-stack-overlay'),
                     stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
+                    pinnedAtScroll: null,
                 }));
             }
 
             function updateCardEffects() {
                 if (!sections) return;
+                const scrollY = window.scrollY || window.pageYOffset;
 
+                // First pass: detect pin points for all sections.
+                // A section is "pinned" when its rectTop reaches its stickyTop.
+                // We record the scrollY the first time this happens.
+                // If user scrolls back up and section un-pins, we reset.
+                sections.forEach(sec => {
+                    const rect = sec.el.getBoundingClientRect();
+                    const isPinned = rect.top <= sec.stickyTop + 2;
+                    if (isPinned && sec.pinnedAtScroll === null) {
+                        sec.pinnedAtScroll = scrollY;
+                    } else if (!isPinned) {
+                        sec.pinnedAtScroll = null;
+                    }
+                });
+
+                // Second pass: compute blur/darken for each section.
+                // A section blurs once its NEXT section has pinned at the header.
+                // Progress = how far we've scrolled past the next section's pin point,
+                // normalized by the current section's height.
                 sections.forEach((sec, i) => {
                     if (!sec.content) return;
 
@@ -160,13 +180,11 @@
                     let darken = 0;
 
                     const next = sections[i + 1];
-                    if (next) {
-                        const secRect = sec.el.getBoundingClientRect();
-                        const nextTop = next.el.getBoundingClientRect().top;
-                        const secBottom = secRect.top + secRect.height;
-                        const coverAmount = secBottom - nextTop;
-                        if (coverAmount > 0) {
-                            const t = Math.min(1, coverAmount / (secRect.height || 1));
+                    if (next && next.pinnedAtScroll !== null) {
+                        const scrollPastPin = scrollY - next.pinnedAtScroll;
+                        if (scrollPastPin > 0) {
+                            const secHeight = sec.el.getBoundingClientRect().height;
+                            const t = Math.min(1, scrollPastPin / (secHeight || 1));
                             blur = t * 6;
                             darken = t * 0.3;
                         }
@@ -186,6 +204,7 @@
                     return {
                         idx: parseInt(s.el.dataset.cardIndex),
                         stickyTop: s.stickyTop,
+                        pinnedAtScroll: s.pinnedAtScroll,
                         rectTop: Math.round(rect.top),
                         height: Math.round(rect.height),
                         hasContent: !!s.content,

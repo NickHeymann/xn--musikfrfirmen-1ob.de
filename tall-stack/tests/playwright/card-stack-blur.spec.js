@@ -4,14 +4,15 @@ import { test, expect } from '@playwright/test';
  * Card Stack Blur/Darken Animation Tests
  *
  * Rules:
- * 1. A section must NOT blur/darken before the next section starts covering it
- * 2. Once the next section starts covering, blur/darken ramps from zero
+ * 1. A section must NOT blur/darken before the next section pins at the header
+ * 2. Once the next section pins at the header, blur/darken ramps from zero
  * 3. The ramp must be linear — no sudden jumps
  * 4. Each section's ramp duration is proportional to its own height
  *
- * The production code uses live getBoundingClientRect() on every frame:
- * - coverAmount = (sec.top + sec.height) - next.top
- * - blur starts when coverAmount > 0 (next section overlaps current section)
+ * The production code uses runtime pin tracking:
+ * - Detects when a section's rectTop reaches its stickyTop (pinned at header)
+ * - Stores the scrollY at that moment as pinnedAtScroll
+ * - Blur = (scrollY - pinnedAtScroll) / secHeight * maxBlur
  */
 
 const BASE = 'http://localhost:8080';
@@ -78,7 +79,7 @@ test.describe('Card Stack Blur Animation', () => {
     await page.waitForTimeout(500);
   });
 
-  test('sections must have zero blur BEFORE the next section starts covering them', async ({ page }) => {
+  test('sections must have zero blur BEFORE the next section pins at the header', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
@@ -88,36 +89,36 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Next section hasn't started covering this one yet
-        const secBottom = sec.top + sec.height;
-        const coverAmount = secBottom - nextSec.top;
+        // Next section has NOT pinned at the header yet
+        const nextNotPinned = nextSec.top > nextSec.stickyTop + 5;
 
-        if (coverAmount <= 0) {
-          // No overlap — blur should be zero
+        if (nextNotPinned) {
           if (sec.blur > 0.1) {
-            errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but no overlap (gap=${-coverAmount}px)`);
+            errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but next section at ${nextSec.top}px (not pinned, stickyTop=${nextSec.stickyTop})`);
           }
           if (sec.darken > 0.01) {
-            errors.push(`Section ${sec.idx} darken=${sec.darken} at scroll=${entry.scrollY} but no overlap`);
+            errors.push(`Section ${sec.idx} darken=${sec.darken} at scroll=${entry.scrollY} but next section not pinned`);
           }
         }
       }
     }
 
     if (errors.length > 0) {
-      console.log('\n=== BLUR BEFORE COVER ERRORS ===');
+      console.log('\n=== BLUR BEFORE PIN ERRORS ===');
       errors.slice(0, 10).forEach(e => console.log('  FAIL:', e));
       if (errors.length > 10) console.log(`  ... and ${errors.length - 10} more`);
     }
-    expect(errors, 'Sections must not blur before they are covered').toHaveLength(0);
+    expect(errors, 'Sections must not blur before next section pins at header').toHaveLength(0);
   });
 
-  test('sections must START blurring once the next section covers them', async ({ page }) => {
+  test('sections must START blurring once the next section pins at the header', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
-    // For each content section, find the first scroll point where coverAmount > 50px
-    // and verify blur has started
+    // For each content section, find the first scroll point where the next section
+    // has pinned at the header AND we've scrolled 150px further (enough for blur to
+    // ramp above the 0.1 render threshold). Verify blur has started.
+    const sectionPinScroll = {};
     const sectionBlurChecked = new Set();
 
     for (const entry of data) {
@@ -126,14 +127,18 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        const secBottom = sec.top + sec.height;
-        const coverAmount = secBottom - nextSec.top;
+        const nextIsPinned = nextSec.top <= nextSec.stickyTop + 2;
 
-        // Check 100px into the cover zone
-        if (coverAmount >= 100) {
+        // Record when next section first pins
+        if (nextIsPinned && !sectionPinScroll[sec.idx]) {
+          sectionPinScroll[sec.idx] = entry.scrollY;
+        }
+
+        // Check blur 150px after pin
+        if (sectionPinScroll[sec.idx] && entry.scrollY >= sectionPinScroll[sec.idx] + 150) {
           sectionBlurChecked.add(sec.idx);
           if (sec.blur < 0.1) {
-            errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} with coverAmount=${coverAmount}px — should be blurring`);
+            errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} — 150px past next section's pin (pin@${sectionPinScroll[sec.idx]})`);
           }
         }
       }
@@ -143,7 +148,7 @@ test.describe('Card Stack Blur Animation', () => {
       console.log('\n=== BLUR NOT STARTING ERRORS ===');
       errors.forEach(e => console.log('  FAIL:', e));
     }
-    expect(errors, 'Sections must start blurring once covered').toHaveLength(0);
+    expect(errors, 'Sections must start blurring once next section pins').toHaveLength(0);
   });
 
   test('blur ramp must be linear — no sudden jumps', async ({ page }) => {
@@ -209,7 +214,7 @@ test.describe('Card Stack Blur Animation', () => {
     expect(errors, 'Blur ramp must be smooth and linear').toHaveLength(0);
   });
 
-  test('no section must blur when not being covered', async ({ page }) => {
+  test('no section must blur when next section has not pinned', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
@@ -219,24 +224,23 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Check: is the next section's top still below the current section's bottom?
-        const secBottom = sec.top + sec.height;
-        const gap = nextSec.top - secBottom;
+        // Next section is still below the header — not pinned
+        const nextNotPinned = nextSec.top > nextSec.stickyTop + 5;
 
-        if (gap > 5 && sec.blur > 0.1) {
-          errors.push(`Section ${sec.idx} (scroll=${entry.scrollY}): blur=${sec.blur} but next section is ${gap}px below (not covering)`);
+        if (nextNotPinned && sec.blur > 0.1) {
+          errors.push(`Section ${sec.idx} (scroll=${entry.scrollY}): blur=${sec.blur} but next section at ${nextSec.top}px (not pinned)`);
         }
-        if (gap > 5 && sec.darken > 0.01) {
-          errors.push(`Section ${sec.idx} (scroll=${entry.scrollY}): darken=${sec.darken} but next section is ${gap}px below`);
+        if (nextNotPinned && sec.darken > 0.01) {
+          errors.push(`Section ${sec.idx} (scroll=${entry.scrollY}): darken=${sec.darken} but next section not pinned`);
         }
       }
     }
 
     if (errors.length > 0) {
-      console.log('\n=== UNCOVERED BLUR ERRORS ===');
+      console.log('\n=== UNPINNED BLUR ERRORS ===');
       errors.slice(0, 10).forEach(e => console.log('  FAIL:', e));
       if (errors.length > 10) console.log(`  ... and ${errors.length - 10} more`);
     }
-    expect(errors, 'Sections must not blur when not being covered').toHaveLength(0);
+    expect(errors, 'Sections must not blur when next section has not pinned').toHaveLength(0);
   });
 });
