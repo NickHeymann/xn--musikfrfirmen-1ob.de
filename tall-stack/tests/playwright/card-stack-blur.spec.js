@@ -4,16 +4,15 @@ import { test, expect } from '@playwright/test';
  * Card Stack Blur/Darken Animation Tests
  *
  * Rules:
- * 1. Blur starts when the NEXT section's top is within 200px of its stickyTop
- *    (i.e. rectTop < stickyTop + 200)
- * 2. Blur ramps from 0 to max(6px) with an ease-in curve over that 200px
- * 3. No blur when the next section is more than 200px away from pinning
+ * 1. Blur starts at the INSTANT the next section pins at the header
+ *    (rectTop <= stickyTop + 2)
+ * 2. Blur ramps LINEARLY from 0 to max(6px) via scrollY tracking
+ * 3. No blur before next section pins
  * 4. FAQ (last card) must never blur — it has no next card-index section
  * 5. Footer must NOT participate in the card stack (no data-card-index)
  */
 
 const BASE = 'http://localhost:8080';
-const TRAVEL = 200; // blur travel window in px
 
 /** Run a full progressive scroll inside the browser */
 async function progressiveScan(page) {
@@ -22,15 +21,16 @@ async function progressiveScan(page) {
       .sort((a, b) => parseInt(a.dataset.cardIndex) - parseInt(b.dataset.cardIndex));
 
     const data = [];
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     let currentPos = 0;
-    const maxIter = 600;
 
-    for (let iter = 0; iter < maxIter; iter++) {
-      window.scrollTo(0, currentPos);
-      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 10))));
+    while (currentPos <= maxScroll + 50) {
+      window.scrollTo({ top: currentPos, behavior: 'instant' });
+      await new Promise(r =>
+        requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 30)))
+      );
 
       const scrollY = Math.round(window.scrollY);
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
       const entry = { scrollY, sections: [] };
       for (const s of secs) {
@@ -59,12 +59,12 @@ async function progressiveScan(page) {
           blur: Math.round(blur * 100) / 100,
           darken: Math.round(darken * 1000) / 1000,
           hasContent: !!content,
+          pinned: rect.top <= stickyTop + 2,
         });
       }
       data.push(entry);
 
-      currentPos = scrollY + 25;
-      if (currentPos > maxScroll + 50) break;
+      currentPos += 25;
     }
     return data;
   });
@@ -77,7 +77,7 @@ test.describe('Card Stack Blur Animation', () => {
     await page.waitForTimeout(500);
   });
 
-  test('no blur when next section is far from header (> 200px above stickyTop)', async ({ page }) => {
+  test('no blur before next section pins at header', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
@@ -87,11 +87,9 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Next section is far from pinning — more than 200px above stickyTop
-        const nextFarAway = nextSec.top > nextSec.stickyTop + TRAVEL + 10;
-
-        if (nextFarAway && sec.blur > 0.1) {
-          errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but next section at ${nextSec.top}px (far from header)`);
+        // Next section has NOT pinned yet
+        if (!nextSec.pinned && sec.blur > 0.1) {
+          errors.push(`Section ${sec.idx} blur=${sec.blur} at scroll=${entry.scrollY} but next section not pinned (top=${nextSec.top})`);
         }
       }
     }
@@ -100,14 +98,14 @@ test.describe('Card Stack Blur Animation', () => {
       console.log('\n=== PREMATURE BLUR ERRORS ===');
       errors.slice(0, 10).forEach(e => console.log('  FAIL:', e));
     }
-    expect(errors, 'No blur when next section is far from header').toHaveLength(0);
+    expect(errors, 'No blur before next section pins').toHaveLength(0);
   });
 
-  test('blur starts when next section approaches header (within 200px)', async ({ page }) => {
+  test('blur starts when next section pins at header', async ({ page }) => {
     const data = await progressiveScan(page);
 
-    // For each section with content, find a scroll frame where the next
-    // section is within the 200px travel zone and check blur has started
+    // For each section with content, find a frame where the next section
+    // has JUST pinned and blur has started ramping
     const found = {};
     for (const entry of data) {
       for (const sec of entry.sections) {
@@ -115,35 +113,21 @@ test.describe('Card Stack Blur Animation', () => {
         const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
         if (!nextSec) continue;
 
-        // Next section is in the blur zone: between stickyTop and stickyTop+200
-        // Check when it's past the midpoint (100px) to ensure blur has ramped
-        const inBlurZone = nextSec.top > nextSec.stickyTop &&
-                          nextSec.top < nextSec.stickyTop + TRAVEL * 0.5;
-
-        if (inBlurZone && sec.blur > 0.1) {
-          found[sec.idx] = { scrollY: entry.scrollY, blur: sec.blur, nextTop: nextSec.top };
+        // Next section is pinned and current section has some blur
+        if (nextSec.pinned && sec.blur > 0.1) {
+          found[sec.idx] = { scrollY: entry.scrollY, blur: sec.blur };
         }
       }
     }
 
-    console.log('\n  Blur zone detections:', JSON.stringify(found, null, 2));
+    console.log('\n  Pin-triggered blur detections:', JSON.stringify(found, null, 2));
 
-    // At least some sections should show blur during the travel zone
-    const sectionsWithContent = new Set();
-    for (const entry of data) {
-      for (const sec of entry.sections) {
-        if (sec.hasContent) {
-          const nextSec = entry.sections.find(s => s.idx === sec.idx + 1);
-          if (nextSec) sectionsWithContent.add(sec.idx);
-        }
-      }
-    }
-
+    // At least some sections should show blur after their next section pins
     const foundCount = Object.keys(found).length;
-    expect(foundCount, `Expected blur in travel zone for some sections (found ${foundCount}/${sectionsWithContent.size})`).toBeGreaterThan(0);
+    expect(foundCount, `Expected blur after pinning for some sections (found ${foundCount})`).toBeGreaterThan(0);
   });
 
-  test('blur ramp must be smooth — no sudden jumps', async ({ page }) => {
+  test('blur ramp must be smooth and linear — no sudden jumps', async ({ page }) => {
     const data = await progressiveScan(page);
     const errors = [];
 
@@ -183,7 +167,7 @@ test.describe('Card Stack Blur Animation', () => {
       const step = Math.max(1, Math.floor(samples.length / 8));
       for (let i = 0; i < samples.length; i += step) {
         const s = samples[i];
-        const bar = '█'.repeat(Math.round(s.blur * 5));
+        const bar = '\u2588'.repeat(Math.round(s.blur * 5));
         console.log(`    y=${s.scrollY} blur=${s.blur.toFixed(2)} ${bar}`);
       }
     }
