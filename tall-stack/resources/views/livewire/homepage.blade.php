@@ -26,11 +26,16 @@
     {{-- Event Gallery - Swipeable Carousel --}}
     <x-event-gallery />
 
-    {{-- Team Section --}}
-    <section id="ueberuns" class="sticky top-[80px] lg:top-[108px] bg-white scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
+    {{-- Team Section - Intro (scrolls freely, not sticky) --}}
+    <section id="ueberuns" class="bg-white relative z-[26] scroll-mt-[80px] lg:scroll-mt-[108px]" data-section-bg="#ffffff" data-section-theme="light">
+        <x-team-intro />
+    </section>
+
+    {{-- Team Section - Member Grid (sticky card) --}}
+    <section class="sticky top-[80px] lg:top-[108px] bg-white relative z-[26]" data-section-bg="#ffffff" data-section-theme="light" data-card-index="6">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <div class="card-stack-content">
-            <x-team-section />
+            <x-team-grid />
         </div>
     </section>
 
@@ -147,32 +152,12 @@
                     content: sec.querySelector('.card-stack-content'),
                     overlay: sec.querySelector('.card-stack-overlay'),
                     stickyTop: parseFloat(getComputedStyle(sec).top) || 0,
-                    pinnedAtScroll: null,
                 }));
             }
 
             function updateCardEffects() {
                 if (!sections) return;
-                const scrollY = window.scrollY || window.pageYOffset;
 
-                // First pass: detect pin points for all sections.
-                // A section is "pinned" when its rectTop reaches its stickyTop.
-                // We record the scrollY the first time this happens.
-                // If user scrolls back up and section un-pins, we reset.
-                sections.forEach(sec => {
-                    const rect = sec.el.getBoundingClientRect();
-                    const isPinned = rect.top <= sec.stickyTop + 2;
-                    if (isPinned && sec.pinnedAtScroll === null) {
-                        sec.pinnedAtScroll = scrollY;
-                    } else if (!isPinned) {
-                        sec.pinnedAtScroll = null;
-                    }
-                });
-
-                // Second pass: compute blur/darken for each section.
-                // A section blurs once its NEXT section has pinned at the header.
-                // Progress = how far we've scrolled past the next section's pin point,
-                // normalized by the current section's height.
                 sections.forEach((sec, i) => {
                     if (!sec.content) return;
 
@@ -180,12 +165,22 @@
                     let darken = 0;
 
                     const next = sections[i + 1];
-                    if (next && next.pinnedAtScroll !== null) {
-                        const scrollPastPin = scrollY - next.pinnedAtScroll;
-                        if (scrollPastPin > 0) {
-                            const secHeight = sec.el.getBoundingClientRect().height;
-                            const t = Math.min(1, scrollPastPin / (secHeight || 1));
-                            blur = t * 6;
+                    if (next) {
+                        const nextTop = next.el.getBoundingClientRect().top;
+                        // Blur ramps over a 200px window just above the pin
+                        // point. nextTop is the actual CSS position of the
+                        // next section — it equals its natural scroll
+                        // position while the section is still approaching,
+                        // and clamps at stickyTop once pinned.
+                        const travelStart = next.stickyTop + 200;
+                        const travelEnd   = next.stickyTop;
+                        const travel = travelStart - travelEnd; // 200
+
+                        if (nextTop < travelStart && travel > 0) {
+                            const linear = Math.min(1, (travelStart - nextTop) / travel);
+                            // ease-in: blur accelerates toward the end
+                            const t = linear * linear;
+                            blur   = t * 6;
                             darken = t * 0.3;
                         }
                     }
@@ -204,7 +199,6 @@
                     return {
                         idx: parseInt(s.el.dataset.cardIndex),
                         stickyTop: s.stickyTop,
-                        pinnedAtScroll: s.pinnedAtScroll,
                         rectTop: Math.round(rect.top),
                         height: Math.round(rect.height),
                         hasContent: !!s.content,
