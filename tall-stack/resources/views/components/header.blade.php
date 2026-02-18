@@ -1,56 +1,58 @@
-{{-- Navigation Header - Canva Redesign --}}
-<header class="fixed top-0 left-0 right-0 header-smooth-transition"
-        style="z-index: 999999 !important;"
-        x-data="{
+{{-- Navigation Header --}}
+<script>
+document.addEventListener('alpine:init', function () {
+    Alpine.data('mffHeader', function () {
+        return {
             isOpen: false,
             isDark: true,
+            isGreen: false,
             bgColor: '#000000',
-            init() {
-                const getHeaderH = () => window.innerWidth >= 1024 ? 108 : 80;
-
-                const updateTheme = () => {
-                    const hH = getHeaderH();
-                    const sections = document.querySelectorAll('[data-section-bg]');
-                    let newBgColor = '#000000';
-                    let newIsDark = true;
-                    let bestSection = null;
-                    let bestZ = -1;
-
-                    // Find the section with the highest z-index that covers the header area.
-                    // Tolerance of 50px so sections near bottom of page (that can't scroll
-                    // all the way to the header) are still detected.
-                    for (const section of sections) {
-                        const rect = section.getBoundingClientRect();
-                        if (rect.top <= hH + 50 && rect.bottom > hH) {
-                            const z = parseInt(getComputedStyle(section).zIndex) || 0;
-                            if (z > bestZ) {
-                                bestZ = z;
-                                bestSection = section;
-                            }
+            heroCTAsVisible: true,
+            init: function () {
+                var self = this;
+                var getH = function () { return window.innerWidth >= 1024 ? 108 : 80; };
+                var updateTheme = function () {
+                    var hH = getH();
+                    var els = document.querySelectorAll('[data-section-bg]');
+                    var bg = '#000000'; var dark = true; var best = null; var bz = -1;
+                    for (var i = 0; i < els.length; i++) {
+                        var r = els[i].getBoundingClientRect();
+                        if (r.top <= hH + 50 && r.bottom > hH) {
+                            var z = parseInt(getComputedStyle(els[i]).zIndex) || 0;
+                            if (z > bz) { bz = z; best = els[i]; }
                         }
                     }
-
-                    if (bestSection) {
-                        newBgColor = bestSection.getAttribute('data-section-bg') || '#ffffff';
-                        newIsDark = bestSection.getAttribute('data-section-theme') === 'dark';
+                    if (best) {
+                        bg = best.getAttribute('data-section-bg') || '#ffffff';
+                        dark = best.getAttribute('data-section-theme') === 'dark';
                     }
-
-                    if (this.bgColor !== newBgColor || this.isDark !== newIsDark) {
-                        this.bgColor = newBgColor;
-                        this.isDark = newIsDark;
+                    var green = bg === '#C8E6DC';
+                    if (self.bgColor !== bg || self.isDark !== dark || self.isGreen !== green) {
+                        self.bgColor = bg; self.isDark = dark; self.isGreen = green;
                     }
                 };
-
+                var updateCTAs = function () {
+                    if (window.innerWidth < 1024) { self.heroCTAsVisible = true; return; }
+                    self.heroCTAsVisible = window.scrollY < window.innerHeight * 0.35;
+                };
                 window.addEventListener('scroll', updateTheme, { passive: true });
+                window.addEventListener('scroll', updateCTAs, { passive: true });
                 window.addEventListener('resize', updateTheme);
-                setTimeout(() => updateTheme(), 100);
+                window.addEventListener('resize', updateCTAs);
+                setTimeout(function () { updateTheme(); updateCTAs(); }, 150);
             }
-        }"
-        :style="{ backgroundColor: bgColor }"
-        :class="''">
+        };
+    });
+});
+</script>
+
+<header class="fixed top-0 left-0 right-0 header-smooth-transition"
+        style="z-index: 999999 !important;"
+        x-data="mffHeader"
+        :style="{ backgroundColor: bgColor }">
 
     <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
-        {{-- Logo - Always Left --}}
+        {{-- Logo --}}
         <a href="#"
            @click.prevent="window.scrollTo({ top: 0, behavior: 'smooth' })"
            class="text-[20px] sm:text-[22px] lg:text-[24px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide z-10 cursor-pointer shrink-0"
@@ -81,28 +83,37 @@
             </a>
         </div>
 
-        {{-- Right CTAs (Large Desktop only) --}}
-        <div class="hidden lg:flex items-center gap-3 shrink-0">
+        {{-- Right CTAs — appear once hero is scrolled away. x-cloak hides until Alpine runs. --}}
+        <div class="lg:flex items-center gap-3 shrink-0"
+             x-cloak
+             x-show="!heroCTAsVisible"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-1">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
                 class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark
-                    ? 'border-white/30 text-white'
-                    : 'border-black/30 text-[#1a1a1a]'">
+                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC] text-[#1a1a1a]'">
                 <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                    :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"></span>
+                      :class="isDark || isGreen ? 'bg-white' : 'bg-[#C8E6DC]'"></span>
                 <span class="relative z-10 transition-colors duration-500"
-                    :class="isDark ? 'group-hover:text-[#C8E6DC]' : 'group-hover:text-white'">
+                      :class="isDark || isGreen ? 'group-hover:text-black' : 'group-hover:text-black'">
                     Kostenloses Erstgespräch
                 </span>
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="group relative px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black cursor-pointer whitespace-nowrap overflow-hidden"
-                style="font-family: 'Poppins', sans-serif">
-                <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
-                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
+                class="group relative px-4 py-2 rounded-full text-sm font-medium cursor-pointer whitespace-nowrap overflow-hidden"
+                style="font-family: 'Poppins', sans-serif"
+                :class="isDark || isGreen ? 'bg-white text-black' : 'bg-[#C8E6DC] text-black'">
+                <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
+                      :class="isDark || isGreen ? 'bg-[#C8E6DC]' : 'bg-[#1a1a1a]'"></span>
+                <span class="relative z-10 transition-colors duration-500"
+                      :class="isDark || isGreen ? 'group-hover:text-black' : 'group-hover:text-white'">
                     Unverbindliches Angebot
                 </span>
             </button>
