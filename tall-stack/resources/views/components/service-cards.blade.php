@@ -13,11 +13,11 @@
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-center text-[#1a1a1a] mb-8 md:mb-16">
-            Wir bieten euch...
+            Wir bieten euch
         </h2>
 
-        {{-- Mobile: Sticky stacking deck (cards slide up over each other on scroll) --}}
-        <div class="md:hidden mff-sticky-deck">
+        {{-- Mobile/Tablet: Sticky stacking deck (cards slide up over each other on scroll) --}}
+        <div class="lg:hidden mff-sticky-deck">
             {{-- Mobile Service 1: Livebands --}}
             <div class="mff-sticky-card">
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
@@ -60,25 +60,27 @@
 
         {{-- Desktop: Expandable Flex Container --}}
         <div
-            class="hidden md:flex flex-row"
+            class="hidden lg:flex flex-row"
             x-show="visible"
             x-transition:enter="transition ease-out duration-700"
             x-transition:enter-start="opacity-0 translate-y-8"
             x-transition:enter-end="opacity-100 translate-y-0"
+            x-data="{ videoReady: { livebands: false, djs: false, technik: false } }"
         >
             {{-- Service 1: Livebands --}}
             <div
-                @mouseenter="hoveredCard = 'livebands'; $refs.videoLivebands.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'livebands'; if(videoReady.livebands) $refs.videoLivebands.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoLivebands.pause(); $refs.videoLivebands.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
-                :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                class="service-card group relative overflow-hidden min-h-[500px]"
+                :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'livebands' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'livebands' && videoReady.livebands ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoLivebands"
+                    @canplay="videoReady.livebands = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'livebands' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'livebands' && videoReady.livebands ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/liveband.mp4" type="video/mp4">
                 </video>
@@ -93,17 +95,18 @@
 
             {{-- Service 2: DJs --}}
             <div
-                @mouseenter="hoveredCard = 'djs'; $refs.videoDjs.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'djs'; if(videoReady.djs) $refs.videoDjs.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoDjs.pause(); $refs.videoDjs.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
-                :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                class="service-card group relative overflow-hidden min-h-[500px]"
+                :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/dj.jpg" alt="DJs für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'djs' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'djs' && videoReady.djs ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoDjs"
+                    @canplay="videoReady.djs = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'djs' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'djs' && videoReady.djs ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/dj.mp4" type="video/mp4">
                 </video>
@@ -118,17 +121,18 @@
 
             {{-- Service 3: Technik --}}
             <div
-                @mouseenter="hoveredCard = 'technik'; $refs.videoTechnik.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'technik'; if(videoReady.technik) $refs.videoTechnik.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoTechnik.pause(); $refs.videoTechnik.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
-                :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                class="service-card group relative overflow-hidden min-h-[500px]"
+                :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/technik.jpg" alt="Veranstaltungstechnik"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'technik' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'technik' && videoReady.technik ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoTechnik"
+                    @canplay="videoReady.technik = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'technik' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'technik' && videoReady.technik ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/technik.mp4" type="video/mp4">
                 </video>
@@ -149,8 +153,8 @@
         transition: flex 700ms cubic-bezier(0.4, 0, 0.6, 1);
     }
 
-    /* Mobile: Sticky stacking deck — cards slide up over each other on scroll */
-    @media (max-width: 767px) {
+    /* Mobile/Tablet: Sticky stacking deck — cards slide up over each other on scroll */
+    @media (max-width: 1023px) {
         .mff-sticky-deck {
             /* 3 cards × 70svh = total scrollable height */
             height: 210svh;

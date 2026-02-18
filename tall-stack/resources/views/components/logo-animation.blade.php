@@ -51,7 +51,7 @@
 
                     setTimeout(() => {
                         this.musicNotes = this.musicNotes.filter(n => n.id !== note.id);
-                    }, 2000);
+                    }, 3000);
                 }, index * 150);
             });
         }
@@ -146,7 +146,7 @@
     }
 
     .animate-note-float {
-        animation: note-float 2s ease-out forwards;
+        animation: note-float 3s ease-out forwards;
     }
 
     @media (max-width: 768px) {

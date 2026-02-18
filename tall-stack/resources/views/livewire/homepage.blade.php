@@ -44,12 +44,12 @@
     </section>
 
     {{-- FAQ Section --}}
-    <section id="faq" class="sticky top-[80px] lg:top-[108px] bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light" data-card-index="7">
+    <section id="faq" class="bg-[#C8E6DC] scroll-mt-[80px] lg:scroll-mt-[108px] relative z-[27]" data-section-bg="#C8E6DC" data-section-theme="light" data-card-index="7">
         <div class="card-stack-overlay absolute inset-0 pointer-events-none z-50"></div>
         <div class="card-stack-content pt-12 md:pt-20 pb-10 md:pb-16">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
-                class="text-center text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 tracking-[-1px] text-black"
+                class="text-center text-2xl md:text-3xl lg:text-4xl font-medium mb-8 md:mb-12 tracking-[-1px] text-black"
                 style="font-family: 'Poppins', sans-serif"
             >
                 FAQ

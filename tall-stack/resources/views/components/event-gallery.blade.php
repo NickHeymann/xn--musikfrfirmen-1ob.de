@@ -9,7 +9,8 @@
                 currentSlide: 0,
                 totalSlides: 5,
                 touchStartX: 0,
-                touchEndX: 0,
+                dragOffset: 0,
+                isSwiping: false,
                 dragging: false,
                 dragStartX: 0,
                 autoplayTimer: null,
@@ -48,22 +49,27 @@
 
                 {{-- Gallery Container --}}
                 <div class="overflow-hidden rounded-3xl flex-1 cursor-grab active:cursor-grabbing select-none"
-                     @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
+                     @touchstart.passive="touchStartX = $event.changedTouches[0].clientX; isSwiping = true; dragOffset = 0"
+                     @touchmove.passive="
+                         if (!isSwiping) return;
+                         dragOffset = $event.changedTouches[0].clientX - touchStartX;
+                     "
                      @touchend.passive="
-                         touchEndX = $event.changedTouches[0].screenX;
-                         if (touchStartX - touchEndX > 50) { next(); resetAutoplay(); }
-                         if (touchEndX - touchStartX > 50) { prev(); resetAutoplay(); }
+                         isSwiping = false;
+                         if (dragOffset < -30) { next(); resetAutoplay(); }
+                         else if (dragOffset > 30) { prev(); resetAutoplay(); }
+                         dragOffset = 0;
                      "
                      @mousedown.prevent="dragging = true; dragStartX = $event.clientX"
-                     @mousemove.prevent="if (!dragging) return"
+                     @mousemove.prevent="if (!dragging) return; dragOffset = $event.clientX - dragStartX"
                      @mouseup.prevent="
                          if (!dragging) return;
                          dragging = false;
-                         let diff = dragStartX - $event.clientX;
-                         if (diff > 50) { next(); resetAutoplay(); }
-                         if (diff < -50) { prev(); resetAutoplay(); }
+                         if (dragOffset < -30) { next(); resetAutoplay(); }
+                         else if (dragOffset > 30) { prev(); resetAutoplay(); }
+                         dragOffset = 0;
                      "
-                     @mouseleave="dragging = false"
+                     @mouseleave="dragging = false; dragOffset = 0"
                      @wheel="
                          if (wheelCooldown) return;
                          if (Math.abs($event.deltaX) > Math.abs($event.deltaY) && Math.abs($event.deltaX) > 30) {
@@ -75,15 +81,16 @@
                          }
                      ">
                     <div
-                        class="flex transition-transform duration-500 ease-out"
-                        :style="`transform: translateX(-${currentSlide * 100}%)`"
+                        class="flex"
+                        :class="(isSwiping || dragging) ? '' : 'transition-transform duration-300 ease-out'"
+                        :style="`transform: translateX(calc(-${currentSlide * 100}% + ${dragOffset}px))`"
                     >
                         @foreach(['event-1.jpg', 'event-2.jpg', 'event-3.jpg', 'event-4.jpg', 'event-5.jpg'] as $photo)
                             <div class="w-full shrink-0 px-2">
                                 <img
                                     src="/images/events/{{ $photo }}"
                                     alt="Event Foto"
-                                    class="w-full h-[500px] object-cover rounded-3xl"
+                                    class="w-full h-[260px] sm:h-[360px] md:h-[440px] lg:h-[500px] object-cover rounded-3xl"
                                 >
                             </div>
                         @endforeach

@@ -1,7 +1,7 @@
 {{-- Footer Component - Compact Responsive --}}
-<footer id="kontakt" class="bg-[#1a1a1a] relative z-[28] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
+<footer id="kontakt" class="bg-[#1a1a1a] relative z-[27] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6 py-10 md:py-16 flex-grow">
-        <div class="flex flex-row justify-center gap-12 md:gap-32">
+        <div class="flex flex-col md:flex-row justify-center gap-10 md:gap-32 items-start">
             {{-- Kontakt --}}
             <div>
                 <h4 class="text-sm md:text-base font-semibold text-white mb-4 md:mb-6">
@@ -9,14 +9,25 @@
                 </h4>
                 <div class="space-y-2 md:space-y-3 text-[13px] md:text-[15px] text-gray-300 font-light">
                     <p>
-                        <a href="mailto:kontakt@xn--musikfrfirmen-1ob.de" class="hover:text-[#C8E6DC] transition-colors">
-                            E-Mail
+                        <a href="mailto:kontakt@musikfuerfirmen.com" class="hover:text-[#C8E6DC] transition-colors">
+                            kontakt@musikfürfirmen.com
                         </a>
                     </p>
                     <p>
-                        <a href="tel:+491746935533" class="hover:text-[#C8E6DC] transition-colors">
-                            +49 174 6935533
-                        </a>
+                        <button
+                            onclick="Livewire.dispatch('openBookingModal')"
+                            class="group relative w-full px-4 py-2 rounded-full text-[13px] font-light border border-white/30 text-white cursor-pointer overflow-hidden">
+                            <span class="absolute inset-0 bg-[#C8E6DC] translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                            <span class="relative z-10 transition-colors duration-500 group-hover:text-black">Kostenloses Erstgespräch</span>
+                        </button>
+                    </p>
+                    <p>
+                        <button
+                            onclick="Livewire.dispatch('openMFFCalculator')"
+                            class="group relative w-full px-4 py-2 rounded-full text-[13px] font-light border border-white/30 text-white cursor-pointer overflow-hidden">
+                            <span class="absolute inset-0 bg-[#C8E6DC] translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                            <span class="relative z-10 transition-colors duration-500 group-hover:text-black">Jetzt Angebot einholen</span>
+                        </button>
                     </p>
                 </div>
             </div>
@@ -26,7 +37,7 @@
                 <h4 class="text-sm md:text-base font-semibold text-white mb-4 md:mb-6">Info</h4>
                 <div class="space-y-2 md:space-y-3 text-[13px] md:text-[15px]">
                     <p>
-                        <a href="/uber-uns" class="text-gray-300 hover:text-[#C8E6DC] transition-colors font-light">
+                        <a href="#ueberuns" class="text-gray-300 hover:text-[#C8E6DC] transition-colors font-light">
                             Über uns
                         </a>
                     </p>

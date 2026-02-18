@@ -22,7 +22,7 @@
                         this.current = (this.current - 1 + this.count) % this.count;
                     },
                     startAutoplay() {
-                        this.autoplay = setInterval(() => this.next(), 8000);
+                        this.autoplay = setInterval(() => this.next(), 12000);
                     },
                     resetAutoplay() {
                         clearInterval(this.autoplay);
@@ -46,7 +46,7 @@
                 @endif
 
                 {{-- Testimonials Container --}}
-                <div class="relative w-full overflow-visible" style="height: 192px;"
+                <div class="relative w-full overflow-visible"
                      @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                      @touchend.passive="
                         touchEndX = $event.changedTouches[0].screenX;
@@ -61,7 +61,7 @@
                              x-transition:leave="transition ease-in duration-200"
                              x-transition:leave-start="opacity-100"
                              x-transition:leave-end="opacity-0"
-                             class="absolute inset-0 flex flex-col items-center justify-center">
+                             class="flex flex-col items-center justify-center py-4">
 
                             {{-- Quote --}}
                             <blockquote class="mb-4">

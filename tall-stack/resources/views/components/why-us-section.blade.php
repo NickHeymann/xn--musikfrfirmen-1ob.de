@@ -48,7 +48,7 @@
             >
                 {{-- Stat 1 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-3 md:gap-x-4">
                         <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">10+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Jahre in der Musikbranche</span>
                     </div>
@@ -56,7 +56,7 @@
 
                 {{-- Stat 2 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-3 md:gap-x-4">
                         <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">100%</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Hauseigene Stammbands</span>
                     </div>
@@ -64,7 +64,7 @@
 
                 {{-- Stat 3 --}}
                 <div class="py-5 border-b border-[#1a1a1a]/15">
-                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-3 md:gap-x-4">
                         <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">100k€+</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Professionelles Equipment</span>
                     </div>
@@ -72,7 +72,7 @@
 
                 {{-- Stat 4 --}}
                 <div class="py-5">
-                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-4">
+                    <div class="grid grid-cols-[auto_1fr] md:grid-cols-[140px_1fr] items-baseline gap-x-3 md:gap-x-4">
                         <span class="text-3xl md:text-4xl font-bold text-white text-right" style="-webkit-text-stroke: 1px rgba(0,0,0,0.35); paint-order: stroke fill">1</span>
                         <span class="text-sm md:text-base text-[#1a1a1a]/70">Ansprechpartner für alles</span>
                     </div>

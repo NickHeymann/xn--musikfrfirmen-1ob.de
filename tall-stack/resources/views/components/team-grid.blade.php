@@ -18,7 +18,7 @@
 >
     <div class="max-w-7xl mx-auto px-6 relative">
         {{-- Cutout Animation Layout - Always side-by-side --}}
-        <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
+        <div class="flex flex-row flex-wrap justify-center items-start gap-4 sm:gap-8 md:gap-16 lg:gap-24"
              x-intersect.once="visible = true"
              @mouseleave="hoveredMember = null">
             {{-- Jonas --}}
@@ -124,7 +124,7 @@
         {{-- Modal Content - Compact with X close --}}
         <div
             @click.stop
-            class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative"
+            class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl relative"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 translate-y-8"
             x-transition:enter-end="opacity-100 translate-y-0"
@@ -213,7 +213,7 @@
 .cutout-divider { background-color: #BAD6EB; height: 1px; width: 160px; margin-bottom: 16px; }
 .cutout-name { color: #404245; font-size: 28px; font-weight: 600; margin-bottom: 10px; text-align: center; }
 .cutout-role { color: #333; font-size: 14px; text-align: center; font-weight: 300; line-height: 1.5; }
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .cutout-container { width: 300px; height: 300px; transform: scale(0.6); margin-bottom: -40px; }
     .cutout-container:hover { transform: scale(0.65); }
     .cutout-inner { top: -150px; transform: scale(0.75); transform-origin: top center; }

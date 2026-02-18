@@ -16,7 +16,7 @@
          x-transition:leave-end="opacity-0"></div>
     <div class="max-w-7xl mx-auto px-6 relative z-[2]">
         {{-- Section Heading --}}
-        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4 md:mb-6 px-4">
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-[#1a1a1a] text-center mb-4 md:mb-6 px-4">
             Moin aus Hamburg.
         </h2>
 
@@ -27,7 +27,7 @@
         </p>
 
         {{-- Cutout Animation Layout - Always side-by-side --}}
-        <div class="flex flex-row flex-wrap justify-center items-start gap-8 md:gap-16 lg:gap-24"
+        <div class="flex flex-row flex-wrap justify-center items-start gap-4 sm:gap-8 md:gap-16 lg:gap-24"
              x-intersect.once="visible = true"
              @mouseleave="hoveredMember = null">
             {{-- Jonas --}}
@@ -222,7 +222,7 @@
 .cutout-divider { background-color: #BAD6EB; height: 1px; width: 160px; margin-bottom: 16px; }
 .cutout-name { color: #404245; font-size: 28px; font-weight: 600; margin-bottom: 10px; text-align: center; }
 .cutout-role { color: #333; font-size: 14px; text-align: center; font-weight: 300; line-height: 1.5; }
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .cutout-container { width: 300px; height: 300px; transform: scale(0.6); margin-bottom: -40px; }
     .cutout-container:hover { transform: scale(0.65); }
     .cutout-inner { top: -150px; transform: scale(0.75); transform-origin: top center; }

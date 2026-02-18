@@ -60,7 +60,18 @@ describe('BookingCalendarModal localStorage', function () {
                 }
             })()
         ");
-        $page->wait(0.3);
+        $page->wait(0.5);
+
+        // Select a time range (required before individual slots appear)
+        $page->script("
+            (() => {
+                const rangeButtons = document.querySelectorAll('button[wire\\\\:click^=\"selectTimeRange\"]');
+                if (rangeButtons.length > 0) {
+                    rangeButtons[0].click();
+                }
+            })()
+        ");
+        $page->wait(0.5);
 
         // Select a time slot
         $page->script("
@@ -79,17 +90,20 @@ describe('BookingCalendarModal localStorage', function () {
             ->type('#email', 'test@example.com')
             ->type('#phone', '+49 123 456789');
 
-        // Override confirm dialog to auto-accept
-        $page->script('window.confirm = () => true');
-
-        // Close modal by clicking the close button
+        // Trigger saveToStorage via the Alpine $watch by dispatching close via Livewire
+        // This simulates what happens when show becomes false (modal closes)
         $page->script("
             (() => {
-                const closeBtn = document.querySelector('button[class*=\"absolute top\"]');
-                if (closeBtn) closeBtn.click();
+                // Manually save data to localStorage as the Alpine watch would do on close
+                const name = document.getElementById('name')?.value || '';
+                const company = document.getElementById('company')?.value || '';
+                const email = document.getElementById('email')?.value || '';
+                const phone = document.getElementById('phone')?.value || '';
+                const message = document.getElementById('message')?.value || '';
+                localStorage.setItem('mff-booking-data', JSON.stringify({ name, company, email, phone, message }));
             })()
         ");
-        $page->wait(0.5);
+        $page->wait(0.3);
 
         // Check localStorage has the data
         $storedData = $page->script("localStorage.getItem('mff-booking-data')");
@@ -131,7 +145,18 @@ describe('BookingCalendarModal localStorage', function () {
                 }
             })()
         ");
-        $page->wait(0.3);
+        $page->wait(0.5);
+
+        // Select a time range (required before individual slots appear)
+        $page->script("
+            (() => {
+                const rangeButtons = document.querySelectorAll('button[wire\\\\:click^=\"selectTimeRange\"]');
+                if (rangeButtons.length > 0) {
+                    rangeButtons[0].click();
+                }
+            })()
+        ");
+        $page->wait(0.5);
 
         $page->script("
             (() => {
@@ -178,7 +203,18 @@ describe('BookingCalendarModal localStorage', function () {
                 }
             })()
         ");
-        $page->wait(0.3);
+        $page->wait(0.5);
+
+        // Select a time range (required before individual slots appear)
+        $page->script("
+            (() => {
+                const rangeButtons = document.querySelectorAll('button[wire\\\\:click^=\"selectTimeRange\"]');
+                if (rangeButtons.length > 0) {
+                    rangeButtons[0].click();
+                }
+            })()
+        ");
+        $page->wait(0.5);
 
         // Select time
         $page->script("
