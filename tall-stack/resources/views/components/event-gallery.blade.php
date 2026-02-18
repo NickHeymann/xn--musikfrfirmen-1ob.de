@@ -83,7 +83,7 @@
                                 <img
                                     src="/images/events/{{ $photo }}"
                                     alt="Event Foto"
-                                    class="w-full h-[500px] object-cover rounded-3xl"
+                                    class="w-full h-[260px] sm:h-[360px] md:h-[440px] lg:h-[500px] object-cover rounded-3xl"
                                 >
                             </div>
                         @endforeach
