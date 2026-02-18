@@ -9,7 +9,7 @@
                 </h4>
                 <div class="space-y-2 md:space-y-3 text-[13px] md:text-[15px] text-gray-300 font-light">
                     <p>
-                        <a href="mailto:kontakt@xn--musikfrfirmen-1ob.de" class="hover:text-[#C8E6DC] transition-colors">
+                        <a href="mailto:kontakt@musikfuerfirmen.com" class="hover:text-[#C8E6DC] transition-colors">
                             E-Mail
                         </a>
                     </p>

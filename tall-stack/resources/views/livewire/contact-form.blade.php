@@ -150,7 +150,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <h3 class="font-semibold mb-1">Email</h3>
-                <p class="text-gray-600">info@musikfuerfirmen.de</p>
+                <p class="text-gray-600">info@musikfuerfirmen.com</p>
             </div>
 
             <div class="bg-white shadow rounded-lg p-6 text-center">
