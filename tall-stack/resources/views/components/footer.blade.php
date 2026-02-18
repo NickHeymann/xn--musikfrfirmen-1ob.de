@@ -14,8 +14,8 @@
                         </a>
                     </p>
                     <p>
-                        <a href="tel:+491746935533" class="hover:text-[#C8E6DC] transition-colors">
-                            +49 174 6935533
+                        <a href="tel:+491741699553" class="hover:text-[#C8E6DC] transition-colors">
+                            +49 1741699553
                         </a>
                     </p>
                 </div>
