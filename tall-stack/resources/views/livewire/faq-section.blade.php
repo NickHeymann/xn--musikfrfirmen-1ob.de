@@ -21,14 +21,19 @@
                         x-collapse
                     >
                         <p class="pb-5 px-4 text-sm md:text-base leading-relaxed text-[#1a1a1a]/70 whitespace-pre-line">
+                            @php
+                                $answer = $item->answer;
+                                $lastChar = mb_substr(rtrim($answer), -1);
+                                $needsDot = !in_array($lastChar, ['.', '!', '?']);
+                            @endphp
                             @if($item->has_link)
                                 {!! str_replace(
                                     '"Unverbindliches Angebot anfragen"',
                                     '<span onclick="Livewire.dispatch(\'openMFFCalculator\')" class="text-[#5a9a84] cursor-pointer underline hover:text-[#4a8a74] transition-colors">Unverbindliches Angebot anfragen</span>',
-                                    $item->answer
-                                ) !!}
+                                    $answer
+                                ) !!}{{ $needsDot ? '.' : '' }}
                             @else
-                                {{ $item->answer }}
+                                {{ $answer }}{{ $needsDot ? '.' : '' }}
                             @endif
                         </p>
                     </div>
