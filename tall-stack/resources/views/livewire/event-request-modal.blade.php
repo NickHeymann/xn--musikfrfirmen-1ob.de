@@ -911,18 +911,18 @@
                     {{-- Success State --}}
                     @if ($submitStatus === 'success')
                         <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-16 h-16 bg-[#C8E6DC]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-8 h-8 text-[#C8E6DC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-semibold text-gray-900 mb-3">
+                            <h3 class="text-2xl font-semibold text-white mb-3">
                                 Anfrage gesendet!
                             </h3>
-                            <p class="text-gray-600 mb-2">
+                            <p class="text-gray-400 mb-2">
                                 Vielen Dank! Wir melden uns in Kürze bei dir.
                             </p>
-                            <p class="text-gray-600 mb-8">
+                            <p class="text-gray-400 mb-8">
                                 In 48 Stunden erhältst du ein detailliertes Angebot.
                             </p>
                             <button

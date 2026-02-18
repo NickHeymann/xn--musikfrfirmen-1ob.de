@@ -50,40 +50,54 @@
         :class="''">
 
     <nav class="w-full px-4 sm:px-6 lg:px-[80px] h-[80px] lg:h-[108px] flex items-center justify-between relative">
-        {{-- Logo - Left on Mobile/Tablet, Centered on Desktop --}}
+        {{-- Logo - Always Left --}}
         <a href="#"
            @click.prevent="window.scrollTo({ top: 0, behavior: 'smooth' })"
-           class="text-[20px] sm:text-[22px] lg:text-[28px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide lg:absolute lg:left-1/2 lg:-translate-x-1/2 z-10 cursor-pointer"
+           class="text-[20px] sm:text-[22px] lg:text-[24px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide z-10 cursor-pointer shrink-0"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
             <span class="hidden sm:inline">musikfürfirmen.de</span>
             <span class="inline sm:hidden">musikfürfirmen</span>
         </a>
 
-        {{-- Left Navigation (Large Desktop only) --}}
-        <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
+        {{-- Center Navigation (Large Desktop only) --}}
+        <div class="hidden lg:flex items-center gap-[40px] xl:gap-[56px] text-sm xl:text-base absolute left-1/2 -translate-x-1/2">
             <a href="/#waswirbieten"
-               class="hover:text-[#C8E6DC] transition-colors font-thin"
+               class="hover:text-[#C8E6DC] transition-colors font-light"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Angebote
             </a>
-        </div>
-
-        {{-- Right Navigation (Large Desktop only) --}}
-        <div class="hidden lg:flex items-center gap-[32px] xl:gap-[40px] text-sm xl:text-lg">
             <a href="/#ueberuns"
-               class="hover:text-[#C8E6DC] transition-colors font-thin"
+               class="hover:text-[#C8E6DC] transition-colors font-light"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
                 Über uns
             </a>
+            <a href="/#kontakt"
+               class="hover:text-[#C8E6DC] transition-colors font-light"
+               style="font-family: 'Poppins', sans-serif"
+               :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
+                Kontakt
+            </a>
+        </div>
+
+        {{-- Right CTAs (Large Desktop only) --}}
+        <div class="hidden lg:flex items-center gap-3 shrink-0">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="hover:text-[#C8E6DC] transition-colors font-thin cursor-pointer"
+                class="px-4 py-2 rounded-full text-sm font-light border transition-all duration-300 cursor-pointer"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-                Kontakt
+                :class="isDark
+                    ? 'border-white/30 text-white hover:bg-white/10'
+                    : 'border-black/30 text-[#1a1a1a] hover:bg-black/5'">
+                Kostenloses Erstgespräch
+            </button>
+            <button
+                onclick="Livewire.dispatch('openMFFCalculator')"
+                class="px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] transition-all duration-300 cursor-pointer whitespace-nowrap"
+                style="font-family: 'Poppins', sans-serif">
+                Angebot einholen
             </button>
         </div>
 

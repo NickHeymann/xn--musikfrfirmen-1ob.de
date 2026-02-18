@@ -50,7 +50,7 @@
                 <button @click="openIndex = openIndex === 1 ? null : 1"
                         class="w-full flex justify-between items-center py-4 px-4 md:px-6 text-left">
                     <h3 class="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a]">
-                        Kein Ausfallrisiko.
+                        Kein Ausfallrisiko
                     </h3>
                     <svg class="w-5 h-5 text-[#1a1a1a]/50 transition-transform duration-300 shrink-0 ml-4"
                          :class="openIndex === 1 ? 'rotate-180' : ''"
