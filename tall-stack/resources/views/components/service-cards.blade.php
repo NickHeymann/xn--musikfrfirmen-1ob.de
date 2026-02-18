@@ -13,7 +13,7 @@
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-center text-[#1a1a1a] mb-8 md:mb-16">
-            Wir bieten euch...
+            Wir bieten euch
         </h2>
 
         {{-- Mobile/Tablet: Sticky stacking deck (cards slide up over each other on scroll) --}}
@@ -70,7 +70,7 @@
             <div
                 @mouseenter="hoveredCard = 'livebands'; $refs.videoLivebands.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoLivebands.pause(); $refs.videoLivebands.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
+                class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
@@ -95,7 +95,7 @@
             <div
                 @mouseenter="hoveredCard = 'djs'; $refs.videoDjs.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoDjs.pause(); $refs.videoDjs.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
+                class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/dj.jpg" alt="DJs für Firmenevents"
@@ -120,7 +120,7 @@
             <div
                 @mouseenter="hoveredCard = 'technik'; $refs.videoTechnik.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoTechnik.pause(); $refs.videoTechnik.currentTime = 0"
-                class="service-card group relative overflow-hidden min-h-[500px] cursor-pointer"
+                class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/technik.jpg" alt="Veranstaltungstechnik"

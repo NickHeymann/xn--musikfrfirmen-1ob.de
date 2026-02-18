@@ -22,7 +22,7 @@
                         this.current = (this.current - 1 + this.count) % this.count;
                     },
                     startAutoplay() {
-                        this.autoplay = setInterval(() => this.next(), 8000);
+                        this.autoplay = setInterval(() => this.next(), 12000);
                     },
                     resetAutoplay() {
                         clearInterval(this.autoplay);

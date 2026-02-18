@@ -58,7 +58,7 @@
 
     .section-title {
         font-size: 36px;
-        font-weight: 600;
+        font-weight: 500;
         color: #404245;
         text-align: center;
         margin-bottom: 60px;

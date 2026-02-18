@@ -42,11 +42,11 @@ class BookingCalendarModal extends Component
     #[Validate('nullable|string|max:500')]
     public $message = '';
 
-    // Available time slots (8:00 - 19:30, 30-minute intervals)
+    // Available time slots (9:00 - 17:00, 30-minute intervals)
     public $availableSlots = [
-        '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-        '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
-        '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
+        '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+        '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+        '15:00', '15:30', '16:00', '16:30', '17:00',
     ];
 
     public $showSuccess = false;
@@ -198,9 +198,9 @@ class BookingCalendarModal extends Component
     public function getTimeRangesProperty()
     {
         return [
-            'morning' => ['label' => 'Vormittag', 'subtitle' => '8 – 12 Uhr', 'start' => '08:00', 'end' => '12:00'],
+            'morning' => ['label' => 'Vormittag', 'subtitle' => '9 – 12 Uhr', 'start' => '09:00', 'end' => '12:00'],
             'afternoon' => ['label' => 'Nachmittag', 'subtitle' => '12 – 16 Uhr', 'start' => '12:00', 'end' => '16:00'],
-            'evening' => ['label' => 'Abend', 'subtitle' => '16 – 20 Uhr', 'start' => '16:00', 'end' => '20:00'],
+            'evening' => ['label' => 'Abend', 'subtitle' => '16 – 17 Uhr', 'start' => '16:00', 'end' => '17:30'],
         ];
     }
 

@@ -124,7 +124,7 @@
         {{-- Modal Content - Compact with X close --}}
         <div
             @click.stop
-            class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative"
+            class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl relative"
             x-transition:enter="transition ease-out duration-300 delay-100"
             x-transition:enter-start="opacity-0 translate-y-8"
             x-transition:enter-end="opacity-100 translate-y-0"
