@@ -16,8 +16,8 @@
             Wir bieten euch...
         </h2>
 
-        {{-- Mobile: Sticky stacking deck (cards slide up over each other on scroll) --}}
-        <div class="md:hidden mff-sticky-deck">
+        {{-- Mobile/Tablet: Sticky stacking deck (cards slide up over each other on scroll) --}}
+        <div class="lg:hidden mff-sticky-deck">
             {{-- Mobile Service 1: Livebands --}}
             <div class="mff-sticky-card">
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
@@ -60,7 +60,7 @@
 
         {{-- Desktop: Expandable Flex Container --}}
         <div
-            class="hidden md:flex flex-row"
+            class="hidden lg:flex flex-row"
             x-show="visible"
             x-transition:enter="transition ease-out duration-700"
             x-transition:enter-start="opacity-0 translate-y-8"
@@ -149,8 +149,8 @@
         transition: flex 700ms cubic-bezier(0.4, 0, 0.6, 1);
     }
 
-    /* Mobile: Sticky stacking deck — cards slide up over each other on scroll */
-    @media (max-width: 767px) {
+    /* Mobile/Tablet: Sticky stacking deck — cards slide up over each other on scroll */
+    @media (max-width: 1023px) {
         .mff-sticky-deck {
             /* 3 cards × 70svh = total scrollable height */
             height: 210svh;

@@ -21,13 +21,13 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-net"
 
-      # HTTP router (redirects to HTTPS)
-      - "traefik.http.routers.musikfuerfirmen-tall-http.rule=Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
+      # HTTP router (redirects to HTTPS) — both .com (primary) and .de (legacy)
+      - "traefik.http.routers.musikfuerfirmen-tall-http.rule=Host(`musikfuerfirmen.com`) || Host(`www.musikfuerfirmen.com`) || Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
       - "traefik.http.routers.musikfuerfirmen-tall-http.entrypoints=web"
       - "traefik.http.routers.musikfuerfirmen-tall-http.middlewares=redirect-to-https"
 
-      # HTTPS router
-      - "traefik.http.routers.musikfuerfirmen-tall.rule=Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
+      # HTTPS router — both .com (primary) and .de (legacy, CF handles 301 to .com)
+      - "traefik.http.routers.musikfuerfirmen-tall.rule=Host(`musikfuerfirmen.com`) || Host(`www.musikfuerfirmen.com`) || Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
       - "traefik.http.routers.musikfuerfirmen-tall.entrypoints=websecure"
       - "traefik.http.routers.musikfuerfirmen-tall.tls=true"
       - "traefik.http.routers.musikfuerfirmen-tall.tls.certresolver=letsencrypt"

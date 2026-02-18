@@ -31,7 +31,7 @@
     <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); z-index: -19; pointer-events: none;"></div>
 
     {{-- Content with staggered fade-in animation and scroll-based blur - FIXED POSITION --}}
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-[1600px] px-8 lg:px-16 xl:px-20 text-white pointer-events-none"
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-[1600px] px-5 sm:px-8 lg:px-16 xl:px-20 text-white pointer-events-none"
          x-data="{ scrollBlur: 0 }"
          x-init="
             const updateBlur = () => {
@@ -50,7 +50,7 @@
         </div>
 
         {{-- 2-Column Layout: Headline Left at Edge, Description + Buttons Right at Edge --}}
-        <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-32 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 sm:gap-8 lg:gap-32 items-center">
 
             {{-- Left Column: Large Headline with line break --}}
             <div class="opacity-0 translate-y-8 animate-[fadeInUp_0.5s_ease-out_0.1s_forwards]">
@@ -62,7 +62,7 @@
             {{-- Right Column: Subtitle + Buttons --}}
             <div class="space-y-4 opacity-0 translate-y-8 animate-[fadeInUp_0.5s_ease-out_0.2s_forwards]">
                 {{-- Subtitle --}}
-                <p class="font-poppins text-sm md:text-base leading-relaxed max-w-md">
+                <p class="font-poppins text-sm md:text-base leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
                     Damit einer der größten Erfolgsfaktoren eures Events nicht mehr die zweite Geige spielen muss.
                 </p>
 
