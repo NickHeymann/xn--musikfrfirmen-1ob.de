@@ -40,14 +40,18 @@ document.addEventListener('alpine:init', function () {
                 window.addEventListener('resize', updateTheme);
                 window.addEventListener('resize', updateCTAs);
                 setTimeout(function () { updateTheme(); updateCTAs(); }, 150);
+                setTimeout(function () {
+                    var el = document.querySelector('header[x-data]');
+                    if (el) { el.classList.add('header-smooth-transition'); }
+                }, 600);
             }
         };
     });
 });
 </script>
 
-<header class="fixed top-0 left-0 right-0 header-smooth-transition"
-        style="z-index: 999999 !important;"
+<header class="fixed top-0 left-0 right-0"
+        style="z-index: 999999 !important; background-color: #000000;"
         x-data="mffHeader"
         :style="{ backgroundColor: bgColor }">
 
@@ -93,27 +97,26 @@ document.addEventListener('alpine:init', function () {
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-1">
+            {{-- Grün → weiß gefüllt, Schatten, 3D-Effekt --}}
+            {{-- Weiß → schwarz gefüllt --}}
+            {{-- Schwarz → weiß gefüllt --}}
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer overflow-hidden"
+                class="relative px-4 py-2 rounded-full text-sm font-light cursor-pointer overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
                 style="font-family: 'Poppins', sans-serif"
-                :class="!isDark && !isGreen ? 'border-[#C8E6DC]/60 text-[#1a1a1a]' : 'border-white/30 text-white'">
-                <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                      :class="!isDark && !isGreen ? 'bg-[#C8E6DC]' : 'bg-white'"></span>
-                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
-                    Kostenloses Erstgespräch
-                </span>
+                :class="isGreen
+                    ? 'bg-white text-black shadow-[0_3px_10px_rgba(0,0,0,0.18),0_1px_3px_rgba(0,0,0,0.12)]'
+                    : (isDark ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
+                Kostenloses Erstgespräch
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer whitespace-nowrap overflow-hidden"
+                class="relative px-4 py-2 rounded-full text-sm font-light cursor-pointer whitespace-nowrap overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
                 style="font-family: 'Poppins', sans-serif"
-                :class="!isDark && !isGreen ? 'border-[#C8E6DC]/60 text-[#1a1a1a]' : 'border-white/30 text-white'">
-                <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                      :class="!isDark && !isGreen ? 'bg-[#C8E6DC]' : 'bg-white'"></span>
-                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
-                    Unverbindliches Angebot
-                </span>
+                :class="isGreen
+                    ? 'bg-white text-black shadow-[0_3px_10px_rgba(0,0,0,0.18),0_1px_3px_rgba(0,0,0,0.12)]'
+                    : (isDark ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
+                Unverbindliches Angebot
             </button>
         </div>
 
