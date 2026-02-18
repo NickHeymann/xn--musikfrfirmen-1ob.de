@@ -75,22 +75,23 @@
 
                 {{-- CTA Buttons - Swapped with founder images and enhanced hover effects --}}
                 <div class="flex flex-col sm:flex-row gap-2 pointer-events-auto">
-                    {{-- Left: Green "Jetzt Angebot einholen" with animated hover (like reference) --}}
+                    {{-- Left: Mint "Jetzt Angebot einholen" – white fill on hover --}}
                     <button
                         onclick="Livewire.dispatch('openMFFCalculator')"
-                        class="group px-4 py-2 rounded-full bg-[#C8E6DC] text-black font-medium text-xs tracking-wide transition-all duration-500 hover:bg-black/80 shadow-lg hover:shadow-2xl whitespace-nowrap hover:scale-105">
-                        <span class="transition-colors duration-500 group-hover:text-[#C8E6DC]">
+                        class="group relative px-4 py-2 rounded-full bg-[#C8E6DC] text-black font-medium text-xs tracking-wide shadow-lg whitespace-nowrap overflow-hidden">
+                        <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                        <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                             Jetzt Angebot einholen
                         </span>
                     </button>
 
-                    {{-- Right: Glassmorphism "Kostenloses Erstgespräch" with founders + green dot --}}
+                    {{-- Right: Glassmorphism "Kostenloses Erstgespräch" – white fill on hover --}}
                     <button
                         onclick="Livewire.dispatch('openBookingModal')"
-                        class="group px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-medium text-xs tracking-wide transition-all duration-500 hover:bg-white/20 hover:border-white/40 shadow-lg hover:shadow-2xl whitespace-nowrap flex items-center gap-2 hover:scale-105">
+                        class="group relative px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-medium text-xs tracking-wide shadow-lg whitespace-nowrap flex items-center gap-2 overflow-hidden">
+                        <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
                         {{-- Founder Images Stack with green dot --}}
-                        <div class="flex items-center gap-1">
-                            {{-- Overlapping founder images --}}
+                        <div class="relative z-10 flex items-center gap-1">
                             <div class="flex -space-x-2">
                                 <div class="w-6 h-6 rounded-full overflow-hidden border-2 border-white/20 bg-gray-700">
                                     <img src="{{ asset('images/team/nick.png') }}" alt="Nick" class="w-full h-full object-cover">
@@ -99,10 +100,9 @@
                                     <img src="{{ asset('images/team/jonas.png') }}" alt="Jonas" class="w-full h-full object-cover">
                                 </div>
                             </div>
-                            {{-- Green availability dot (right of images) --}}
                             <div class="w-2 h-2 bg-[#C8E6DC] rounded-full"></div>
                         </div>
-                        <span class="transition-colors duration-500 group-hover:text-[#C8E6DC]">
+                        <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                             Kostenloses Erstgespräch
                         </span>
                     </button>

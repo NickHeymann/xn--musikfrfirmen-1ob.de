@@ -85,18 +85,26 @@
         <div class="hidden lg:flex items-center gap-3 shrink-0">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="group px-4 py-2 rounded-full text-sm font-light border transition-all duration-300 cursor-pointer overflow-hidden relative"
+                class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
                 :class="isDark
-                    ? 'border-white/30 text-white hover:bg-white/20'
-                    : 'border-black/30 text-[#1a1a1a] hover:bg-black/10'">
-                Kostenloses Erstgespräch
+                    ? 'border-white/30 text-white'
+                    : 'border-black/30 text-[#1a1a1a]'">
+                <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
+                    :class="isDark ? 'bg-white' : 'bg-[#1a1a1a]'"></span>
+                <span class="relative z-10 transition-colors duration-500"
+                    :class="isDark ? 'group-hover:text-[#C8E6DC]' : 'group-hover:text-white'">
+                    Kostenloses Erstgespräch
+                </span>
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="group px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black transition-all duration-300 cursor-pointer whitespace-nowrap hover:bg-black hover:text-[#C8E6DC]"
+                class="group relative px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black cursor-pointer whitespace-nowrap overflow-hidden"
                 style="font-family: 'Poppins', sans-serif">
-                Unverbindliches Angebot
+                <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
+                    Unverbindliches Angebot
+                </span>
             </button>
         </div>
 

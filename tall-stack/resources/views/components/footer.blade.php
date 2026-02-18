@@ -1,5 +1,5 @@
 {{-- Footer Component - Compact Responsive --}}
-<footer id="kontakt" class="bg-[#1a1a1a] relative z-[28] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
+<footer id="kontakt" class="bg-[#1a1a1a] relative z-[10] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6 py-10 md:py-16 flex-grow">
         <div class="flex flex-col md:flex-row justify-center gap-10 md:gap-32 items-start">
             {{-- Kontakt --}}
@@ -40,20 +40,22 @@
 
             {{-- CTAs --}}
             <div>
-                <h4 class="text-sm md:text-base font-semibold text-white mb-4 md:mb-6">Jetzt loslegen</h4>
+                <h4 class="text-sm md:text-base font-semibold text-white mb-4 md:mb-6">Kontakt</h4>
                 <div class="space-y-3">
                     <div>
                         <button
                             onclick="Livewire.dispatch('openBookingModal')"
-                            class="px-4 py-2 rounded-full text-[13px] md:text-[15px] font-light border border-white/30 text-white hover:bg-white/10 transition-all duration-300 cursor-pointer whitespace-nowrap">
-                            Kostenloses Erstgespräch
+                            class="group relative px-4 py-2 rounded-full text-[13px] md:text-[15px] font-light border border-white/30 text-white cursor-pointer whitespace-nowrap overflow-hidden">
+                            <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                            <span class="relative z-10 transition-colors duration-500 group-hover:text-[#1a1a1a]">Kostenloses Erstgespräch</span>
                         </button>
                     </div>
                     <div>
                         <button
                             onclick="Livewire.dispatch('openMFFCalculator')"
-                            class="px-4 py-2 rounded-full text-[13px] md:text-[15px] font-medium bg-[#C8E6DC] text-black hover:bg-black hover:text-[#C8E6DC] transition-all duration-300 cursor-pointer whitespace-nowrap">
-                            Jetzt Angebot einholen
+                            class="group relative px-4 py-2 rounded-full text-[13px] md:text-[15px] font-medium bg-[#C8E6DC] text-black cursor-pointer whitespace-nowrap overflow-hidden">
+                            <span class="absolute inset-0 bg-white translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"></span>
+                            <span class="relative z-10 transition-colors duration-500 group-hover:text-black">Jetzt Angebot einholen</span>
                         </button>
                     </div>
                 </div>
