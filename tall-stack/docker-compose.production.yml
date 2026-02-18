@@ -24,7 +24,7 @@ services:
       # HTTP router (redirects to HTTPS) — both .com (primary) and .de (legacy)
       - "traefik.http.routers.musikfuerfirmen-tall-http.rule=Host(`musikfuerfirmen.com`) || Host(`www.musikfuerfirmen.com`) || Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
       - "traefik.http.routers.musikfuerfirmen-tall-http.entrypoints=web"
-      - "traefik.http.routers.musikfuerfirmen-tall-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.musikfuerfirmen-tall-http.middlewares=musikfuerfirmen-https-redirect"
 
       # HTTPS router — both .com (primary) and .de (legacy, CF handles 301 to .com)
       - "traefik.http.routers.musikfuerfirmen-tall.rule=Host(`musikfuerfirmen.com`) || Host(`www.musikfuerfirmen.com`) || Host(`xn--musikfrfirmen-1ob.de`) || Host(`www.xn--musikfrfirmen-1ob.de`)"
@@ -35,9 +35,9 @@ services:
       # Service configuration
       - "traefik.http.services.musikfuerfirmen-tall.loadbalancer.server.port=80"
 
-      # Middleware for redirect
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+      # Middleware for redirect (unique name to avoid conflict with other containers)
+      - "traefik.http.middlewares.musikfuerfirmen-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.musikfuerfirmen-https-redirect.redirectscheme.permanent=true"
 
   redis:
     image: redis:7-alpine
