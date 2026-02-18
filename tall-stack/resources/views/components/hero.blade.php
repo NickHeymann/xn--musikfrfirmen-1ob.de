@@ -109,29 +109,29 @@
                 </div>
             </div>
         </div>
-
-        {{-- Down Arrow - Fixed below content --}}
-        <div
-            @click="scrollToContent()"
-            class="fixed bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards] pointer-events-auto">
-            <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
-            </svg>
-        </div>
-
-        {{-- Audio Toggle Button - appears 1.5s after load --}}
-        <button
-            @click="toggleAudio()"
-            class="fixed bottom-8 left-8 cursor-pointer transition-all duration-300 opacity-0 animate-[fadeIn_0.5s_ease-out_1.5s_forwards] pointer-events-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-2.5 hover:bg-white/20"
-            :title="audioMuted ? 'Ton einschalten' : 'Ton ausschalten'">
-            {{-- Muted icon (speaker with X) --}}
-            <svg x-show="audioMuted" class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
-            </svg>
-            {{-- Sound on icon (speaker with waves) --}}
-            <svg x-show="!audioMuted" class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
-            </svg>
-        </button>
     </div>
+
+    {{-- Down Arrow - direct child of section, truly fixed at bottom center --}}
+    <div
+        @click="scrollToContent()"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-50 transition-all duration-300 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards] z-20 pointer-events-auto">
+        <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
+        </svg>
+    </div>
+
+    {{-- Audio Toggle Button - direct child of section, fixed bottom-left, appears after 1.5s --}}
+    <button
+        @click="toggleAudio()"
+        class="fixed bottom-8 left-8 z-20 cursor-pointer transition-all duration-300 opacity-0 animate-[fadeIn_0.5s_ease-out_1.5s_forwards] pointer-events-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-2.5 hover:bg-white/20"
+        :title="audioMuted ? 'Ton einschalten' : 'Ton ausschalten'">
+        {{-- Muted icon (speaker with X) --}}
+        <svg x-show="audioMuted" class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
+        </svg>
+        {{-- Sound on icon (speaker with waves) --}}
+        <svg x-show="!audioMuted" class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
+        </svg>
+    </button>
 </section>
