@@ -97,23 +97,21 @@ document.addEventListener('alpine:init', function () {
                 onclick="Livewire.dispatch('openBookingModal')"
                 class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC] text-[#1a1a1a]'">
+                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC]/60 text-[#1a1a1a]'">
                 <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
                       :class="isDark || isGreen ? 'bg-white' : 'bg-[#C8E6DC]'"></span>
-                <span class="relative z-10 transition-colors duration-500"
-                      :class="isDark || isGreen ? 'group-hover:text-black' : 'group-hover:text-black'">
+                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                     Kostenloses Erstgespräch
                 </span>
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="group relative px-4 py-2 rounded-full text-sm font-medium cursor-pointer whitespace-nowrap overflow-hidden"
+                class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer whitespace-nowrap overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark || isGreen ? 'bg-white text-black' : 'bg-[#C8E6DC] text-black'">
+                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC]/60 text-[#1a1a1a]'">
                 <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                      :class="isDark || isGreen ? 'bg-[#C8E6DC]' : 'bg-[#1a1a1a]'"></span>
-                <span class="relative z-10 transition-colors duration-500"
-                      :class="isDark || isGreen ? 'group-hover:text-black' : 'group-hover:text-white'">
+                      :class="isDark || isGreen ? 'bg-white' : 'bg-[#C8E6DC]'"></span>
+                <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                     Unverbindliches Angebot
                 </span>
             </button>
