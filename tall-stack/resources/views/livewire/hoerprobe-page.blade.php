@@ -42,8 +42,9 @@
                      }
                  }">
 
-                {{-- Hidden Audio Element --}}
+                {{-- Hidden Audio Element (AAC primary = better quality, MP3 fallback = universal) --}}
                 <audio x-ref="audioEl" preload="metadata">
+                    <source src="{{ asset('audio/hoerprobe.m4a') }}" type="audio/mp4">
                     <source src="{{ asset('audio/hoerprobe.mp3') }}" type="audio/mpeg">
                 </audio>
 
