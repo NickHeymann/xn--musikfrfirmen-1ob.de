@@ -97,9 +97,9 @@ document.addEventListener('alpine:init', function () {
                 onclick="Livewire.dispatch('openBookingModal')"
                 class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC]/60 text-[#1a1a1a]'">
+                :class="!isDark && !isGreen ? 'border-[#C8E6DC]/60 text-[#1a1a1a]' : 'border-white/30 text-white'">
                 <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                      :class="isDark || isGreen ? 'bg-white' : 'bg-[#C8E6DC]'"></span>
+                      :class="!isDark && !isGreen ? 'bg-[#C8E6DC]' : 'bg-white'"></span>
                 <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                     Kostenloses Erstgespräch
                 </span>
@@ -108,9 +108,9 @@ document.addEventListener('alpine:init', function () {
                 onclick="Livewire.dispatch('openMFFCalculator')"
                 class="group relative px-4 py-2 rounded-full text-sm font-light border cursor-pointer whitespace-nowrap overflow-hidden"
                 style="font-family: 'Poppins', sans-serif"
-                :class="isDark || isGreen ? 'border-white/30 text-white' : 'border-[#C8E6DC]/60 text-[#1a1a1a]'">
+                :class="!isDark && !isGreen ? 'border-[#C8E6DC]/60 text-[#1a1a1a]' : 'border-white/30 text-white'">
                 <span class="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out rounded-full"
-                      :class="isDark || isGreen ? 'bg-white' : 'bg-[#C8E6DC]'"></span>
+                      :class="!isDark && !isGreen ? 'bg-[#C8E6DC]' : 'bg-white'"></span>
                 <span class="relative z-10 transition-colors duration-500 group-hover:text-black">
                     Unverbindliches Angebot
                 </span>
