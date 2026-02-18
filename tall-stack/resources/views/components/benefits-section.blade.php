@@ -6,7 +6,7 @@
     <div class="card-stack-content">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Section Heading --}}
-        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-10 md:mb-16 transition-all duration-700"
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-[#1a1a1a] mb-10 md:mb-16 transition-all duration-700"
             :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
             Das heißt für euch
         </h2>
@@ -77,7 +77,7 @@
                 <button @click="openIndex = openIndex === 2 ? null : 2"
                         class="w-full flex justify-between items-center py-4 px-4 md:px-6 text-left">
                     <h3 class="text-lg sm:text-xl md:text-2xl font-semibold text-[#1a1a1a]">
-                        100% Qualität
+                        100% persönlich
                     </h3>
                     <svg class="w-5 h-5 text-[#1a1a1a]/50 transition-transform duration-300 shrink-0 ml-4"
                          :class="openIndex === 2 ? 'rotate-180' : ''"
@@ -88,7 +88,7 @@
                 <div x-show="openIndex === 2" x-collapse>
                     <div class="px-4 md:px-6 pb-4">
                         <p class="text-sm sm:text-base text-[#1a1a1a]/80 leading-relaxed">
-                            Wir arbeiten ausschließlich mit Profi-Musiker:innen und Ausstattung von unserem professionellen Technikpartner.
+                            Wir sind persönlich bei eurem Event dabei und begleiten euch von der ersten Anfrage bis zum letzten Ton. Keine Agenturen, keine Mittelsmänner — nur wir.
                         </p>
                     </div>
                 </div>

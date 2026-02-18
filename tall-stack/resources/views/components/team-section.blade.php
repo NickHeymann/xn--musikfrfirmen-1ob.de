@@ -16,7 +16,7 @@
          x-transition:leave-end="opacity-0"></div>
     <div class="max-w-7xl mx-auto px-6 relative z-[2]">
         {{-- Section Heading --}}
-        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-4 md:mb-6 px-4">
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-[#1a1a1a] text-center mb-4 md:mb-6 px-4">
             Moin aus Hamburg.
         </h2>
 

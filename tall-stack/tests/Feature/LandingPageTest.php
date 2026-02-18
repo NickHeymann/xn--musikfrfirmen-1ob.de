@@ -34,7 +34,7 @@ test('header is visible with correct navigation links', function () {
 
     // Check navigation items
     $response->assertSee('Kostenloses Erstgespräch');
-    $response->assertSee('Angebote');
+    $response->assertSee('Dienstleistungen');
     $response->assertSee('Über uns');
     $response->assertSee('Kontakt');
 });
@@ -86,11 +86,12 @@ test('complete booking flow from landing page', function () {
     // User selects a date
     $component->call('selectDate', $date)
         ->assertSet('selectedDate', $date);
-    // Date is displayed in the component
 
-    // Time slots displayed in 24h format
-    $component->assertSee('09:00')
-        ->assertSee('17:00');
+    // User selects a time range to reveal individual slots
+    $component->call('selectTimeRange', 'morning');
+
+    // Time slots displayed in 24h format (morning range: 09:00–11:30)
+    $component->assertSee('09:00');
 
     // User selects a time slot
     $component->call('selectTime', $time)

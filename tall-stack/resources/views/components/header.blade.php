@@ -56,8 +56,7 @@
            class="text-[20px] sm:text-[22px] lg:text-[24px] font-light hover:text-[#C8E6DC] transition-colors leading-none tracking-wide z-10 cursor-pointer shrink-0"
            style="font-family: 'Poppins', sans-serif"
            :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-            <span class="hidden sm:inline">musikfürfirmen.de</span>
-            <span class="inline sm:hidden">musikfürfirmen</span>
+            <span>musikfürfirmen</span>
         </a>
 
         {{-- Center Navigation (Large Desktop only) --}}
@@ -66,7 +65,7 @@
                class="hover:text-[#C8E6DC] transition-colors font-light"
                style="font-family: 'Poppins', sans-serif"
                :class="isDark ? 'text-white' : 'text-[#1a1a1a]'">
-                Angebote
+                Dienstleistungen
             </a>
             <a href="/#ueberuns"
                class="hover:text-[#C8E6DC] transition-colors font-light"
@@ -86,18 +85,18 @@
         <div class="hidden lg:flex items-center gap-3 shrink-0">
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="px-4 py-2 rounded-full text-sm font-light border transition-all duration-300 cursor-pointer"
+                class="group px-4 py-2 rounded-full text-sm font-light border transition-all duration-300 cursor-pointer overflow-hidden relative"
                 style="font-family: 'Poppins', sans-serif"
                 :class="isDark
-                    ? 'border-white/30 text-white hover:bg-white/10'
-                    : 'border-black/30 text-[#1a1a1a] hover:bg-black/5'">
+                    ? 'border-white/30 text-white hover:bg-white/20'
+                    : 'border-black/30 text-[#1a1a1a] hover:bg-black/10'">
                 Kostenloses Erstgespräch
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black hover:bg-[#A0C4B5] transition-all duration-300 cursor-pointer whitespace-nowrap"
+                class="group px-4 py-2 rounded-full text-sm font-medium bg-[#C8E6DC] text-black transition-all duration-300 cursor-pointer whitespace-nowrap hover:bg-black hover:text-[#C8E6DC]"
                 style="font-family: 'Poppins', sans-serif">
-                Angebot einholen
+                Unverbindliches Angebot
             </button>
         </div>
 
@@ -131,7 +130,7 @@
             <a href="/#waswirbieten"
                @click="isOpen = false"
                class="text-base sm:text-lg hover:text-[#C8E6DC] transition-colors font-thin text-white py-2">
-                Angebote
+                Dienstleistungen
             </a>
             <a href="/#ueberuns"
                @click="isOpen = false"
