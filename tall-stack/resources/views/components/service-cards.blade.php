@@ -72,7 +72,7 @@
                 @mouseenter="hoveredCard = 'livebands'; if(videoReady.livebands) $refs.videoLivebands.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoLivebands.pause(); $refs.videoLivebands.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
-                :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
@@ -98,7 +98,7 @@
                 @mouseenter="hoveredCard = 'djs'; if(videoReady.djs) $refs.videoDjs.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoDjs.pause(); $refs.videoDjs.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
-                :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/dj.jpg" alt="DJs für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
@@ -124,7 +124,7 @@
                 @mouseenter="hoveredCard = 'technik'; if(videoReady.technik) $refs.videoTechnik.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoTechnik.pause(); $refs.videoTechnik.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
-                :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
+                :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 1')"
             >
                 <img src="/images/services/technik.jpg" alt="Veranstaltungstechnik"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
