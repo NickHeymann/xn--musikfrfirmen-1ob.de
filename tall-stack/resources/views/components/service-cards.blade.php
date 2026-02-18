@@ -65,20 +65,22 @@
             x-transition:enter="transition ease-out duration-700"
             x-transition:enter-start="opacity-0 translate-y-8"
             x-transition:enter-end="opacity-100 translate-y-0"
+            x-data="{ videoReady: { livebands: false, djs: false, technik: false } }"
         >
             {{-- Service 1: Livebands --}}
             <div
-                @mouseenter="hoveredCard = 'livebands'; $refs.videoLivebands.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'livebands'; if(videoReady.livebands) $refs.videoLivebands.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoLivebands.pause(); $refs.videoLivebands.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'livebands' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/liveband.jpg" alt="Livebands für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'livebands' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'livebands' && videoReady.livebands ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoLivebands"
+                    @canplay="videoReady.livebands = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'livebands' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'livebands' && videoReady.livebands ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/liveband.mp4" type="video/mp4">
                 </video>
@@ -93,17 +95,18 @@
 
             {{-- Service 2: DJs --}}
             <div
-                @mouseenter="hoveredCard = 'djs'; $refs.videoDjs.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'djs'; if(videoReady.djs) $refs.videoDjs.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoDjs.pause(); $refs.videoDjs.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'djs' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/dj.jpg" alt="DJs für Firmenevents"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'djs' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'djs' && videoReady.djs ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoDjs"
+                    @canplay="videoReady.djs = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'djs' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'djs' && videoReady.djs ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/dj.mp4" type="video/mp4">
                 </video>
@@ -118,17 +121,18 @@
 
             {{-- Service 3: Technik --}}
             <div
-                @mouseenter="hoveredCard = 'technik'; $refs.videoTechnik.play().catch(() => {})"
+                @mouseenter="hoveredCard = 'technik'; if(videoReady.technik) $refs.videoTechnik.play().catch(() => {})"
                 @mouseleave="hoveredCard = null; $refs.videoTechnik.pause(); $refs.videoTechnik.currentTime = 0"
                 class="service-card group relative overflow-hidden min-h-[500px]"
                 :style="hoveredCard === 'technik' ? 'flex: 2' : (hoveredCard === null ? 'flex: 1' : 'flex: 0.5')"
             >
                 <img src="/images/services/technik.jpg" alt="Veranstaltungstechnik"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'technik' ? 'opacity-0' : 'opacity-100'" />
+                    :class="hoveredCard === 'technik' && videoReady.technik ? 'opacity-0' : 'opacity-100'" />
                 <video x-ref="videoTechnik"
+                    @canplay="videoReady.technik = true"
                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    :class="hoveredCard === 'technik' ? 'opacity-100' : 'opacity-0'"
+                    :class="hoveredCard === 'technik' && videoReady.technik ? 'opacity-100' : 'opacity-0'"
                     muted loop playsinline preload="metadata">
                     <source src="/videos/services/technik.mp4" type="video/mp4">
                 </video>

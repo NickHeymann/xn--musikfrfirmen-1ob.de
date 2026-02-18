@@ -49,7 +49,7 @@
         <div class="card-stack-content pt-12 md:pt-20 pb-10 md:pb-16">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
-                class="text-center text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 tracking-[-1px] text-black"
+                class="text-center text-2xl md:text-3xl lg:text-4xl font-medium mb-8 md:mb-12 tracking-[-1px] text-black"
                 style="font-family: 'Poppins', sans-serif"
             >
                 FAQ
