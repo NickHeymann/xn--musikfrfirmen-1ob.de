@@ -18,7 +18,7 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white font-sans">
+<body class="antialiased bg-white font-sans h-screen flex flex-col overflow-hidden">
     {{ $slot }}
 
     {{-- Event Request Modal (MFF Calculator) --}}
