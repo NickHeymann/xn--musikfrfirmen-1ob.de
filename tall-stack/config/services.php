@@ -48,7 +48,7 @@ return [
     ],
 
     'event_request' => [
-        'recipients' => env('EVENT_REQUEST_RECIPIENTS', 'kontakt@musikfuerfirmen.com,moin@nickheymann.de,moin@jonasglamann.de'),
+        'recipients' => env('EVENT_REQUEST_RECIPIENTS', 'kontakt@musikfuerfirmen.com'),
     ],
 
     'tavily' => [

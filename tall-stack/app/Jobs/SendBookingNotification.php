@@ -41,7 +41,7 @@ class SendBookingNotification implements ShouldQueue
         }
 
         // 2. Send email notification
-        $recipients = config('services.event_request.recipients', 'kontakt@xn--musikfrfirmen-1ob.de,moin@nickheymann.de,moin@jonasglamann.de');
+        $recipients = config('services.event_request.recipients', 'kontakt@musikfuerfirmen.com');
         $recipientList = array_map('trim', explode(',', $recipients));
 
         try {

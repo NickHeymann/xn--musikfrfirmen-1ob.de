@@ -83,7 +83,7 @@ class BookingCalendar extends Component
         ];
 
         // Send email notification to admin
-        $recipients = explode(',', env('EVENT_REQUEST_RECIPIENTS', 'moin@jonasglamann.de'));
+        $recipients = explode(',', config('services.event_request.recipients', 'kontakt@musikfuerfirmen.com'));
         Mail::to($recipients)->send(new BookingRequestSubmitted($bookingData));
 
         session()->flash('booking-success', 'Vielen Dank! Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.');
