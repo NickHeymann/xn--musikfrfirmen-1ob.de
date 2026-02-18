@@ -50,8 +50,8 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 
-<header class="fixed top-0 left-0 right-0"
-        style="z-index: 999999 !important; background-color: #000000;"
+<header class="fixed top-0 left-0 right-0 header-smooth-transition"
+        style="z-index: 999999 !important;"
         x-data="mffHeader"
         :style="{ backgroundColor: bgColor }">
 
