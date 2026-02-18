@@ -1,5 +1,5 @@
 {{-- Footer Component - Compact Responsive --}}
-<footer id="kontakt" class="bg-[#1a1a1a] relative z-[10] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
+<footer id="kontakt" class="bg-[#1a1a1a] relative z-[28] scroll-mt-[80px] lg:scroll-mt-[108px] flex flex-col" data-section-bg="#1a1a1a" data-section-theme="dark" style="font-family: 'Poppins', sans-serif">
     <div class="max-w-7xl mx-auto px-6 py-10 md:py-16 flex-grow">
         <div class="flex flex-col md:flex-row justify-center gap-10 md:gap-32 items-start">
             {{-- Kontakt --}}
