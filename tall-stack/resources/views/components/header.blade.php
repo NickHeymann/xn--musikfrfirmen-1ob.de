@@ -97,25 +97,16 @@ document.addEventListener('alpine:init', function () {
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-1">
-            {{-- Grün → weiß gefüllt, Schatten, 3D-Effekt --}}
-            {{-- Weiß → schwarz gefüllt --}}
-            {{-- Schwarz → weiß gefüllt --}}
             <button
                 onclick="Livewire.dispatch('openBookingModal')"
-                class="relative px-4 py-2 rounded-full text-sm font-light cursor-pointer overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
-                style="font-family: 'Poppins', sans-serif"
-                :class="isGreen
-                    ? 'bg-white text-black shadow-[0_3px_10px_rgba(0,0,0,0.18),0_1px_3px_rgba(0,0,0,0.12)]'
-                    : (isDark ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
+                class="bg-white text-black px-4 py-2 rounded-full text-sm font-light cursor-pointer overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
+                style="font-family: 'Poppins', sans-serif">
                 Kostenloses Erstgespräch
             </button>
             <button
                 onclick="Livewire.dispatch('openMFFCalculator')"
-                class="relative px-4 py-2 rounded-full text-sm font-light cursor-pointer whitespace-nowrap overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
-                style="font-family: 'Poppins', sans-serif"
-                :class="isGreen
-                    ? 'bg-white text-black shadow-[0_3px_10px_rgba(0,0,0,0.18),0_1px_3px_rgba(0,0,0,0.12)]'
-                    : (isDark ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
+                class="bg-white text-black px-4 py-2 rounded-full text-sm font-light cursor-pointer whitespace-nowrap overflow-hidden transition-all duration-200 hover:-translate-y-[1px]"
+                style="font-family: 'Poppins', sans-serif">
                 Unverbindliches Angebot
             </button>
         </div>
