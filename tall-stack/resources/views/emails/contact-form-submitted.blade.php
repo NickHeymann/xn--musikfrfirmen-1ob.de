@@ -61,7 +61,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding-right: 8px;">
-                            <a href="mailto:{{ $submission->email }}?subject=Re: Deine Kontaktanfrage" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
+                            <a href="mailto:{{ $submission->email }}?subject={{ rawurlencode('Re: Deine Kontaktanfrage') }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600;">&#x2709; Antworten</a>
                         </td>
                         @if($submission->phone)
                         <td style="padding-right: 8px;">

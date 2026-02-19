@@ -90,7 +90,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding-right: 10px;">
-                            <a href="mailto:{{ $data['email'] }}?subject=Re: Deine Anfrage für {{ $data['city'] }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">&#x2709; Antworten</a>
+                            <a href="mailto:{{ $data['email'] }}?subject={{ rawurlencode('Re: Deine Anfrage für ' . $data['city']) }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">&#x2709; Antworten</a>
                         </td>
                         @if($data['phone'])
                         <td>
