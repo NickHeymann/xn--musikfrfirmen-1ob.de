@@ -31,6 +31,7 @@ services:
       - "traefik.http.routers.musikfuerfirmen-tall.entrypoints=websecure"
       - "traefik.http.routers.musikfuerfirmen-tall.tls=true"
       - "traefik.http.routers.musikfuerfirmen-tall.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.musikfuerfirmen-tall.middlewares=musikfuerfirmen-security-headers"
 
       # Service configuration
       - "traefik.http.services.musikfuerfirmen-tall.loadbalancer.server.port=80"
@@ -38,6 +39,15 @@ services:
       # Middleware for redirect (unique name to avoid conflict with other containers)
       - "traefik.http.middlewares.musikfuerfirmen-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.musikfuerfirmen-https-redirect.redirectscheme.permanent=true"
+
+      # Security headers middleware — improves corporate firewall compatibility
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.frameDeny=true"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.referrerPolicy=strict-origin-when-cross-origin"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.permissionsPolicy=camera=(), microphone=(), geolocation=(), payment=()"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.customResponseHeaders.X-Robots-Tag=index, follow"
+      - "traefik.http.middlewares.musikfuerfirmen-security-headers.headers.customResponseHeaders.Server="
 
   redis:
     image: redis:7-alpine
