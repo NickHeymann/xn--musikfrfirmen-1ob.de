@@ -86,7 +86,7 @@ class BookingCalendar extends Component
         $recipients = explode(',', config('services.event_request.recipients', 'kontakt@musikfuerfirmen.com'));
         Mail::to($recipients)->send(new BookingRequestSubmitted($bookingData));
 
-        session()->flash('booking-success', 'Vielen Dank! Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.');
+        session()->flash('booking-success', 'Vielen Dank! Wir haben deine Anfrage erhalten und melden uns in Kürze bei dir.');
 
         // Reset component
         $this->reset();

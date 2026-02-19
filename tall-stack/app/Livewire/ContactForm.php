@@ -32,7 +32,7 @@ class ContactForm extends Component
     {
         $key = 'contact-form:'.request()->ip();
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            $this->addError('email', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.');
+            $this->addError('email', 'Zu viele Anfragen. Bitte versuch es später erneut.');
             return;
         }
         RateLimiter::hit($key, 3600);
@@ -47,7 +47,7 @@ class ContactForm extends Component
         // Dispatch async: email notification
         SendContactFormNotification::dispatch($submission);
 
-        session()->flash('message', 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.');
+        session()->flash('message', 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei dir.');
 
         // Clear stored form data after successful submission
         $this->dispatch('clear-contact-storage');

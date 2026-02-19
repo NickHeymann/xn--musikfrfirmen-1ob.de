@@ -86,7 +86,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="padding-right: 10px;">
-                            <a href="mailto:{{ $bookingData['email'] }}?subject=Re: Ihr Erstgespräch am {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">&#x2709; Antworten</a>
+                            <a href="mailto:{{ $bookingData['email'] }}?subject=Re: Dein Erstgespräch am {{ \Carbon\Carbon::parse($bookingData['selectedDate'])->format('d.m.Y') }}" style="display: inline-block; background: #B0D4C5; color: #1a1a1a; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">&#x2709; Antworten</a>
                         </td>
                         <td>
                             <a href="tel:{{ $bookingData['phone'] }}" style="display: inline-block; background: #1a1a1a; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">&#x1F4DE; Anrufen</a>

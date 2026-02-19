@@ -24,7 +24,7 @@
                         Kostenloses Erstgespräch
                     </h1>
                     <p class="text-lg text-gray-600">
-                        Vereinbaren Sie einen Termin für ein 30-minütiges Erstgespräch
+                        Vereinbare einen Termin für ein 30-minütiges Erstgespräch
                     </p>
                 </div>
 
@@ -74,7 +74,7 @@
                 <div class="flex flex-col lg:flex-row min-h-[600px]">
                     {{-- Left Column: Current Selection Summary --}}
                     <div class="lg:w-1/3 bg-gray-50 p-8 border-r border-gray-200">
-                        <h3 class="text-lg font-semibold text-[#1a1a1a] mb-6">Ihre Auswahl</h3>
+                        <h3 class="text-lg font-semibold text-[#1a1a1a] mb-6">Deine Auswahl</h3>
 
                         <div class="space-y-4">
                             {{-- Selected Date --}}
@@ -137,7 +137,7 @@
                         {{-- Step 1: Date Selection --}}
                         @if($step === 1)
                             <div>
-                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Wählen Sie ein Datum</h2>
+                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Wähle ein Datum</h2>
 
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     @foreach($this->availableDates as $dateOption)
@@ -158,7 +158,7 @@
                         {{-- Step 2: Time Selection --}}
                         @if($step === 2)
                             <div>
-                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Wählen Sie eine Uhrzeit</h2>
+                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Wähle eine Uhrzeit</h2>
 
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     @foreach($availableSlots as $slot)
@@ -177,7 +177,7 @@
                         {{-- Step 3: Contact Form --}}
                         @if($step === 3)
                             <div>
-                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Ihre Kontaktdaten</h2>
+                                <h2 class="text-2xl font-semibold text-[#1a1a1a] mb-6">Deine Kontaktdaten</h2>
 
                                 <form wire:submit.prevent="submitBooking" class="space-y-6">
                                     {{-- Name --}}
@@ -241,7 +241,7 @@
                                             wire:model="message"
                                             rows="4"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#C8E6DC] focus:outline-none transition-colors resize-none"
-                                            placeholder="Erzählen Sie uns kurz über Ihr geplantes Event..."
+                                            placeholder="Erzähl uns kurz über dein geplantes Event..."
                                         ></textarea>
                                         @error('message')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

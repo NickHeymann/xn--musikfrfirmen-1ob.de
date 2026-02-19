@@ -172,7 +172,7 @@ class BookingCalendarModal extends Component
     {
         $key = 'booking:'.request()->ip();
         if (RateLimiter::tooManyAttempts($key, 3)) {
-            $this->addError('email', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.');
+            $this->addError('email', 'Zu viele Anfragen. Bitte versuch es später erneut.');
             return;
         }
         RateLimiter::hit($key, 3600);

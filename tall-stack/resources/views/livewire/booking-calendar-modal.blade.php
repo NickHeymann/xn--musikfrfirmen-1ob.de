@@ -119,7 +119,7 @@
                         </svg>
                         <h3 class="text-2xl font-bold text-white mb-3">Vielen Dank!</h3>
                         <p class="text-base text-gray-400 mb-8">
-                            Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen.
+                            Wir haben deine Anfrage erhalten und melden uns in Kürze bei dir.
                         </p>
                         <button
                             wire:click="close"
@@ -218,7 +218,7 @@
                         @if($step === 3)
                             {{-- Contact Form --}}
                             <div>
-                                <h3 class="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6">Ihre Kontaktdaten</h3>
+                                <h3 class="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6">Deine Kontaktdaten</h3>
 
                                 <form wire:submit.prevent="submitBooking" class="space-y-3 sm:space-y-4">
                                     <div>
@@ -294,7 +294,7 @@
                                             wire:model="message"
                                             rows="3"
                                             class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-[#C8E6DC] focus:outline-none transition-colors resize-none"
-                                            placeholder="Erzählen Sie uns kurz über Ihr geplantes Event..."
+                                            placeholder="Erzähl uns kurz über dein geplantes Event..."
                                         ></textarea>
                                         @error('message')
                                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -332,7 +332,7 @@
                             @if(!$selectedDate)
                                 {{-- Empty State --}}
                                 <div class="flex items-center justify-center h-full text-gray-600 text-center text-sm">
-                                    <p>Wählen Sie ein Datum</p>
+                                    <p>Wähle ein Datum</p>
                                 </div>
                             @else
                                 {{-- Header: Selected Date --}}
