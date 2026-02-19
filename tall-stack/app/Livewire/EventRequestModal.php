@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Jobs\SendEventRequestNotification;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -127,6 +128,13 @@ class EventRequestModal extends Component
 
     public function submit(): void
     {
+        $key = 'event-request:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $this->addError('email', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.');
+            return;
+        }
+        RateLimiter::hit($key, 3600);
+
         $this->validate([
             'firstname' => 'required|string|min:2',
             'company' => 'required|string|min:2',

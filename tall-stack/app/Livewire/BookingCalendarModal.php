@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\CalendarBooking;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -124,16 +125,25 @@ class BookingCalendarModal extends Component
         $this->reset(['showSuccess']);
     }
 
-    public function selectDate($date)
+    public function selectDate($date): void
     {
+        // Validate: must be a real future weekday
+        $parsed = Carbon::createFromFormat('Y-m-d', $date);
+        if (! $parsed || $parsed->isPast() || $parsed->isWeekend()) {
+            return;
+        }
         $this->selectedDate = $date;
         $this->selectedTimeRange = null;
         // Stay on step 1 to show time slots in right column
         $this->step = 1;
     }
 
-    public function selectTime($time)
+    public function selectTime($time): void
     {
+        // Validate: must be one of the allowed slots
+        if (! in_array($time, $this->availableSlots, true)) {
+            return;
+        }
         $this->selectedTime = $time;
         $this->step = 3; // Progress to contact form
     }
@@ -158,8 +168,15 @@ class BookingCalendarModal extends Component
         }
     }
 
-    public function submitBooking()
+    public function submitBooking(): void
     {
+        $key = 'booking:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $this->addError('email', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.');
+            return;
+        }
+        RateLimiter::hit($key, 3600);
+
         $this->validate();
 
         // Prepare booking data

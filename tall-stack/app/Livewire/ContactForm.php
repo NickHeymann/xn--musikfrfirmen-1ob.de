@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Jobs\SendContactFormNotification;
 use App\Models\ContactSubmission;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -29,6 +30,13 @@ class ContactForm extends Component
 
     public function submit()
     {
+        $key = 'contact-form:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $this->addError('email', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.');
+            return;
+        }
+        RateLimiter::hit($key, 3600);
+
         $validated = $this->validate();
 
         $submission = ContactSubmission::create([

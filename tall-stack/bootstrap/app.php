@@ -12,8 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Trust all proxies (Traefik reverse proxy terminates SSL)
-        $middleware->trustProxies(at: '*');
+        // Trust Traefik reverse proxy (Docker internal subnet 172.16.0.0/12)
+        // Using specific subnet instead of '*' to prevent IP spoofing via X-Forwarded-For
+        $middleware->trustProxies(at: '172.16.0.0/12,10.0.0.0/8');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

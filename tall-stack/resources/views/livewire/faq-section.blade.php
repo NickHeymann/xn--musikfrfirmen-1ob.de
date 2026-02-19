@@ -30,7 +30,7 @@
                                 {!! str_replace(
                                     '"Unverbindliches Angebot anfragen"',
                                     '<span onclick="Livewire.dispatch(\'openMFFCalculator\')" class="text-[#5a9a84] cursor-pointer underline hover:text-[#4a8a74] transition-colors">Unverbindliches Angebot anfragen</span>',
-                                    $answer
+                                    e($answer)
                                 ) !!}{{ $needsDot ? '.' : '' }}
                             @else
                                 {{ $answer }}{{ $needsDot ? '.' : '' }}
