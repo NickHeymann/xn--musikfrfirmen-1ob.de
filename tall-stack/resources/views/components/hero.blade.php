@@ -14,8 +14,14 @@
             },
             toggleAudio() {
                 this.audioMuted = !this.audioMuted;
-                const video = document.querySelector('.hero-video');
-                if (video) { video.muted = this.audioMuted; }
+                const audio = document.querySelector('.hero-audio');
+                if (audio) {
+                    if (this.audioMuted) {
+                        audio.pause();
+                    } else {
+                        audio.play();
+                    }
+                }
             }
          }">
 
@@ -33,6 +39,12 @@
     >
         <source src="{{ asset('videos/hero-landing-page.mp4') }}" type="video/mp4">
     </video>
+
+    {{-- Hörprobe Audio (spielt statt Video-Audio beim Unmute) --}}
+    <audio class="hero-audio" preload="metadata" loop>
+        <source src="{{ asset('audio/hoerprobe.m4a') }}" type="audio/mp4">
+        <source src="{{ asset('audio/hoerprobe.mp3') }}" type="audio/mpeg">
+    </audio>
 
     {{-- Lighter Dark Overlay (50% opacity for brighter video) - also fixed, static --}}
     <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); z-index: -19; pointer-events: none;"></div>
