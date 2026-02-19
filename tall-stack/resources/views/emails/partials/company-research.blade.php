@@ -31,6 +31,18 @@
                             </td>
                         </tr>
                         @endif
+                        @if($companyResearch['financials'] ?? null)
+                        <tr>
+                            <td style="padding-top: 14px; border-top: 1px solid #ddeee8;">
+                                <span style="font-size: 12px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.8px;">FINANZEN</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 13px; color: #555; padding-top: 8px; line-height: 1.7;">
+                                {{ $companyResearch['financials'] }}
+                            </td>
+                        </tr>
+                        @endif
                         @if($companyResearch['call_prep'] ?? null)
                         <tr>
                             <td style="padding-top: 14px; border-top: 1px solid #ddeee8;">

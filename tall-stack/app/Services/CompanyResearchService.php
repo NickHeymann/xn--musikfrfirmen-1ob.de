@@ -49,7 +49,13 @@ class CompanyResearchService
                 $timeout
             );
 
-            if (empty($generalResults) && empty($eventResults)) {
+            $financialResults = $this->tavilySearch(
+                "{$companyName} Umsatz Jahresbericht Gewinn Finanzen",
+                $tavilyKey,
+                $timeout
+            );
+
+            if (empty($generalResults) && empty($eventResults) && empty($financialResults)) {
                 return null;
             }
 
@@ -57,6 +63,7 @@ class CompanyResearchService
                 $companyName,
                 $generalResults,
                 $eventResults,
+                $financialResults,
                 $groqKey
             );
         } catch (\Exception $e) {
@@ -110,11 +117,13 @@ class CompanyResearchService
     /**
      * @param  array<int, array{title: string, url: string, content: string}>  $generalResults
      * @param  array<int, array{title: string, url: string, content: string}>  $eventResults
+     * @param  array<int, array{title: string, url: string, content: string}>  $financialResults
      */
     private function summarizeWithGroq(
         string $companyName,
         array $generalResults,
         array $eventResults,
+        array $financialResults,
         string $apiKey
     ): ?array {
         $snippets = "## Allgemeine Suchergebnisse\n";
@@ -123,6 +132,10 @@ class CompanyResearchService
         }
         $snippets .= "\n## Event-Suchergebnisse\n";
         foreach ($eventResults as $r) {
+            $snippets .= "- [{$r['title']}]({$r['url']}): {$r['content']}\n";
+        }
+        $snippets .= "\n## Finanz-Suchergebnisse\n";
+        foreach ($financialResults as $r) {
             $snippets .= "- [{$r['title']}]({$r['url']}): {$r['content']}\n";
         }
 
@@ -135,7 +148,7 @@ class CompanyResearchService
             ])
             ->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => $model,
-                'max_tokens' => 1500,
+                'max_tokens' => 1800,
                 'temperature' => 0.1,
                 'response_format' => ['type' => 'json_object'],
                 'messages' => [
@@ -172,6 +185,7 @@ Antworte als JSON:
   "website": "URL oder null",
   "location": "Hauptstandort oder null",
   "description": "1-2 Sätze: Wer ist das Unternehmen, welche Unternehmenskultur/Werte erkennbar? – aus Event-Perspektive relevant (z.B. modern, traditionell, international, familienorientiert)",
+  "financials": "Nur wenn aus Suchergebnissen belegbar: Umsatz, Gewinn/Verlust, Marketingbudget und ob das Unternehmen finanziell gut aufgestellt ist. Beispiel: 'Umsatz 2024: ~42 Mrd. € · Gewinn: 2,1 Mrd. € · Solide Finanzlage laut Geschäftsbericht'. Wenn nichts Belastbares gefunden: null",
   "call_prep": "2-3 Sätze: Was sollte der Verkäufer über dieses Unternehmen wissen, bevor er anruft? Welche Anlässe für Events sind bei dieser Firmengröße/Branche typisch? Gibt es bekannte Events oder eine Event-Kultur?",
   "talking_points": [
     "Frage die hilft den konkreten Event-Bedarf zu verstehen (Anlass, Datum, Ort)",
@@ -184,7 +198,7 @@ Antworte als JSON:
   "sources": ["url1", "url2"]
 }
 
-Wichtig: Alle Felder sollen dem Verkäufer helfen, beim Gespräch die richtigen Fragen zu stellen und den Kunden wirklich zu verstehen – nicht allgemeine Unternehmensinformationen liefern.
+KRITISCH für "financials": Nur echte Zahlen aus den Suchergebnissen verwenden. Keine Schätzungen, keine Halluzinationen. Wenn keine Finanzdaten in den Ergebnissen vorhanden sind → null.
 PROMPT,
                     ],
                 ],
