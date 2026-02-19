@@ -141,11 +141,51 @@ class CompanyResearchService
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => 'Du bist ein Verkaufs-Assistent für musikfürfirmen.de – ein Anbieter von Live-Bands, DJs und Veranstaltungstechnik für Firmenevents (Sommerfeste, Weihnachtsfeiern, Jubiläen, Produktlaunches usw.). Deine Aufgabe: Bereite den Verkäufer auf ein Erstgespräch mit einem potenziellen Firmenkunden vor. Extrahiere NUR verifizierte Fakten aus den Suchergebnissen. Antworte ausschließlich mit validem JSON.',
+                        'content' => <<<PROMPT
+Du bereitest einen Verkäufer von musikfürfirmen.de auf ein Erstgespräch mit einem Firmenkunden vor.
+
+musikfürfirmen.de bietet:
+- Live-Bands (Jazz, Pop, Rock, Coverband, Akustik)
+- DJs für Firmenevents
+- Komplette Veranstaltungstechnik (Ton, Licht, Bühne)
+- Kombinationspakete Band + DJ
+- Für alle Unternehmensgrößen und Anlässe
+
+Typische Anlässe: Sommerfeste, Weihnachtsfeiern, Firmenjubiläen, Produktlaunches, Teamevents, Kundenevents, Messen, Awards-Abende.
+
+Deine Aufgabe: Hilf dem Verkäufer, den Kunden wirklich zu verstehen – seine Unternehmenskultur, typische Eventgrößen, Anlässe und Wünsche – damit er das richtige Angebot machen kann.
+
+Extrahiere NUR verifizierte Fakten aus den Suchergebnissen. Antworte ausschließlich mit validem JSON.
+PROMPT,
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein Firmenprofil aus der Perspektive eines Live-Musik/Event-Dienstleisters.\n\n{$snippets}\n\nAntworte als JSON mit diesem Schema:\n{\"industry\": \"Branche oder null\", \"employee_count\": \"Anzahl oder null\", \"website\": \"URL oder null\", \"location\": \"Standort oder null\", \"description\": \"Kurze Beschreibung (1-2 Sätze) oder null\", \"call_prep\": \"2-3 Sätze Gesprächsvorbereitung: Welche Events könnte dieses Unternehmen veranstalten? Welche Anlässe gibt es (Betriebsgröße, Standorte, Jubiläen)? oder null\", \"talking_points\": [\"Konkrete Frage zum Event-Bedarf 1\", \"Konkrete Frage zum Event-Bedarf 2\", \"Konkrete Frage zum Event-Bedarf 3\"], \"potential_needs\": \"Welche musikfürfirmen.de-Leistungen (Live-Band, DJ, Technik) passen zu diesem Unternehmen und warum? oder null\", \"recent_news\": [{\"title\": \"...\", \"url\": \"...\"}], \"past_events\": [{\"title\": \"...\", \"url\": \"...\"}], \"sources\": [\"url1\", \"url2\"]}\n\nWichtig für talking_points: Fragen sollen konkret auf den Event-Bedarf zielen, z.B. nach Mitarbeiterzahl für Events, geplanten Feiern, Budget-Vorstellungen, bevorzugtem Musik-Stil oder Veranstaltungsort – NICHT nach Unternehmensstrategie oder Digitalisierung.",
+                        'content' => <<<PROMPT
+Analysiere diese Suchergebnisse über '{$companyName}' und erstelle ein Event-Sales-Briefing.
+
+{$snippets}
+
+Antworte als JSON:
+{
+  "industry": "Branche in 2-3 Worten oder null",
+  "employee_count": "Mitarbeiterzahl oder null",
+  "website": "URL oder null",
+  "location": "Hauptstandort oder null",
+  "description": "1-2 Sätze: Wer ist das Unternehmen, welche Unternehmenskultur/Werte erkennbar? – aus Event-Perspektive relevant (z.B. modern, traditionell, international, familienorientiert)",
+  "call_prep": "2-3 Sätze: Was sollte der Verkäufer über dieses Unternehmen wissen, bevor er anruft? Welche Anlässe für Events sind bei dieser Firmengröße/Branche typisch? Gibt es bekannte Events oder eine Event-Kultur?",
+  "talking_points": [
+    "Frage die hilft den konkreten Event-Bedarf zu verstehen (Anlass, Datum, Ort)",
+    "Frage zu Erwartungen an Musik/Atmosphäre – was soll der Abend vermitteln?",
+    "Frage zur Gästezahl oder ob es interne oder gemischte Veranstaltung ist"
+  ],
+  "potential_needs": "Welches musikfürfirmen.de-Paket passt wahrscheinlich und warum? (z.B. 'Bei ~5000 MA und internationalem Umfeld: eher coole Coverband + DJ-Übergang, weniger Volksmusik')",
+  "recent_news": [{"title": "...", "url": "..."}],
+  "past_events": [{"title": "...", "url": "..."}],
+  "sources": ["url1", "url2"]
+}
+
+Wichtig: Alle Felder sollen dem Verkäufer helfen, beim Gespräch die richtigen Fragen zu stellen und den Kunden wirklich zu verstehen – nicht allgemeine Unternehmensinformationen liefern.
+PROMPT,
                     ],
                 ],
             ]);
