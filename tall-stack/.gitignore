@@ -26,3 +26,6 @@ tests/Browser/Screenshots
 test-results/
 playwright-report/
 .env.testing
+.env.bak
+.env.backup
+.env.*.bak
